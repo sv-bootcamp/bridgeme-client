@@ -9,8 +9,14 @@ import {
     StyleSheet,
     Text,
     View,
-    Platform
+    Platform,
+    Image
 } from 'react-native';
+
+const LINKEDIN = require('react-native-linkedin-login');
+const {
+  RNLinkedinLogin,
+} = LINKEDIN;
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -61,7 +67,10 @@ class App extends Component {
                   }
               }
               onLogoutFinished={() => alert('Logout.')}/>
-          </View>
+            <Image source={require('./resources/LinkedIn_SignIn.png')}>
+
+            </Image>
+        </View>
      );
   }
 }

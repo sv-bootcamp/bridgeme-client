@@ -2,6 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>linkedin.com</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <key>NSExceptionRequiresForwardSecrecy</key>
+        <false/>
+      </dict>
+    </dict>
+  </dict>
+  <key>LIAppId</key>
+  <string>4231564</string>
+  
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>li4231564</string>
+      </array>
+    </dict>
+  </array>
   <key>CFBundleURLTypes</key>
   <array>
     <dict>
