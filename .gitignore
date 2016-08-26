@@ -1,9 +1,10 @@
+# OSX
+#
+.DS_Store
+
 # Xcode
-!**/*.xcodeproj
-!**/*.pbxproj
-!**/*.xcworkspacedata
-!**/*.xcsettings
-!**/*.xcscheme
+#
+build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -21,34 +22,21 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Gradle
-/build/
-/Examples/**/android/app/build/
-/Examples/**/android/app/gradle/
-/Examples/**/android/app/gradlew
-/Examples/**/android/app/gradlew.bat
-/ReactAndroid/build/
-
-# Buck
-.buckd
-buck-out
-/ReactAndroid/src/main/jni/prebuilt/lib/armeabi-v7a/
-/ReactAndroid/src/main/jni/prebuilt/lib/x86/
-
-# Android
+# Android/IJ
+#
+*.iml
 .idea
 .gradle
 local.properties
-*.iml
-/android/
 
-# Node
-node_modules
-*.log
-.nvm
+# node.js
+#
+node_modules/
+npm-debug.log
 
-# OS X
-.DS_Store
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+android/keystores/debug.keystore
 
-# Test generated files
-/ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
