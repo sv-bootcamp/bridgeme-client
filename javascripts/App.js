@@ -43,14 +43,14 @@ class App extends Component {
           //  Render the screen on View.
            <View style={styles.container}>
 
-              {/* Render facebook login button */}
+             {/* Render facebook login button */}
              <LoginButton
                 onLoginFinished={
                   (error, result) => {
                     if (error) {
-                      alert('login has error: ' + result.error);
+                      alert('Login has error: ' + result.error);
                     } else if (result.isCancelled) {
-                      alert('login is cancelled.');
+                      alert('Login is cancelled.');
                     } else {
                       AccessToken.getCurrentAccessToken().then(
                         (data) => {
@@ -60,7 +60,7 @@ class App extends Component {
                     }
                   }
               }
-              onLogoutFinished={() => alert('logout.')}/>
+              onLogoutFinished={() => alert('Logout.')}/>
           </View>
      );
   }
