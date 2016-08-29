@@ -10,19 +10,17 @@ import {
     Text,
     View,
     Platform,
-    Image
+    Image,
+    TouchableHighlight,
+    DeviceEventEmitter,
+    Alert,
 } from 'react-native';
 
-const LINKEDIN = require('react-native-linkedin-login');
-const {
-  RNLinkedinLogin,
-} = LINKEDIN;
-
-const FBSDK = require('react-native-fbsdk');
-const {
+import {
   LoginButton,
   AccessToken,
-} = FBSDK;
+} from 'react-native-fbsdk';
+import LinkedInLogin from './utils/linkedin-login';
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +38,49 @@ class App extends Component {
     }
 
     console.log(('Starting the app for platform: ' + this.state.os));
+    this.initLinkedIn();
+  }
 
+  // Initialize linkedin tokens
+  initLinkedIn() {
+    let redirecUrl = 'http://localhost';
+    let clientId = '78831o5pn1vg4p';
+    let clientSecret = 'ioMEK1Qu77xqxKyu';
+    let state = 'DCEeFWf45A53qdfKef424';
+    let scopes = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin'];
+    LinkedInLogin.init(redirecUrl, clientId, clientSecret, state, scopes);
+  }
+
+  signinWithLinkedIn() {
+    LinkedInLogin.login();
+  }
+
+  componentWillMount() {
+    this.initEvent();
+  }
+
+  // fetching data from linkedin
+  initEvent() {
+    DeviceEventEmitter.addListener('linkedinLoginError', (error) => {
+      console.log('linkedinLoginError!');
+    });
+
+    DeviceEventEmitter.addListener('linkedinLogin', (data) => {
+      LinkedInLogin.setSession(data.accessToken, data.expiresOn);
+      LinkedInLogin.getProfile();
+    });
+
+    DeviceEventEmitter.addListener('linkedinGetRequest', (d) => {
+      const data = JSON.parse(d.data);
+      if (data) {
+        console.log(JSON.stringify(data));
+        console.log('data');
+      }
+    });
+
+    DeviceEventEmitter.addListener('linkedinGetRequestError', (error) => {
+      console.log('linkedinGetRequestError!');
+    });
   }
 
   render() {
@@ -67,9 +107,12 @@ class App extends Component {
                   }
               }
               onLogoutFinished={() => alert('Logout.')}/>
-            <Image source={require('./resources/LinkedIn_SignIn.png')}>
 
-            </Image>
+            {/* Render linkedin login buttion */}
+            <TouchableHighlight onPress={this.signinWithLinkedIn}>
+              <Image
+                source={require('../resources/Linkedin_SignIn_btn.png')} />
+            </TouchableHighlight>
         </View>
      );
   }

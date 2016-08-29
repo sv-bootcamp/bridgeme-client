@@ -9,7 +9,7 @@ import {
   AppRegistry
 } from 'react-native';
 
-import App from './javascripts/App';
+import App from './src/components/App';
 
 // Register route to AppRegistry
 AppRegistry.registerComponent('yoda', () => App);
