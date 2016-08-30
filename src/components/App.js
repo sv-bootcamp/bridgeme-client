@@ -72,8 +72,8 @@ class App extends Component {
       LinkedInLogin.getProfile();
     });
 
-    DeviceEventEmitter.addListener('linkedinGetRequest', (data) => {
-      const data = JSON.parse(data.data);
+    DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
+      const data = JSON.parse(resData.data);
       if (data) {
         console.log(JSON.stringify(data));
         console.log('data');
