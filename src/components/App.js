@@ -41,14 +41,16 @@ class App extends Component {
     this.initLinkedIn();
   }
 
-  // Initialize linkedin tokens
+  // Initialize LinkedIn tokens
   initLinkedIn() {
-    let redirecUrl = 'http://localhost';
+
+    // This variable(redirectUrl) can assigned anything. It just need for executing login module.
+    let redirectUrl = 'http://localhost';
     let clientId = '78831o5pn1vg4p';
     let clientSecret = 'ioMEK1Qu77xqxKyu';
     let state = 'DCEeFWf45A53qdfKef424';
     let scopes = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin'];
-    LinkedInLogin.init(redirecUrl, clientId, clientSecret, state, scopes);
+    LinkedInLogin.init(redirectUrl, clientId, clientSecret, state, scopes);
   }
 
   signinWithLinkedIn() {
@@ -59,10 +61,10 @@ class App extends Component {
     this.initEvent();
   }
 
-  // fetching data from linkedin
+  // Fetching data from LinkedIn
   initEvent() {
-    DeviceEventEmitter.addListener('linkedinLoginError', (error) => {
-      console.log('linkedinLoginError!');
+    DeviceEventEmitter.addListener('LinkedInLoginError', (error) => {
+      console.log('LinkedInLoginError!');
     });
 
     DeviceEventEmitter.addListener('linkedinLogin', (data) => {
@@ -70,8 +72,8 @@ class App extends Component {
       LinkedInLogin.getProfile();
     });
 
-    DeviceEventEmitter.addListener('linkedinGetRequest', (d) => {
-      const data = JSON.parse(d.data);
+    DeviceEventEmitter.addListener('linkedinGetRequest', (data) => {
+      const data = JSON.parse(data.data);
       if (data) {
         console.log(JSON.stringify(data));
         console.log('data');
@@ -79,7 +81,7 @@ class App extends Component {
     });
 
     DeviceEventEmitter.addListener('linkedinGetRequestError', (error) => {
-      console.log('linkedinGetRequestError!');
+      console.log('LinkedInGetRequestError!');
     });
   }
 

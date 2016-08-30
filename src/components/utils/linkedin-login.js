@@ -24,12 +24,11 @@ class LinkedinLogin {
 
     /**
      * Initializes the LinkedinLogin API
-     * @param  {string} redirectUrl     [description]
-     * @param  {string} clientId        [description]
-     * @param  {string} clientSecret    [description]
-     * @param  {string} state           [description]
-     * @param  {array} scopes           [description]
-     * @return {object} promise         [description]
+     * @param  {string} redirectUrl     redirectUrl can be anything I guess? lol
+     * @param  {string} clientId        clientId from linkedin developer portal
+     * @param  {string} clientSecret    clientSecret from linkedin developer portal
+     * @param  {string} state           any random string no one else has
+     * @param  {array} scopes           array of available permissions
      */
     init(redirectUrl, clientId, clientSecret, state, scopes) {
         this._redirectUrl = redirectUrl;
@@ -47,8 +46,8 @@ class LinkedinLogin {
         const atoken = this._accessToken;
 
         return new Promise((resolve, reject) => {
-            DeviceEventEmitter.addListener('linkedinGetRequest', (d) => {
-                const data = JSON.parse(d.data);
+            DeviceEventEmitter.addListener('linkedinGetRequest', (data) => {
+                const data = JSON.parse(data.data);
 
                 if (data.values) {
                     console.log(data.values);
@@ -67,14 +66,12 @@ class LinkedinLogin {
 
             if (Platform.OS === 'android') {
                 RNLinkedinLogin.getRequest(picstr);
-            } else {
-                // if ios
+            } else if(Platform.OS === 'ios'){
                 console.log('picstrWithAuth', picstrWithAuth);
 
                 fetch(picstrWithAuth).then(function(response) {
                     return response.json();
                 }).then((data) => {
-
                     if (data.values && data.values.length > 0) {
                         resolve(data.values);
                     } else {
@@ -100,11 +97,10 @@ class LinkedinLogin {
             console.log(profilestrWithAuth);
             if (Platform.OS === 'android') {
                 RNLinkedinLogin.getRequest(profilestr);
-            } else {
+            } else if(Platform.OS === 'ios'){
                 fetch(profilestrWithAuth).then(function(response) {
                     return response.json();
                 }).then((data) => {
-
                     if (data) {
                         resolve(data);
                     } else {

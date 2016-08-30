@@ -21,7 +21,7 @@ public class MainActivity extends ReactActivity {
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data); // <------ add here
+    LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
 
     MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
   }
