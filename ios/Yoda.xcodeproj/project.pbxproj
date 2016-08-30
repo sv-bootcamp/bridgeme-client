@@ -23,10 +23,25 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		AA2837921D7414D900FA1AE0 /* LIALinkedInApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */; };
+		AA2837931D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */; };
+		AA2837941D7414D900FA1AE0 /* LIALinkedInHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */; };
+		AA2837951D7414D900FA1AE0 /* LinkedinLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */; };
+		AA2837961D7414D900FA1AE0 /* NSString+LIAEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */; };
+		AA2837AB1D7414E800FA1AE0 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */; };
+		AA2837AC1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */; };
+		AA2837AD1D7414E800FA1AE0 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */; };
+		AA2837AE1D7414E800FA1AE0 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */; };
+		AA2837AF1D7414E800FA1AE0 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */; };
+		AA2837B01D7414E800FA1AE0 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */; };
+		AA2837B11D7414E800FA1AE0 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */; };
+		AA2837B21D7414E800FA1AE0 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */; };
+		AA2837B31D7414E800FA1AE0 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */; };
 		AA49EE131D6FFBD20083C256 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */; };
 		AA49EE141D6FFBD20083C256 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */; };
 		AA49EE151D6FFBD20083C256 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */; };
 		AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE161D6FFEB90083C256 /* Bolts.framework */; };
+		AA49EE391D703D670083C256 /* linkedin-sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE381D703D670083C256 /* linkedin-sdk.framework */; };
 		DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */; };
 /* End PBXBuildFile section */
 
@@ -140,10 +155,40 @@
 		2F8DE426552C48B4AEB39EAD /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		AA28377F1D7414D900FA1AE0 /* LIALinkedInApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInApplication.h; sourceTree = "<group>"; };
+		AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInApplication.m; sourceTree = "<group>"; };
+		AA2837811D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInAuthorizationViewController.h; sourceTree = "<group>"; };
+		AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInAuthorizationViewController.m; sourceTree = "<group>"; };
+		AA2837831D7414D900FA1AE0 /* LIALinkedInHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInHttpClient.h; sourceTree = "<group>"; };
+		AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInHttpClient.m; sourceTree = "<group>"; };
+		AA2837851D7414D900FA1AE0 /* LinkedinLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedinLogin.h; sourceTree = "<group>"; };
+		AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedinLogin.m; sourceTree = "<group>"; };
+		AA2837871D7414D900FA1AE0 /* NSString+LIAEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LIAEncode.h"; sourceTree = "<group>"; };
+		AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LIAEncode.m"; sourceTree = "<group>"; };
+		AA2837981D7414E800FA1AE0 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		AA28379A1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
+		AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
+		AA28379C1D7414E800FA1AE0 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		AA28379E1D7414E800FA1AE0 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		AA28379F1D7414E800FA1AE0 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		AA2837A11D7414E800FA1AE0 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		AA2837A31D7414E800FA1AE0 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		AA2837A51D7414E800FA1AE0 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		AA2837A71D7414E800FA1AE0 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		AA2837A91D7414E800FA1AE0 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA49EE161D6FFEB90083C256 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		AA49EE381D703D670083C256 /* linkedin-sdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "linkedin-sdk.framework"; sourceTree = "<group>"; };
 		C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +220,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */,
+				AA49EE391D703D670083C256 /* linkedin-sdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +359,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AA28376A1D7414D900FA1AE0 /* RNLinkedinLogin */,
 				AA49EE0F1D6FFBB10083C256 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* yoda */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -332,6 +379,50 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA28376A1D7414D900FA1AE0 /* RNLinkedinLogin */ = {
+			isa = PBXGroup;
+			children = (
+				AA2837971D7414E800FA1AE0 /* AFNetworking */,
+				AA28377F1D7414D900FA1AE0 /* LIALinkedInApplication.h */,
+				AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */,
+				AA2837811D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.h */,
+				AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */,
+				AA2837831D7414D900FA1AE0 /* LIALinkedInHttpClient.h */,
+				AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */,
+				AA2837851D7414D900FA1AE0 /* LinkedinLogin.h */,
+				AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */,
+				AA2837871D7414D900FA1AE0 /* NSString+LIAEncode.h */,
+				AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */,
+			);
+			path = RNLinkedinLogin;
+			sourceTree = "<group>";
+		};
+		AA2837971D7414E800FA1AE0 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				AA2837981D7414E800FA1AE0 /* AFHTTPRequestOperation.h */,
+				AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */,
+				AA28379A1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.h */,
+				AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */,
+				AA28379C1D7414E800FA1AE0 /* AFHTTPSessionManager.h */,
+				AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */,
+				AA28379E1D7414E800FA1AE0 /* AFNetworking.h */,
+				AA28379F1D7414E800FA1AE0 /* AFNetworkReachabilityManager.h */,
+				AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */,
+				AA2837A11D7414E800FA1AE0 /* AFSecurityPolicy.h */,
+				AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */,
+				AA2837A31D7414E800FA1AE0 /* AFURLConnectionOperation.h */,
+				AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */,
+				AA2837A51D7414E800FA1AE0 /* AFURLRequestSerialization.h */,
+				AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */,
+				AA2837A71D7414E800FA1AE0 /* AFURLResponseSerialization.h */,
+				AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */,
+				AA2837A91D7414E800FA1AE0 /* AFURLSessionManager.h */,
+				AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
 		AA49EE001D6FFA100083C256 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +434,7 @@
 		AA49EE0F1D6FFBB10083C256 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA49EE381D703D670083C256 /* linkedin-sdk.framework */,
 				AA49EE161D6FFEB90083C256 /* Bolts.framework */,
 				AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */,
 				AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */,
@@ -599,8 +691,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2837B01D7414E800FA1AE0 /* AFURLConnectionOperation.m in Sources */,
+				AA2837951D7414D900FA1AE0 /* LinkedinLogin.m in Sources */,
+				AA2837961D7414D900FA1AE0 /* NSString+LIAEncode.m in Sources */,
+				AA2837941D7414D900FA1AE0 /* LIALinkedInHttpClient.m in Sources */,
+				AA2837B21D7414E800FA1AE0 /* AFURLResponseSerialization.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				AA2837B11D7414E800FA1AE0 /* AFURLRequestSerialization.m in Sources */,
+				AA2837AF1D7414E800FA1AE0 /* AFSecurityPolicy.m in Sources */,
+				AA2837AB1D7414E800FA1AE0 /* AFHTTPRequestOperation.m in Sources */,
+				AA2837B31D7414E800FA1AE0 /* AFURLSessionManager.m in Sources */,
+				AA2837921D7414D900FA1AE0 /* LIALinkedInApplication.m in Sources */,
+				AA2837931D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m in Sources */,
+				AA2837AD1D7414E800FA1AE0 /* AFHTTPSessionManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				AA2837AE1D7414E800FA1AE0 /* AFNetworkReachabilityManager.m in Sources */,
+				AA2837AC1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

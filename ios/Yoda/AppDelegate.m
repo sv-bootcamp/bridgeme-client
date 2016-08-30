@@ -12,13 +12,9 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
-
+#import <linkedin-sdk/LISDK.h>
 
 @implementation AppDelegate
-
-
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -40,6 +36,13 @@
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  if ([LISDKCallbackHandler shouldHandleUrl:url]) {
+    return [LISDKCallbackHandler application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+  }
   return YES;
 }
 
