@@ -18,6 +18,7 @@ import LinkedInLogin from './utils/linkedin-login';
 class Login extends Component {
   constructor(props) {
     super(props);
+
     this.initLinkedIn();
   }
 
@@ -72,35 +73,40 @@ class Login extends Component {
   }
 
   render() {
-    console.log('render');
     return (
 
           //  Render the screen on View.
            <View style={styles.container}>
+             <View style={styles.welcomeContain}>
+                <Image source={require('../resources/splash_icon_1x.png')} />
+             </View>
 
              {/* Render facebook login button */}
-             <LoginButton
-                onLoginFinished={
-                  (error, result) => {
-                    if (error) {
-                      alert('Login has error: ' + result.error);
-                    } else if (result.isCancelled) {
-                      alert('Login is cancelled.');
-                    } else {
-                      AccessToken.getCurrentAccessToken().then(
-                        (data) => {
-                          alert(data.accessToken.toString());
-                        }
-                    );
+             <Image style={styles.facebookLoginButton}
+               source={require('../resources/facebook_2x.png')}>
+               <LoginButton style= {styles.defaultButton}
+                  onLoginFinished={
+                    (error, result) => {
+                      if (error) {
+                        alert('Login has error: ' + result.error);
+                      } else if (result.isCancelled) {
+                        alert('Login is cancelled.');
+                      } else {
+                        AccessToken.getCurrentAccessToken().then(
+                          (data) => {
+                            alert(data.accessToken.toString());
+                          }
+                      );
+                      }
                     }
-                  }
-              }
-              onLogoutFinished={() => alert('Logout.')}/>
+                }
+                onLogoutFinished={() => alert('Logout.')}/>
+            </Image>
 
             {/* Render linkedin login buttion */}
             <TouchableHighlight onPress={this.signinWithLinkedIn}>
-              <Image
-                source={require('../resources/Linkedin_SignIn_btn.png')} />
+              <Image style={styles.linkedinLoginButton}
+                source={require('../resources/Linkedin_2x.png')} />
             </TouchableHighlight>
         </View>
      );
@@ -108,20 +114,33 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+  welcomeContain: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 105,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    textAlign: 'center',
-    margin: 10,
+  defaultButton: {
+    opacity: 0.1,
+    height: 40,
+    width: 290,
+    marginBottom: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  facebookLoginButton: {
+    height: 40,
+    width: 290,
+    marginBottom: 10,
+    zIndex: 1,
+  },
+  linkedinLoginButton: {
+    height: 40,
+    width: 290,
+    backgroundColor: '#FFFFFFFF',
   },
 });
 
