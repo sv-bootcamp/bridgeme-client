@@ -1,10 +1,11 @@
 
 import React, { Component } from 'react';
 import {
- AppRegistry,
+ StyleSheet,
  Text,
  View,
  Navigator,
+ Image,
 } from 'react-native';
 
 class SplashPage extends Component {
@@ -16,17 +17,30 @@ class SplashPage extends Component {
       navigator.replace({
         id: 'Login',
       });
-    }, 1000);
+    }, 1500);
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'white',
-        alignItems: 'center', justifyContent: 'center', }}>
-        <Text style={{ color: 'black', fontSize: 32, }}>Splash Screen</Text>
-     </View>
+      <View style={styles.container}>
+        <Image style={styles.splashImg}
+          source={require('../resources/splash_icon_1x.png')} />
+      </View>
    );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  splashImg: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
+});
 
 module.exports = SplashPage;
