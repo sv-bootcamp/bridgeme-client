@@ -46,21 +46,6 @@ class LinkedinLogin {
         const atoken = this._accessToken;
 
         return new Promise((resolve, reject) => {
-            DeviceEventEmitter.addListener('linkedinGetRequest', (data) => {
-                const data = JSON.parse(data.data);
-
-                if (data.values) {
-                    console.log(data.values);
-                    resolve(data.values);
-                } else {
-                    reject('No profile image found');
-                }
-            });
-
-            DeviceEventEmitter.addListener('linkedinGetRequestError', (error) => {
-                reject(error);
-            });
-
             const picstr = 'https://api.linkedin.com/v1/people/~/picture-urls::(original)';
             const picstrWithAuth = `${picstr}?oauth2_access_token=${atoken}&format=json`;
 
