@@ -25,19 +25,6 @@ import LinkedInLogin from './utils/linkedin-login';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-        titleText: 'Yoda',
-        os: '',
-      };
-
-    // Populate the OS state by looking at Platform params.
-    if (Platform.OS === 'ios') {
-      this.state.os = 'IOS';
-    } else if (Platform.OS === 'android') {
-      this.state.os = 'Android API :' + Platform.Version;
-    }
-
-    console.log(('Starting the app for platform: ' + this.state.os));
     this.initLinkedIn();
   }
 
@@ -74,9 +61,11 @@ class App extends Component {
 
     DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
       const data = JSON.parse(resData.data);
-      if (data) {
-        console.log(JSON.stringify(data));
-        console.log('data');
+      if (data.values) {
+        console.log(data.values);
+        resolve(data.values);
+      } else {
+        reject('No profile image found');
       }
     });
 
