@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
  StyleSheet,
@@ -55,6 +54,7 @@ class Login extends Component {
     DeviceEventEmitter.addListener('linkedinLogin', (data) => {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
+
     });
 
     DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {

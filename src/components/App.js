@@ -23,6 +23,7 @@ class App extends Component {
     }
 
     return (
+
     <Navigator
       initialRoute={{ id: initialPage, name: 'Index' }}
       renderScene={this.renderScene.bind(this)}
@@ -41,7 +42,7 @@ class App extends Component {
     var routeId = route.id;
 
     if (routeId === 'SplashPage') {
-      return (<SplashPage navigator={navigator}/>);
+      return (<SplashPage avigator={navigator}/>);
     }
 
     if (routeId === 'Login') {
