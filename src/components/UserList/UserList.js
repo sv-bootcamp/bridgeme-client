@@ -7,21 +7,41 @@ import {
  Image,
  ListView,
 } from 'react-native';
+import Row from './Row';
+
+const API_KEY = '73b19491b83909c7e07016f4bb4644f9:2:60667290';
+const QUERY_TYPE = 'hardcover-fiction';
+const API_STEM = 'http://api.nytimes.com/svc/books/v3/lists';
+const ENDPOINT = `${API_STEM}/${QUERY_TYPE}?response-format=json&api-key=${API_KEY}`;
 
 class UserList extends Component {
-
   constructor(props) {
     super(props);
     let dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 != row2,
     });
     this.state = {
-      dataSource: dataSource.cloneWithRows(['1', '2', '3']),
+      dataSource: dataSource.cloneWithRows([]),
     };
   }
 
+  componentDidMount() {
+    this._refreshData();
+  }
+
   _renderRow(rowData) {
-    return <Text style={styles.row}>{rowData}</Text>;
+    return <Row photoURL={rowData.book_image}></Row>;
+  }
+
+  // Refresh listview
+  _refreshData() {
+    fetch(ENDPOINT)
+      .then((response) => response.json())
+      .then((rjson) => {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(rjson.results.books),
+        });
+      });
   }
 
   render() {

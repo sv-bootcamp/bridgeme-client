@@ -10,7 +10,7 @@ import {
 
 class SplashPage extends Component {
   componentWillMount() {
-    var navigator = this.props.navigator;
+    let navigator = this.props.navigator;
 
     // Delay 1sec for next screen
     setTimeout(() => {

@@ -13,16 +13,12 @@ import {
   AccessToken,
 } from 'react-native-fbsdk';
 import LinkedInLogin from './utils/linkedin-login';
+import UserList from './UserList/UserList';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.initLinkedIn();
-  }
-
-  componentWillMount() {
-    var navigator = this.props.navigator;
   }
 
   // Initialize LinkedIn tokens
@@ -43,6 +39,7 @@ class Login extends Component {
 
   componentWillMount() {
     this.initEvent();
+    this.setState({ navigator: this.props.navigator });
   }
 
   // Fetching data from LinkedIn
@@ -54,7 +51,12 @@ class Login extends Component {
     DeviceEventEmitter.addListener('linkedinLogin', (data) => {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
-
+      console.log('On linkedinLogin');
+      console.log(this.state);
+      console.log(this.state.navigator);
+      this.state.navigator.replace({
+        id: 'UserList',
+      });
     });
 
     DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
