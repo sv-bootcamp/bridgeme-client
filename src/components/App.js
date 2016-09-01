@@ -16,15 +16,14 @@ class App extends Component {
   }
 
   render() {
-    let initialPage = 'UserList';
+    let initialPage = 'SplashPage';
 
     // Platform verification
     if (Platform.OS === 'ios') {
-      initialPage = 'UserList';
+      initialPage = 'Login';
     }
 
     return (
-
     <Navigator
       initialRoute={{ id: initialPage, name: 'Index' }}
       renderScene={this.renderScene.bind(this)}

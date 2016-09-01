@@ -23,12 +23,12 @@ class UserList extends Component {
       rowHasChanged: (row1, row2) => row1 != row2,
     });
     this.state = {
-      dataSource: dataSource.cloneWithRows([1,2,3,4,5,],),
+      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5]),
     };
   }
 
   componentDidMount() {
-    // this._refreshData();
+    this._refreshData();
   }
 
   _renderRow(rowData) {

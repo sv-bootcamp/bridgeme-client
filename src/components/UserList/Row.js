@@ -10,7 +10,8 @@ class Row extends Component {
   render() {
     return (
       <View style={styles.row}>
-        <Image style={styles.photo} source={{uri: 'http://lorempixel.com/64/64/cats/' }} />
+        <Image style={styles.photo}
+          source={{ uri: 'http://lorempixel.com/64/64/cats/' }} />
         <View style={styles.imageSeperator}></View>
         <View style={styles.userInformation}>
           <Text style={styles.name}>Hyunchan Kim</Text>
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
   userInformation: {
     flex: 7,
-    margin: 10,
+    marginLeft: 28,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -55,9 +56,11 @@ const styles = StyleSheet.create({
   },
   job: {
     fontSize: 13,
+    marginTop: 5,
   },
   education: {
     fontSize: 13,
+    marginTop: 5,
   },
 });
 

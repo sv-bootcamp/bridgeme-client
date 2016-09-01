@@ -7,6 +7,7 @@ import {
  DeviceEventEmitter,
  TouchableHighlight,
  Image,
+ Alert,
 } from 'react-native';
 import {
   LoginButton,
@@ -51,9 +52,7 @@ class Login extends Component {
     DeviceEventEmitter.addListener('linkedinLogin', (data) => {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
-      console.log('On linkedinLogin');
-      console.log(this.state);
-      console.log(this.state.navigator);
+
       this.state.navigator.replace({
         id: 'UserList',
       });
@@ -97,6 +96,10 @@ class Login extends Component {
                         AccessToken.getCurrentAccessToken().then(
                           (data) => {
                             alert(data.accessToken.toString());
+
+                            this.state.navigator.replace({
+                              id: 'UserList',
+                            });
                           }
                       );
                       }

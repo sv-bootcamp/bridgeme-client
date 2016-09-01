@@ -4,8 +4,9 @@ import {
   View,
   Text,
 } from 'react-native';
-
-import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {
+  DefaultTabBar,
+} from 'react-native-scrollable-tab-view';
 
 class Footer extends Component {
   render() {
