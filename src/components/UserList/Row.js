@@ -14,7 +14,13 @@ class Row extends Component {
   render() {
     return (
       <View style={styles.row}>
-        <Image style={styles.photo} source={{ uri: this.props.photoURL }}></Image>
+        <Image style={styles.photo} source={{uri: 'http://lorempixel.com/64/64/cats/' }} />
+        <View style={styles.imageSeperator}></View>
+        <View style={styles.userInformation}>
+          <Text style={styles.name}>Hyunchan Kim</Text>
+          <Text style={styles.job}>software engineer</Text>
+          <Text style={styles.education}>education</Text>
+        </View>
       </View>
     );
   }
@@ -22,15 +28,38 @@ class Row extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f7f7f9',
+    margin: 5,
   },
   photo: {
-    flex: 1,
-    height: 150,
-    resizeMode: 'contain'
-  }
+    height: 64,
+    width: 64,
+    margin: 10,
+    borderRadius: 32,
+  },
+  imageSeperator: {
+    alignItems: 'center',
+    marginTop: 7.5,
+    marginBottom: 7.5,
+    borderWidth: 1,
+    borderColor: '#e3e3e3',
+  },
+  userInformation: {
+    flex: 7,
+    margin: 10,
+    flexDirection: 'column',
+  },
+  name: {
+    fontSize: 17,
+  },
+  job: {
+    fontSize: 13,
+  },
+  education: {
+    fontSize: 13,
+  },
 });
 
 module.exports = Row;
