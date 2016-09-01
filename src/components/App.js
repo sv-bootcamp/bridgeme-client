@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   render() {
-    let initialPage = 'SplashPage';
+    let initialPage = 'UserList';
 
     // Platform verification
     if (Platform.OS === 'ios') {

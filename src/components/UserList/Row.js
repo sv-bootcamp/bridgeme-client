@@ -7,10 +7,6 @@ import {
 } from 'react-native';
 
 class Row extends Component {
-  propTypes: {
-    photoURL: React.PropTypes.string.isRequired,
-  }
-
   render() {
     return (
       <View style={styles.row}>

@@ -8,6 +8,7 @@ import {
  ListView,
 } from 'react-native';
 import Header from './Header';
+import Footer from './Footer';
 import Row from './Row';
 
 const API_KEY = '73b19491b83909c7e07016f4bb4644f9:2:60667290';
@@ -22,12 +23,12 @@ class UserList extends Component {
       rowHasChanged: (row1, row2) => row1 != row2,
     });
     this.state = {
-      dataSource: dataSource.cloneWithRows(['1', '2', '3']),
+      dataSource: dataSource.cloneWithRows([1,2,3,4,5,],),
     };
   }
 
   componentDidMount() {
-    this._refreshData();
+    // this._refreshData();
   }
 
   _renderRow(rowData) {
@@ -52,7 +53,8 @@ class UserList extends Component {
           dataSource={this.state.dataSource}
           renderHeader={()=> <Header />}
           renderRow={this._renderRow}
-          />
+          renderFooter={()=> <Footer />}
+        />
       </View>
     );
   }
