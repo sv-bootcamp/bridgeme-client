@@ -42,7 +42,7 @@ class App extends Component {
     var routeId = route.id;
 
     if (routeId === 'SplashPage') {
-      return (<SplashPage avigator={navigator}/>);
+      return (<SplashPage navigator={navigator}/>);
     }
 
     if (routeId === 'Login') {
