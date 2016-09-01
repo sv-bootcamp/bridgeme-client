@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   photo: {
-    height: 64,
-    width: 64,
-    margin: 10,
-    borderRadius: 32,
+    height: 80,
+    width: 80,
+    margin: 15,
+    borderRadius: 40,
   },
   imageSeperator: {
     alignItems: 'center',
@@ -46,9 +46,12 @@ const styles = StyleSheet.create({
     flex: 7,
     margin: 10,
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   name: {
     fontSize: 17,
+    fontWeight: 'bold',
   },
   job: {
     fontSize: 13,
