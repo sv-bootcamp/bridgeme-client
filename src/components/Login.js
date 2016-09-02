@@ -53,6 +53,7 @@ class Login extends Component {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
 
+      // Navigate to userlist after login success event.
       this.state.navigator.replace({
         id: 'UserList',
       });
@@ -95,6 +96,8 @@ class Login extends Component {
                       } else {
                         AccessToken.getCurrentAccessToken().then(
                           (data) => {
+
+                            // TODO: Remove this alert in production mode
                             alert(data.accessToken.toString());
 
                             this.state.navigator.replace({

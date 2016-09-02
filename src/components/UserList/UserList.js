@@ -11,18 +11,17 @@ import Header from './Header';
 import Footer from './Footer';
 import Row from './Row';
 
-const API_KEY = '73b19491b83909c7e07016f4bb4644f9:2:60667290';
-const QUERY_TYPE = 'hardcover-fiction';
-const API_STEM = 'http://api.nytimes.com/svc/books/v3/lists';
-const ENDPOINT = `${API_STEM}/${QUERY_TYPE}?response-format=json&api-key=${API_KEY}`;
-
 class UserList extends Component {
   constructor(props) {
     super(props);
+
+    // Method 'rowHasChanged' must be implemented to use listview.
     let dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 != row2,
+      rowHasChanged: (row1, row2) => row1 !== row2,
     });
     this.state = {
+
+      // Initialize with mock data for testing listview.
       dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5]),
     };
   }
@@ -35,15 +34,18 @@ class UserList extends Component {
     return <Row />;
   }
 
-  // Refresh listview
+  // Refresh listview.
   _refreshData() {
-    fetch(ENDPOINT)
-      .then((response) => response.json())
-      .then((rjson) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(rjson.results.books),
-        });
-      });
+
+    // TODO: Get user list via fetch API
+    // fetch(ENDPOINT)
+    //   .then((response) => response.json())
+    //   .then((rjson) => {
+    //     this.setState({
+    //       dataSource:
+    // this.state.dataSource.cloneWithRows(rjson.results),
+    //     });
+    //   });
   }
 
   render() {
@@ -53,7 +55,6 @@ class UserList extends Component {
           dataSource={this.state.dataSource}
           renderHeader={()=> <Header />}
           renderRow={this._renderRow}
-          renderFooter={()=> <Footer />}
         />
       </View>
     );
