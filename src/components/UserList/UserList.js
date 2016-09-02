@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
- StyleSheet,
- Text,
- View,
- Navigator,
- Image,
- ListView,
+  StyleSheet,
+  Text,
+  View,
+  Navigator,
+  Image,
+  ListView,
 } from 'react-native';
-import Header from './Header';
-import Footer from './Footer';
+
 import Row from './Row';
+import Header from './Header';
 
 class UserList extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class UserList extends Component {
     this.state = {
 
       // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5]),
+      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5]),
     };
   }
 
@@ -50,6 +50,7 @@ class UserList extends Component {
 
   render() {
     return (
+<<<<<<< Updated upstream
       <View Style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
@@ -58,6 +59,13 @@ class UserList extends Component {
         />
         <Footer />
       </View>
+=======
+      <ListView
+        dataSource={this.state.dataSource}
+        renderHeader={()=> <Header />}
+        renderRow={this._renderRow}
+      />
+>>>>>>> Stashed changes
     );
   }
 }
@@ -65,16 +73,11 @@ class UserList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#F5FCFF',
   },
-  row: {
+  tab: {
     flex: 1,
-    fontSize: 12,
-    padding: 30,
-    borderWidth: 1,
-    borderColor: 'grey',
   },
 });
 

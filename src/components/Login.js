@@ -55,7 +55,7 @@ class Login extends Component {
 
       // Navigate to userlist after login success event.
       this.state.navigator.replace({
-        id: 'UserList',
+        id: 'Main',
       });
     });
 
@@ -101,7 +101,7 @@ class Login extends Component {
                             alert(data.accessToken.toString());
 
                             this.state.navigator.replace({
-                              id: 'UserList',
+                              id: 'Main',
                             });
                           }
                       );

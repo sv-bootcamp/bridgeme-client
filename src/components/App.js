@@ -8,7 +8,7 @@ import {
 
 import SplashPage from './SplashPage';
 import Login from './Login';
-import UserList from './UserList/UserList';
+import Main from './Main';
 
 class App extends Component {
   constructor(props) {
@@ -49,8 +49,8 @@ class App extends Component {
       return (<Login navigator={navigator}/>);
     }
 
-    if (routeId === 'UserList') {
-      return (<UserList navigator={navigator}/>);
+    if (routeId === 'Main') {
+      return (<Main navigator={navigator}/>);
     }
 
     return this.noRoute(navigator);
