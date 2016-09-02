@@ -56,6 +56,7 @@ class UserList extends Component {
           renderHeader={()=> <Header />}
           renderRow={this._renderRow}
         />
+        <Footer />
       </View>
     );
   }

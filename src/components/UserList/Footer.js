@@ -13,14 +13,21 @@ class Footer extends Component {
     return <ScrollableTabView
       renderTabBar={() => <DefaultTabBar />}
     >
-      <Text tabLabel='Find'>My</Text>
-      <Text tabLabel='Activity'>favorite</Text>
-      <Text tabLabel='My Profile'>project</Text>
+      <Text tabLabel='Find'></Text>
+      <Text tabLabel='Activity'></Text>
+      <Text tabLabel='My Profile'></Text>
     </ScrollableTabView>;
   }
 }
 
 const styles = StyleSheet.create({
+  tab: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 10,
+    borderColor: '#dedee0',
+  },
 });
 
 module.exports = Footer;
