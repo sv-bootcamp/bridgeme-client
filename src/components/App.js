@@ -35,7 +35,7 @@ class App extends Component {
     return (
       <Router>
         <Scene key="root">
-          <Scene key="splashPage" component={SplashPage} initial={isAndroid} />
+          <Scene key="splashPage" component={SplashPage} hideNavBar={true} initial={isAndroid} />
           <Scene key="login" component={Login} initial={!isAndroid} hideNavBar={true}/>
           <Scene key="main" component={Main} title="All Lists" hideNavBar={false}/>
           <Scene key="userList" component={UserList} />
