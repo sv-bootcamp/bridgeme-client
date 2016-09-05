@@ -4,6 +4,8 @@ import {
     View,
     Platform,
     Navigator,
+    TouchableOpacity,
+    Text,
 } from 'react-native';
 
 import SplashPage from './SplashPage';
@@ -20,7 +22,7 @@ class App extends Component {
 
     // Platform verification
     if (Platform.OS === 'ios') {
-      initialPage = 'UserList';
+      initialPage = 'Main';
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -50,22 +50,12 @@ class UserList extends Component {
 
   render() {
     return (
-<<<<<<< Updated upstream
-      <View Style={styles.container}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderHeader={()=> <Header />}
-          renderRow={this._renderRow}
-        />
-        <Footer />
-      </View>
-=======
       <ListView
         dataSource={this.state.dataSource}
         renderHeader={()=> <Header />}
         renderRow={this._renderRow}
       />
->>>>>>> Stashed changes
+
     );
   }
 }
