@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
  StyleSheet,
@@ -8,22 +7,19 @@ import {
  DeviceEventEmitter,
  TouchableHighlight,
  Image,
+ Alert,
 } from 'react-native';
 import {
   LoginButton,
   AccessToken,
 } from 'react-native-fbsdk';
 import LinkedInLogin from './utils/linkedin-login';
+import UserList from './UserList/UserList';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.initLinkedIn();
-  }
-
-  componentWillMount() {
-    var navigator = this.props.navigator;
   }
 
   // Initialize LinkedIn tokens
@@ -44,6 +40,7 @@ class Login extends Component {
 
   componentWillMount() {
     this.initEvent();
+    this.setState({ navigator: this.props.navigator });
   }
 
   // Fetching data from LinkedIn
@@ -55,6 +52,11 @@ class Login extends Component {
     DeviceEventEmitter.addListener('linkedinLogin', (data) => {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
+
+      // Navigate to userlist after login success event.
+      this.state.navigator.replace({
+        id: 'Main',
+      });
     });
 
     DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
@@ -94,7 +96,13 @@ class Login extends Component {
                       } else {
                         AccessToken.getCurrentAccessToken().then(
                           (data) => {
+
+                            // TODO: Remove this alert in production mode
                             alert(data.accessToken.toString());
+
+                            this.state.navigator.replace({
+                              id: 'Main',
+                            });
                           }
                       );
                       }

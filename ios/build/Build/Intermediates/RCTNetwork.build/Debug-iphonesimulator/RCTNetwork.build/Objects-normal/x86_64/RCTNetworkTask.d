@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/DanKim/Desktop/yoda/src/client/node_modules/react-native/Libraries/Network/RCTNetworkTask.m \
-  /Users/DanKim/Desktop/yoda/src/client/node_modules/react-native/Libraries/Network/RCTNetworkTask.h \
+  /Users/DanKim/Desktop/yoda-client/node_modules/react-native/Libraries/Network/RCTNetworkTask.m \
+  /Users/DanKim/Desktop/yoda-client/node_modules/react-native/Libraries/Network/RCTNetworkTask.h \
   ../../React/Base/RCTURLRequestDelegate.h \
   ../../React/Base/RCTURLRequestHandler.h \
   ../../React/Base/RCTBridgeModule.h ../../React/Base/RCTDefines.h \

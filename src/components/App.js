@@ -4,10 +4,13 @@ import {
     View,
     Platform,
     Navigator,
+    TouchableOpacity,
+    Text,
 } from 'react-native';
 
 import SplashPage from './SplashPage';
 import Login from './Login';
+import Main from './Main';
 
 class App extends Component {
   constructor(props) {
@@ -46,6 +49,10 @@ class App extends Component {
 
     if (routeId === 'Login') {
       return (<Login navigator={navigator}/>);
+    }
+
+    if (routeId === 'Main') {
+      return (<Main navigator={navigator}/>);
     }
 
     return this.noRoute(navigator);
