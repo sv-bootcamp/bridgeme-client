@@ -10,6 +10,7 @@ import {
 
 import Row from './Row';
 import Header from './Header';
+import { Actions, } from 'react-native-router-flux';
 
 class UserList extends Component {
   constructor(props) {
@@ -23,8 +24,10 @@ class UserList extends Component {
 
       // Initialize with mock data for testing listview.
       dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
-        1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, ]),
+        1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2,
+        3, 4, 5,]),
     };
+
   }
 
   componentDidMount() {
@@ -53,7 +56,6 @@ class UserList extends Component {
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderHeader={()=> <Header />}
         renderRow={this._renderRow}
       />
     );

@@ -36,10 +36,10 @@ class App extends Component {
       <Router>
         <Scene key="root">
           <Scene key="splashPage" component={SplashPage} initial={isAndroid} />
-          <Scene key="login" component={Login} initial={!isAndroid}/>
-          <Scene key="main" component={Main} />
+          <Scene key="login" component={Login} initial={!isAndroid} hideNavBar={true}/>
+          <Scene key="main" component={Main} title="All Lists" hideNavBar={false}/>
           <Scene key="userList" component={UserList} />
-          <Scene key="userProfile" component={UserProfile} />
+          <Scene key="userProfile" component={UserProfile} title="User Profile" />
         </Scene>
       </Router>
    );

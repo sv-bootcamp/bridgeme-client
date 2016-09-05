@@ -3,6 +3,8 @@ import {
     StyleSheet,
     View,
     Text,
+    ScrollView,
+    Image,
 } from 'react-native';
 import {
   Actions,
@@ -11,7 +13,9 @@ import {
 class UserProfile extends Component {
   render() {
     return (
-      <Text>userprofile</Text>
+      <View style={{ margin: 100 }}>
+        <Text>Show Profile page</Text>
+      </View>
     );
   }
 }
