@@ -22,7 +22,7 @@ class App extends Component {
 
     // Platform verification
     if (Platform.OS === 'ios') {
-      initialPage = 'Main';
+      initialPage = 'Login';
     }
 
     return (
