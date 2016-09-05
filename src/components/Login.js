@@ -15,6 +15,7 @@ import {
 } from 'react-native-fbsdk';
 import LinkedInLogin from './utils/linkedin-login';
 import UserList from './UserList/UserList';
+import { Actions, } from 'react-native-router-flux';
 
 class Login extends Component {
   constructor(props) {
@@ -53,10 +54,9 @@ class Login extends Component {
       LinkedInLogin.setSession(data.accessToken, data.expiresOn);
       LinkedInLogin.getProfile();
 
-      // Navigate to userlist after login success event.
-      this.state.navigator.replace({
-        id: 'Main',
-      });
+      // Move to Main if login is successful
+      Actions.main();
+
     });
 
     DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
@@ -100,9 +100,9 @@ class Login extends Component {
                             // TODO: Remove this alert in production mode
                             alert(data.accessToken.toString());
 
-                            this.state.navigator.replace({
-                              id: 'Main',
-                            });
+                            // Move to Main if login is successful
+                            Actions.main();
+
                           }
                       );
                       }

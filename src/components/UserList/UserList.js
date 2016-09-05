@@ -22,7 +22,8 @@ class UserList extends Component {
     this.state = {
 
       // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5,1, 2, 3, 4, 5]),
+      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
+        1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, ]),
     };
   }
 
@@ -55,7 +56,6 @@ class UserList extends Component {
         renderHeader={()=> <Header />}
         renderRow={this._renderRow}
       />
-
     );
   }
 }
