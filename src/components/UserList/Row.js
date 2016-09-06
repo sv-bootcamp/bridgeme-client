@@ -5,24 +5,27 @@ import {
   View,
   Image,
   TouchableHighlight,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class Row extends Component {
   render() {
     return (
-      <View style={styles.row}>
-          <Image style={styles.photo}
-                 source={{ uri: 'http://lorempixel.com/64/64/cats/' }} />
-          <View style={styles.imageSeperator}></View>
-          <View style={styles.userInformation}>
 
-            {/* Below Texts are mock data.
-             They'll be replaced with real data from backend */}
-            <Text style={styles.name}>Hyunchan Kim</Text>
-            <Text style={styles.job}>software engineer</Text>
-            <Text style={styles.education}>education</Text>
-          </View>
-      </View>
+      // TODO: will be replaced with data from backend
+      <TouchableHighlight onPress={Actions.userProfile}>
+        <View style={styles.row}>
+            <Image style={styles.photo}
+                   source={{ uri: 'http://lorempixel.com/64/64/cats/' }}/>
+            <View style={styles.imageSeperator}></View>
+            <View style={styles.userInformation}>
+              <Text style={styles.name}>Hyunchan Kim</Text>
+              <Text style={styles.job}>software engineer</Text>
+              <Text style={styles.education}>education</Text>
+            </View>
+        </View>
+      </TouchableHighlight>
     );
   }
 }

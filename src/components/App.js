@@ -11,6 +11,13 @@ import {
 import SplashPage from './SplashPage';
 import Login from './Login';
 import Main from './Main';
+import UserList from './UserList/UserList';
+import UserProfile from './userProfile/UserProfile';
+import {
+  Router,
+  Scene,
+  Actions,
+} from 'react-native-router-flux';
 
 class App extends Component {
   constructor(props) {
@@ -18,56 +25,24 @@ class App extends Component {
   }
 
   render() {
-    let initialPage = 'SplashPage';
+    let isAndroid = false;
 
     // Platform verification
-    if (Platform.OS === 'ios') {
-      initialPage = 'Login';
+    if (Platform.OS === 'android') {
+      isAndroid = true;
     }
 
     return (
-    <Navigator
-      initialRoute={{ id: initialPage, name: 'Index' }}
-      renderScene={this.renderScene.bind(this)}
-      configureScene={(route) => {
-        if (route.sceneConfig) {
-          return route.sceneConfig;
-        }
-
-        return Navigator.SceneConfigs.FloatFromRight;
-      }}/>
+      <Router>
+        <Scene key="root">
+          <Scene key="splashPage" component={SplashPage} hideNavBar={true} initial={isAndroid} />
+          <Scene key="login" component={Login} initial={!isAndroid} hideNavBar={true}/>
+          <Scene key="main" component={Main} title="All Lists" hideNavBar={false}/>
+          <Scene key="userList" component={UserList} />
+          <Scene key="userProfile" component={UserProfile} title="User Profile" />
+        </Scene>
+      </Router>
    );
-  }
-
-  // Register route
-  renderScene(route, navigator) {
-    var routeId = route.id;
-
-    if (routeId === 'SplashPage') {
-      return (<SplashPage navigator={navigator}/>);
-    }
-
-    if (routeId === 'Login') {
-      return (<Login navigator={navigator}/>);
-    }
-
-    if (routeId === 'Main') {
-      return (<Main navigator={navigator}/>);
-    }
-
-    return this.noRoute(navigator);
-  }
-
-  // Handle unregisterd route
-  noRoute(navigator) {
-    return (
-      <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
-        <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                        onPress={() => navigator.pop()}>
-        <Text style={{ color: 'red', fontWeight: 'bold' }}>No specific route exsist</Text>
-      </TouchableOpacity>
-    </View>
-  );
   }
 }
 

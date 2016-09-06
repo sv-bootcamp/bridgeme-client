@@ -7,17 +7,17 @@ import {
  Navigator,
  Image,
 } from 'react-native';
+import {
+  Actions,
+} from 'react-native-router-flux';
 
 class SplashPage extends Component {
   componentWillMount() {
-    let navigator = this.props.navigator;
 
     // Delay 1sec for next screen
     setTimeout(() => {
-      navigator.replace({
-        id: 'Login',
-      });
-    }, 1500);
+        Actions.login();
+      }, 1000);
   }
 
   render() {

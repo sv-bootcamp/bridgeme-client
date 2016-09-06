@@ -3,42 +3,24 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-  Image,
   ListView,
 } from 'react-native';
 
-import Row from './Row';
-import Header from './Header';
-import { Actions } from 'react-native-router-flux';
+import ExperienceRow from './ExperienceRow';
 
-class UserList extends Component {
-  constructor(props) {
-    super(props);
-
-    // Method 'rowHasChanged' must be implemented to use listview.
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
-    this.state = {
-
-      // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1, 2, 3, 4, 6]),
-    };
-  }
-
+class ExperienceList extends Component {
   componentDidMount() {
     this._refreshData();
   }
 
   _renderRow(rowData) {
-    return <Row />;
+    return <ExperienceRow />;
   }
 
   // Refresh listview.
   _refreshData() {
 
-    // TODO: Get user list via fetch API
+    // TODO: Get experience list via fetch API
     // fetch(ENDPOINT)
     //   .then((response) => response.json())
     //   .then((rjson) => {
@@ -52,7 +34,7 @@ class UserList extends Component {
   render() {
     return (
       <ListView
-        dataSource={this.state.dataSource}
+        dataSource={this.props.dataSource}
         renderRow={this._renderRow}
       />
     );
@@ -70,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = UserList;
+module.exports = ExperienceList;
