@@ -9,7 +9,7 @@ import {
     Dimensions,
     ListView,
 } from 'react-native';
-import { Actions, } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import ExperienceList from './ExperienceList';
 
 class UserProfile extends Component {
