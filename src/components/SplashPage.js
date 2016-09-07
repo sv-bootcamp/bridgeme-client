@@ -11,13 +11,40 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
+import YodaMeta from './utils/YodaMeta';
+import YodaUtil from './utils/YodaUtil';
+
 class SplashPage extends Component {
+
+  constructor(props) {
+    super(props);
+
+    YodaUtil.initCallback(
+    (result) => this.onServerSuccess(result),
+    (error) => this.onServerFail(error)
+  );
+  }
+
   componentWillMount() {
 
     // Delay 1sec for next screen
     setTimeout(() => {
-        Actions.login();
+        YodaUtil.hasToken();
       }, 1000);
+  }
+
+  // Token already exists on the server
+  onServerSuccess(result) {
+    Actions.main();
+  }
+
+  // If the token is not validate and has an error
+  onServerFail(error) {
+    if (error.code !== YodaMeta.ERR_NONE) {
+      alert(JSON.stringify(error.msg));
+    }
+
+    Actions.login();
   }
 
   render() {
