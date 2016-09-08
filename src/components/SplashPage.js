@@ -11,13 +11,40 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
+import ErrorMeta from '../utils/ErrorMeta';
+import ServerUtil from '../utils/ServerUtil';
+
 class SplashPage extends Component {
+
+  constructor(props) {
+    super(props);
+
+    ServerUtil.initCallback(
+    (result) => this.onServerSuccess(result),
+    (error) => this.onServerFail(error)
+  );
+  }
+
   componentWillMount() {
 
     // Delay 1sec for next screen
     setTimeout(() => {
-        Actions.login();
+        ServerUtil.hasToken();
       }, 1000);
+  }
+
+  // Token already exists on the server
+  onServerSuccess(result) {
+    Actions.main();
+  }
+
+  // If the token is not validate and has an error
+  onServerFail(error) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(JSON.stringify(error.msg));
+    }
+
+    Actions.login();
   }
 
   render() {

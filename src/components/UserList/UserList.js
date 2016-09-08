@@ -6,54 +6,58 @@ import {
   Navigator,
   Image,
   ListView,
+  Platform,
 } from 'react-native';
 
 import Row from './Row';
 import Header from './Header';
 import { Actions } from 'react-native-router-flux';
+import ErrorMeta from '../../utils/ErrorMeta';
+import ServerUtil from '../../utils/ServerUtil';
 
 class UserList extends Component {
   constructor(props) {
     super(props);
 
-    // Method 'rowHasChanged' must be implemented to use listview.
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
-    this.state = {
+    ServerUtil.initCallback(
+      (result) => this.onServerSuccess(result),
+      (error) => this.onServerFail(error));
 
-      // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1, 2, 3, 4, 6]),
+    // Method 'rowHasChanged' must be implemented to use listview.
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   }
 
+  onServerSuccess(result) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(result),
+    });
+  }
+
+  onServerFail(error) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(error.msg);
+    }
+
+    Actions.login();
+  }
+
   componentDidMount() {
-    this._refreshData();
+    ServerUtil.getMentorList();
   }
 
-  _renderRow(rowData) {
-    return <Row />;
-  }
-
-  // Refresh listview.
-  _refreshData() {
-
-    // TODO: Get user list via fetch API
-    // fetch(ENDPOINT)
-    //   .then((response) => response.json())
-    //   .then((rjson) => {
-    //     this.setState({
-    //       dataSource:
-    // this.state.dataSource.cloneWithRows(rjson.results),
-    //     });
-    //   });
+  renderRow(rowData) {
+    return <Row dataSource={rowData}/>;
   }
 
   render() {
     return (
-      <ListView
+      <ListView style={styles.listView}
         dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
+        renderRow={this.renderRow}
       />
     );
   }
@@ -65,8 +69,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#F5FCFF',
   },
-  tab: {
-    flex: 1,
+  listView: {
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
   },
 });
 

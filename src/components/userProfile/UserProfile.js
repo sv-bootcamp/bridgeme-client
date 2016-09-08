@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
+    Platform,
     View,
     Text,
     ScrollView,
@@ -74,6 +75,14 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
   },
   profileImage: {
     position: 'absolute',

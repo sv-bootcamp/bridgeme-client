@@ -17,6 +17,7 @@ import {
   Router,
   Scene,
   Actions,
+  ActionConst
 } from 'react-native-router-flux';
 
 class App extends Component {
@@ -37,7 +38,8 @@ class App extends Component {
         <Scene key="root">
           <Scene key="splashPage" component={SplashPage} hideNavBar={true} initial={isAndroid} />
           <Scene key="login" component={Login} initial={!isAndroid} hideNavBar={true}/>
-          <Scene key="main" component={Main} title="All Lists" hideNavBar={false}/>
+          <Scene key="main" component={Main} title="All Lists"
+            hideNavBar={false} type={ActionConst.REPLACE} />
           <Scene key="userList" component={UserList} />
           <Scene key="userProfile" component={UserProfile} title="User Profile" />
         </Scene>

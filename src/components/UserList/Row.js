@@ -17,12 +17,12 @@ class Row extends Component {
       <TouchableHighlight onPress={Actions.userProfile}>
         <View style={styles.row}>
             <Image style={styles.photo}
-                   source={{ uri: 'http://lorempixel.com/64/64/cats/' }}/>
+                   source={{ uri: this.props.dataSource.profile_picture }}/>
             <View style={styles.imageSeperator}></View>
             <View style={styles.userInformation}>
-              <Text style={styles.name}>Hyunchan Kim</Text>
-              <Text style={styles.job}>software engineer</Text>
-              <Text style={styles.education}>education</Text>
+              <Text style={styles.name}>{this.props.dataSource.name}</Text>
+              <Text style={styles.job}>Job</Text>
+              <Text style={styles.education}>Education</Text>
             </View>
         </View>
       </TouchableHighlight>
@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'row',
     backgroundColor: '#f7f7f9',
-    margin: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
   },
   photo: {
     height: 80,

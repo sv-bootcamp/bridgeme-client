@@ -29,10 +29,10 @@ class Main extends Component {
       >
         <UserList tabLabel='Find'>
         </UserList>
-        <MyProfile tabLabel='Activity'>
-        </MyProfile>
-        <Activity tabLabel='MyProfile'>
+        <Activity tabLabel='Activity'>
         </Activity>
+        <MyProfile tabLabel='MyProfile'>
+        </MyProfile>
       </ScrollableTabView>
     );
   }

@@ -8,70 +8,21 @@ import {
  TouchableHighlight,
  Image,
  Alert,
+ TouchableWithoutFeedback
 } from 'react-native';
-import {
-  LoginButton,
-  AccessToken,
-} from 'react-native-fbsdk';
-import LinkedInLogin from './utils/linkedin-login';
-import UserList from './UserList/UserList';
-import { Actions, } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
+import ErrorMeta from '../utils/ErrorMeta';
+import LoginUtil from '../utils/LoginUtil';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.initLinkedIn();
-  }
-
-  // Initialize LinkedIn tokens
-  initLinkedIn() {
-
-    // This variable(redirectUrl) can assigned anything. It just need for executing login module.
-    let redirectUrl = 'http://localhost';
-    let clientId = '78831o5pn1vg4p';
-    let clientSecret = 'ioMEK1Qu77xqxKyu';
-    let state = 'DCEeFWf45A53qdfKef424';
-    let scopes = ['r_basicprofile', 'r_emailaddress', 'rw_company_admin'];
-    LinkedInLogin.init(redirectUrl, clientId, clientSecret, state, scopes);
-  }
-
-  signinWithLinkedIn() {
-    LinkedInLogin.login();
+    LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
+    LoginUtil.initLinkedIn();
   }
 
   componentWillMount() {
-    this.initEvent();
-    this.setState({ navigator: this.props.navigator });
-  }
-
-  // Fetching data from LinkedIn
-  initEvent() {
-    DeviceEventEmitter.addListener('LinkedInLoginError', (error) => {
-      console.log('LinkedInLoginError!');
-    });
-
-    DeviceEventEmitter.addListener('linkedinLogin', (data) => {
-      LinkedInLogin.setSession(data.accessToken, data.expiresOn);
-      LinkedInLogin.getProfile();
-
-      // Move to Main if login is successful
-      Actions.main();
-
-    });
-
-    DeviceEventEmitter.addListener('linkedinGetRequest', (resData) => {
-      const data = JSON.parse(resData.data);
-      if (data.values) {
-        console.log(data.values);
-        resolve(data.values);
-      } else {
-        reject('No profile image found');
-      }
-    });
-
-    DeviceEventEmitter.addListener('linkedinGetRequestError', (error) => {
-      console.log('LinkedInGetRequestError!');
-    });
+    LoginUtil.initEvent();
   }
 
   render() {
@@ -84,40 +35,28 @@ class Login extends Component {
              </View>
 
              {/* Render facebook login button */}
-             <Image style={styles.facebookLoginButton}
-               source={require('../resources/facebook_2x.png')}>
-               <LoginButton style= {styles.defaultButton}
-                  onLoginFinished={
-                    (error, result) => {
-                      if (error) {
-                        alert('Login has error: ' + result.error);
-                      } else if (result.isCancelled) {
-                        alert('Login is cancelled.');
-                      } else {
-                        AccessToken.getCurrentAccessToken().then(
-                          (data) => {
-
-                            // TODO: Remove this alert in production mode
-                            alert(data.accessToken.toString());
-
-                            // Move to Main if login is successful
-                            Actions.main();
-
-                          }
-                      );
-                      }
-                    }
-                }
-                onLogoutFinished={() => alert('Logout.')}/>
-            </Image>
+          <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
+              <Image style={styles.facebookLoginButton}
+               source={require('../resources/facebook_2x.png')} />
+           </TouchableWithoutFeedback>
 
             {/* Render linkedin login buttion */}
-            <TouchableHighlight onPress={this.signinWithLinkedIn}>
+            <TouchableHighlight onPress={LoginUtil.signinWithLinkedIn}>
               <Image style={styles.linkedinLoginButton}
                 source={require('../resources/Linkedin_2x.png')} />
             </TouchableHighlight>
         </View>
      );
+  }
+
+  onLoginSuccess(result) {
+    Actions.main();
+  }
+
+  onLoginFail(error) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(error.msg);
+    }
   }
 }
 
@@ -143,7 +82,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 290,
     marginBottom: 10,
-    zIndex: 1,
   },
   linkedinLoginButton: {
     height: 40,
