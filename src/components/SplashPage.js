@@ -11,7 +11,7 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
-import YodaMeta from './utils/YodaMeta';
+import ErrorMeta from './utils/ErrorMeta';
 import YodaUtil from './utils/YodaUtil';
 
 class SplashPage extends Component {
@@ -40,7 +40,7 @@ class SplashPage extends Component {
 
   // If the token is not validate and has an error
   onServerFail(error) {
-    if (error.code !== YodaMeta.ERR_NONE) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
 

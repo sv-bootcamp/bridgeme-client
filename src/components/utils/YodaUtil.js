@@ -5,7 +5,9 @@ import {
   GraphRequestManager,
 } from 'react-native-fbsdk';
 
-import YodaMeta from './YodaMeta';
+import ErrorMeta from './ErrorMeta';
+import UrlMeta from './UrlMeta';
+import LoginMeta from './LoginMeta';
 
 class YodaUtil {
 
@@ -24,7 +26,7 @@ class YodaUtil {
   hasToken() {
     AsyncStorage.getItem('token', (err, result) => {
       if (result === null) {
-        this.onError(YodaMeta.ERR_NONE);
+        this.onError(ErrorMeta.ERR_NONE);
       } else {
         this.successCallback();
       }
@@ -35,13 +37,13 @@ class YodaUtil {
   onError(errCode) {
     let result = { code: errCode };
 
-    if (errCode === YodaMeta.ERR_NONE) {
+    if (errCode === ErrorMeta.ERR_NONE) {
       result.msg = '';
-    } else if (errCode === YodaMeta.ERR_TOKEN_INVALID) {
+    } else if (errCode === ErrorMeta.ERR_TOKEN_INVALID) {
       result.msg = 'Token has been expired. Try again';
-    } else if (errCode === YodaMeta.ERR_NO_LOGIN_TYPE) {
+    } else if (errCode === ErrorMeta.ERR_NO_LOGIN_TYPE) {
       result.msg = 'Login again';
-    } else if (errCode === YodaMeta.ERR_SERVER_FAIL) {
+    } else if (errCode === ErrorMeta.ERR_SERVER_FAIL) {
       result.msg = 'Server error. Try again';
     }
 
@@ -50,45 +52,45 @@ class YodaUtil {
 
   // Get all user lists for testing. Won't be used later
   getAllList() {
-    this.requestToServer('GET', YodaMeta.API_ALL, '');
+    this.requestToServer('GET', UrlMeta.API_ALL, '');
   }
 
   // Get user lists except me
   getMentorList() {
-    this.requestToServer('GET', YodaMeta.API_MENTOR, '');
+    this.requestToServer('GET', UrlMeta.API_MENTOR, '');
   }
 
   // Get my profile
   getMyProfile() {
-    this.requestToServer('GET', YodaMeta.API_ME, '');
+    this.requestToServer('GET', UrlMeta.API_ME, '');
   }
 
   // Get other user's profile
   getOthersProfile(userid) {
-    this.requestToServer('GET', YodaMeta.API_ME, userid);
+    this.requestToServer('GET', UrlMeta.API_ME, userid);
   }
 
   // Get activity list(request, received)
   getActivityList() {
-    this.requestToServer('GET', YodaMeta.API_ACTIVITY, '');
+    this.requestToServer('GET', UrlMeta.API_ACTIVITY, '');
   }
 
   // Request to mentor
   sendMentoringRequest(montorId, content) {
     let paramList = [mentorId, content];
-    this.requestToServer('POST', YodaMeta.API_MENTOR_REQ, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_REQ, paramList);
   }
 
   // Accept request
   acceptRequest(montorId) {
     let paramList = [mentorId, 1];
-    this.requestToServer('POST', YodaMeta.API_MENTOR_RESP, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
   }
 
   // Reject request
   rejectRequest(montorId) {
     let paramList = [mentorId, 0];
-    this.requestToServer('POST', YodaMeta.API_MENTOR_RESP, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
   }
 
   // Request to server
@@ -98,16 +100,16 @@ class YodaUtil {
       let token = stores[1][1];
 
       if (token === null || token === undefined || token === '') {
-        this.onError(YodaMeta.ERR_NO_LOGIN_TYPE);
+        this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
         return;
       }
 
-      if (type == YodaMeta.LOGIN_TYPE_FB || type == YodaMeta.LOGIN_TYPE_LI) {
-        let url = YodaMeta.host + apiType + urlEtc;
+      if (type == LoginMeta.LOGIN_TYPE_FB || type == LoginMeta.LOGIN_TYPE_LI) {
+        let url = UrlMeta.host + apiType + urlEtc;
         let formBody = this.makeFormBody(method, token, apiType, paramList);
         this.fetchData(url, method, formBody);
       } else {
-        this.onError(YodaMeta.ERR_NO_LOGIN_TYPE);
+        this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
       }
     });
   }
@@ -115,10 +117,10 @@ class YodaUtil {
   makeFormBody(httpMethod, token, apiType, paramList) {
     let formBody = 'access_token=' + token;
 
-    if (apiType === YodaMeta.API_MENTOR_REQ) {
+    if (apiType === UrlMeta.API_MENTOR_REQ) {
       formBody += '&metor_id=' + paramList[0];
       formBody += '&content=' + paramList[1];
-    } else if (apiType === YodaMeta.API_MENTOR_RESP) {
+    } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       formBody += '&metor_id=' + paramList[0];
       formBody += '&option=' + paramList[1];
     }
@@ -140,13 +142,13 @@ class YodaUtil {
     .then((response) => response.json())
     .then((result) => {
       if (result.successCode === 0) {
-        this.onError(YodaMeta.ERR_TOKEN_INVALID);
+        this.onError(ErrorMeta.ERR_TOKEN_INVALID);
       } else {
         this.successCallback(result);
       }
     })
     .catch((error) => {
-      this.onError(YodaMeta.ERR_SERVER_FAIL);
+      this.onError(ErrorMeta.ERR_SERVER_FAIL);
     });
   }
 

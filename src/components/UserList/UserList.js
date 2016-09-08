@@ -12,7 +12,7 @@ import {
 import Row from './Row';
 import Header from './Header';
 import { Actions } from 'react-native-router-flux';
-import YodaMeta from '../utils/YodaMeta';
+import ErrorMeta from '../utils/ErrorMeta';
 import YodaUtil from '../utils/YodaUtil';
 
 class UserList extends Component {
@@ -38,7 +38,7 @@ class UserList extends Component {
   }
 
   onServerFail(error) {
-    if (error.code !== YodaMeta.ERR_NONE) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
 

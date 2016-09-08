@@ -12,7 +12,9 @@ import {
 } from 'react-native-fbsdk';
 
 import LinkedInLogin from './linkedin-login';
-import YodaMeta from './YodaMeta';
+import ErrorMeta from './ErrorMeta';
+import UrlMeta from './UrlMeta';
+import LoginMeta from './LoginMeta';
 
 class LoginUtil {
 
@@ -30,11 +32,11 @@ class LoginUtil {
   // Register info data to use LinkedIn SDK
   initLinkedIn() {
     LinkedInLogin.init(
-      YodaMeta.redirectUrl,
-      YodaMeta.clientId,
-      YodaMeta.clientSecret,
-      YodaMeta.state,
-      YodaMeta.scopes);
+      LoginMeta.redirectUrl,
+      LoginMeta.clientId,
+      LoginMeta.clientSecret,
+      LoginMeta.state,
+      LoginMeta.scopes);
   }
 
   // Register listeners to use LinkedIn SDK Login, LoginError
@@ -53,19 +55,19 @@ class LoginUtil {
   //Error codes
   onError(errCode) {
     let result = { code: errCode };
-    if (errCode === YodaMeta.ERR_NONE) {
+    if (errCode === ErrorMeta.ERR_NONE) {
       result.msg = '';
-    } else if (errCode === YodaMeta.ERR_FB_LOGIN) {
+    } else if (errCode === ErrorMeta.ERR_FB_LOGIN) {
       result.msg = 'Login error from Linkedin';
-    } else if (errCode === YodaMeta.ERR_LI_LOGIN) {
+    } else if (errCode === ErrorMeta.ERR_LI_LOGIN) {
       result.msg = 'Login error from Facebook';
-    } else if (errCode === YodaMeta.ERR_TOKEN_INVALID) {
+    } else if (errCode === ErrorMeta.ERR_TOKEN_INVALID) {
       result.msg = 'Your token has been expired.';
-    } else if (errCode === YodaMeta.ERR_NO_USER_DATA) {
+    } else if (errCode === ErrorMeta.ERR_NO_USER_DATA) {
       result.msg = 'Cannot fetch user data';
-    } else if (errCode === YodaMeta.ERR_APP_FAIL) {
+    } else if (errCode === ErrorMeta.ERR_APP_FAIL) {
       result.msg = 'Error has occured from web';
-    } else if (errCode === YodaMeta.ERR_SERVER_FAIL) {
+    } else if (errCode === ErrorMeta.ERR_SERVER_FAIL) {
       result.msg = 'Server error. Try again';
     }
 
@@ -83,21 +85,21 @@ class LoginUtil {
 
   onLoginSuccessFB(result) {
     if (result.isCancelled) {
-      loginUtil.onError(YodaMeta.ERR_FB_LOGIN);
+      loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
     } else {
       AccessToken.getCurrentAccessToken()
       .then((data) => {
-        AsyncStorage.setItem('loginType', YodaMeta.LOGIN_TYPE_FB);
-        loginUtil.fetchData(YodaMeta.LOGIN_TYPE_FB, data.accessToken.toString());
+        AsyncStorage.setItem('loginType', LoginMeta.LOGIN_TYPE_FB);
+        loginUtil.fetchData(LoginMeta.LOGIN_TYPE_FB, data.accessToken.toString());
       })
       .catch((error) => {
-        loginUtil.onError(YodaMeta.ERR_APP_FAIL);
+        loginUtil.onError(ErrorMeta.ERR_APP_FAIL);
       });
     }
   }
 
   onLoginErrorFB(error) {
-    loginUtil.onError(YodaMeta.ERR_FB_LOGIN);
+    loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
   }
 
   //Sign In with LinkedIn.
@@ -106,19 +108,19 @@ class LoginUtil {
   }
 
   onLoginSuccessLI(result) {
-    AsyncStorage.setItem('loginType', YodaMeta.LOGIN_TYPE_LI);
-    loginUtil.fetchData(YodaMeta.LOGIN_TYPE_LI, result.accessToken);
+    AsyncStorage.setItem('loginType', LoginMeta.LOGIN_TYPE_LI);
+    loginUtil.fetchData(LoginMeta.LOGIN_TYPE_LI, result.accessToken);
   }
 
   onLoginErrorLI(error) {
-    loginUtil.onError(YodaMeta.ERR_LI_LOGIN);
+    loginUtil.onError(ErrorMeta.ERR_LI_LOGIN);
   }
 
   fetchData(type, token) {
     let formBody = this.makeFormBody(type, token);
     AsyncStorage.setItem('token', token);
 
-    fetch(YodaMeta.host + YodaMeta.API_LOGIN, {
+    fetch(UrlMeta.host + UrlMeta.API_LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -130,10 +132,10 @@ class LoginUtil {
       if (result.successCode === 1) {
         this.successCallback(result);
       } else {
-        this.onError(YodaMeta.ERR_TOKEN_INVALID);
+        this.onError(ErrorMeta.ERR_TOKEN_INVALID);
       }
     }).catch((error) => {
-      this.onError(YodaMeta.ERR_SERVER_FAIL);
+      this.onError(ErrorMeta.ERR_SERVER_FAIL);
     });
   }
 

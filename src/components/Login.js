@@ -11,7 +11,7 @@ import {
  TouchableWithoutFeedback
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import YodaMeta from './utils/YodaMeta';
+import ErrorMeta from './utils/ErrorMeta';
 import LoginUtil from './utils/LoginUtil';
 
 class Login extends Component {
@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   onLoginFail(error) {
-    if (error.code !== YodaMeta.ERR_NONE) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
   }
