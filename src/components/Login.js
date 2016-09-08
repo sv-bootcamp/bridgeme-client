@@ -11,8 +11,8 @@ import {
  TouchableWithoutFeedback
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from './utils/ErrorMeta';
-import LoginUtil from './utils/LoginUtil';
+import ErrorMeta from '../utils/ErrorMeta';
+import LoginUtil from '../utils/LoginUtil';
 
 class Login extends Component {
   constructor(props) {

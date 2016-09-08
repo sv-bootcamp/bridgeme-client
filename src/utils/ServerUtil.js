@@ -9,7 +9,7 @@ import ErrorMeta from './ErrorMeta';
 import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
 
-class YodaUtil {
+class ServerUtil {
 
   constructor() {
     successCallback = null;
@@ -168,5 +168,5 @@ class YodaUtil {
   }
 }
 
-const yodaUtil = new YodaUtil();
-module.exports = yodaUtil;
+const serverUtil = new ServerUtil();
+module.exports = serverUtil;

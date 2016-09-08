@@ -11,15 +11,15 @@ import {
   Actions,
 } from 'react-native-router-flux';
 
-import ErrorMeta from './utils/ErrorMeta';
-import YodaUtil from './utils/YodaUtil';
+import ErrorMeta from '../utils/ErrorMeta';
+import ServerUtil from '../utils/ServerUtil';
 
 class SplashPage extends Component {
 
   constructor(props) {
     super(props);
 
-    YodaUtil.initCallback(
+    ServerUtil.initCallback(
     (result) => this.onServerSuccess(result),
     (error) => this.onServerFail(error)
   );
@@ -29,7 +29,7 @@ class SplashPage extends Component {
 
     // Delay 1sec for next screen
     setTimeout(() => {
-        YodaUtil.hasToken();
+        ServerUtil.hasToken();
       }, 1000);
   }
 
