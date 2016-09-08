@@ -76,19 +76,19 @@ class ServerUtil {
   }
 
   // Request to mentor
-  sendMentoringRequest(montorId, content) {
+  sendMentoringRequest(mentorId, content) {
     let paramList = [mentorId, content];
     this.requestToServer('POST', UrlMeta.API_MENTOR_REQ, paramList);
   }
 
   // Accept request
-  acceptRequest(montorId) {
+  acceptRequest(mentorId) {
     let paramList = [mentorId, 1];
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
   }
 
   // Reject request
-  rejectRequest(montorId) {
+  rejectRequest(mentorId) {
     let paramList = [mentorId, 0];
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
   }
@@ -139,14 +139,18 @@ class ServerUtil {
     }
 
     fetch(url, reqSet)
-    .then((response) => response.json())
-    .then((result) => {
-      if (result.successCode === 0) {
-        this.onError(ErrorMeta.ERR_TOKEN_INVALID);
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200 || response.status === 201) {
+        return response.json();
       } else {
-        this.successCallback(result);
+        throw new Error(response.status);
       }
     })
+    .then((result) => {
+        this.successCallback(result);
+
+      })
     .catch((error) => {
       this.onError(ErrorMeta.ERR_SERVER_FAIL);
     });

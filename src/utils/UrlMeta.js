@@ -7,7 +7,7 @@ class UrlMeta {
   static API_ALL = 'users/all/';
   static API_ME = 'users/me/';
   static API_USER = 'users/id/';
-  static API_ACTIVITY = 'match/list/';
+  static API_ACTIVITY = 'match/activity/';
   static API_MENTOR_REQ = 'match/request/';
   static API_MENTOR_RESP = 'match/response/';
 }
