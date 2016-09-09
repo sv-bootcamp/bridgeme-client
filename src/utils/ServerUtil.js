@@ -78,19 +78,19 @@ class ServerUtil {
   // Request to mentor
   sendMentoringRequest(mentorId, content) {
     let paramList = [mentorId, content];
-    this.requestToServer('POST', UrlMeta.API_MENTOR_REQ, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_REQ, '', paramList);
   }
 
   // Accept request
   acceptRequest(mentorId) {
     let paramList = [mentorId, 1];
-    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
   // Reject request
   rejectRequest(mentorId) {
     let paramList = [mentorId, 0];
-    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, paramList);
+    this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
   // Request to server
@@ -106,7 +106,12 @@ class ServerUtil {
 
       if (type == LoginMeta.LOGIN_TYPE_FB || type == LoginMeta.LOGIN_TYPE_LI) {
         let url = UrlMeta.host + apiType + urlEtc;
-        let formBody = this.makeFormBody(method, token, apiType, paramList);
+        let formBody;
+        if( method === 'GET') {
+          formBody = this.makeGetFormBody(method, token, apiType, paramList);
+        } else if (method === 'POST') {
+          formBody = this.makePostFormBody(method, token, apiType, paramList);
+        }
         this.fetchData(url, method, formBody);
       } else {
         this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
@@ -114,14 +119,14 @@ class ServerUtil {
     });
   }
 
-  makeFormBody(httpMethod, token, apiType, paramList) {
+  makeGetFormBody(httpMethod, token, apiType, paramList) {
     let formBody = 'access_token=' + token;
 
     if (apiType === UrlMeta.API_MENTOR_REQ) {
-      formBody += '&metor_id=' + paramList[0];
+      formBody += '&mentor_id=' + paramList[0];
       formBody += '&content=' + paramList[1];
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
-      formBody += '&metor_id=' + paramList[0];
+      formBody += '&mentor_id=' + paramList[0];
       formBody += '&option=' + paramList[1];
     }
 
@@ -132,39 +137,60 @@ class ServerUtil {
     }
   }
 
+  makePostFormBody(httpMethod, token, apiType, paramList) {
+    let body = {};
+
+    if(apiType === UrlMeta.API_MENTOR_REQ) {
+      body.mentor_id = paramList[0];
+      body.content = paramList[1];
+    }
+
+    return JSON.stringify(body);
+  }
+
   fetchData(url, httpMethod, formBody) {
     let reqSet = this.getReqSet(httpMethod, formBody);
+
     if (httpMethod == 'GET') {
       url += formBody;
     }
 
     fetch(url, reqSet)
-    .then((response) => {
-      console.log(response);
-      if (response.status === 200 || response.status === 201) {
-        return response.json();
-      } else {
-        throw new Error(response.status);
-      }
-    })
-    .then((result) => {
-        this.successCallback(result);
-
-      })
-    .catch((error) => {
+      .then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          // success from server
+          response.json().then((result) => {
+              this.successCallback(result);
+            }
+          );
+        }
+        else {
+          //err from server
+          response.json().then((result) => {
+            this.onError(ErrorMeta.ERR_SERVER_FAIL);
+          })
+        }
+      }).catch((error) => {
       this.onError(ErrorMeta.ERR_SERVER_FAIL);
     });
   }
 
   getReqSet(httpMethod, formBody) {
+
     let reqSet = {
       method: httpMethod,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+
+        // TODO: Modify condition if you add PUT, DELETE method
+        'Content-Type': 'GET' === httpMethod?
+          'application/x-www-form-urlencoded':
+          'application/json',
       },
     };
 
-    if (httpMethod == 'PUT') {
+    if (httpMethod === 'PUT') {
+      reqSet.body = formBody;
+    } else if (httpMethod === 'POST') {
       reqSet.body = formBody;
     }
 
