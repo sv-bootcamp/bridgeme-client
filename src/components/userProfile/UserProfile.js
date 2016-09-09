@@ -12,20 +12,34 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ExperienceList from './ExperienceList';
+import ServerUtil from '../../utils/ServerUtil';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-    // Method 'rowHasChanged' must be implemented to use listview.
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
-    this.state = {
+    ServerUtil.initCallback(this.onRequestSuccess, this.onRequestFail);
+  }
 
-      // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1]),
-    };
+  onRequestSuccess(result) {
+    console.log(result);
+  }
+
+  onRequestFail(error) {
+    console.log(error);
+  }
+
+  componentWillMount() {
+  }
+
+  componentDidMount() {
+
+  }
+
+  sendRequest() {
+
+    // TODO: Replace with server data
+    ServerUtil.sendMentoringRequest('57d2425450087213d506f56d','I');
   }
 
   render() {
@@ -43,12 +57,8 @@ class UserProfile extends Component {
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
-          <ExperienceList
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow}
-          />
         </View>
-        <TouchableHighlight style={styles.connectButton}>
+        <TouchableHighlight style={styles.connectButton} onPress={this.sendRequest}>
           <Text style={styles.buttonText}>Connect</Text>
         </TouchableHighlight>
     </ScrollView>
