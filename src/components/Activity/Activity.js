@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Row from './Row';
-import ServerUtil from '../../utils/ServerUtil'
+import ServerUtil from '../../utils/ServerUtil';
 
 class Activity extends Component {
   constructor(props) {
@@ -19,13 +19,13 @@ class Activity extends Component {
   }
 
   getInitialStates() {
-      return {
+    return {
         dataBlob: {},
         dataSource: new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2,
-          sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
         }),
-        loaded: false
+        loaded: false,
       };
   }
 
@@ -46,7 +46,7 @@ class Activity extends Component {
 
       // TODO: Replace with server data
       dataSource : this.state.dataSource.cloneWithRowsAndSections({ s1: [1,2,3,4], s2: [3,4] }, ['s1', 's2']),
-      loaded     : true
+      loaded: true,
     });
 
     ServerUtil.getActivityList();
@@ -67,7 +67,7 @@ class Activity extends Component {
   render() {
     return (
       <ListView
-        style = {{marginTop: 50}}
+        style = {{ marginTop: 50 }}
         dataSource = {this.state.dataSource}
         renderRow  = {this.renderRow}
         renderSectionHeader = {this.renderSectionHeader}
@@ -78,7 +78,7 @@ class Activity extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:50,
+    marginTop: 50,
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     padding: 6,
-    backgroundColor: '#2196F3'
+    backgroundColor: '#2196F3',
   },
   text: {
     color: 'white',
     paddingHorizontal: 8,
-    fontSize: 16
+    fontSize: 16,
   },
 });
 

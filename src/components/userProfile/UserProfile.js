@@ -9,48 +9,83 @@ import {
     TouchableHighlight,
     Dimensions,
     ListView,
+    Alert,
+    ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ExperienceList from './ExperienceList';
 import ServerUtil from '../../utils/ServerUtil';
+import ErrorMeta from '../../utils/ErrorMeta';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-    ServerUtil.initCallback(this.onRequestSuccess, this.onRequestFail);
+    this.state = {
+      id: '',
+      profileImage: '../../resources/btn_connect_2x.png',
+      name: '',
+      email: '',
+      loaded: false,
+    };
+
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
   }
 
   onRequestSuccess(result) {
-    console.log(result);
+    this.setState({
+      id: result._id,
+      profileImage: result.profile_picture,
+      name: result.name,
+      email: result.email,
+      loaded: true,
+    });
   }
 
   onRequestFail(error) {
     console.log(error);
-  }
-
-  componentWillMount() {
+    if (error.code != ErrorMeta.ERR_NONE) {
+      alert(err.msg);
+    }
   }
 
   componentDidMount() {
-
+    ServerUtil.getOthersProfile(this.props._id);
   }
 
   sendRequest() {
 
     // TODO: Replace with server data
-    ServerUtil.sendMentoringRequest('57d2425450087213d506f56d','I');
+    ServerUtil.sendMentoringRequest(this.state.id,  'I');
   }
 
-  render() {
+  renderLoadingView() {
+    return (
+        <View style={styles.header}>
+            <Text style={styles.headerText}>User List</Text>
+            <View style={styles.container}>
+                <ActivityIndicator
+                    animating={!this.state.loaded}
+                    style={[styles.activityIndicator, { height: 80 }]}
+                    size="large"
+                />
+            </View>
+        </View>
+    );
+  }
+
+  renderUserProfile() {
     return (
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image style={styles.profileImage}
-              source={require('../../resources/btn_connect_1x.png')} />
+              source={{ uri: this.state.profileImage }} />
         <View style={styles.profileUserInfo}>
 
           {/* Below mock data will be replaced with real data */}
-          <Text style={styles.name}>Name</Text>
+          <Text style={styles.name}>{this.state.name}</Text>
           <Text >Google | Software engineer</Text>
           <Text>Havard University | Computer Science</Text>
           <Text>San Francisco CA, USA</Text>
@@ -63,6 +98,14 @@ class UserProfile extends Component {
         </TouchableHighlight>
     </ScrollView>
     );
+  }
+
+  render() {
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
+
+    return this.renderUserProfile();
   }
 }
 
@@ -130,6 +173,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3F51B5',
+    flexDirection: 'column',
+    paddingTop: 25,
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'white',
   },
 });
 

@@ -7,6 +7,7 @@ import {
   Image,
   ListView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 
 import Row from './Row';
@@ -28,12 +29,14 @@ class UserList extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      loaded: false,
     };
   }
 
   onServerSuccess(result) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(result),
+      loaded: true,
     });
   }
 
@@ -53,13 +56,36 @@ class UserList extends Component {
     return <Row dataSource={rowData}/>;
   }
 
-  render() {
+  renderLoadingView() {
+    return (
+        <View style={styles.header}>
+            <View style={styles.container}>
+                <ActivityIndicator
+                    animating={!this.state.loaded}
+                    style={[styles.activityIndicator, { height: 80 }]}
+                    size="large"
+                />
+            </View>
+            <Text style={styles.loadingText}>Loading</Text>
+        </View>
+    );
+  }
+
+  renderListView() {
     return (
       <ListView style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
       />
     );
+  }
+
+  render() {
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
+
+    return this.renderListView();
   }
 }
 
@@ -78,6 +104,24 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 200,
+  },
+  header: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3F51B5',
+    flexDirection: 'column',
+    paddingTop: 25,
+  },
+  loadingText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'black',
   },
 });
 

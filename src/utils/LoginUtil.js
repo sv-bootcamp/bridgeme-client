@@ -76,7 +76,8 @@ class LoginUtil {
 
   // Sign In with Facebook.
   signInWithFacebook() {
-    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+    LoginManager.logInWithReadPermissions(
+      ['public_profile', 'email', 'user_education_history', 'user_work_histoy'])
     .then(
       loginUtil.onLoginSuccessFB,
       loginUtil.onLoginErrorFB

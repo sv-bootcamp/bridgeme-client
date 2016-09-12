@@ -4,17 +4,19 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class Row extends Component {
+
   render() {
+    const goToUserProfile = () => Actions.userProfile({ _id: this.props.dataSource._id });
+
     return (
 
       // TODO: will be replaced with data from backend
-      <TouchableHighlight onPress={Actions.userProfile}>
+      <TouchableWithoutFeedback onPress={goToUserProfile}>
         <View style={styles.row}>
             <Image style={styles.photo}
                    source={{ uri: this.props.dataSource.profile_picture }}/>
@@ -25,9 +27,10 @@ class Row extends Component {
               <Text style={styles.education}>Education</Text>
             </View>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     );
   }
+
 }
 
 const styles = StyleSheet.create({

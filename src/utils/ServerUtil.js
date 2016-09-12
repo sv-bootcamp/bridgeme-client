@@ -67,7 +67,7 @@ class ServerUtil {
 
   // Get other user's profile
   getOthersProfile(userid) {
-    this.requestToServer('GET', UrlMeta.API_ME, userid);
+    this.requestToServer('GET', UrlMeta.API_USER, userid);
   }
 
   // Get activity list(request, received)
@@ -107,11 +107,12 @@ class ServerUtil {
       if (type == LoginMeta.LOGIN_TYPE_FB || type == LoginMeta.LOGIN_TYPE_LI) {
         let url = UrlMeta.host + apiType + urlEtc;
         let formBody;
-        if( method === 'GET') {
+        if (method === 'GET') {
           formBody = this.makeGetFormBody(method, token, apiType, paramList);
         } else if (method === 'POST') {
           formBody = this.makePostFormBody(method, token, apiType, paramList);
         }
+
         this.fetchData(url, method, formBody);
       } else {
         this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
@@ -140,7 +141,7 @@ class ServerUtil {
   makePostFormBody(httpMethod, token, apiType, paramList) {
     let body = {};
 
-    if(apiType === UrlMeta.API_MENTOR_REQ) {
+    if (apiType === UrlMeta.API_MENTOR_REQ) {
       body.mentor_id = paramList[0];
       body.content = paramList[1];
     }
@@ -158,17 +159,19 @@ class ServerUtil {
     fetch(url, reqSet)
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
-          // success from server
+
+          // Success from server
           response.json().then((result) => {
+              console.log(result);
               this.successCallback(result);
             }
           );
-        }
-        else {
-          //err from server
+        } else {
+
+          // Error from server
           response.json().then((result) => {
             this.onError(ErrorMeta.ERR_SERVER_FAIL);
-          })
+          });
         }
       }).catch((error) => {
       this.onError(ErrorMeta.ERR_SERVER_FAIL);
@@ -183,7 +186,7 @@ class ServerUtil {
 
         // TODO: Modify condition if you add PUT, DELETE method
         'Content-Type': 'GET' === httpMethod?
-          'application/x-www-form-urlencoded':
+          'application/x-www-form-urlencoded' :
           'application/json',
       },
     };
