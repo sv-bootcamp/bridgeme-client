@@ -32,7 +32,6 @@ class UserProfile extends Component {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-
   }
 
   onRequestSuccess(result) {
@@ -57,9 +56,7 @@ class UserProfile extends Component {
   }
 
   sendRequest() {
-
-    // TODO: Replace with server data
-    ServerUtil.sendMentoringRequest(this.state.id,  'I');
+    ServerUtil.sendMentoringRequest(this.state.id, 'I');
   }
 
   renderLoadingView() {
@@ -78,6 +75,8 @@ class UserProfile extends Component {
   }
 
   renderUserProfile() {
+    const connect = () => this.sendRequest();
+
     return (
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image style={styles.profileImage}
@@ -93,7 +92,7 @@ class UserProfile extends Component {
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
         </View>
-        <TouchableHighlight style={styles.connectButton} onPress={this.sendRequest}>
+        <TouchableHighlight style={styles.connectButton} onPress={connect}>
           <Text style={styles.buttonText}>Connect</Text>
         </TouchableHighlight>
     </ScrollView>

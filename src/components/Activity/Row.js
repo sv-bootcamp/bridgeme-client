@@ -17,9 +17,9 @@ class Row extends Component {
       <TouchableWithoutFeedback onPress={Actions.userProfile}>
         <View style={styles.row}>
           <Image style={styles.photo}
-                 source={{ uri: 'http://lorempixel.com/64/64/cats/' }}/>
+                 source={{ uri: this.props.dataSource.profile_picture }}/>
           <View style={styles.userInformation}>
-            <Text style={styles.name}>Hyunchan Kim</Text>
+            <Text style={styles.name}>{this.props.dataSource.name}</Text>
           </View>
           <TouchableHighlight style={styles.connectButton}>
             <Text style={styles.connectButtonText}>Write an Email</Text>

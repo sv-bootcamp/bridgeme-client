@@ -170,6 +170,7 @@ class ServerUtil {
 
           // Error from server
           response.json().then((result) => {
+            console.log(result);
             this.onError(ErrorMeta.ERR_SERVER_FAIL);
           });
         }

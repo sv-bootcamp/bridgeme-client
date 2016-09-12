@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -7,15 +8,19 @@ import {
   Image,
   ListView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Row from './Row';
 import ServerUtil from '../../utils/ServerUtil';
+import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
   constructor(props) {
     super(props);
 
-    ServerUtil.initCallback(this.onRequestSuccess, this.onRequestFail);
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
   }
 
   getInitialStates() {
@@ -30,11 +35,34 @@ class Activity extends Component {
   }
 
   onRequestSuccess(result) {
-    console.log(result);
+    let sectionIDs = ['Request Sent', 'Connected', 'Rejected', 'Request Received'];
+    let rowIDs = [];
+
+    this.state.dataBlob[sectionIDs[0]] = [];
+    this.state.dataBlob[sectionIDs[1]] = [];
+    this.state.dataBlob[sectionIDs[2]] = [];
+    this.state.dataBlob[sectionIDs[3]] = [];
+
+    let sectionIndex = 0;
+    for (let prop in result) {
+      for (let i = 0; i < result[prop].length; i++) {
+        this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
+      }
+
+      sectionIndex++;
+    }
+
+    this.setState({
+
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
+      loaded: true,
+    });
   }
 
   onRequestFail(error) {
-    console.log(error);
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(error.msg);
+    }
   }
 
   componentWillMount() {
@@ -42,18 +70,11 @@ class Activity extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-
-      // TODO: Replace with server data
-      dataSource : this.state.dataSource.cloneWithRowsAndSections({ s1: [1,2,3,4], s2: [3,4] }, ['s1', 's2']),
-      loaded: true,
-    });
-
     ServerUtil.getActivityList();
   }
 
   renderRow(rowData) {
-    return <Row />;
+    return <Row dataSource={rowData}/>;
   }
 
   renderSectionHeader(sectionData, sectionID) {
@@ -64,15 +85,38 @@ class Activity extends Component {
     );
   }
 
-  render() {
+  renderLoadingView() {
+    return (
+        <View style={styles.header}>
+            <View style={styles.container}>
+                <ActivityIndicator
+                    animating={!this.state.loaded}
+                    style={[styles.activityIndicator, { height: 80 }]}
+                    size="large"
+                />
+            </View>
+            <Text style={styles.loadingText}>Loading</Text>
+        </View>
+    );
+  }
+
+  renderListView() {
     return (
       <ListView
-        style = {{ marginTop: 50 }}
+        style={styles.listView}
         dataSource = {this.state.dataSource}
         renderRow  = {this.renderRow}
         renderSectionHeader = {this.renderSectionHeader}
       />
     );
+  }
+
+  render() {
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
+
+    return this.renderListView();
   }
 }
 
@@ -81,6 +125,16 @@ const styles = StyleSheet.create({
     marginTop: 50,
     flex: 1,
     backgroundColor: '#F5FCFF',
+  },
+  listView: {
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
   },
   sectionHeader: {
     height: 15,
@@ -98,6 +152,24 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingHorizontal: 8,
     fontSize: 16,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 200,
+  },
+  header: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3F51B5',
+    flexDirection: 'column',
+    paddingTop: 25,
+  },
+  loadingText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'black',
   },
 });
 
