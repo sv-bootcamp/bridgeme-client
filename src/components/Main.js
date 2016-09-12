@@ -10,8 +10,9 @@ import {
 
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 import MyProfile from './MyProfile';
-import Activity from './Activity';
+import Activity from './Activity/Activity';
 import UserList from './UserList/UserList';
+
 
 class Main extends Component {
   constructor(props) {

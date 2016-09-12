@@ -4,33 +4,30 @@ import {
   Text,
   View,
   Image,
+  TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class Row extends Component {
-
   render() {
-    const goToUserProfile = () => Actions.userProfile({ _id: this.props.dataSource._id });
-
     return (
 
       // TODO: will be replaced with data from backend
-      <TouchableWithoutFeedback onPress={goToUserProfile}>
+      <TouchableWithoutFeedback onPress={Actions.userProfile}>
         <View style={styles.row}>
-            <Image style={styles.photo}
-                   source={{ uri: this.props.dataSource.profile_picture }}/>
-            <View style={styles.imageSeperator}></View>
-            <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.props.dataSource.name}</Text>
-              <Text style={styles.job}>Job</Text>
-              <Text style={styles.education}>Education</Text>
-            </View>
+          <Image style={styles.photo}
+                 source={{ uri: 'http://lorempixel.com/64/64/cats/' }}/>
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>Hyunchan Kim</Text>
+          </View>
+          <TouchableHighlight style={styles.connectButton}>
+            <Text style={styles.connectButtonText}>Write an Email</Text>
+          </TouchableHighlight>
         </View>
       </TouchableWithoutFeedback>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -38,9 +35,7 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'row',
     backgroundColor: '#f7f7f9',
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+    margin: 5,
   },
   photo: {
     height: 80,
@@ -57,14 +52,14 @@ const styles = StyleSheet.create({
   },
   userInformation: {
     flex: 7,
-    marginLeft: 28,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
   },
   name: {
-    fontSize: 17,
-    fontWeight: 'bold',
+    justifyContent: 'center',
+    fontSize: 15,
+    fontWeight: 'normal',
   },
   job: {
     fontSize: 13,
@@ -73,6 +68,22 @@ const styles = StyleSheet.create({
   education: {
     fontSize: 13,
     marginTop: 5,
+  },
+  connectButton: {
+    height: 40,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#1ecfe2',
+    borderRadius: 4,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    padding: 10,
+  },
+  connectButtonText: {
+    fontSize: 12,
+    color: 'white',
+    alignSelf: 'center',
   },
 });
 

@@ -9,50 +9,103 @@ import {
     TouchableHighlight,
     Dimensions,
     ListView,
+    Alert,
+    ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ExperienceList from './ExperienceList';
+import ServerUtil from '../../utils/ServerUtil';
+import ErrorMeta from '../../utils/ErrorMeta';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-    // Method 'rowHasChanged' must be implemented to use listview.
-    let dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
     this.state = {
-
-      // Initialize with mock data for testing listview.
-      dataSource: dataSource.cloneWithRows([1, 2, 3, 4, 5, 1]),
+      id: '',
+      profileImage: '../../resources/btn_connect_2x.png',
+      name: '',
+      email: '',
+      loaded: false,
     };
+
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
   }
 
-  render() {
+  onRequestSuccess(result) {
+    this.setState({
+      id: result._id,
+      profileImage: result.profile_picture,
+      name: result.name,
+      email: result.email,
+      loaded: true,
+    });
+  }
+
+  onRequestFail(error) {
+    console.log(error);
+    if (error.code != ErrorMeta.ERR_NONE) {
+      alert(err.msg);
+    }
+  }
+
+  componentDidMount() {
+    ServerUtil.getOthersProfile(this.props._id);
+  }
+
+  sendRequest() {
+
+    // TODO: Replace with server data
+    ServerUtil.sendMentoringRequest(this.state.id,  'I');
+  }
+
+  renderLoadingView() {
+    return (
+        <View style={styles.header}>
+            <Text style={styles.headerText}>User List</Text>
+            <View style={styles.container}>
+                <ActivityIndicator
+                    animating={!this.state.loaded}
+                    style={[styles.activityIndicator, { height: 80 }]}
+                    size="large"
+                />
+            </View>
+        </View>
+    );
+  }
+
+  renderUserProfile() {
     return (
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image style={styles.profileImage}
-              source={require('../../resources/btn_connect_1x.png')} />
+              source={{ uri: this.state.profileImage }} />
         <View style={styles.profileUserInfo}>
 
           {/* Below mock data will be replaced with real data */}
-          <Text style={styles.name}>Name</Text>
+          <Text style={styles.name}>{this.state.name}</Text>
           <Text >Google | Software engineer</Text>
           <Text>Havard University | Computer Science</Text>
           <Text>San Francisco CA, USA</Text>
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
-          <ExperienceList
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow}
-          />
         </View>
-        <TouchableHighlight style={styles.connectButton}>
+        <TouchableHighlight style={styles.connectButton} onPress={this.sendRequest}>
           <Text style={styles.buttonText}>Connect</Text>
         </TouchableHighlight>
     </ScrollView>
     );
+  }
+
+  render() {
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
+
+    return this.renderUserProfile();
   }
 }
 
@@ -120,6 +173,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3F51B5',
+    flexDirection: 'column',
+    paddingTop: 25,
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'white',
   },
 });
 

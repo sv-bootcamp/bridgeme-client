@@ -76,7 +76,8 @@ class LoginUtil {
 
   // Sign In with Facebook.
   signInWithFacebook() {
-    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+    LoginManager.logInWithReadPermissions(
+      ['public_profile', 'email', 'user_education_history', 'user_work_histoy'])
     .then(
       loginUtil.onLoginSuccessFB,
       loginUtil.onLoginErrorFB
@@ -84,6 +85,7 @@ class LoginUtil {
   }
 
   onLoginSuccessFB(result) {
+    console.log(result);
     if (result.isCancelled) {
       loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
     } else {
@@ -99,6 +101,7 @@ class LoginUtil {
   }
 
   onLoginErrorFB(error) {
+    console.log(error);
     loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
   }
 
@@ -127,14 +130,16 @@ class LoginUtil {
       },
       body: formBody,
     })
-    .then((response) => response.json())
-    .then((result) => {
-      if (result.successCode === 1) {
-        this.successCallback(result);
+    .then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.json();
       } else {
-        this.onError(ErrorMeta.ERR_TOKEN_INVALID);
+        throw new Error(response.status);
       }
-    }).catch((error) => {
+    })
+    .then((result) => {
+        this.successCallback(result);
+      }).catch((error) => {
       this.onError(ErrorMeta.ERR_SERVER_FAIL);
     });
   }
