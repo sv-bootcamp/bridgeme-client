@@ -43,15 +43,19 @@ class Activity extends Component {
     this.state.dataBlob[sectionIDs[2]] = [];
     this.state.dataBlob[sectionIDs[3]] = [];
 
+    console.log(result);
     let sectionIndex = 0;
     for (let prop in result) {
       for (let i = 0; i < result[prop].length; i++) {
+        result[prop][i].detail[0].type = prop;
         this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
+        console.log(this.state.dataBlob[sectionIDs[sectionIndex]]);
       }
 
       sectionIndex++;
     }
 
+    console.log(this.state.dataBlob[sectionIDs[sectionIndex]]);
     this.setState({
 
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
@@ -145,13 +149,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    padding: 6,
-    backgroundColor: '#2196F3',
+    padding: 5,
   },
   text: {
-    color: 'white',
+    color: '#546979',
     paddingHorizontal: 8,
-    fontSize: 16,
+    fontSize: 12,
   },
   activityIndicator: {
     alignItems: 'center',

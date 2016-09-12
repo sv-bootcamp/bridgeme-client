@@ -8,13 +8,34 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import ServerUtil from '../../utils/ServerUtil';
+import ErrorMeta from '../../utils/ErrorMeta';
 
 class Row extends Component {
-  render() {
-    return (
+  constructor(props) {
+    super(props);
+    this.state = {
+      goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
+    };
 
-      // TODO: will be replaced with data from backend
-      <TouchableWithoutFeedback onPress={Actions.userProfile}>
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+  }
+
+  onRequestSuccess(result) {
+    console.log(result);
+  }
+
+  onRequestFail(error) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(error.msg);
+    }
+  }
+
+  renderConnectRow() {
+    return (
+      <TouchableWithoutFeedback onPress={this.state.goToUserProfile}>
         <View style={styles.row}>
           <Image style={styles.photo}
                  source={{ uri: this.props.dataSource.profile_picture }}/>
@@ -28,11 +49,78 @@ class Row extends Component {
       </TouchableWithoutFeedback>
     );
   }
+
+  renderRequestReceivedRow() {
+    const acceptRequest = () => this.acceptRequest();
+    const rejectRequest = () => this.rejectRequest();
+
+    return (
+      <TouchableWithoutFeedback onPress={this.state.goToUserProfile}>
+        <View style={styles.row}>
+          <Image style={styles.photo}
+                 source={{ uri: this.props.dataSource.profile_picture }}/>
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>{this.props.dataSource.name}</Text>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableHighlight onPress={rejectRequest}>
+              <Image style={styles.rejectButton}
+                source={require('../../resources/btn_deny_1x.png')} />
+            </TouchableHighlight>
+            <TouchableHighlight onPress={acceptRequest}>
+              <Image style={styles.acceptButton}
+                source={require('../../resources/check_1x.png')}/>
+            </TouchableHighlight>
+          </View>
+
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  renderRequestSentRow() {
+    return (
+      <TouchableWithoutFeedback onPress={this.state.goToUserProfile}>
+        <View style={styles.row}>
+          <Image style={styles.photo}
+                 source={{ uri: this.props.dataSource.profile_picture }}/>
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>{this.props.dataSource.name}</Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  // Accept request
+  acceptRequest() {
+    ServerUtil.acceptRequest(this.props.dataSource._id);
+  }
+
+  // Reject request
+  rejectRequest() {
+    ServerUtil.rejectRequest(this.props.dataSource._id);
+  }
+
+  render() {
+
+    // Distinguish section header types
+    if (this.props.dataSource.type === 'accepted') {
+      return this.renderConnectRow();
+
+    } else if (this.props.dataSource.type === 'pending') {
+      return this.renderRequestSentRow();
+
+    } else if (this.props.dataSource.type === 'requested') {
+      return this.renderRequestReceivedRow();
+    }
+  }
 }
 
 const styles = StyleSheet.create({
   row: {
-    flex: 3,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#f7f7f9',
     margin: 5,
@@ -51,7 +139,7 @@ const styles = StyleSheet.create({
     borderColor: '#e3e3e3',
   },
   userInformation: {
-    flex: 7,
+    flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -69,16 +157,21 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 5,
   },
-  connectButton: {
-    height: 40,
+  buttonContainer: {
+    flex: 1,
     justifyContent: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#1ecfe2',
-    borderRadius: 4,
-    marginLeft: 10,
+    flexDirection: 'row',
+    marginTop: 30,
+  },
+  acceptButton: {
+    height: 40,
+    width: 40,
+    marginRight: 25,
+  },
+  rejectButton: {
+    height: 40,
+    width: 40,
     marginRight: 10,
-    marginBottom: 10,
-    padding: 10,
   },
   connectButtonText: {
     fontSize: 12,
