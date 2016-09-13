@@ -35,6 +35,8 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
+    console.log('profile');
+    console.log(result);
     this.setState({
       id: result._id,
       profileImage: result.profile_picture,

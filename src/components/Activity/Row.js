@@ -21,6 +21,7 @@ class Row extends Component {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
+
   }
 
   onRequestSuccess(result) {
@@ -95,12 +96,12 @@ class Row extends Component {
 
   // Accept request
   acceptRequest() {
-    ServerUtil.acceptRequest(this.props.dataSource._id);
+    ServerUtil.acceptRequest(this.props.dataSource.id);
   }
 
   // Reject request
   rejectRequest() {
-    ServerUtil.rejectRequest(this.props.dataSource._id);
+    ServerUtil.rejectRequest(this.props.dataSource.id);
   }
 
   render() {

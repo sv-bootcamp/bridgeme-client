@@ -35,27 +35,28 @@ class Activity extends Component {
   }
 
   onRequestSuccess(result) {
-    let sectionIDs = ['Request Sent', 'Connected', 'Rejected', 'Request Received'];
+    let sectionIDs = ['Request Sent', 'Connected', 'Request Received'];
     let rowIDs = [];
 
     this.state.dataBlob[sectionIDs[0]] = [];
     this.state.dataBlob[sectionIDs[1]] = [];
     this.state.dataBlob[sectionIDs[2]] = [];
-    this.state.dataBlob[sectionIDs[3]] = [];
 
-    console.log(result);
     let sectionIndex = 0;
     for (let prop in result) {
+      if (prop === 'Rejected') {
+        continue;
+      }
+
       for (let i = 0; i < result[prop].length; i++) {
+        result[prop][i].detail[0].id = result[prop][i]._id;
         result[prop][i].detail[0].type = prop;
         this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
-        console.log(this.state.dataBlob[sectionIDs[sectionIndex]]);
       }
 
       sectionIndex++;
     }
 
-    console.log(this.state.dataBlob[sectionIDs[sectionIndex]]);
     this.setState({
 
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
