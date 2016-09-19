@@ -25,7 +25,9 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      email: '',
+      currentWork: '1',
+      position: '1',
+      location: '1',
       loaded: false,
     };
 
@@ -35,13 +37,13 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
-    console.log('profile');
-    console.log(result);
     this.setState({
       id: result._id,
       profileImage: result.profile_picture,
       name: result.name,
-      email: result.email,
+      // currentWork: result.work[0].employer.name,
+      // position: result.work[0].position.name,
+      // location: result.work[0].location.name,
       loaded: true,
     });
   }
@@ -49,7 +51,7 @@ class UserProfile extends Component {
   onRequestFail(error) {
     console.log(error);
     if (error.code != ErrorMeta.ERR_NONE) {
-      alert(err.msg);
+      alert(error.msg);
     }
   }
 
@@ -58,7 +60,7 @@ class UserProfile extends Component {
   }
 
   sendRequest() {
-    ServerUtil.sendMentoringRequest(this.state.id, 'I');
+    ServerUtil.sendMentoringRequest(this.state.id, 'I love ya');
   }
 
   renderLoadingView() {
@@ -85,11 +87,12 @@ class UserProfile extends Component {
               source={{ uri: this.state.profileImage }} />
         <View style={styles.profileUserInfo}>
 
-          {/* Below mock data will be replaced with real data */}
           <Text style={styles.name}>{this.state.name}</Text>
-          <Text >Google | Software engineer</Text>
-          <Text>Havard University | Computer Science</Text>
-          <Text>San Francisco CA, USA</Text>
+          <Text style={styles.positionText}>
+            {this.state.currentWork} | {this.state.position}
+          </Text>
+            <Text style={styles.positionText}>{this.state.location}</Text>
+
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
@@ -114,9 +117,14 @@ class UserProfile extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   name: {
-    marginTop: 70,
+    marginTop: 60,
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  positionText: {
+    fontSize: 13,
+    marginTop: 4,
+    color: '#546979',
   },
   experience: {
     fontSize: 15,
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     position: 'absolute',
-    top: 70,
+    top: 20,
     left: width / 2 - 50,
     zIndex: 100,
     height: 100,
@@ -150,7 +158,7 @@ const styles = StyleSheet.create({
   profileUserInfo: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 120,
+    marginTop: 70,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: '#f7f7f9',

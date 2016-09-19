@@ -13,6 +13,7 @@ import Login from './Login';
 import Main from './Main';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
+import Activity from './Activity/Activity';
 import {
   Router,
   Scene,
@@ -42,6 +43,7 @@ class App extends Component {
             hideNavBar={false} type={ActionConst.REPLACE} />
           <Scene key="userList" component={UserList} />
           <Scene key="userProfile" component={UserProfile} title="User Profile" />
+          <Scene key="activity" component={Activity} type={ActionConst.REPLACE} />
         </Scene>
       </Router>
    );

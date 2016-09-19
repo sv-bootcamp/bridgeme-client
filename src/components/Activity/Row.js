@@ -26,6 +26,7 @@ class Row extends Component {
 
   onRequestSuccess(result) {
     console.log(result);
+    Actions.activity();
   }
 
   onRequestFail(error) {
@@ -178,6 +179,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
     alignSelf: 'center',
+  },
+  connectButton: {
+    height: 40,
+    justifyContent: 'center',
+    backgroundColor: '#1ecfe2',
+    borderRadius: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
   },
 });
 

@@ -44,12 +44,14 @@ class Activity extends Component {
 
     let sectionIndex = 0;
     for (let prop in result) {
-      if (prop === 'Rejected') {
+      console.log(result[prop]);
+      if (prop === 'rejected') {
         continue;
       }
 
       for (let i = 0; i < result[prop].length; i++) {
         result[prop][i].detail[0].id = result[prop][i]._id;
+        result[prop][i].detail[0].status = result[prop][i].status;
         result[prop][i].detail[0].type = prop;
         this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
       }
@@ -111,6 +113,7 @@ class Activity extends Component {
         style={styles.listView}
         dataSource = {this.state.dataSource}
         renderRow  = {this.renderRow}
+        enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
       />
     );
