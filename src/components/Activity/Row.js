@@ -10,6 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
+import Communications from 'react-native-communications';
 
 class Row extends Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class Row extends Component {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-
   }
 
   onRequestSuccess(result) {
@@ -44,7 +44,9 @@ class Row extends Component {
           <View style={styles.userInformation}>
             <Text style={styles.name}>{this.props.dataSource.name}</Text>
           </View>
-          <TouchableHighlight style={styles.connectButton}>
+          <TouchableHighlight style={styles.connectButton}
+          onPress={() => Communications.email
+            ([this.props.dataSource.email], null, null, 'To my Mentor/Mentee', 'Email from Yoda')}>
             <Text style={styles.connectButtonText}>Write an Email</Text>
           </TouchableHighlight>
         </View>
@@ -66,16 +68,15 @@ class Row extends Component {
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={rejectRequest}>
+            <TouchableWithoutFeedback onPress={rejectRequest}>
               <Image style={styles.rejectButton}
                 source={require('../../resources/btn_deny_1x.png')} />
-            </TouchableHighlight>
-            <TouchableHighlight onPress={acceptRequest}>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={acceptRequest}>
               <Image style={styles.acceptButton}
                 source={require('../../resources/check_1x.png')}/>
-            </TouchableHighlight>
+            </TouchableWithoutFeedback>
           </View>
-
         </View>
       </TouchableWithoutFeedback>
     );
@@ -176,18 +177,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   connectButtonText: {
-    fontSize: 12,
+    fontSize: 15,
     color: 'white',
     alignSelf: 'center',
+    margin: 5,
   },
   connectButton: {
     height: 40,
     justifyContent: 'center',
     backgroundColor: '#1ecfe2',
     borderRadius: 2,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+    marginTop: 35,
+    marginRight: 15,
   },
 });
 

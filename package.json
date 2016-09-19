@@ -10,8 +10,11 @@
     "preset": "jest-react-native"
   },
   "dependencies": {
+    "install": "^0.8.1",
+    "npm": "^3.10.7",
     "react": "15.2.1",
     "react-native": "0.31.0",
+    "react-native-communications": "^2.1.0",
     "react-native-fbsdk": "^0.3.0",
     "react-native-linkedin-login": "^1.3.0",
     "react-native-router-flux": "^3.35.0",
