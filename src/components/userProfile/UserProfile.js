@@ -56,7 +56,10 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    ServerUtil.getOthersProfile(this.props._id);
+    if (this.props.myProfile)
+      ServerUtil.getMyProfile();
+    else
+      ServerUtil.getOthersProfile(this.props._id);
   }
 
   sendRequest() {
@@ -80,13 +83,33 @@ class UserProfile extends Component {
 
   renderUserProfile() {
     const connect = () => this.sendRequest();
+    let editButton;
+    let connectButton;
+
+    // Since we display these buttons by condition,
+    // initialize with dummy text component.
+    editButton = connectButton = (<Text></Text>);
+
+    if (this.props.myProfile) {
+      editButton = (
+
+        // TODO: Replace below text with button
+        <Text style={styles.edit}>Edit</Text>
+      );
+    } else {
+      connectButton = (
+        <TouchableHighlight style={styles.connectButton} onPress={connect}>
+          <Text style={styles.buttonText}>Connect</Text>
+        </TouchableHighlight>
+      );
+    }
 
     return (
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image style={styles.profileImage}
               source={{ uri: this.state.profileImage }} />
         <View style={styles.profileUserInfo}>
-
+          {editButton}
           <Text style={styles.name}>{this.state.name}</Text>
           <Text style={styles.positionText}>
             {this.state.currentWork} | {this.state.position}
@@ -96,10 +119,9 @@ class UserProfile extends Component {
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
+          {editButton}
         </View>
-        <TouchableHighlight style={styles.connectButton} onPress={connect}>
-          <Text style={styles.buttonText}>Connect</Text>
-        </TouchableHighlight>
+        {connectButton}
     </ScrollView>
     );
   }
@@ -125,6 +147,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 4,
     color: '#546979',
+  },
+  edit:{
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   experience: {
     fontSize: 15,
