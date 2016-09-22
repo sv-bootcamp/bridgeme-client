@@ -24,7 +24,8 @@ class Main extends Component {
       <ScrollableTabView
         style={styles.tab}
         renderTabBar={() => <DefaultTabBar
-          activeTextColor='black'
+          activeTextColor='#546979'
+          tabBarBackgroundColor='#f6f7f9'
         />}
         tabBarPosition='bottom'
       >

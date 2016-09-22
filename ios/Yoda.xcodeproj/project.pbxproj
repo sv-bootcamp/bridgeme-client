@@ -41,6 +41,7 @@
 		AA49EE151D6FFBD20083C256 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */; };
 		AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE161D6FFEB90083C256 /* Bolts.framework */; };
 		AA49EE391D703D670083C256 /* linkedin-sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE381D703D670083C256 /* linkedin-sdk.framework */; };
+		AAA5C1D11D926CD100CF0846 /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAA5C1D01D926CD100CF0846 /* OpenSans.ttf */; };
 		AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB23E201D75476D00C97A58 /* LaunchScreen.xib */; };
 		DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */; };
 /* End PBXBuildFile section */
@@ -188,6 +189,7 @@
 		AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA49EE161D6FFEB90083C256 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AA49EE381D703D670083C256 /* linkedin-sdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "linkedin-sdk.framework"; sourceTree = "<group>"; };
+		AAA5C1D01D926CD100CF0846 /* OpenSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans.ttf; sourceTree = "<group>"; };
 		AAB23E211D75476D00C97A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Yoda/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -359,6 +361,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AAA5C1D01D926CD100CF0846 /* OpenSans.ttf */,
 				AA28376A1D7414D900FA1AE0 /* RNLinkedinLogin */,
 				AA49EE0F1D6FFBB10083C256 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* yoda */,
@@ -493,11 +496,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 8K4BZB3NVR;
+						DevelopmentTeam = 9JUUF4DE58;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 8K4BZB3NVR;
+						DevelopmentTeam = 9JUUF4DE58;
 					};
 				};
 			};
@@ -659,6 +662,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */,
+				AAA5C1D11D926CD100CF0846 /* OpenSans.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -740,7 +744,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 8K4BZB3NVR;
+				DEVELOPMENT_TEAM = 9JUUF4DE58;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -762,7 +766,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 8K4BZB3NVR;
+				DEVELOPMENT_TEAM = 9JUUF4DE58;
 				INFOPLIST_FILE = yodaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -783,7 +787,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 8K4BZB3NVR;
+				DEVELOPMENT_TEAM = 9JUUF4DE58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -814,7 +818,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 8K4BZB3NVR;
+				DEVELOPMENT_TEAM = 9JUUF4DE58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -855,6 +859,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: hyunchan kim (YGGZD32SPY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -902,6 +907,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: hyunchan kim (YGGZD32SPY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
