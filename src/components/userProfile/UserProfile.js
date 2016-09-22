@@ -25,9 +25,9 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      currentWork: '1',
-      position: '1',
-      location: '1',
+      currentWork: 'Silicon Valley Bootcamp',
+      position: 'Software Engineer',
+      location: 'San Jose, CA',
       loaded: false,
     };
 
@@ -37,15 +37,39 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
-    this.setState({
-      id: result._id,
-      profileImage: result.profile_picture,
-      name: result.name,
-      // currentWork: result.work[0].employer.name,
-      // position: result.work[0].position.name,
-      // location: result.work[0].location.name,
-      loaded: true,
-    });
+
+    // Check result code: profile Request/mentor request
+    if (result._id) {
+      let currentWork = this.state.currentWork;
+      let position = this.state.position;
+      let location = this.state.location;
+
+      if (result.work.length > 0) {
+        let lastIndex = result.work.length - 1;
+        let work = result.work[lastIndex];
+
+        if (work.employer)
+          currentWork = work.employer.name;
+
+        if (work.position)
+          position = work.position.name;
+
+        if (work.location)
+          location = work.location.name;
+      }
+
+      this.setState({
+        id: result._id,
+        profileImage: result.profile_picture,
+        name: result.name,
+        currentWork: currentWork,
+        position: position,
+        location: location,
+        loaded: true,
+      });
+    } else if (result.msg) {
+      console.log(result.msg);
+    }
   }
 
   onRequestFail(error) {
@@ -148,7 +172,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     color: '#546979',
   },
-  edit:{
+  edit: {
     position: 'absolute',
     right: 10,
     top: 10,
@@ -206,6 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
+    fontFamily: 'OpenSans',
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',

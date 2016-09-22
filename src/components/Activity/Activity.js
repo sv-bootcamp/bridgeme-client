@@ -35,6 +35,7 @@ class Activity extends Component {
   }
 
   onRequestSuccess(result) {
+    console.log(result);
     let sectionIDs = ['Request Sent', 'Connected', 'Request Received'];
     let rowIDs = [];
 
@@ -60,7 +61,6 @@ class Activity extends Component {
     }
 
     this.setState({
-
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
     });
