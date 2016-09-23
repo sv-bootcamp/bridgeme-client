@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -35,7 +36,7 @@ class Row extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
     backgroundColor: '#f7f7f9',
     marginLeft: 10,
@@ -63,14 +64,17 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   name: {
+    fontFamily: 'OpenSans',
     fontSize: 17,
     fontWeight: 'bold',
   },
   job: {
+    fontFamily: 'OpenSans',
     fontSize: 13,
     marginTop: 5,
   },
   education: {
+    fontFamily: 'OpenSans',
     fontSize: 13,
     marginTop: 5,
   },

@@ -12,7 +12,7 @@ import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-v
 import MyProfile from './MyProfile';
 import Activity from './Activity/Activity';
 import UserList from './UserList/UserList';
-
+import UserProfile from './userProfile/UserProfile';
 
 class Main extends Component {
   constructor(props) {
@@ -24,7 +24,8 @@ class Main extends Component {
       <ScrollableTabView
         style={styles.tab}
         renderTabBar={() => <DefaultTabBar
-          activeTextColor='black'
+          activeTextColor='#546979'
+          tabBarBackgroundColor='#f6f7f9'
         />}
         tabBarPosition='bottom'
       >
@@ -32,8 +33,8 @@ class Main extends Component {
         </UserList>
         <Activity tabLabel='Activity'>
         </Activity>
-        <MyProfile tabLabel='MyProfile'>
-        </MyProfile>
+        <UserProfile tabLabel='MyProfile' myProfile={true}>
+        </UserProfile>
       </ScrollableTabView>
     );
   }

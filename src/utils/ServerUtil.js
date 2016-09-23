@@ -8,6 +8,7 @@ import {
 import ErrorMeta from './ErrorMeta';
 import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
+import LoginUtil from './LoginUtil';
 
 class ServerUtil {
 
@@ -144,6 +145,9 @@ class ServerUtil {
     if (apiType === UrlMeta.API_MENTOR_REQ) {
       body.mentor_id = paramList[0];
       body.content = paramList[1];
+    } else if (apiType === UrlMeta.API_MENTOR_RESP) {
+      body.match_id = paramList[0];
+      body.option = paramList[1];
     }
 
     return JSON.stringify(body);
@@ -158,6 +162,7 @@ class ServerUtil {
 
     fetch(url, reqSet)
       .then((response) => {
+        console.log(response);
         if (response.status === 200 || response.status === 201) {
 
           // Success from server
@@ -170,6 +175,7 @@ class ServerUtil {
 
           // Error from server
           response.json().then((result) => {
+            console.log(result);
             this.onError(ErrorMeta.ERR_SERVER_FAIL);
           });
         }

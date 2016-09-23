@@ -25,41 +25,69 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      email: '',
+      currentWork: 'Silicon Valley Bootcamp',
+      position: 'Software Engineer',
+      location: 'San Jose, CA',
       loaded: false,
     };
 
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-
   }
 
   onRequestSuccess(result) {
-    this.setState({
-      id: result._id,
-      profileImage: result.profile_picture,
-      name: result.name,
-      email: result.email,
-      loaded: true,
-    });
+
+    // Check result code: profile Request/mentor request
+    if (result._id) {
+      let currentWork = this.state.currentWork;
+      let position = this.state.position;
+      let location = this.state.location;
+
+      if (result.work.length > 0) {
+        let lastIndex = result.work.length - 1;
+        let work = result.work[lastIndex];
+
+        if (work.employer)
+          currentWork = work.employer.name;
+
+        if (work.position)
+          position = work.position.name;
+
+        if (work.location)
+          location = work.location.name;
+      }
+
+      this.setState({
+        id: result._id,
+        profileImage: result.profile_picture,
+        name: result.name,
+        currentWork: currentWork,
+        position: position,
+        location: location,
+        loaded: true,
+      });
+    } else if (result.msg) {
+      console.log(result.msg);
+    }
   }
 
   onRequestFail(error) {
     console.log(error);
     if (error.code != ErrorMeta.ERR_NONE) {
-      alert(err.msg);
+      alert(error.msg);
     }
   }
 
   componentDidMount() {
-    ServerUtil.getOthersProfile(this.props._id);
+    if (this.props.myProfile)
+      ServerUtil.getMyProfile();
+    else
+      ServerUtil.getOthersProfile(this.props._id);
   }
 
   sendRequest() {
-
-    // TODO: Replace with server data
-    ServerUtil.sendMentoringRequest(this.state.id,  'I');
+    ServerUtil.sendMentoringRequest(this.state.id, 'I love ya');
   }
 
   renderLoadingView() {
@@ -78,24 +106,46 @@ class UserProfile extends Component {
   }
 
   renderUserProfile() {
+    const connect = () => this.sendRequest();
+    let editButton;
+    let connectButton;
+
+    // Since we display these buttons by condition,
+    // initialize with dummy text component.
+    editButton = connectButton = (<Text></Text>);
+
+    if (this.props.myProfile) {
+      editButton = (
+
+        // TODO: Replace below text with button
+        <Text style={styles.edit}>Edit</Text>
+      );
+    } else {
+      connectButton = (
+        <TouchableHighlight style={styles.connectButton} onPress={connect}>
+          <Text style={styles.buttonText}>Connect</Text>
+        </TouchableHighlight>
+      );
+    }
+
     return (
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image style={styles.profileImage}
               source={{ uri: this.state.profileImage }} />
         <View style={styles.profileUserInfo}>
-
-          {/* Below mock data will be replaced with real data */}
+          {editButton}
           <Text style={styles.name}>{this.state.name}</Text>
-          <Text >Google | Software engineer</Text>
-          <Text>Havard University | Computer Science</Text>
-          <Text>San Francisco CA, USA</Text>
+          <Text style={styles.positionText}>
+            {this.state.currentWork} | {this.state.position}
+          </Text>
+            <Text style={styles.positionText}>{this.state.location}</Text>
+
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
+          {editButton}
         </View>
-        <TouchableHighlight style={styles.connectButton} onPress={this.sendRequest}>
-          <Text style={styles.buttonText}>Connect</Text>
-        </TouchableHighlight>
+        {connectButton}
     </ScrollView>
     );
   }
@@ -113,9 +163,19 @@ class UserProfile extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   name: {
-    marginTop: 70,
+    marginTop: 60,
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  positionText: {
+    fontSize: 13,
+    marginTop: 4,
+    color: '#546979',
+  },
+  edit: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   experience: {
     fontSize: 15,
@@ -139,7 +199,7 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     position: 'absolute',
-    top: 70,
+    top: 20,
     left: width / 2 - 50,
     zIndex: 100,
     height: 100,
@@ -149,7 +209,7 @@ const styles = StyleSheet.create({
   profileUserInfo: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 120,
+    marginTop: 70,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: '#f7f7f9',
@@ -170,6 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
+    fontFamily: 'OpenSans',
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',
