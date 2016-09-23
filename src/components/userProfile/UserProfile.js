@@ -25,9 +25,9 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      currentWork: 'Silicon Valley Bootcamp',
-      position: 'Software Engineer',
-      location: 'San Jose, CA',
+      currentStatus: 'Silicon Valley Bootcamp',
+      currentPosition: 'Software Engineer',
+      currentLocation: 'San Jose, CA',
       loaded: false,
     };
 
@@ -40,31 +40,38 @@ class UserProfile extends Component {
 
     // Check result code: profile Request/mentor request
     if (result._id) {
-      let currentWork = this.state.currentWork;
-      let position = this.state.position;
-      let location = this.state.location;
+      let currentStatus = this.state.currentStatus;
+      let currentPosition = this.state.currentPosition;
+      let currentLocation = this.state.currentLocation;
 
       if (result.work.length > 0) {
-        let lastIndex = result.work.length - 1;
-        let work = result.work[lastIndex];
+        let work = result.work[0];
 
         if (work.employer)
-          currentWork = work.employer.name;
+          currentStatus = work.employer.name;
 
         if (work.position)
-          position = work.position.name;
+          currentPosition = work.position.name;
 
         if (work.location)
-          location = work.location.name;
+          currentLocation = work.location.name;
+      } else if (result.education.length > 0) {
+        let lastIndex = result.education.length - 1;
+        let education = result.education[lastIndex];
+
+        if (education.school)
+          currentStatus = education.school.name;
+        if (education.concentration)
+          currentPosition = education.concentration[0].name;
       }
 
       this.setState({
         id: result._id,
         profileImage: result.profile_picture,
         name: result.name,
-        currentWork: currentWork,
-        position: position,
-        location: location,
+        currentStatus: currentStatus,
+        currentPosition: currentPosition,
+        currentLocation: currentLocation,
         loaded: true,
       });
     } else if (result.msg) {
@@ -87,7 +94,7 @@ class UserProfile extends Component {
   }
 
   sendRequest() {
-    ServerUtil.sendMentoringRequest(this.state.id, 'I love ya');
+    ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
   }
 
   renderLoadingView() {
@@ -136,14 +143,17 @@ class UserProfile extends Component {
           {editButton}
           <Text style={styles.name}>{this.state.name}</Text>
           <Text style={styles.positionText}>
-            {this.state.currentWork} | {this.state.position}
+            {this.state.currentStatus} | {this.state.currentPosition}
           </Text>
-            <Text style={styles.positionText}>{this.state.location}</Text>
+            <Text style={styles.positionText}>{this.state.currentLocation}</Text>
 
         </View>
         <View style={styles.profileUserExperice}>
           <Text style={styles.experience}>Experience</Text>
           {editButton}
+          <Text style={styles.experience}>Google</Text>
+          <Text style={styles.experience}>Software Engineer</Text>
+          <Text style={styles.experience}>2015.02 ~</Text>
         </View>
         {connectButton}
     </ScrollView>

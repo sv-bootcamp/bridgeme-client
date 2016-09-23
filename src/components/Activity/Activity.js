@@ -9,6 +9,7 @@ import {
   ListView,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import ServerUtil from '../../utils/ServerUtil';
@@ -31,7 +32,17 @@ class Activity extends Component {
           sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
         }),
         loaded: false,
+        isRefreshing: false,
       };
+  }
+
+  // Refresh data
+  onRefresh() {
+    this.setState({ isRefreshing: true });
+    setTimeout(() => {
+      ServerUtil.getActivityList();
+      this.setState({ isRefreshing: false });
+    }, 2000);
   }
 
   onRequestSuccess(result) {
@@ -64,6 +75,7 @@ class Activity extends Component {
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
     });
+    console.log(this.state.dataBlob);
   }
 
   onRequestFail(error) {
@@ -115,6 +127,15 @@ class Activity extends Component {
         renderRow  = {this.renderRow}
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.onRefresh.bind(this)}
+            tintColor="#1ecfe2"
+            title="Loading..."
+            titleColor="#0e417a"
+          />
+        }
       />
     );
   }

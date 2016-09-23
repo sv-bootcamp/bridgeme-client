@@ -10,22 +10,63 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 class Row extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      profileImage: '../../resources/btn_connect_2x.png',
+      name: '',
+      job: '',
+      education: '',
+    };
+  }
+
+  componentWillMount() {
+    let name = this.state.name;
+    let job = this.state.job;
+    let education = this.state.education;
+
+    if (this.props.dataSource.profile_picture) {
+      profileImage = this.props.dataSource.profile_picture;
+    }
+
+    if (this.props.dataSource.name) {
+      name = this.props.dataSource.name;
+    }
+
+    if (this.props.dataSource.work.length > 0) {
+      console.log(this.props.dataSource.work[0].employer.name);
+      job = this.props.dataSource.work[0].employer.name;
+      console.log(this.props.dataSource.work[0].employer.name);
+    }
+
+    if (this.props.dataSource.education.length > 0) {
+      let lastIndex = this.props.dataSource.education.length - 1;
+      education = this.props.dataSource.education[lastIndex].school.name;
+      console.log(this.props.dataSource.education[lastIndex].school.name);
+    }
+
+    this.setState({
+      profileImage: profileImage,
+      name: name,
+      job: job,
+      education: education,
+    });
+  }
 
   render() {
     const goToUserProfile = () => Actions.userProfile({ _id: this.props.dataSource._id });
 
     return (
-
-      // TODO: will be replaced with data from backend
       <TouchableWithoutFeedback onPress={goToUserProfile}>
         <View style={styles.row}>
             <Image style={styles.photo}
-                   source={{ uri: this.props.dataSource.profile_picture }}/>
+                   source={{ uri: this.state.profileImage }}/>
             <View style={styles.imageSeperator}></View>
             <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.props.dataSource.name}</Text>
-              <Text style={styles.job}>Job</Text>
-              <Text style={styles.education}>Education</Text>
+              <Text style={styles.name}>{this.state.name}</Text>
+              <Text style={styles.job}>{this.state.job}</Text>
+              <Text style={styles.education}>{this.state.education}</Text>
             </View>
         </View>
       </TouchableWithoutFeedback>

@@ -8,6 +8,7 @@ import {
   ListView,
   Platform,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 
 import Row from './Row';
@@ -30,7 +31,17 @@ class UserList extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      isRefreshing: false,
     };
+  }
+
+  // Refresh data
+  onRefresh() {
+    this.setState({ isRefreshing: true });
+    setTimeout(() => {
+      ServerUtil.getMentorList();
+      this.setState({ isRefreshing: false, });
+    }, 2000);
   }
 
   onServerSuccess(result) {
@@ -76,6 +87,16 @@ class UserList extends Component {
       <ListView style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
+        enableEmptySections={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.onRefresh.bind(this)}
+            tintColor="#1ecfe2"
+            title="Loading..."
+            titleColor="#0e417a"
+          />
+        }
       />
     );
   }

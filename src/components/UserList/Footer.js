@@ -10,13 +10,15 @@ import ScrollableTabView, {
 
 class Footer extends Component {
   render() {
-    return <ScrollableTabView
+    return (
+      <ScrollableTabView
       renderTabBar={() => <DefaultTabBar />}
     >
       <Text tabLabel='Find'></Text>
       <Text tabLabel='Activity'></Text>
       <Text tabLabel='My Profile'></Text>
-    </ScrollableTabView>;
+    </ScrollableTabView>
+  );
   }
 }
 
