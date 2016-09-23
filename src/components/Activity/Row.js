@@ -25,8 +25,14 @@ class Row extends Component {
   }
 
   onRequestSuccess(result) {
-    console.log(result);
-    Actions.activity();
+
+    // Check if request is from 'getActivityList'
+    // If not, call 'getActivityList' to refresh parent's listview
+    if (result.pending) {
+      this.props.onSelect(result);
+    } else {
+      ServerUtil.getActivityList();
+    }
   }
 
   onRequestFail(error) {

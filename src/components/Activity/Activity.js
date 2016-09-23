@@ -48,15 +48,16 @@ class Activity extends Component {
   onRequestSuccess(result) {
     console.log(result);
     let sectionIDs = ['Request Sent', 'Connected', 'Request Received'];
-    let rowIDs = [];
-
-    this.state.dataBlob[sectionIDs[0]] = [];
-    this.state.dataBlob[sectionIDs[1]] = [];
-    this.state.dataBlob[sectionIDs[2]] = [];
-
     let sectionIndex = 0;
+    const REQUESTED_PENDING = 2;
+    const REQUESTED_ACCEPT = 1;
+
+    for (let j = 0; j < sectionIDs.length; j++)
+      this.state.dataBlob[sectionIDs[j]] = [];
+
     for (let prop in result) {
-      console.log(result[prop]);
+
+      // Skip 'rejected' case since we won't expose it to user
       if (prop === 'rejected') {
         continue;
       }
@@ -65,7 +66,15 @@ class Activity extends Component {
         result[prop][i].detail[0].id = result[prop][i]._id;
         result[prop][i].detail[0].status = result[prop][i].status;
         result[prop][i].detail[0].type = prop;
-        this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
+
+        if (prop === 'requested') {
+          if (result[prop][i].status === REQUESTED_ACCEPT) {
+            result[prop][i].detail[0].type = 'accepted';
+            this.state.dataBlob[sectionIDs[1]].push(result[prop][i].detail[0]);
+          } else if (result[prop][i].status === REQUESTED_PENDING) {
+            this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
+          }
+        }
       }
 
       sectionIndex++;
@@ -93,7 +102,7 @@ class Activity extends Component {
   }
 
   renderRow(rowData) {
-    return <Row dataSource={rowData}/>;
+    return <Row dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)}/>;
   }
 
   renderSectionHeader(sectionData, sectionID) {
@@ -124,7 +133,7 @@ class Activity extends Component {
       <ListView
         style={styles.listView}
         dataSource = {this.state.dataSource}
-        renderRow  = {this.renderRow}
+        renderRow  = {this.renderRow.bind(this)}
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
         refreshControl={
