@@ -14,6 +14,7 @@ import Main from './Main';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
+import EvalPage from './Eval/EvalPage';
 import {
   Router,
   Scene,
@@ -37,13 +38,15 @@ class App extends Component {
     return (
       <Router>
         <Scene key="root">
-          <Scene key="splashPage" component={SplashPage} hideNavBar={true} initial={isAndroid} />
+          <Scene key="splashPage" component={SplashPage}
+            hideNavBar={true} type={ActionConst.REPLACE}initial={isAndroid} />
           <Scene key="login" component={Login} initial={!isAndroid} hideNavBar={true}/>
           <Scene key="main" component={Main} title="All Lists"
             hideNavBar={false} type={ActionConst.REPLACE} />
           <Scene key="userList" component={UserList} />
           <Scene key="userProfile" component={UserProfile} title="User Profile" />
-          <Scene key="activity" component={Activity} type={ActionConst.REPLACE} />
+          <Scene key="activity" component={Activity} />
+          <Scene key="evalPage" component={EvalPage} title="Survey" hideNavBar={false}/>
         </Scene>
       </Router>
    );
