@@ -74,6 +74,8 @@ class Activity extends Component {
           } else if (result[prop][i].status === REQUESTED_PENDING) {
             this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
           }
+        } else {
+          this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
         }
       }
 

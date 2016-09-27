@@ -13,9 +13,9 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ExperienceList from './ExperienceList';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
+import ExperienceRow from './ExperienceRow';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -29,6 +29,12 @@ class UserProfile extends Component {
       currentPosition: 'Software Engineer',
       currentLocation: 'San Jose, CA',
       loaded: false,
+      workDataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      educationDataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
 
     ServerUtil.initCallback(
@@ -65,6 +71,13 @@ class UserProfile extends Component {
           currentPosition = education.concentration[0].name;
       }
 
+      let collegeInfo = [];
+
+      for (let i = 0; i < result.education.length; i++) {
+        if (result.education[i].type === 'College')
+          collegeInfo.push(result.education[i]);
+      }
+
       this.setState({
         id: result._id,
         profileImage: result.profile_picture,
@@ -73,14 +86,18 @@ class UserProfile extends Component {
         currentPosition: currentPosition,
         currentLocation: currentLocation,
         loaded: true,
+        status: result.status,
+        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+        educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
       });
+
     } else if (result.msg) {
+      Actions.evalPage({ select: 'mentee' });
       console.log(result.msg);
     }
   }
 
   onRequestFail(error) {
-    console.log(error);
     if (error.code != ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
@@ -95,6 +112,7 @@ class UserProfile extends Component {
 
   sendRequest() {
     ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
+    this.setState({ status: 2 });
   }
 
   renderLoadingView() {
@@ -128,36 +146,70 @@ class UserProfile extends Component {
         <Text style={styles.edit}>Edit</Text>
       );
     } else {
-      connectButton = (
-        <TouchableHighlight style={styles.connectButton} onPress={connect}>
-          <Text style={styles.buttonText}>Connect</Text>
-        </TouchableHighlight>
-      );
+      if (this.state.status === 2) {
+        connectButton = (
+         <TouchableHighlight style={styles.waitingButton}>
+           <Text style={styles.buttonText}>Waiting...</Text>
+         </TouchableHighlight>
+       );
+      } else if (this.state.status === 0) {
+        connectButton = (
+         <TouchableHighlight style={styles.connectButton} onPress={connect}>
+           <Text style={styles.buttonText}>Connect</Text>
+         </TouchableHighlight>
+       );
+      } else {
+        connectButton = (
+         <TouchableHighlight style={styles.waitingButton}>
+           <Text style={styles.buttonText}>Connected</Text>
+         </TouchableHighlight>
+       );
+      }
     }
 
     return (
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <Image style={styles.profileImage}
-              source={{ uri: this.state.profileImage }} />
-        <View style={styles.profileUserInfo}>
-          {editButton}
-          <Text style={styles.name}>{this.state.name}</Text>
-          <Text style={styles.positionText}>
-            {this.state.currentStatus} | {this.state.currentPosition}
-          </Text>
-            <Text style={styles.positionText}>{this.state.currentLocation}</Text>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scroll}>
+          <Image style={styles.profileImage}
+                source={{ uri: this.state.profileImage }} />
+          <View style={styles.profileUserInfo}>
+            {editButton}
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text style={styles.positionText}>
+              {this.state.currentStatus} | {this.state.currentPosition}
+            </Text>
+              <Text style={styles.positionText}>{this.state.currentLocation}</Text>
 
-        </View>
-        <View style={styles.profileUserExperice}>
-          <Text style={styles.experience}>Experience</Text>
-          {editButton}
-          <Text style={styles.experience}>Google</Text>
-          <Text style={styles.experience}>Software Engineer</Text>
-          <Text style={styles.experience}>2015.02 ~</Text>
-        </View>
-        {connectButton}
-    </ScrollView>
+          </View>
+          <View style={styles.profileUserExperice}>
+            <Text style={styles.experience}>Experience</Text>
+            {editButton}
+            <ListView
+              dataSource={this.state.workDataSource}
+              renderRow={this.renderWorkRow}
+              enableEmptySections={true}
+              scrollEnabled={false}
+              />
+            <Text style={styles.experience}>Education</Text>
+            <ListView
+              dataSource={this.state.educationDataSource}
+              renderRow={this.renderEducationRow}
+              enableEmptySections={true}
+              scrollEnabled={false}
+              />
+          </View>
+      </ScrollView>
+      {connectButton}
+    </View>
     );
+  }
+
+  renderWorkRow(rowData) {
+    return <ExperienceRow dataSource={rowData} category={'work'}/>;
+  }
+
+  renderEducationRow(rowData) {
+    return <ExperienceRow dataSource={rowData} category={'education'}/>;
   }
 
   render() {
@@ -179,7 +231,7 @@ const styles = StyleSheet.create({
   },
   positionText: {
     fontSize: 13,
-    marginTop: 4,
+    marginTop: 7,
     color: '#546979',
   },
   edit: {
@@ -217,15 +269,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileUserInfo: {
-    flex: 1,
+    flex: 1.2,
     alignItems: 'center',
-    marginTop: 70,
+    marginTop: 60,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: '#f7f7f9',
   },
   profileUserExperice: {
-    flex: 2,
+    flex: 2.5,
     margin: 10,
     backgroundColor: '#f7f7f9',
     padding: 15,
@@ -234,6 +286,16 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     backgroundColor: '#1ecfe2',
+    borderRadius: 2,
+    position: 'absolute',
+    left: 10,
+    right: 10,
+    bottom: 10,
+  },
+  waitingButton: {
+    height: 40,
+    justifyContent: 'center',
+    backgroundColor: '#979797',
     borderRadius: 2,
     marginLeft: 10,
     marginRight: 10,

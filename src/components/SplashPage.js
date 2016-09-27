@@ -30,7 +30,7 @@ class SplashPage extends Component {
     // Delay 1sec for next screen
     setTimeout(() => {
         // ServerUtil.hasToken();
-          Actions.main();
+        Actions.main();
       }, 1000);
   }
 

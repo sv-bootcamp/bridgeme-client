@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#3F51B5',
     flexDirection: 'column',
-    paddingTop: 25,
   },
   loadingText: {
     fontWeight: 'bold',
