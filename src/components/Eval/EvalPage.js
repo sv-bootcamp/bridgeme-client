@@ -24,7 +24,6 @@ class EvalPage extends Component {
 
   constructor(props) {
     super(props);
-    console.log('EvalPage constructor called');
 
     surveyID = null;
     questions = null;
@@ -69,8 +68,7 @@ class EvalPage extends Component {
   }
 
   onSuccess(result) {
-    console.log('onSuccess');
-    console.log(result);
+
     if (result.questions !== undefined) {
       this.qestionPage = result;
       this.surveyID = result.survey_id;
@@ -85,9 +83,8 @@ class EvalPage extends Component {
         loaded: true,
       });
     } else {
-      Actions.activity();
+      Actions.main();
     }
-
   }
 
   // Initialze checked item count
@@ -250,7 +247,7 @@ class EvalPage extends Component {
   refreshData() {
     let selCnt = 0;
     let answers = this.question.answers;
-    console.log(this.question);
+
     for (let i = 0; i < answers.length; i++) {
       for (let j = 0; j < answers[i].options.length; j++) {
         if (answers[i].options[j].isChecked) {
@@ -266,7 +263,7 @@ class EvalPage extends Component {
   // Go to next question page
   nextQuestion() {
     this.refreshData();
-    console.log(this.state);
+
     if (this.state.selectCount[this.state.questionIndex] === 0) {
       Alert.alert(
             '',
@@ -285,7 +282,7 @@ class EvalPage extends Component {
         AsyncStorage.getItem('qestionPage', (err, result) => {
 
             let data = JSON.parse(result);
-            console.log(data);
+
             data.questions[this.state.questionIndex]
            = this.qestionPage.questions[this.state.questionIndex];
 
@@ -344,7 +341,7 @@ class EvalPage extends Component {
   }
 
   render() {
-    console.log(this.state.questionIndex + ' render loaded');
+
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }

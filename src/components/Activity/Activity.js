@@ -39,10 +39,7 @@ class Activity extends Component {
   // Refresh data
   onRefresh() {
     this.setState({ isRefreshing: true });
-    setTimeout(() => {
-      ServerUtil.getActivityList();
-      this.setState({ isRefreshing: false });
-    }, 2000);
+    ServerUtil.getActivityList();
   }
 
   onRequestSuccess(result) {
@@ -85,8 +82,8 @@ class Activity extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
+      isRefreshing: false,
     });
-    console.log(this.state.dataBlob);
   }
 
   onRequestFail(error) {

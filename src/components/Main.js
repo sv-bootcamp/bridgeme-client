@@ -7,7 +7,6 @@ import {
   Image,
   ListView,
 } from 'react-native';
-
 import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
 import MyProfile from './MyProfile';
 import Activity from './Activity/Activity';
@@ -15,6 +14,7 @@ import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 
 class Main extends Component {
+
   constructor(props) {
     super(props);
   }

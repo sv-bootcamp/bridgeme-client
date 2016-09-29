@@ -29,6 +29,8 @@ class UserProfile extends Component {
       currentPosition: 'Software Engineer',
       currentLocation: 'San Jose, CA',
       loaded: false,
+      evalLoaded: false,
+      connectPressed: false,
       workDataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -92,6 +94,7 @@ class UserProfile extends Component {
       });
 
     } else if (result.msg) {
+      this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
       console.log(result.msg);
     }
@@ -110,26 +113,44 @@ class UserProfile extends Component {
       ServerUtil.getOthersProfile(this.props._id);
   }
 
+  // Send mentor request
   sendRequest() {
     ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
-    this.setState({ status: 2 });
+    this.setState({
+      status: 2,
+      connectPressed: true,
+    });
   }
 
+  // Render loading page while fetching user profiles
   renderLoadingView() {
     return (
         <View style={styles.header}>
-            <Text style={styles.headerText}>User List</Text>
-            <View style={styles.container}>
-                <ActivityIndicator
-                    animating={!this.state.loaded}
-                    style={[styles.activityIndicator, { height: 80 }]}
-                    size="large"
-                />
-            </View>
+          <ActivityIndicator
+            animating={!this.state.loaded}
+            style={[styles.activityIndicator]}
+            size="large"
+            />
+            <Text style={styles.headerText}>Loading main page...</Text>
         </View>
     );
   }
 
+  // Render loading page while fetching eval page
+  renderLoadingEval() {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Loading survey page...</Text>
+          <ActivityIndicator
+            animating={!this.state.evalLoaded}
+            style={[styles.activityIndicator]}
+            size="large"
+            />
+      </View>
+    );
+  }
+
+  // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
     let editButton;
@@ -215,6 +236,8 @@ class UserProfile extends Component {
   render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
+    } else if (this.state.connectPressed) {
+      return this.renderLoadingEval();
     }
 
     return this.renderUserProfile();
@@ -310,19 +333,17 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   header: {
-    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3F51B5',
     flexDirection: 'column',
-    paddingTop: 25,
   },
   headerText: {
-    fontWeight: 'bold',
     fontSize: 20,
-    color: 'white',
+    color: '#0e417a',
+    marginTop: 300,
   },
 });
 
