@@ -4,6 +4,7 @@ import {
  View,
  TouchableHighlight,
  Image,
+ Alert,
  TouchableWithoutFeedback
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -32,16 +33,17 @@ class Login extends Component {
              </View>
 
              {/* Render facebook login button */}
-          <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
-              <Image style={styles.facebookLoginButton}
+             <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
+               <Image style={styles.facebookLoginButton}
                source={require('../resources/facebook_2x.png')} />
-           </TouchableWithoutFeedback>
+              </TouchableWithoutFeedback>
 
             {/* Render linkedin login buttion */}
-            <TouchableHighlight onPress={LoginUtil.signinWithLinkedIn}>
+            <TouchableWithoutFeedback onPress={() =>
+                Alert.alert('SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
               <Image style={styles.linkedinLoginButton}
                 source={require('../resources/Linkedin_2x.png')} />
-            </TouchableHighlight>
+            </TouchableWithoutFeedback>
         </View>
      );
   }

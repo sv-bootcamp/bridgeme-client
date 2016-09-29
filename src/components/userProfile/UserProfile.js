@@ -96,21 +96,21 @@ class UserProfile extends Component {
     } else if (result.msg) {
       this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
-      console.log(result.msg);
     }
   }
 
   onRequestFail(error) {
     if (error.code != ErrorMeta.ERR_NONE) {
-      alert(error.msg);
+      Alert.alert(error.msg);
     }
   }
 
   componentDidMount() {
-    if (this.props.myProfile)
+    if (this.props.myProfile) {
       ServerUtil.getMyProfile();
-    else
+    } else {
       ServerUtil.getOthersProfile(this.props._id);
+    }
   }
 
   // Send mentor request
@@ -248,7 +248,7 @@ class UserProfile extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   name: {
-    marginTop: 60,
+    marginTop: 70,
     fontSize: 17,
     fontWeight: 'bold',
   },
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
   experience: {
     fontSize: 15,
     color: '#546979',
+    marginBottom: 5,
   },
   container: {
     flex: 1,
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileUserInfo: {
-    flex: 1.2,
+    flex: 1.4,
     alignItems: 'center',
     marginTop: 60,
     marginLeft: 10,

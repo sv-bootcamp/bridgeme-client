@@ -41,11 +41,32 @@ class ExperienceRow extends Component {
   render() {
     return (
       <View>
-        <Text>{this.state.name}</Text>
-        <Text>{this.state.position}</Text>
+        <Text style ={styles.name}>{this.state.name}</Text>
+        <Text style ={styles.position}>{this.state.position}</Text>
+        <View style={styles.seperator}></View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  name: {
+    fontSize: 14,
+    marginLeft: 17.5,
+    color: '#546979',
+  },
+  position: {
+    fontSize: 12,
+    marginLeft: 17.5,
+    color: '#546979',
+  },
+  seperator: {
+    alignItems: 'center',
+    marginTop: 7.5,
+    marginBottom: 7.5,
+    borderWidth: 1,
+    borderColor: '#d8d8d8',
+  },
+});
 
 module.exports = ExperienceRow;

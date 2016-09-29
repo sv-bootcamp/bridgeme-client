@@ -4,10 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-  Image,
   ListView,
-  ScrollView,
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
@@ -16,6 +13,7 @@ import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
+
   constructor(props) {
     super(props);
 
@@ -43,7 +41,6 @@ class Activity extends Component {
   }
 
   onRequestSuccess(result) {
-    console.log(result);
     let sectionIDs = ['Request Sent', 'Connected', 'Request Received'];
     let sectionIndex = 0;
     const REQUESTED_PENDING = 2;
@@ -172,11 +169,6 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
-  },
-  sectionHeader: {
-    height: 15,
-    margin: 10,
-    color: '#546979',
   },
   section: {
     flexDirection: 'column',

@@ -10,7 +10,6 @@ import EvalPage from './Eval/EvalPage';
 import {
   Router,
   Scene,
-  Actions,
   ActionConst
 } from 'react-native-router-flux';
 

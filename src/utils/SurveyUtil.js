@@ -7,9 +7,8 @@ class SurveyUtil {
   POST = 'POST';
   CONTENT_TYPE_URLENCODED = 'application/x-www-form-urlencoded';
   CONTENT_TYPE_JSON = 'application/json';
-  
-  constructor(success, error) {
 
+  constructor(success, error) {
     this.onSuccess = success;
     this.onError = error;
   }
@@ -23,7 +22,6 @@ class SurveyUtil {
         'Content-Type': this.CONTENT_TYPE_URLENCODED,
       },
     };
-    console.log(reqSet);
     fetch(url, reqSet)
     .then((resp) => {
             console.log(resp);
