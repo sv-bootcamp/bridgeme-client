@@ -93,7 +93,7 @@ class UserProfile extends Component {
         educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
       });
 
-    } else if (result.msg) {
+    } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
     }
@@ -203,20 +203,20 @@ class UserProfile extends Component {
 
           </View>
           <View style={styles.profileUserExperice}>
-            <Text style={styles.experience}>Experience</Text>
+            <Text style={styles.experienceText}>Experience</Text>
             {editButton}
             <ListView
               dataSource={this.state.workDataSource}
               renderRow={this.renderWorkRow}
               enableEmptySections={true}
-              scrollEnabled={false}
+              scrollEnabled={true}
               />
-            <Text style={styles.experience}>Education</Text>
+            <Text style={styles.educationText}>Education</Text>
             <ListView
               dataSource={this.state.educationDataSource}
               renderRow={this.renderEducationRow}
               enableEmptySections={true}
-              scrollEnabled={false}
+              scrollEnabled={true}
               />
           </View>
       </ScrollView>
@@ -262,10 +262,16 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10,
   },
-  experience: {
+  experienceText: {
     fontSize: 15,
     color: '#546979',
-    marginBottom: 5,
+    marginBottom: 10,
+  },
+  educationText: {
+    fontSize: 15,
+    color: '#546979',
+    marginTop: 10,
+    marginBottom: 10,
   },
   container: {
     flex: 1,

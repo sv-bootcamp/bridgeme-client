@@ -105,6 +105,7 @@ class Row extends Component {
   // Accept request
   acceptRequest() {
     ServerUtil.acceptRequest(this.props.dataSource.id);
+    Actions.evalPage({ select: 'mentor' });
   }
 
   // Reject request
