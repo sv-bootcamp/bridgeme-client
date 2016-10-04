@@ -69,7 +69,7 @@ class UserProfile extends Component {
 
         if (education.school)
           currentStatus = education.school.name;
-        if (education.concentration)
+        if (education.concentration.length > 0)
           currentPosition = education.concentration[0].name;
       }
 
