@@ -1,4 +1,5 @@
 class LoginMeta {
+
   // Sign In type
   // 1 : Facebook
   // 2 : LinkedIn

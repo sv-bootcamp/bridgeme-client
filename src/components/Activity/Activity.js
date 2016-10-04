@@ -4,17 +4,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-  Image,
   ListView,
-  ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
+
   constructor(props) {
     super(props);
 
@@ -31,11 +30,17 @@ class Activity extends Component {
           sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
         }),
         loaded: false,
+        isRefreshing: false,
       };
   }
 
+  // Refresh data
+  onRefresh() {
+    this.setState({ isRefreshing: true });
+    ServerUtil.getActivityList();
+  }
+
   onRequestSuccess(result) {
-    console.log(result);
     let sectionIDs = ['Request Sent', 'Connected', 'Request Received'];
     let sectionIndex = 0;
     const REQUESTED_PENDING = 2;
@@ -63,6 +68,8 @@ class Activity extends Component {
           } else if (result[prop][i].status === REQUESTED_PENDING) {
             this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
           }
+        } else {
+          this.state.dataBlob[sectionIDs[sectionIndex]].push(result[prop][i].detail[0]);
         }
       }
 
@@ -72,6 +79,7 @@ class Activity extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
+      isRefreshing: false,
     });
   }
 
@@ -124,6 +132,15 @@ class Activity extends Component {
         renderRow  = {this.renderRow.bind(this)}
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.onRefresh.bind(this)}
+            tintColor="#1ecfe2"
+            title="Loading..."
+            titleColor="#0e417a"
+          />
+        }
       />
     );
   }
@@ -152,11 +169,6 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
-  },
-  sectionHeader: {
-    height: 15,
-    margin: 10,
-    color: '#546979',
   },
   section: {
     flexDirection: 'column',

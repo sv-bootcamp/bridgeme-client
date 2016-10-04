@@ -1,14 +1,8 @@
 import { AsyncStorage } from 'react-native';
-import {
-  AccessToken,
-  GraphRequest,
-  GraphRequestManager,
-} from 'react-native-fbsdk';
-
 import ErrorMeta from './ErrorMeta';
+import ErrorUtil from './ErrorUtil';
 import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
-import LoginUtil from './LoginUtil';
 
 class ServerUtil {
 
@@ -36,24 +30,8 @@ class ServerUtil {
 
   // Error messages
   onError(errCode) {
-    let result = { code: errCode };
-
-    if (errCode === ErrorMeta.ERR_NONE) {
-      result.msg = '';
-    } else if (errCode === ErrorMeta.ERR_TOKEN_INVALID) {
-      result.msg = 'Token has been expired. Try again';
-    } else if (errCode === ErrorMeta.ERR_NO_LOGIN_TYPE) {
-      result.msg = 'Login again';
-    } else if (errCode === ErrorMeta.ERR_SERVER_FAIL) {
-      result.msg = 'Server error. Try again';
-    }
-
+    let result = ErrorUtil.getErrorMsg(errCode);
     this.errorCallback(result);
-  }
-
-  // Get all user lists for testing. Won't be used later
-  getAllList() {
-    this.requestToServer('GET', UrlMeta.API_ALL, '');
   }
 
   // Get user lists except me
@@ -161,39 +139,22 @@ class ServerUtil {
     }
 
     fetch(url, reqSet)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200 || response.status === 201) {
-
-          // Success from server
-          response.json().then((result) => {
-              console.log(result);
-              this.successCallback(result);
-            }
-          );
-        } else {
-
-          // Error from server
-          response.json().then((result) => {
-            console.log(result);
-            this.onError(ErrorMeta.ERR_SERVER_FAIL);
-          });
-        }
-      }).catch((error) => {
-      this.onError(ErrorMeta.ERR_SERVER_FAIL);
-    });
+    .then(serverUtil.getResponse)
+    .then(serverUtil.getSuccessResponse)
+    .catch(serverUtil.getException);
   }
 
   getReqSet(httpMethod, formBody) {
+    let contentType = (httpMethod === 'GET') ?
+                        'application/x-www-form-urlencoded' :
+                        'application/json';
 
     let reqSet = {
       method: httpMethod,
       headers: {
 
         // TODO: Modify condition if you add PUT, DELETE method
-        'Content-Type': 'GET' === httpMethod?
-          'application/x-www-form-urlencoded' :
-          'application/json',
+        'Content-Type': contentType,
       },
     };
 
@@ -204,6 +165,22 @@ class ServerUtil {
     }
 
     return reqSet;
+  }
+
+  getResponse(response) {
+    if (response.status === 200 || response.status === 201) {
+      return response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  }
+
+  getSuccessResponse(result) {
+    serverUtil.successCallback(result);
+  }
+
+  getException(error) {
+    serverUtil.onError(ErrorMeta.ERR_SERVER_FAIL);
   }
 }
 

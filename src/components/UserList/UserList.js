@@ -3,15 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-  Image,
   ListView,
   Platform,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
-
 import Row from './Row';
-import Header from './Header';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ServerUtil from '../../utils/ServerUtil';
@@ -30,13 +27,21 @@ class UserList extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      isRefreshing: false,
     };
+  }
+
+  // Refresh data
+  onRefresh() {
+    this.setState({ isRefreshing: true });
+    ServerUtil.getMentorList();
   }
 
   onServerSuccess(result) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(result),
       loaded: true,
+      isRefreshing: false,
     });
   }
 
@@ -59,14 +64,12 @@ class UserList extends Component {
   renderLoadingView() {
     return (
         <View style={styles.header}>
-            <View style={styles.container}>
-                <ActivityIndicator
-                    animating={!this.state.loaded}
-                    style={[styles.activityIndicator, { height: 80 }]}
-                    size="large"
-                />
-            </View>
-            <Text style={styles.loadingText}>Loading</Text>
+          <Text style={styles.headerText}>Loading...</Text>
+          <ActivityIndicator
+            animating={!this.state.loaded}
+            style={[styles.activityIndicator]}
+            size="large"
+            />
         </View>
     );
   }
@@ -76,6 +79,16 @@ class UserList extends Component {
       <ListView style={styles.listView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
+        enableEmptySections={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.onRefresh.bind(this)}
+            tintColor="#1ecfe2"
+            title="Loading..."
+            titleColor="#0e417a"
+          />
+        }
       />
     );
   }
@@ -108,20 +121,17 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 200,
+    padding: 20,
   },
   header: {
-    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3F51B5',
     flexDirection: 'column',
-    paddingTop: 25,
+    marginTop: 250,
   },
-  loadingText: {
-    fontWeight: 'bold',
+  headerText: {
     fontSize: 20,
-    color: 'black',
+    color: '#0e417a',
   },
 });
 

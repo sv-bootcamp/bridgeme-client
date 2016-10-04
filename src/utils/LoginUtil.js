@@ -1,18 +1,16 @@
 import {
  DeviceEventEmitter,
- Alert,
  AsyncStorage,
 } from 'react-native';
-
 import {
   AccessToken,
   GraphRequest,
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk';
-
 import LinkedInLogin from './linkedin-login';
 import ErrorMeta from './ErrorMeta';
+import ErrorUtil from './ErrorUtil';
 import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
 
@@ -54,24 +52,8 @@ class LoginUtil {
 
   //Error codes
   onError(errCode) {
-    let result = { code: errCode };
-    if (errCode === ErrorMeta.ERR_NONE) {
-      result.msg = '';
-    } else if (errCode === ErrorMeta.ERR_FB_LOGIN) {
-      result.msg = 'Login error from Linkedin';
-    } else if (errCode === ErrorMeta.ERR_LI_LOGIN) {
-      result.msg = 'Login error from Facebook';
-    } else if (errCode === ErrorMeta.ERR_TOKEN_INVALID) {
-      result.msg = 'Your token has been expired.';
-    } else if (errCode === ErrorMeta.ERR_NO_USER_DATA) {
-      result.msg = 'Cannot fetch user data';
-    } else if (errCode === ErrorMeta.ERR_APP_FAIL) {
-      result.msg = 'Error has occured from web';
-    } else if (errCode === ErrorMeta.ERR_SERVER_FAIL) {
-      result.msg = 'Server error. Try again';
-    }
-
-    this.errorCallback(result);
+    let result = ErrorUtil.getErrorMsg(errCode);
+    loginUtil.errorCallback(result);
   }
 
   // Sign In with Facebook.
@@ -84,8 +66,8 @@ class LoginUtil {
     );
   }
 
+  // Login success from facebook
   onLoginSuccessFB(result) {
-    console.log(result);
     if (result.isCancelled) {
       loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
     } else {
@@ -101,7 +83,6 @@ class LoginUtil {
   }
 
   onLoginErrorFB(error) {
-    console.log(error);
     loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
   }
 
@@ -120,34 +101,48 @@ class LoginUtil {
   }
 
   fetchData(type, token) {
-    let formBody = this.makeFormBody(type, token);
-    AsyncStorage.setItem('token', token);
-
-    fetch(UrlMeta.host + UrlMeta.API_LOGIN, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formBody,
-    })
-    .then((response) => {
-      if (response.status === 200 || response.status === 201) {
-        return response.json();
-      } else {
-        throw new Error(response.status);
+    AsyncStorage.multiSet(
+    [['token', token], ['loginType', type]],
+      function () {
+        let reqSet = loginUtil.getReqSet(type, token);
+        fetch(UrlMeta.host + UrlMeta.API_LOGIN, reqSet)
+        .then(loginUtil.getResponse)
+        .then(loginUtil.getSuccessResponse)
+        .catch(loginUtil.getException);
       }
-    })
-    .then((result) => {
-        this.successCallback(result);
-      }).catch((error) => {
-      this.onError(ErrorMeta.ERR_SERVER_FAIL);
-    });
+    );
   }
 
   makeFormBody(type, token) {
     let formBody = 'platform_type=' + type;
     formBody += '&access_token=' + token;
     return formBody;
+  }
+
+  getReqSet(type, token) {
+    return {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: loginUtil.makeFormBody(type, token),
+    };
+  }
+
+  getResponse(response) {
+    if (response.status === 200 || response.status === 201) {
+      return response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  }
+
+  getSuccessResponse(result) {
+    loginUtil.successCallback(result);
+  }
+
+  getException(error) {
+    loginUtil.onError(ErrorMeta.ERR_SERVER_FAIL);
   }
 }
 

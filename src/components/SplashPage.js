@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
  StyleSheet,
@@ -7,10 +6,7 @@ import {
  Navigator,
  Image,
 } from 'react-native';
-import {
-  Actions,
-} from 'react-native-router-flux';
-
+import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import ServerUtil from '../utils/ServerUtil';
 
@@ -20,9 +16,9 @@ class SplashPage extends Component {
     super(props);
 
     ServerUtil.initCallback(
-    (result) => this.onServerSuccess(result),
-    (error) => this.onServerFail(error)
-  );
+      (result) => this.onServerSuccess(result),
+      (error) => this.onServerFail(error)
+    );
   }
 
   componentWillMount() {
@@ -30,7 +26,7 @@ class SplashPage extends Component {
     // Delay 1sec for next screen
     setTimeout(() => {
         // ServerUtil.hasToken();
-          Actions.main();
+        Actions.main();
       }, 1000);
   }
 
