@@ -115,17 +115,17 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   name: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'open_sans',
     fontSize: 17,
     fontWeight: 'bold',
   },
   job: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'open_sans',
     fontSize: 13,
     marginTop: 5,
   },
   education: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'open_sans',
     fontSize: 13,
     marginTop: 5,
   },

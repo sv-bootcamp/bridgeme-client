@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'open_sans',
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',
