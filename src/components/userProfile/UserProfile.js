@@ -93,7 +93,7 @@ class UserProfile extends Component {
         educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
       });
 
-    } else if (result.msg !== 'undefined') {
+    } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
     }
