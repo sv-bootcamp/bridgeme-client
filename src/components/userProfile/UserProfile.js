@@ -69,7 +69,7 @@ class UserProfile extends Component {
 
         if (education.school)
           currentStatus = education.school.name;
-        if (education.concentration)
+        if (education.concentration.length > 0)
           currentPosition = education.concentration[0].name;
       }
 
@@ -93,7 +93,7 @@ class UserProfile extends Component {
         educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
       });
 
-    } else if (result.msg !== 'undefined') {
+    } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
     }

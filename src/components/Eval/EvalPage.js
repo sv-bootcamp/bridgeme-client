@@ -208,6 +208,7 @@ class EvalPage extends Component {
               editable={isChecked}
               defaultValue={inputValue}
               onChangeText={(text) => this.setState({ text })}
+              underlineColorAndroid="transparent"
               value={this.state.text}
             />
          </View>
