@@ -10,6 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
+import ServerUtil from '../utils/ServerUtil';
 
 class Login extends Component {
 
@@ -17,10 +18,17 @@ class Login extends Component {
     super(props);
     LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
     LoginUtil.initLinkedIn();
+
+    ServerUtil.initCallback(
+            (result) => this.onServerSuccess(result),
+            (error) => this.onServerFail(error)
+    );
+
   }
 
   componentWillMount() {
     LoginUtil.initEvent();
+    ServerUtil.hasToken();
   }
 
   render() {
@@ -56,6 +64,19 @@ class Login extends Component {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
+  }
+
+  // Token already exists on the server
+  onServerSuccess(result) {
+    Actions.main();
+  }
+
+  onServerFail(error) {
+    if (error.code !== ErrorMeta.ERR_NONE) {
+      alert(JSON.stringify(error.msg));
+    }
+
+    Actions.login();
   }
 }
 

@@ -22,12 +22,7 @@ class SplashPage extends Component {
   }
 
   componentWillMount() {
-
-    // Delay 1sec for next screen
-    setTimeout(() => {
-        // ServerUtil.hasToken();
-        Actions.main();
-      }, 1000);
+    ServerUtil.hasToken();
   }
 
   // Token already exists on the server
