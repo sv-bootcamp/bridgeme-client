@@ -113,6 +113,15 @@ class UserProfile extends Component {
     }
   }
 
+  // Receive props befofe completly changed
+  componentWillReceiveProps(props) {
+    if (props.myProfile) {
+      ServerUtil.getMyProfile();
+    } else {
+      ServerUtil.getOthersProfile(props._id);
+    }
+  }
+
   // Send mentor request
   sendRequest() {
     ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');

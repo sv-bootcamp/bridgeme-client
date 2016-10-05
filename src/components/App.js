@@ -42,7 +42,7 @@ class App extends Component {
           <Scene key="activity" component={Activity} />
 
           <Scene key="evalPage" component={EvalPage}
-            title="Survey" hideNavBar={false}/>
+            title="Survey" hideNavBar={false} />
         </Scene>
       </Router>
    );
