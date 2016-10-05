@@ -190,9 +190,8 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3F51B5',
     flexDirection: 'column',
-    paddingTop: 25,
+    paddingTop: 55,
   },
   loadingText: {
     fontWeight: 'bold',
