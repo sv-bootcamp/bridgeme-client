@@ -20,11 +20,11 @@ class ExperienceRow extends Component {
     let name = this.state.name;
     let position = this.state.position;
 
-    if (this.props.category === 'work') {
+    if (this.props.dataSource.employer) {
       name = this.props.dataSource.employer.name;
       if (this.props.dataSource.position)
         position = this.props.dataSource.position.name;
-    } else if (this.props.category === 'education') {
+    } else if (this.props.dataSource.school) {
       name = this.props.dataSource.school.name;
 
       if (this.props.dataSource.concentration.length > 0) {
