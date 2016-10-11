@@ -11,7 +11,7 @@ class ExperienceRow extends Component {
 
     this.state = {
       name: 'Silicon Valley Bootcamp',
-      position: 'Software Engineer',
+      position: '',
       period: '-',
     };
   }

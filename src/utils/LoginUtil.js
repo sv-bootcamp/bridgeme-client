@@ -50,6 +50,17 @@ class LoginUtil {
     );
   }
 
+  // Check token
+  hasToken() {
+    AsyncStorage.getItem('token', (err, result) => {
+      if (result === null) {
+        this.onError(ErrorMeta.ERR_NONE);
+      } else {
+        this.successCallback(result);
+      }
+    });
+  }
+
   //Error codes
   onError(errCode) {
     let result = ErrorUtil.getErrorMsg(errCode);

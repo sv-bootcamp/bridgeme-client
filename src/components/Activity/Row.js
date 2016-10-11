@@ -6,6 +6,7 @@ import {
   Image,
   TouchableHighlight,
   TouchableWithoutFeedback,
+  BackAndroid,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';

@@ -88,11 +88,11 @@ class UserProfile extends Component {
         currentPosition: currentPosition,
         currentLocation: currentLocation,
         loaded: true,
-        status: result.status,
+        statusAsMentee: result.relation.asMentee,
+        statusAsMentor: result.relation.asMentor,
         workDataSource: this.state.workDataSource.cloneWithRows(result.work),
         educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
       });
-
     } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
       Actions.evalPage({ select: 'mentee' });
@@ -115,10 +115,14 @@ class UserProfile extends Component {
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
-    if (props.myProfile) {
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
+    if (this.props.myProfile) {
       ServerUtil.getMyProfile();
     } else {
-      ServerUtil.getOthersProfile(props._id);
+      ServerUtil.getOthersProfile(this.props._id);
     }
   }
 
@@ -140,7 +144,7 @@ class UserProfile extends Component {
             style={[styles.activityIndicator]}
             size="large"
             />
-            <Text style={styles.headerText}>Loading main page...</Text>
+            <Text style={styles.headerText}>Loading...</Text>
         </View>
     );
   }
@@ -176,19 +180,19 @@ class UserProfile extends Component {
         <Text style={styles.edit}>Edit</Text>
       );
     } else {
-      if (this.state.status === 2) {
+      if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
         connectButton = (
          <TouchableHighlight style={styles.waitingButton}>
            <Text style={styles.buttonText}>Waiting...</Text>
          </TouchableHighlight>
        );
-      } else if (this.state.status === 0) {
+      } else if (this.state.statusAsMentee === 0 && this.state.statusAsMentor === 0) {
         connectButton = (
          <TouchableHighlight style={styles.connectButton} onPress={connect}>
            <Text style={styles.buttonText}>Connect</Text>
          </TouchableHighlight>
        );
-      } else {
+      } else if (this.state.statusAsMentee === 1 || this.state.statusAsMentor === 1) {
         connectButton = (
          <TouchableHighlight style={styles.waitingButton}>
            <Text style={styles.buttonText}>Connected</Text>

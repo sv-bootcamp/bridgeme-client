@@ -14,9 +14,9 @@ class ErrorUtil {
     } else if (errCode === ErrorMeta.ERR_SERVER_FAIL) {
       result.msg = 'Server error. Try again';
     } else if (errCode === ErrorMeta.ERR_FB_LOGIN) {
-      result.msg = 'Login error from Linkedin';
+      result.msg = 'Login error from facebook';
     } else if (errCode === ErrorMeta.ERR_LI_LOGIN) {
-      result.msg = 'Login error from Facebook';
+      result.msg = 'Login error from linkedin';
     } else if (errCode === ErrorMeta.ERR_NO_USER_DATA) {
       result.msg = 'Cannot fetch user data';
     } else if (errCode === ErrorMeta.ERR_APP_FAIL) {
