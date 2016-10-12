@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Platform,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableHighlight,
-  Dimensions,
-  ListView,
   Alert,
   ActivityIndicator,
+  Dimensions,
+  Platform,
+  ListView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';
@@ -54,8 +54,6 @@ class UserProfile extends Component {
       let currentLocation = this.state.currentLocation;
 
       let sectionIDs = ['Experience', 'Education'];
-      let i;
-      let j;
 
       this.setState({
         dataSource: new ListView.DataSource({

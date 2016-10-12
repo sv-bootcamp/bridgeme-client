@@ -8,11 +8,11 @@ import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
 import {
+  ActionConst,
+  Actions,
   Router,
   Reducer,
   Scene,
-  ActionConst,
-  Actions,
 } from 'react-native-router-flux';
 
 // Define reducer to manage scenes
@@ -32,7 +32,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    scene = null;
+    this.scene = null;
   }
 
   render() {

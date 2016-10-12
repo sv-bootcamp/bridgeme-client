@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Image,
+  TouchableOpacity,
   Text,
   View,
-  TouchableOpacity,
 } from 'react-native';
 
 let PropTypes = React.PropTypes;

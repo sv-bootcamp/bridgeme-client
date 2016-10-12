@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
- StyleSheet,
- View,
- TouchableHighlight,
- Image,
  Alert,
- TouchableWithoutFeedback
+ Image,
+ StyleSheet,
+ TouchableWithoutFeedback,
+ TouchableHighlight,
+ View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';

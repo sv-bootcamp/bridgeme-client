@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
+ Image,
+ Navigator,
  StyleSheet,
  Text,
  View,
- Navigator,
- Image,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';

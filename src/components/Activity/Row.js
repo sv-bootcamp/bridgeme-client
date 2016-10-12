@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+  BackAndroid,
   Image,
+  StyleSheet,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  BackAndroid,
+  Text,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';

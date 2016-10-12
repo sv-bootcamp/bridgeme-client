@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
+  ListView,
+  Platform,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
-  ListView,
-  Platform,
-  ActivityIndicator,
-  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import { Actions } from 'react-native-router-flux';

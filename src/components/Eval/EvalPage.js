@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Platform,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-  ScrollView,
-  TextInput,
   Alert,
   ActivityIndicator,
+  AsyncStorage,
+  Image,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import SurveyUtil from '../../utils/SurveyUtil';
 import CheckBox from './CheckBox';

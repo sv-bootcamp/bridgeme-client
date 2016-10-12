@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
+  ListView,
   Platform,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
-  ListView,
-  ActivityIndicator,
-  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import ServerUtil from '../../utils/ServerUtil';
