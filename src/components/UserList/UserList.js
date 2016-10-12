@@ -42,8 +42,14 @@ class UserList extends Component {
   }
 
   onServerSuccess(result) {
+
+    // Refresh ListView dataSource
+    let newDataSource = new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      });
+
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(result),
+      dataSource: newDataSource.cloneWithRows(result),
       loaded: true,
       isRefreshing: false,
     });
