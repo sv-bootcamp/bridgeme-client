@@ -9,21 +9,48 @@ import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
 import {
   Router,
+  Reducer,
   Scene,
-  ActionConst
+  ActionConst,
+  Actions,
 } from 'react-native-router-flux';
 
+// Define reducer to manage scenes
+const reducerCreate = params=> {
+  const defaultReducer = Reducer(params);
+  return (state, action)=> {
+
+      if (action.scene) {
+        App.scene = action.scene;
+      }
+
+      return defaultReducer(state, action);
+    };
+};
+
 class App extends Component {
+
   constructor(props) {
     super(props);
+    scene = null;
   }
 
   render() {
+
     // Platform verification
     let isAndroid = (Platform.OS === 'android');
 
+    let backAndroidHandler = () => {
+      if (App.scene.sceneKey === 'evalPageMain') {
+        return true;
+      } else {
+        Actions.pop();
+        return true;
+      }
+    };
+
     return (
-      <Router>
+      <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
         <Scene key="root">
           <Scene key="splashPage" component={SplashPage}
             hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
@@ -40,6 +67,9 @@ class App extends Component {
             title="User Profile" />
 
           <Scene key="activity" component={Activity} />
+
+          <Scene key="evalPageMain" component={EvalPage} hideBackImage={true} panHandlers={null}
+            onBack={() => false} title="Survey" hideNavBar={false} />
 
           <Scene key="evalPage" component={EvalPage}
             title="Survey" hideNavBar={false} />

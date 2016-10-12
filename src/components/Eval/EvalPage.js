@@ -36,6 +36,7 @@ class EvalPage extends Component {
     this.surveyUtil = new SurveyUtil(onSuccess, onError);
 
     if (this.props.pageNo === undefined) {
+      this.props.pageNo = 0;
       this.surveyUtil.getQuestionPage(this.props.select);
     } else {
       AsyncStorage.getItem('qestionPage', (err, result) => {
@@ -83,6 +84,7 @@ class EvalPage extends Component {
         loaded: true,
       });
     } else {
+      Alert.alert('Request sent succesfully');
       Actions.main();
     }
   }

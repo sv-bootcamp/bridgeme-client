@@ -25,13 +25,15 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      currentStatus: 'Silicon Valley Bootcamp',
-      currentPosition: 'Software Engineer',
-      currentLocation: 'San Jose, CA',
+      currentStatus: '',
+      currentPosition: '',
+      currentLocation: '',
       loaded: false,
       evalLoaded: false,
       connectPressed: false,
       dataBlob: {},
+      statusAsMentee: '',
+      statusAsMentor: '',
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
@@ -87,6 +89,14 @@ class UserProfile extends Component {
       this.state.dataBlob[sectionIDs[0]] = result.work.slice();
       this.state.dataBlob[sectionIDs[1]] = result.education.slice();
 
+      let statusAsMentee = this.state.statusAsMentee;
+      let statusAsMentor = this.state.statusAsMentor;
+
+      if (result.relation !== undefined) {
+        statusAsMentee = result.relation.asMentee;
+        statusAsMentor = result.relation.asMentor;
+      }
+
       this.setState({
         id: result._id,
         profileImage: result.profile_picture,
@@ -97,12 +107,12 @@ class UserProfile extends Component {
         dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
         isRefreshing: false,
-        statusAsMentee: result.relation.asMentee,
-        statusAsMentor: result.relation.asMentor,
+        statusAsMentee: statusAsMentee,
+        statusAsMentor: statusAsMentor,
       });
     } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
-      Actions.evalPage({ select: 'mentee' });
+      Actions.evalPageMain({ select: 'mentee' });
     }
   }
 

@@ -43,7 +43,7 @@ class Login extends Component {
 
             {/* Render linkedin login buttion */}
             <TouchableWithoutFeedback onPress={() =>
-                Alert.alert('SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
+                Alert.alert('', 'SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
               <Image style={styles.linkedinLoginButton}
                 source={require('../resources/Linkedin_2x.png')} />
             </TouchableWithoutFeedback>
