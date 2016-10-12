@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
 import {
-<<<<<<< Updated upstream
   Alert,
   ActivityIndicator,
   Dimensions,
   Platform,
   ListView,
-=======
-  ActivityIndicator,
-  Alert,
-  Dimensions,
-  Image,
-  ListView,
-  Platform,
->>>>>>> Stashed changes
   ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
-<<<<<<< Updated upstream
   Image,
-=======
->>>>>>> Stashed changes
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -58,7 +46,7 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
-    console.log(result);
+
     // Check result code: profile Request/mentor request
     if (result._id) {
       let currentStatus = this.state.currentStatus;
