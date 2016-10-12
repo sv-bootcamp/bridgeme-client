@@ -148,6 +148,7 @@ class Activity extends Component {
             tintColor="#1ecfe2"
             title="Loading..."
             titleColor="#0e417a"
+            style={{ backgroundColor: 'transparent' }}
           />
         }
       />
