@@ -19,7 +19,6 @@ import {
 const reducerCreate = params=> {
   const defaultReducer = Reducer(params);
   return (state, action)=> {
-
       if (action.scene) {
         App.scene = action.scene;
       }
@@ -41,7 +40,7 @@ class App extends Component {
     let isAndroid = (Platform.OS === 'android');
 
     let backAndroidHandler = () => {
-      if (App.scene.sceneKey === 'evalPageMain') {
+      if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
         return true;
       } else {
         Actions.pop();

@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import {
+<<<<<<< Updated upstream
   Alert,
   ActivityIndicator,
   Dimensions,
   Platform,
   ListView,
+=======
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  ListView,
+  Platform,
+>>>>>>> Stashed changes
   ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
+<<<<<<< Updated upstream
   Image,
+=======
+>>>>>>> Stashed changes
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -46,7 +58,7 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
-
+    console.log(result);
     // Check result code: profile Request/mentor request
     if (result._id) {
       let currentStatus = this.state.currentStatus;
@@ -66,26 +78,32 @@ class UserProfile extends Component {
       if (result.work.length > 0) {
         let work = result.work[0];
 
-        if (work.employer)
+        if (work.employer) {
           currentStatus = work.employer.name;
+        }
 
-        if (work.position)
+        if (work.position) {
           currentPosition = work.position.name;
+        }
 
-        if (work.location)
+        if (work.location) {
           currentLocation = work.location.name;
+        }
       } else if (result.education.length > 0) {
         let lastIndex = result.education.length - 1;
         let education = result.education[lastIndex];
 
-        if (education.school)
+        if (education.school) {
           currentStatus = education.school.name;
-        if (education.concentration.length > 0)
+        }
+
+        if (education.concentration.length > 0) {
           currentPosition = education.concentration[0].name;
+        }
       }
 
       this.state.dataBlob[sectionIDs[0]] = result.work.slice();
-      this.state.dataBlob[sectionIDs[1]] = result.education.slice();
+      this.state.dataBlob[sectionIDs[1]] = result.education.slice().reverse();
 
       let statusAsMentee = this.state.statusAsMentee;
       let statusAsMentor = this.state.statusAsMentor;
@@ -133,10 +151,11 @@ class UserProfile extends Component {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-    if (this.props.myProfile) {
+
+    if (props.myProfile) {
       ServerUtil.getMyProfile();
     } else {
-      ServerUtil.getOthersProfile(this.props._id);
+      ServerUtil.getOthersProfile(props._id);
     }
   }
 
@@ -232,6 +251,7 @@ class UserProfile extends Component {
           <View style={styles.profileUserExperice}>
             {editButton}
             <ListView
+              showsVerticalScrollIndicator={false}
               dataSource={this.state.dataSource}
               renderRow={this.renderRow}
               enableEmptySections={true}

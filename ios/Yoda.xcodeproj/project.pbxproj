@@ -808,7 +808,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yoda;
+				PRODUCT_BUNDLE_IDENTIFIER = com.svbootcamp.yoda;
 				PRODUCT_NAME = yoda;
 				PROVISIONING_PROFILE = "";
 			};
@@ -840,7 +840,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yoda;
+				PRODUCT_BUNDLE_IDENTIFIER = com.svbootcamp.yoda;
 				PRODUCT_NAME = yoda;
 				PROVISIONING_PROFILE = "";
 			};

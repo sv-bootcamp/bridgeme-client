@@ -84,7 +84,7 @@ class EvalPage extends Component {
         loaded: true,
       });
     } else {
-      Alert.alert('Request sent succesfully');
+      Alert.alert('Request Sent Successfully');
       Actions.main();
     }
   }
