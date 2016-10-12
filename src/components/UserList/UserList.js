@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
+  ListView,
+  Platform,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
-  ListView,
-  Platform,
-  ActivityIndicator,
-  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import { Actions } from 'react-native-router-flux';
@@ -33,6 +33,10 @@ class UserList extends Component {
 
   // Refresh data
   onRefresh() {
+    ServerUtil.initCallback(
+      (result) => this.onServerSuccess(result),
+      (error) => this.onServerFail(error));
+
     this.setState({ isRefreshing: true });
     ServerUtil.getMentorList();
   }
@@ -46,11 +50,13 @@ class UserList extends Component {
   }
 
   onServerFail(error) {
-    if (error.code !== ErrorMeta.ERR_NONE) {
+
+    // Check whether session expires
+    if (error.code === 2) {
+      Actions.login({ session: true });
+    } else if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
-
-    Actions.login();
   }
 
   componentDidMount() {

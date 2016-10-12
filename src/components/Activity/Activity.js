@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
+  ListView,
   Platform,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
-  ListView,
-  ActivityIndicator,
-  RefreshControl,
 } from 'react-native';
 import Row from './Row';
 import ServerUtil from '../../utils/ServerUtil';
@@ -20,10 +20,8 @@ class Activity extends Component {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-  }
 
-  getInitialStates() {
-    return {
+    this.state = {
         dataBlob: {},
         dataSource: new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2,
@@ -36,6 +34,10 @@ class Activity extends Component {
 
   // Refresh data
   onRefresh() {
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
     this.setState({ isRefreshing: true });
     ServerUtil.getActivityList();
   }
@@ -76,6 +78,17 @@ class Activity extends Component {
       sectionIndex++;
     }
 
+    let map = new Map();
+    let connectedArray = this.state.dataBlob[sectionIDs[1]];
+
+    for (i = 0; i < connectedArray.length; i++) {
+      if (map.has(connectedArray[i]._id)) {
+        connectedArray.splice(i--, 1);
+      } else {
+        map.set(connectedArray[i]._id, true);
+      }
+    }
+
     this.setState({
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
@@ -87,10 +100,6 @@ class Activity extends Component {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
-  }
-
-  componentWillMount() {
-    this.setState(this.getInitialStates);
   }
 
   componentDidMount() {

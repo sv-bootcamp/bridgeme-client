@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
- StyleSheet,
- View,
- TouchableHighlight,
- Image,
  Alert,
- TouchableWithoutFeedback
+ Image,
+ StyleSheet,
+ TouchableWithoutFeedback,
+ TouchableHighlight,
+ View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
-import ServerUtil from '../utils/ServerUtil';
 
 class Login extends Component {
 
@@ -18,17 +17,13 @@ class Login extends Component {
     super(props);
     LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
     LoginUtil.initLinkedIn();
-
-    ServerUtil.initCallback(
-            (result) => this.onServerSuccess(result),
-            (error) => this.onServerFail(error)
-    );
-
   }
 
   componentWillMount() {
     LoginUtil.initEvent();
-    ServerUtil.hasToken();
+    if (this.props.session === undefined) {
+      LoginUtil.hasToken();
+    }
   }
 
   render() {
@@ -48,7 +43,7 @@ class Login extends Component {
 
             {/* Render linkedin login buttion */}
             <TouchableWithoutFeedback onPress={() =>
-                Alert.alert('SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
+                Alert.alert('', 'SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
               <Image style={styles.linkedinLoginButton}
                 source={require('../resources/Linkedin_2x.png')} />
             </TouchableWithoutFeedback>
@@ -57,7 +52,11 @@ class Login extends Component {
   }
 
   onLoginSuccess(result) {
-    Actions.main();
+    if (result === undefined) {
+      Actions.login();
+    } else {
+      Actions.main();
+    }
   }
 
   onLoginFail(error) {
@@ -68,7 +67,11 @@ class Login extends Component {
 
   // Token already exists on the server
   onServerSuccess(result) {
-    Actions.main();
+    if (result === undefined) {
+      Actions.login();
+    } else {
+      Actions.main();
+    }
   }
 
   onServerFail(error) {

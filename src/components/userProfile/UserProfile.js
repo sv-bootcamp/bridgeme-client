@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
-    Platform,
-    View,
-    Text,
-    ScrollView,
-    Image,
-    TouchableHighlight,
-    Dimensions,
-    ListView,
-    Alert,
-    ActivityIndicator,
+  Alert,
+  ActivityIndicator,
+  Dimensions,
+  Platform,
+  ListView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';
@@ -25,17 +25,18 @@ class UserProfile extends Component {
       id: '',
       profileImage: '../../resources/btn_connect_2x.png',
       name: '',
-      currentStatus: 'Silicon Valley Bootcamp',
-      currentPosition: 'Software Engineer',
-      currentLocation: 'San Jose, CA',
+      currentStatus: '',
+      currentPosition: '',
+      currentLocation: '',
       loaded: false,
       evalLoaded: false,
       connectPressed: false,
-      workDataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      educationDataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
+      dataBlob: {},
+      statusAsMentee: '',
+      statusAsMentor: '',
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
       }),
     };
 
@@ -52,32 +53,52 @@ class UserProfile extends Component {
       let currentPosition = this.state.currentPosition;
       let currentLocation = this.state.currentLocation;
 
+      let sectionIDs = ['Experience', 'Education'];
+
+      this.setState({
+        dataSource: new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2,
+          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+        }),
+        dataBlob: {},
+      });
+
       if (result.work.length > 0) {
         let work = result.work[0];
 
-        if (work.employer)
+        if (work.employer) {
           currentStatus = work.employer.name;
+        }
 
-        if (work.position)
+        if (work.position) {
           currentPosition = work.position.name;
+        }
 
-        if (work.location)
+        if (work.location) {
           currentLocation = work.location.name;
+        }
       } else if (result.education.length > 0) {
         let lastIndex = result.education.length - 1;
         let education = result.education[lastIndex];
 
-        if (education.school)
+        if (education.school) {
           currentStatus = education.school.name;
-        if (education.concentration.length > 0)
+        }
+
+        if (education.concentration.length > 0) {
           currentPosition = education.concentration[0].name;
+        }
       }
 
-      let collegeInfo = [];
+      this.state.dataBlob[sectionIDs[0]] = result.work.slice();
+      this.state.dataBlob[sectionIDs[1]] = result.education.slice().reverse();
 
-      for (let i = 0; i < result.education.length; i++) {
-        if (result.education[i].type === 'College')
-          collegeInfo.push(result.education[i]);
+      let statusAsMentee = this.state.statusAsMentee;
+      let statusAsMentor = this.state.statusAsMentor;
+
+      if (result.relation !== undefined) {
+        statusAsMentee = result.relation.asMentee;
+        statusAsMentor = result.relation.asMentor;
       }
 
       this.setState({
@@ -87,15 +108,15 @@ class UserProfile extends Component {
         currentStatus: currentStatus,
         currentPosition: currentPosition,
         currentLocation: currentLocation,
+        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
-        status: result.status,
-        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
-        educationDataSource: this.state.educationDataSource.cloneWithRows(collegeInfo),
+        isRefreshing: false,
+        statusAsMentee: statusAsMentee,
+        statusAsMentor: statusAsMentor,
       });
-
     } else if (result.msg !== undefined) {
       this.setState({ evalLoaded: true });
-      Actions.evalPage({ select: 'mentee' });
+      Actions.evalPageMain({ select: 'mentee' });
     }
   }
 
@@ -115,6 +136,10 @@ class UserProfile extends Component {
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
     if (props.myProfile) {
       ServerUtil.getMyProfile();
     } else {
@@ -134,14 +159,14 @@ class UserProfile extends Component {
   // Render loading page while fetching user profiles
   renderLoadingView() {
     return (
-        <View style={styles.header}>
-          <ActivityIndicator
-            animating={!this.state.loaded}
-            style={[styles.activityIndicator]}
-            size="large"
-            />
-            <Text style={styles.headerText}>Loading main page...</Text>
-        </View>
+      <View style={styles.header}>
+        <ActivityIndicator
+          animating={!this.state.loaded}
+          style={[styles.activityIndicator]}
+          size="large"
+        />
+        <Text style={styles.headerText}>Loading...</Text>
+      </View>
     );
   }
 
@@ -150,11 +175,11 @@ class UserProfile extends Component {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>Loading survey page...</Text>
-          <ActivityIndicator
-            animating={!this.state.evalLoaded}
-            style={[styles.activityIndicator]}
-            size="large"
-            />
+        <ActivityIndicator
+          animating={!this.state.evalLoaded}
+          style={[styles.activityIndicator]}
+          size="large"
+        />
       </View>
     );
   }
@@ -176,24 +201,24 @@ class UserProfile extends Component {
         <Text style={styles.edit}>Edit</Text>
       );
     } else {
-      if (this.state.status === 2) {
+      if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
         connectButton = (
-         <TouchableHighlight style={styles.waitingButton}>
-           <Text style={styles.buttonText}>Waiting...</Text>
-         </TouchableHighlight>
-       );
-      } else if (this.state.status === 0) {
+          <TouchableHighlight style={styles.waitingButton}>
+            <Text style={styles.buttonText}>Waiting...</Text>
+          </TouchableHighlight>
+        );
+      } else if (this.state.statusAsMentee === 0 && this.state.statusAsMentor === 0) {
         connectButton = (
-         <TouchableHighlight style={styles.connectButton} onPress={connect}>
-           <Text style={styles.buttonText}>Connect</Text>
-         </TouchableHighlight>
-       );
-      } else {
+          <TouchableHighlight style={styles.connectButton} onPress={connect}>
+            <Text style={styles.buttonText}>Connect</Text>
+          </TouchableHighlight>
+        );
+      } else if (this.state.statusAsMentee === 1 || this.state.statusAsMentor === 1) {
         connectButton = (
-         <TouchableHighlight style={styles.waitingButton}>
-           <Text style={styles.buttonText}>Connected</Text>
-         </TouchableHighlight>
-       );
+          <TouchableHighlight style={styles.waitingButton}>
+            <Text style={styles.buttonText}>Connected</Text>
+          </TouchableHighlight>
+        );
       }
     }
 
@@ -201,45 +226,42 @@ class UserProfile extends Component {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scroll}>
           <Image style={styles.profileImage}
-                source={{ uri: this.state.profileImage }} />
+                 source={{ uri: this.state.profileImage }} />
           <View style={styles.profileUserInfo}>
             {editButton}
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>
               {this.state.currentStatus} | {this.state.currentPosition}
             </Text>
-              <Text style={styles.positionText}>{this.state.currentLocation}</Text>
+            <Text style={styles.positionText}>{this.state.currentLocation}</Text>
 
           </View>
           <View style={styles.profileUserExperice}>
-            <Text style={styles.experienceText}>Experience</Text>
             {editButton}
             <ListView
-              dataSource={this.state.workDataSource}
-              renderRow={this.renderWorkRow}
+              showsVerticalScrollIndicator={false}
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow}
               enableEmptySections={true}
-              scrollEnabled={true}
-              />
-            <Text style={styles.educationText}>Education</Text>
-            <ListView
-              dataSource={this.state.educationDataSource}
-              renderRow={this.renderEducationRow}
-              enableEmptySections={true}
-              scrollEnabled={true}
-              />
+              renderSectionHeader = {this.renderSectionHeader}
+            />
           </View>
-      </ScrollView>
-      {connectButton}
-    </View>
+        </ScrollView>
+        {connectButton}
+      </View>
     );
   }
 
-  renderWorkRow(rowData) {
-    return <ExperienceRow dataSource={rowData} category={'work'}/>;
+  renderSectionHeader(sectionData, sectionID) {
+    return (
+      <View style={styles.section}>
+        <Text style={styles.text}>{sectionID}</Text>
+      </View>
+    );
   }
 
-  renderEducationRow(rowData) {
-    return <ExperienceRow dataSource={rowData} category={'education'}/>;
+  renderRow(rowData) {
+    return <ExperienceRow dataSource={rowData}/>;
   }
 
   render() {
@@ -360,6 +382,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#0e417a',
     marginTop: 300,
+  },
+  section: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 5,
   },
 });
 

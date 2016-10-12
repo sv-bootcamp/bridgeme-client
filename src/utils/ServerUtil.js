@@ -17,17 +17,6 @@ class ServerUtil {
     this.errorCallback = error;
   }
 
-  // Check token
-  hasToken() {
-    AsyncStorage.getItem('token', (err, result) => {
-      if (result === null) {
-        this.onError(ErrorMeta.ERR_NONE);
-      } else {
-        this.successCallback();
-      }
-    });
-  }
-
   // Error messages
   onError(errCode) {
     let result = ErrorUtil.getErrorMsg(errCode);

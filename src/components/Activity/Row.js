@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+  BackAndroid,
   Image,
+  StyleSheet,
   TouchableHighlight,
   TouchableWithoutFeedback,
+  Text,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';
@@ -105,7 +106,7 @@ class Row extends Component {
   // Accept request
   acceptRequest() {
     ServerUtil.acceptRequest(this.props.dataSource.id);
-    Actions.evalPage({ select: 'mentor' });
+    Actions.evalPageMain({ select: 'mentor' });
   }
 
   // Reject request

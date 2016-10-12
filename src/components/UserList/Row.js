@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
-  View,
-  Image,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 

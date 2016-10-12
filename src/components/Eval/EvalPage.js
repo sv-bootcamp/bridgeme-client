@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Platform,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-  ScrollView,
-  TextInput,
   Alert,
   ActivityIndicator,
+  AsyncStorage,
+  Image,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import SurveyUtil from '../../utils/SurveyUtil';
 import CheckBox from './CheckBox';
@@ -36,6 +36,7 @@ class EvalPage extends Component {
     this.surveyUtil = new SurveyUtil(onSuccess, onError);
 
     if (this.props.pageNo === undefined) {
+      this.props.pageNo = 0;
       this.surveyUtil.getQuestionPage(this.props.select);
     } else {
       AsyncStorage.getItem('qestionPage', (err, result) => {
@@ -83,6 +84,7 @@ class EvalPage extends Component {
         loaded: true,
       });
     } else {
+      Alert.alert('Request Sent Successfully');
       Actions.main();
     }
   }

@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import {
+ Image,
+ Navigator,
  StyleSheet,
  Text,
  View,
- Navigator,
- Image,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
-import ServerUtil from '../utils/ServerUtil';
+import LoginUtil from '../utils/LoginUtil';
 
 class SplashPage extends Component {
 
   constructor(props) {
     super(props);
 
-    ServerUtil.initCallback(
+    LoginUtil.initCallback(
       (result) => this.onServerSuccess(result),
       (error) => this.onServerFail(error)
     );
   }
 
   componentWillMount() {
-    ServerUtil.hasToken();
+    LoginUtil.hasToken();
   }
 
   // Token already exists on the server
