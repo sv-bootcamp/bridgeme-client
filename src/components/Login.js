@@ -19,7 +19,6 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    LoginUtil.initEvent();
     if (this.props.session === undefined) {
       LoginUtil.hasToken();
     }
