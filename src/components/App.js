@@ -7,6 +7,7 @@ import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
+import Personality from './Personality';
 import {
   ActionConst,
   Actions,
@@ -52,10 +53,13 @@ class App extends Component {
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
         <Scene key="root">
           <Scene key="splashPage" component={SplashPage}
-            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
+            hideNavBar={true} type={ActionConst.RESET} />
+
+          <Scene key="personality"
+                 component={Personality} title="Personality" initial={true}/>
 
           <Scene key="login" component={Login}
-            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
+                 hideNavBar={true} type={ActionConst.RESET}/>
 
           <Scene key="main" component={Main} title="All Lists"
             hideNavBar={false} type={ActionConst.RESET} />
