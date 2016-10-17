@@ -344,7 +344,6 @@ class EvalPage extends Component {
   }
 
   render() {
-
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }

@@ -12,7 +12,6 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <linkedin-sdk/LISDK.h>
 
 @implementation AppDelegate
 

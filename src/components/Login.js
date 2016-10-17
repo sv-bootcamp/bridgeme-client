@@ -16,11 +16,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
-    LoginUtil.initLinkedIn();
   }
 
   componentWillMount() {
-    LoginUtil.initEvent();
     if (this.props.session === undefined) {
       LoginUtil.hasToken();
     }
@@ -40,13 +38,6 @@ class Login extends Component {
                <Image style={styles.facebookLoginButton}
                source={require('../resources/facebook_2x.png')} />
               </TouchableWithoutFeedback>
-
-            {/* Render linkedin login buttion */}
-            <TouchableWithoutFeedback onPress={() =>
-                Alert.alert('', 'SORRY TEMPORARILY OUT OF SERVICE UNTIL FURTHER NOTICE')}>
-              <Image style={styles.linkedinLoginButton}
-                source={require('../resources/Linkedin_2x.png')} />
-            </TouchableWithoutFeedback>
         </View>
      );
   }
@@ -99,11 +90,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 290,
     marginBottom: 10,
-  },
-  linkedinLoginButton: {
-    height: 40,
-    width: 290,
-    backgroundColor: '#FFFFFFFF',
   },
 });
 

@@ -279,7 +279,7 @@ class UserProfile extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   name: {
-    marginTop: 70,
+    marginTop: height / 10,
     fontSize: 17,
     fontWeight: 'bold',
   },
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     position: 'absolute',
-    top: 20,
+    top: height / 40,
     left: width / 2 - 50,
     zIndex: 100,
     height: 100,
@@ -330,9 +330,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileUserInfo: {
-    flex: 1.4,
+    flex: 1.3,
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: height / 10,
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: '#f7f7f9',

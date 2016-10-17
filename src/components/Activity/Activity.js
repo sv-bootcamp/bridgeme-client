@@ -89,6 +89,14 @@ class Activity extends Component {
       }
     }
 
+    // Refresh dataSource
+    this.setState({
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+      }),
+    });
+
     this.setState({
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
       loaded: true,
@@ -148,6 +156,7 @@ class Activity extends Component {
             tintColor="#1ecfe2"
             title="Loading..."
             titleColor="#0e417a"
+            style={{ backgroundColor: 'transparent' }}
           />
         }
       />
