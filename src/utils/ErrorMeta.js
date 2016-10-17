@@ -6,7 +6,6 @@ class ErrorMeta {
   static ERR_SERVER_FAIL = 2;
   static ERR_NO_LOGIN_TYPE = 3;
   static ERR_FB_LOGIN = 4;
-  static ERR_LI_LOGIN = 5;
   static ERR_NO_USER_DATA = 6;
   static ERR_APP_FAIL = 7;
 }

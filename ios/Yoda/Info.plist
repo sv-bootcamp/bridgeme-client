@@ -37,8 +37,6 @@
 	<string>293003637722841</string>
 	<key>FacebookDisplayName</key>
 	<string>mentoring</string>
-	<key>LIAppId</key>
-	<string>4231564</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

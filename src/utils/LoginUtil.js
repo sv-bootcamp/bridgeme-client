@@ -8,7 +8,6 @@ import {
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk';
-import LinkedInLogin from './linkedin-login';
 import ErrorMeta from './ErrorMeta';
 import ErrorUtil from './ErrorUtil';
 import UrlMeta from './UrlMeta';
@@ -25,29 +24,6 @@ class LoginUtil {
   initCallback(success, error) {
     this.successCallback = success;
     this.errorCallback = error;
-  }
-
-  // Register info data to use LinkedIn SDK
-  initLinkedIn() {
-    LinkedInLogin.init(
-      LoginMeta.redirectUrl,
-      LoginMeta.clientId,
-      LoginMeta.clientSecret,
-      LoginMeta.state,
-      LoginMeta.scopes);
-  }
-
-  // Register listeners to use LinkedIn SDK Login, LoginError
-  initEvent() {
-    DeviceEventEmitter.addListener(
-      'linkedinLogin',
-      this.onLoginSuccessLI
-    );
-
-    DeviceEventEmitter.addListener(
-      'linkedinLoginError',
-      this.onLoginErrorLI
-    );
   }
 
   // Check token
@@ -97,20 +73,6 @@ class LoginUtil {
     loginUtil.onError(ErrorMeta.ERR_FB_LOGIN);
   }
 
-  //Sign In with LinkedIn.
-  signInWithLinkedIn() {
-    LinkedInLogin.login();
-  }
-
-  onLoginSuccessLI(result) {
-    AsyncStorage.setItem('loginType', LoginMeta.LOGIN_TYPE_LI);
-    loginUtil.fetchData(LoginMeta.LOGIN_TYPE_LI, result.accessToken);
-  }
-
-  onLoginErrorLI(error) {
-    loginUtil.onError(ErrorMeta.ERR_LI_LOGIN);
-  }
-
   fetchData(type, token) {
     AsyncStorage.multiSet(
     [['token', token], ['loginType', type]],
@@ -158,5 +120,4 @@ class LoginUtil {
 }
 
 const loginUtil = new LoginUtil();
-
 module.exports = loginUtil;
