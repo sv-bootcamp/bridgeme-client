@@ -7,42 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		00E356F31AD99517003FC87E /* yodaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* yodaTests.m */; };
-		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AA20BCC71DA4B47900BFA62C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		AA20BCD41DA4B63F00BFA62C /* opensans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA20BCD31DA4B63F00BFA62C /* opensans.ttf */; };
-		AA2837921D7414D900FA1AE0 /* LIALinkedInApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */; };
-		AA2837931D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */; };
-		AA2837941D7414D900FA1AE0 /* LIALinkedInHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */; };
-		AA2837951D7414D900FA1AE0 /* LinkedinLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */; };
-		AA2837961D7414D900FA1AE0 /* NSString+LIAEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */; };
-		AA2837AB1D7414E800FA1AE0 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */; };
-		AA2837AC1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */; };
-		AA2837AD1D7414E800FA1AE0 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */; };
-		AA2837AE1D7414E800FA1AE0 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */; };
-		AA2837AF1D7414E800FA1AE0 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */; };
-		AA2837B01D7414E800FA1AE0 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */; };
-		AA2837B11D7414E800FA1AE0 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */; };
-		AA2837B21D7414E800FA1AE0 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */; };
-		AA2837B31D7414E800FA1AE0 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */; };
 		AA49EE131D6FFBD20083C256 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */; };
 		AA49EE141D6FFBD20083C256 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */; };
 		AA49EE151D6FFBD20083C256 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */; };
 		AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE161D6FFEB90083C256 /* Bolts.framework */; };
-		AA49EE391D703D670083C256 /* linkedin-sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE381D703D670083C256 /* linkedin-sdk.framework */; };
 		AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB23E201D75476D00C97A58 /* LaunchScreen.xib */; };
 		DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */; };
 /* End PBXBuildFile section */
@@ -157,40 +142,10 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		AA20BCD31DA4B63F00BFA62C /* opensans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = opensans.ttf; sourceTree = "<group>"; };
-		AA28377F1D7414D900FA1AE0 /* LIALinkedInApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInApplication.h; sourceTree = "<group>"; };
-		AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInApplication.m; sourceTree = "<group>"; };
-		AA2837811D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInAuthorizationViewController.h; sourceTree = "<group>"; };
-		AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInAuthorizationViewController.m; sourceTree = "<group>"; };
-		AA2837831D7414D900FA1AE0 /* LIALinkedInHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInHttpClient.h; sourceTree = "<group>"; };
-		AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInHttpClient.m; sourceTree = "<group>"; };
-		AA2837851D7414D900FA1AE0 /* LinkedinLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedinLogin.h; sourceTree = "<group>"; };
-		AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedinLogin.m; sourceTree = "<group>"; };
-		AA2837871D7414D900FA1AE0 /* NSString+LIAEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LIAEncode.h"; sourceTree = "<group>"; };
-		AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LIAEncode.m"; sourceTree = "<group>"; };
-		AA2837981D7414E800FA1AE0 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
-		AA28379A1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
-		AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
-		AA28379C1D7414E800FA1AE0 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
-		AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
-		AA28379E1D7414E800FA1AE0 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		AA28379F1D7414E800FA1AE0 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
-		AA2837A11D7414E800FA1AE0 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
-		AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
-		AA2837A31D7414E800FA1AE0 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
-		AA2837A51D7414E800FA1AE0 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
-		AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
-		AA2837A71D7414E800FA1AE0 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
-		AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
-		AA2837A91D7414E800FA1AE0 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
-		AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA49EE161D6FFEB90083C256 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		AA49EE381D703D670083C256 /* linkedin-sdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "linkedin-sdk.framework"; sourceTree = "<group>"; };
 		AAB23E211D75476D00C97A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Yoda/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -223,7 +178,6 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */,
-				AA49EE391D703D670083C256 /* linkedin-sdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +317,6 @@
 			isa = PBXGroup;
 			children = (
 				AA20BCD31DA4B63F00BFA62C /* opensans.ttf */,
-				AA28376A1D7414D900FA1AE0 /* RNLinkedinLogin */,
 				AA49EE0F1D6FFBB10083C256 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* yoda */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -383,50 +336,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA28376A1D7414D900FA1AE0 /* RNLinkedinLogin */ = {
-			isa = PBXGroup;
-			children = (
-				AA2837971D7414E800FA1AE0 /* AFNetworking */,
-				AA28377F1D7414D900FA1AE0 /* LIALinkedInApplication.h */,
-				AA2837801D7414D900FA1AE0 /* LIALinkedInApplication.m */,
-				AA2837811D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.h */,
-				AA2837821D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m */,
-				AA2837831D7414D900FA1AE0 /* LIALinkedInHttpClient.h */,
-				AA2837841D7414D900FA1AE0 /* LIALinkedInHttpClient.m */,
-				AA2837851D7414D900FA1AE0 /* LinkedinLogin.h */,
-				AA2837861D7414D900FA1AE0 /* LinkedinLogin.m */,
-				AA2837871D7414D900FA1AE0 /* NSString+LIAEncode.h */,
-				AA2837881D7414D900FA1AE0 /* NSString+LIAEncode.m */,
-			);
-			path = RNLinkedinLogin;
-			sourceTree = "<group>";
-		};
-		AA2837971D7414E800FA1AE0 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				AA2837981D7414E800FA1AE0 /* AFHTTPRequestOperation.h */,
-				AA2837991D7414E800FA1AE0 /* AFHTTPRequestOperation.m */,
-				AA28379A1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.h */,
-				AA28379B1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m */,
-				AA28379C1D7414E800FA1AE0 /* AFHTTPSessionManager.h */,
-				AA28379D1D7414E800FA1AE0 /* AFHTTPSessionManager.m */,
-				AA28379E1D7414E800FA1AE0 /* AFNetworking.h */,
-				AA28379F1D7414E800FA1AE0 /* AFNetworkReachabilityManager.h */,
-				AA2837A01D7414E800FA1AE0 /* AFNetworkReachabilityManager.m */,
-				AA2837A11D7414E800FA1AE0 /* AFSecurityPolicy.h */,
-				AA2837A21D7414E800FA1AE0 /* AFSecurityPolicy.m */,
-				AA2837A31D7414E800FA1AE0 /* AFURLConnectionOperation.h */,
-				AA2837A41D7414E800FA1AE0 /* AFURLConnectionOperation.m */,
-				AA2837A51D7414E800FA1AE0 /* AFURLRequestSerialization.h */,
-				AA2837A61D7414E800FA1AE0 /* AFURLRequestSerialization.m */,
-				AA2837A71D7414E800FA1AE0 /* AFURLResponseSerialization.h */,
-				AA2837A81D7414E800FA1AE0 /* AFURLResponseSerialization.m */,
-				AA2837A91D7414E800FA1AE0 /* AFURLSessionManager.h */,
-				AA2837AA1D7414E800FA1AE0 /* AFURLSessionManager.m */,
-			);
-			path = AFNetworking;
-			sourceTree = "<group>";
-		};
 		AA49EE001D6FFA100083C256 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,7 +347,6 @@
 		AA49EE0F1D6FFBB10083C256 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA49EE381D703D670083C256 /* linkedin-sdk.framework */,
 				AA49EE161D6FFEB90083C256 /* Bolts.framework */,
 				AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */,
 				AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */,
@@ -701,22 +609,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA2837B01D7414E800FA1AE0 /* AFURLConnectionOperation.m in Sources */,
-				AA2837951D7414D900FA1AE0 /* LinkedinLogin.m in Sources */,
-				AA2837961D7414D900FA1AE0 /* NSString+LIAEncode.m in Sources */,
-				AA2837941D7414D900FA1AE0 /* LIALinkedInHttpClient.m in Sources */,
-				AA2837B21D7414E800FA1AE0 /* AFURLResponseSerialization.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				AA2837B11D7414E800FA1AE0 /* AFURLRequestSerialization.m in Sources */,
-				AA2837AF1D7414E800FA1AE0 /* AFSecurityPolicy.m in Sources */,
-				AA2837AB1D7414E800FA1AE0 /* AFHTTPRequestOperation.m in Sources */,
-				AA2837B31D7414E800FA1AE0 /* AFURLSessionManager.m in Sources */,
-				AA2837921D7414D900FA1AE0 /* LIALinkedInApplication.m in Sources */,
-				AA2837931D7414D900FA1AE0 /* LIALinkedInAuthorizationViewController.m in Sources */,
-				AA2837AD1D7414E800FA1AE0 /* AFHTTPSessionManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				AA2837AE1D7414E800FA1AE0 /* AFNetworkReachabilityManager.m in Sources */,
-				AA2837AC1D7414E800FA1AE0 /* AFHTTPRequestOperationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

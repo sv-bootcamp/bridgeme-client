@@ -229,10 +229,8 @@ class UserProfile extends Component {
                  source={{ uri: this.state.profileImage }} />
           <View style={styles.profileUserInfo}>
             {editButton}
-            <Text adjustsFontSizeToFit={true}
-              style={styles.name}>{this.state.name}</Text>
-            <Text adjustsFontSizeToFit={true}
-               style={styles.positionText}>
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text style={styles.positionText}>
               {this.state.currentStatus} | {this.state.currentPosition}
             </Text>
             <Text style={styles.positionText}>{this.state.currentLocation}</Text>
