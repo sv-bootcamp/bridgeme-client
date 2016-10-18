@@ -46,7 +46,7 @@ class Login extends Component {
     if (result === undefined) {
       Actions.login();
     } else {
-      Actions.main();
+      Actions.generalInfo();
     }
   }
 

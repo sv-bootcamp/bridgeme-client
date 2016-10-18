@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import SplashPage from './SplashPage';
 import Login from './Login';
+import GeneralInfo from './SignUp/GeneralInfo';
 import Main from './Main';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
@@ -42,6 +43,8 @@ class App extends Component {
     let backAndroidHandler = () => {
       if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
         return true;
+      } else if (App.scene.sceneKey === 'generalInfo') {
+        return true;
       } else {
         Actions.pop();
         return true;
@@ -50,12 +53,18 @@ class App extends Component {
 
     return (
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
-        <Scene key="root">
+        <Scene key="root"
+               titleStyle={styles.title} rightButtonTextStyle={styles.leftBtn}
+               navigationBarStyle={styles.bar}>
           <Scene key="splashPage" component={SplashPage}
-            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
+            hideNavBar={true} type={ActionConst.RESET} />
 
           <Scene key="login" component={Login}
-            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
+            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET} />
+
+          <Scene key="generalInfo" component={GeneralInfo} title="General Info"
+            initial={isAndroid} hideNavBar={false} type={ActionConst.RESET}
+            rightTitle="Edit" onRight={()=>alert('Edit!')} />
 
           <Scene key="main" component={Main} title="All Lists"
             hideNavBar={false} type={ActionConst.RESET} />
@@ -77,5 +86,22 @@ class App extends Component {
    );
   }
 }
+
+const styles = StyleSheet.create({
+  bar: {
+    backgroundColor: '#fafafa',
+    borderBottomColor: '#d6dada',
+  },
+
+  title: {
+    fontSize: 16,
+    color: '#2e3031',
+  },
+
+  leftBtn: {
+    fontSize: 16,
+    color: '#557bfc',
+  },
+});
 
 module.exports = App;

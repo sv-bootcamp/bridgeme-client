@@ -27,7 +27,7 @@ class SplashPage extends Component {
 
   // Token already exists on the server
   onServerSuccess(result) {
-    Actions.main();
+    Actions.generalInfo();
   }
 
   // If the token is not validate and has an error
