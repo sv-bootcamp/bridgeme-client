@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from 'react-native';
+import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import Activity from './Activity/Activity';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
+import TabBar from './Shared/TabBar';
 
 class Main extends Component {
 
@@ -12,23 +18,59 @@ class Main extends Component {
   }
 
   render() {
-    let TabBar = () => <DefaultTabBar activeTextColor='#546979'
-                                        tabBarBackgroundColor='#f6f7f9' />;
     return (
-        <ScrollableTabView style={styles.tab}
-                           renderTabBar={TabBar}
-                           tabBarPosition='bottom'>
-          <UserList tabLabel='Find'></UserList>
-          <Activity tabLabel='Activity'></Activity>
-          <UserProfile tabLabel='MyProfile' myProfile={true}></UserProfile>
-        </ScrollableTabView>
+      <ScrollableTabView
+        initialPage={0}
+        tabBarPosition='bottom'
+        renderTabBar={() => <TabBar />}
+        >
+      <UserList tabLabel="ios-home" style={styles.tabView}>
+        <View style={styles.card}>
+          <Text>Home</Text>
+        </View>
+      </UserList>
+      <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
+        <View style={styles.card}>
+          <Text>Tournament</Text>
+        </View>
+      </ScrollView>
+      <Activity tabLabel="ios-people" style={styles.tabView}>
+        <View style={styles.card}>
+          <Text>Activity</Text>
+        </View>
+      </Activity>
+      <ScrollView tabLabel="ios-chatbubbles" style={styles.tabView}>
+        <View style={styles.card}>
+          <Text>Messenger</Text>
+        </View>
+      </ScrollView>
+      <UserProfile tabLabel="md-contact" myProfile={true} style={styles.tabView}>
+        <View style={styles.card}>
+          <Text>My Profile</Text>
+        </View>
+      </UserProfile>
+    </ScrollableTabView>
       );
   }
 }
 
 const styles = StyleSheet.create({
-  tab: {
+  tabView: {
     flex: 1,
+    padding: 10,
+    backgroundColor: '#fafafa',
+  },
+  card: {
+    borderWidth: 1,
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    margin: 5,
+    height: 150,
+    padding: 15,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 2, height: 2, },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
   },
 });
 
