@@ -57,13 +57,15 @@ class App extends Component {
           <Scene key="login" component={Login}
             initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
 
-          <Scene key="main" component={Main} title="All Lists"
-            hideNavBar={false} type={ActionConst.RESET} />
+          <Scene key="main" component={Main} title="Bridgeme"
+            hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
 
-          <Scene key="userProfile" component={UserProfile}
-            title="User Profile" />
+          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+            backButtonImage={require('../resources/icon-arrow-left-white.png')}
+            navigationBarStyle={{ backgroundColor: 'transparent',
+              borderBottomColor: 'transparent', }}/>
 
           <Scene key="activity" component={Activity} />
 

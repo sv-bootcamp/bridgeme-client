@@ -19,38 +19,26 @@ class Main extends Component {
 
   render() {
     return (
-      <ScrollableTabView
-        initialPage={0}
-        tabBarPosition='bottom'
-        renderTabBar={() => <TabBar />}
-        >
-      <UserList tabLabel="ios-home" style={styles.tabView}>
-        <View style={styles.card}>
-          <Text>Home</Text>
-        </View>
-      </UserList>
-      <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
-        <View style={styles.card}>
-          <Text>Tournament</Text>
-        </View>
-      </ScrollView>
-      <Activity tabLabel="ios-people" style={styles.tabView}>
-        <View style={styles.card}>
-          <Text>Activity</Text>
-        </View>
-      </Activity>
-      <ScrollView tabLabel="ios-chatbubbles" style={styles.tabView}>
-        <View style={styles.card}>
-          <Text>Messenger</Text>
-        </View>
-      </ScrollView>
-      <UserProfile tabLabel="md-contact" myProfile={true} style={styles.tabView}>
-        <View style={styles.card}>
-          <Text>My Profile</Text>
-        </View>
-      </UserProfile>
-    </ScrollableTabView>
-      );
+        <ScrollableTabView
+          initialPage={0}
+          tabBarPosition='bottom'
+          renderTabBar={() => <TabBar />}
+          >
+        <UserList tabLabel="ios-home" style={styles.tabView} />
+        <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Tournament</Text>
+          </View>
+        </ScrollView>
+        <Activity tabLabel="ios-people" style={styles.tabView} />
+        <ScrollView tabLabel="ios-chatbubbles" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Messenger</Text>
+          </View>
+        </ScrollView>
+        <UserProfile tabLabel="md-contact" myProfile={true} style={styles.tabView} />
+      </ScrollableTabView>
+    );
   }
 }
 

@@ -11,11 +11,14 @@ import {
   TouchableHighlight,
   Image,
   View,
+  StatusBar,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
+import ScrollableTabView  from 'react-native-scrollable-tab-view';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -53,7 +56,7 @@ class UserProfile extends Component {
       let currentPosition = this.state.currentPosition;
       let currentLocation = this.state.currentLocation;
 
-      let sectionIDs = ['Experience', 'Education'];
+      let sectionIDs = ['Education', 'Experience'];
 
       this.setState({
         dataSource: new ListView.DataSource({
@@ -90,8 +93,8 @@ class UserProfile extends Component {
         }
       }
 
-      this.state.dataBlob[sectionIDs[0]] = result.work.slice();
-      this.state.dataBlob[sectionIDs[1]] = result.education.slice().reverse();
+      this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
+      this.state.dataBlob[sectionIDs[1]] = result.work.slice();
 
       let statusAsMentee = this.state.statusAsMentee;
       let statusAsMentor = this.state.statusAsMentor;
@@ -203,42 +206,53 @@ class UserProfile extends Component {
     } else {
       if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
         connectButton = (
-          <TouchableHighlight style={styles.waitingButton}>
-            <Text style={styles.buttonText}>Waiting...</Text>
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight>
+            <Text style={styles.buttonText}>WAITING...</Text>
           </TouchableHighlight>
+          </LinearGradient>
         );
       } else if (this.state.statusAsMentee === 0 && this.state.statusAsMentor === 0) {
         connectButton = (
-          <TouchableHighlight style={styles.connectButton} onPress={connect}>
-            <Text style={styles.buttonText}>Connect</Text>
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight onPress={connect}>
+            <Text style={styles.buttonText}>CONNECT</Text>
           </TouchableHighlight>
+          </LinearGradient>
         );
       } else if (this.state.statusAsMentee === 1 || this.state.statusAsMentor === 1) {
         connectButton = (
-          <TouchableHighlight style={styles.waitingButton}>
-            <Text style={styles.buttonText}>Connected</Text>
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight>
+            <Text style={styles.buttonText}>CONNECTED</Text>
           </TouchableHighlight>
+          </LinearGradient>
         );
       }
     }
 
     return (
-      <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scroll}>
-          <Image style={styles.profileImage}
+          <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#546979', '#08233a']}>
+            <Image style={styles.profileImage}
                  source={{ uri: this.state.profileImage }} />
+           </LinearGradient>
           <View style={styles.profileUserInfo}>
             {editButton}
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>
               {this.state.currentStatus} | {this.state.currentPosition}
             </Text>
-            <Text style={styles.positionText}>{this.state.currentLocation}</Text>
-
+            <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
           <View style={styles.profileUserExperice}>
             {editButton}
             <ListView
+              scrollEnabled={true}
               showsVerticalScrollIndicator={false}
               dataSource={this.state.dataSource}
               renderRow={this.renderRow}
@@ -246,16 +260,20 @@ class UserProfile extends Component {
               renderSectionHeader = {this.renderSectionHeader}
             />
           </View>
+          {connectButton}
+          <StatusBar
+               backgroundColor = "transparent"
+               barStyle = "light-content"
+               networkActivityIndicatorVisible={true}
+            />
         </ScrollView>
-        {connectButton}
-      </View>
     );
   }
 
   renderSectionHeader(sectionData, sectionID) {
     return (
       <View style={styles.section}>
-        <Text style={styles.text}>{sectionID}</Text>
+        <Text style={styles.sectionName}>{sectionID}</Text>
       </View>
     );
   }
@@ -279,14 +297,19 @@ class UserProfile extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   name: {
-    marginTop: height / 10,
-    fontSize: 17,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   positionText: {
-    fontSize: 13,
-    marginTop: 7,
-    color: '#546979',
+    fontSize: 14,
+    marginTop: 30,
+    color: '#ffffff',
+  },
+  currentLocationText: {
+    fontSize: 14,
+    marginTop: 5,
+    color: '#ffffff',
   },
   edit: {
     position: 'absolute',
@@ -304,47 +327,40 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    flexDirection: 'column',
-  },
   scroll: {
-    flex: 1,
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
+    alignItems: 'stretch',
   },
   profileImage: {
-    position: 'absolute',
-    top: height / 40,
-    left: width / 2 - 50,
-    zIndex: 100,
-    height: 100,
-    width: 100,
-    borderRadius: 50,
+    alignItems: 'stretch',
+    opacity: 0.4,
+    height: 300,
+  },
+  profileImgGradient: {
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {
+      height: 5,
+      width: 0.3,
+    },
   },
   profileUserInfo: {
-    flex: 1.3,
-    alignItems: 'center',
-    marginTop: height / 10,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: '#f7f7f9',
+    position: 'absolute',
+    top: 155,
+    marginLeft: 45,
+    zIndex: 100,
+    backgroundColor: 'transparent',
   },
   profileUserExperice: {
     flex: 2.5,
     margin: 10,
-    backgroundColor: '#f7f7f9',
     padding: 15,
   },
+  connectBtnStyle: {
+    height: 45,
+  },
   connectButton: {
-    height: 40,
+    height: 45,
     justifyContent: 'center',
     backgroundColor: '#1ecfe2',
     borderRadius: 2,
@@ -354,7 +370,7 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   waitingButton: {
-    height: 40,
+    height: 45,
     justifyContent: 'center',
     backgroundColor: '#979797',
     borderRadius: 2,
@@ -364,9 +380,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'opensans',
-    fontSize: 18,
-    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
     alignSelf: 'center',
+    paddingTop: 8,
   },
   activityIndicator: {
     alignItems: 'center',
@@ -386,8 +404,11 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 5,
+  },
+  sectionName: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#2e3031',
   },
 });
 
