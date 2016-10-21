@@ -36,7 +36,7 @@ class Main extends Component {
             <Text>Messenger</Text>
           </View>
         </ScrollView>
-        <UserProfile tabLabel="md-contact" myProfile={true} style={styles.tabView} />
+        <UserProfile tabLabel="md-contact" style={styles.tabView} />
       </ScrollableTabView>
     );
   }

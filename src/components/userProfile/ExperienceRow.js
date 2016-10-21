@@ -75,13 +75,11 @@ class ExperienceRow extends Component {
   // Render loading page
   renderLoadingView() {
     return (
-        <View style={styles.header}>
-          <ActivityIndicator
-            animating={!this.state.loaded}
-            style={[styles.activityIndicator]}
-            size="large"
-            />
-        </View>
+      <ActivityIndicator
+        animating={!this.state.loaded}
+        style={[styles.activityIndicator]}
+        size="large"
+        />
     );
   }
 
@@ -130,12 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    marginTop: 250,
   },
 });
 
