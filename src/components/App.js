@@ -63,8 +63,7 @@ class App extends Component {
             initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET} />
 
           <Scene key="generalInfo" component={GeneralInfo} title="General Info"
-            initial={isAndroid} hideNavBar={false} type={ActionConst.RESET}
-            rightTitle="Edit" onRight={()=>alert('Edit!')} />
+            initial={isAndroid} hideNavBar={false} type={ActionConst.RESET} />
 
           <Scene key="main" component={Main} title="All Lists"
             hideNavBar={false} type={ActionConst.RESET} />

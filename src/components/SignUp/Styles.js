@@ -1,84 +1,57 @@
 import {
   StyleSheet,
-  Platform,
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
-    paddingLeft: 40,
-    paddingRight: 40,
-    flex: 1,
-    flexDirection: 'column',
+  formEditView: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#efeff2',
+    paddingBottom: 15,
   },
 
-  profileImageView: {
+  formView: {
+    width: 320,
+    borderBottomWidth: 1,
+    borderBottomColor: '#efeff2',
+    paddingBottom: 15,
+  },
+
+  deleteView: {
+    width: 77,
+    backgroundColor: '#fd5b52',
     alignItems: 'center',
-    marginTop: 40,
+    justifyContent: 'center',
   },
 
-  profileImage: {
-    height: 110,
-    width: 110,
-    borderRadius: 50,
+  deleteText: {
+    color: '#ffffff',
   },
 
-  title: {
-    color: '#d6dada',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-
-  input: {
+  formName: {
     color: '#2e3031',
     fontSize: 16,
   },
 
-  workView: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#efeff2',
-    paddingBottom: 15,
+  formEditName: {
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    height: 40,
   },
 
-  workName: {
-    color: '#2e3031',
-    marginTop: 15,
-    fontSize: 16,
-  },
-
-  workDate: {
+  formDate: {
     color: '#2e3031',
     marginTop: 10,
     fontSize: 12,
   },
 
-  eduView: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#efeff2',
-    paddingBottom: 15,
+  formEditYear: {
+    height: 24,
   },
 
-  eduName: {
-    color: '#2e3031',
-    marginTop: 15,
-    fontSize: 16,
-  },
-
-  eduSubject: {
-
-  },
-
-  eduDate: {
-    color: '#2e3031',
-    marginTop: 10,
-    fontSize: 12,
+  formEditDate: {
+    width: 100,
+    height: 30,
+    borderWidth: 0,
   },
 
   firstMargin: {
@@ -89,16 +62,27 @@ const styles = StyleSheet.create({
     marginTop: 10.5,
   },
 
-  nextView: {
-    alignItems: 'center',
-    marginTop: 64,
-    marginBottom: 30,
+  flexR: {
+    flexDirection: 'row',
   },
 
-  nextImage: {
-    width: 230,
-    height: 45,
+  editL: {
+    flex: 1,
+    marginTop: 15,
+    justifyContent: 'flex-start',
   },
+
+  editR: {
+    width: 16,
+    marginTop: 15,
+    justifyContent: 'flex-end',
+  },
+
+  editBtn: {
+    width: 16,
+    height: 16,
+  },
+
 });
 
 module.exports = styles;

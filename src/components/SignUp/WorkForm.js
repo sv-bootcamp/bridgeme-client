@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import {
+  StyleSheet,
+  Dimensions,
   TouchableWithoutFeedback,
   ScrollView,
   View,
   Text,
   Image,
   TextInput,
-  Picker,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
 
-const Item = Picker.Item;
-
-class EduForm extends Component {
+class WorkForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       editMode: false,
       name: this.props.name,
-      year: this.props.year + '',
-      subject: this.props.subject,
+      start: this.props.start,
+      end: this.props.end,
     };
   }
 
@@ -34,23 +33,14 @@ class EduForm extends Component {
   }
 
   renderEdit() {
-    let yearList = [];
-    for (let i = 2000; i < 2017; i++) {
-      yearList.push(i + '');
-    }
-
-    let PickerItems = yearList.map(
-      (year, idx) => <Item key={idx} label={year} value={year} style={styles.formDate} />
-    );
-
     let _onChangeNameText = (text) => { this.state.name = text; };
-    let _onChangeSubjectText = (text) => { this.state.subject = text; };
-    let _onValueChange = (_year) => {
-      this.setState({
-        year: _year,
-        editMode: !this.state.editMode,
-      });
-    };
+    let startDate = this.state.start;
+    let endDate = this.state.end;
+
+    if (endDate == 'present') {
+      let now = new Date();
+      endDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+    }
 
     return (
       <View style={[styles.formEditView, { borderBottomColor: '#a6aeae' }]}>
@@ -61,20 +51,19 @@ class EduForm extends Component {
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={_onChangeNameText} />
         </View>
-        <View>
-          <TextInput style={[styles.formName, styles.formEditName]}
-                     defaultValue={this.state.subject}
-                     underlineColorAndroid="#efeff2"
-                     onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeSubjectText} />
-        </View>
-        <View>
-          <Picker
-            style={styles.formEditYear}
-            selectedValue={this.state.year}
-            onValueChange={_onValueChange}>
-            {PickerItems}
-          </Picker>
+        <View style={styles.flexR}>
+          <DatePicker
+            date={startDate}
+            showIcon={false}
+            customStyles={{
+              dateInput: styles.formEditDate,
+            }} />
+          <DatePicker
+            date={endDate}
+            showIcon={false}
+            customStyles={{
+              dateInput: styles.formEditDate,
+            }} />
         </View>
       </View>
     );
@@ -89,7 +78,12 @@ class EduForm extends Component {
         <View style={styles.formView}>
           <View style={styles.flexR}>
             <View style={styles.editL}>
-              <Text style={styles.formName}>{this.state.name}</Text>
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={styles.formName}>
+                {this.state.name}
+              </Text>
             </View>
             <View style={styles.editR}>
               <TouchableWithoutFeedback onPress={() => this.toggleEdit()}>
@@ -98,12 +92,13 @@ class EduForm extends Component {
               </TouchableWithoutFeedback>
             </View>
           </View>
-          <View><Text style={styles.formName}>{this.state.subject}</Text></View>
-          <View><Text style={styles.formDate}>{this.state.year}</Text></View>
+          <View>
+            <Text style={styles.formDate}>{this.state.start + ' - ' + this.state.end}</Text>
+          </View>
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.onDelete(this.props.id)}>
           <View style={styles.deleteView}>
-              <Text style={styles.deleteText}>Delete</Text>
+            <Text style={styles.deleteText}>Delete</Text>
           </View>
         </TouchableWithoutFeedback>
       </ScrollView>
@@ -118,4 +113,4 @@ class EduForm extends Component {
 
 }
 
-module.exports = EduForm;
+module.exports = WorkForm;
