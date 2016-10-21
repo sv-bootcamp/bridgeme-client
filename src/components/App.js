@@ -7,6 +7,7 @@ import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
+import MyPage from './MyPage';
 import {
   ActionConst,
   Actions,
@@ -61,6 +62,8 @@ class App extends Component {
             hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
+
+          <Scene key='myPage' component={MyPage}/>
 
           <Scene key="userProfile" component={UserProfile} hideBackImage={false}
             backButtonImage={require('../resources/icon-arrow-left-white.png')}
