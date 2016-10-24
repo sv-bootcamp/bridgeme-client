@@ -39,9 +39,9 @@ class EditForm extends Component {
         <TextInput
           style={[styles.text, styles.input]}
           defaultValue={this.state.defaultValue}
-          underlineColorAndroid="#efeff2"
+          underlineColorAndroid="#a6aeae"
           autoFocus={true}
-          onEndEditing={() => this.toggleEdit()}
+          onEndEditing={() => this.reflctInput()}
           onChangeText={
             (text) => {
               this.state.defaultValue = text;
@@ -52,11 +52,20 @@ class EditForm extends Component {
     );
   }
 
+  reflctInput() {
+    if (this.state.defaultValue.length === 0) {
+      this.setState({ editMode: false });
+      this.setState({ editMode: true });
+    } else {
+      this.setState({ editMode: false });
+    }
+  }
+
   renderView() {
     let defaultValue = this.state.defaultValue;
 
     return (
-      <View style={commonStyles.flexR}>
+      <View style={[commonStyles.flexR, styles.borderLine]}>
         <View style={commonStyles.editL}>
           <Text style={styles.text}>{defaultValue}</Text>
         </View>
@@ -85,9 +94,15 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    height: 40,
+    height: 48,
     margin: 0,
     padding: 0,
+  },
+
+  borderLine: {
+    paddingBottom: 10.5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#efeff2',
   },
 });
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Dimensions,
   TouchableWithoutFeedback,
   ScrollView,
   View,

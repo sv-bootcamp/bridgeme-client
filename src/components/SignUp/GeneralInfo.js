@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ServerUtil from '../../utils/ServerUtil';
+import Progress from './Progress';
 import MyPic from './MyPic';
 import EduForm from './EduForm';
 import WorkForm from './WorkForm';
@@ -54,14 +55,23 @@ class GeneralInfo extends Component {
     let _source = require('../../resources/GeneralInfo_Next_btn.png');
 
     return (
-      <ScrollView style={styles.container}>
-        <MyPic uri={this.state.mypic} />
-        {Forms}
-        <View style={styles.nextView}>
-          <Image style={styles.nextImage} source={_source} />
-        </View>
-      </ScrollView>
+      <View style={styles.container}>
+        <Progress level={5} step={1} />
+        <ScrollView style={styles.scrollView}>
+          <MyPic uri={this.state.mypic} />
+          {Forms}
+          <View style={styles.nextView}>
+            <TouchableWithoutFeedback onPress={() => this.regist()}>
+              <Image style={styles.nextImage} source={_source} />
+            </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
+      </View>
     );
+  }
+
+  regist() {
+    
   }
 
   getForms() {
@@ -284,10 +294,12 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
-    paddingLeft: 40,
-    //paddingRight: 40,
     flex: 1,
     flexDirection: 'column',
+  },
+
+  scrollView: {
+    paddingLeft: 40,
   },
 
   form: {
@@ -311,6 +323,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 64,
     marginBottom: 30,
+    marginRight: 40,
   },
 
   nextImage: {

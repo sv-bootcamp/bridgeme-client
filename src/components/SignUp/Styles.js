@@ -1,7 +1,9 @@
 import {
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 
+const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   formEditView: {
     borderBottomWidth: 1,
@@ -25,6 +27,11 @@ const styles = StyleSheet.create({
 
   deleteText: {
     color: '#ffffff',
+  },
+
+  formNameContainer: {
+    width: deviceWidth - 40,
+    height: 16,
   },
 
   formName: {

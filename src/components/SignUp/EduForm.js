@@ -88,13 +88,9 @@ class EduForm extends Component {
     this.props.onChangeText('concentration', 'name', this.props.id, text);
   }
 
-  onChangeYear(year) {
-    this.state.year = year;
-    this.props.onChangeText('year', 'name', this.props.id, year);
-
-    // this.setState({
-    //   editMode: !this.state.editMode,
-    // });
+  onChangeYear(_year) {
+    this.props.onChangeText('year', 'name', this.props.id, _year);
+    this.setState({ year: _year });
   }
 
   renderView() {
@@ -115,7 +111,9 @@ class EduForm extends Component {
               </TouchableWithoutFeedback>
             </View>
           </View>
-          <View><Text style={styles.formName}>{this.state.subject}</Text></View>
+          <View style={styles.formNameContainer}>
+            <Text style={styles.formName}>{this.state.subject}</Text>
+          </View>
           <View><Text style={styles.formDate}>{this.state.year}</Text></View>
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.onDelete(this.props.id)}>
