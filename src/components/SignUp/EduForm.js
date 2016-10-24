@@ -34,23 +34,10 @@ class EduForm extends Component {
   }
 
   renderEdit() {
-    let yearList = [];
-    for (let i = 2000; i < 2017; i++) {
-      yearList.push(i + '');
-    }
-
-    let PickerItems = yearList.map(
-      (year, idx) => <Item key={idx} label={year} value={year} style={styles.formDate} />
-    );
-
-    let _onChangeNameText = (text) => { this.state.name = text; };
-    let _onChangeSubjectText = (text) => { this.state.subject = text; };
-    let _onValueChange = (_year) => {
-      this.setState({
-        year: _year,
-        editMode: !this.state.editMode,
-      });
-    };
+    let PickerItems = this.getPickerItems();
+    let _onChangeName = (text) => this.onChangeName(text);
+    let _onChangeSubject = (text) => this.onChangeSubject(text);
+    let _onValueChange = (year) => this.onChangeYear(year);
 
     return (
       <View style={[styles.formEditView, { borderBottomColor: '#a6aeae' }]}>
@@ -59,14 +46,14 @@ class EduForm extends Component {
                      defaultValue={this.state.name}
                      underlineColorAndroid="#efeff2"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeNameText} />
+                     onChangeText={_onChangeName} />
         </View>
         <View>
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.subject}
                      underlineColorAndroid="#efeff2"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeSubjectText} />
+                     onChangeText={_onChangeSubject} />
         </View>
         <View>
           <Picker
@@ -78,6 +65,36 @@ class EduForm extends Component {
         </View>
       </View>
     );
+  }
+
+  getPickerItems() {
+    let yearList = [];
+    for (let i = 2000; i < 2017; i++) {
+      yearList.push(i + '');
+    }
+
+    return yearList.map(
+      (year, idx) => <Item key={idx} label={year} value={year} style={styles.formDate} />
+    );
+  }
+
+  onChangeName(text) {
+    this.state.name = text;
+    this.props.onChangeText('school', 'name', this.props.id, text);
+  }
+
+  onChangeSubject(text) {
+    this.state.subject = text;
+    this.props.onChangeText('concentration', 'name', this.props.id, text);
+  }
+
+  onChangeYear(year) {
+    this.state.year = year;
+    this.props.onChangeText('year', 'name', this.props.id, year);
+
+    // this.setState({
+    //   editMode: !this.state.editMode,
+    // });
   }
 
   renderView() {

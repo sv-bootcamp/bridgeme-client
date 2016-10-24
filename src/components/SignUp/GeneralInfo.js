@@ -67,10 +67,11 @@ class GeneralInfo extends Component {
   getForms() {
     let forms = this.titles.map(
       (title, idx) => {
+        let Title = this.getTitle(title);
         let Input = this.getInput(title);
         return (
           <View style={styles.form} key={idx}>
-            <Text style={styles.title}>{title.name}</Text>
+            {Title}
             {Input}
           </View>
         );
@@ -78,6 +79,52 @@ class GeneralInfo extends Component {
     );
 
     return forms;
+  }
+
+  getTitle(title) {
+    if (title.isArray == false) {
+      return <Text style={styles.title}>{title.name}</Text>;
+    }
+
+    return (
+      <View style={styles.flexR}>
+        <View style={styles.horiL}>
+          <Text style={styles.title}>{title.name}</Text>
+        </View>
+        <TouchableWithoutFeedback onPress={() => this.addNewItem(title.name)}>
+          <View style={styles.horiR}>
+            <Text style={styles.add}>{'+ Add item'}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  }
+
+  addNewItem(listName) {
+    if (listName == 'Education') {
+      this.state.education.unshift({
+        school: { name: '' },
+        type: '',
+        year: { name: '' },
+        concentration: [ { name: '' } ],
+      });
+
+      this.setState({
+        eduDataSource: this.state.eduDataSource.cloneWithRows(this.state.education),
+      });
+    } else if (listName == 'Experience') {
+      this.state.experience.unshift({
+        start_date: '',
+        end_date: '',
+        employer: { name: '' },
+        location: { name: '' },
+        position: [ { name: '' } ],
+      });
+
+      this.setState({
+        workDataSource: this.state.workDataSource.cloneWithRows(this.state.experience),
+      });
+    }
   }
 
   getInput(title) {
@@ -90,6 +137,7 @@ class GeneralInfo extends Component {
                           this.getDefaultEdu(edu, sectionID, rowID);
         Input = (
           <ListView
+            key={this.state.education}
             enableEmptySections={true}
             dataSource={this.state.eduDataSource}
             renderRow={_renderRow}/>
@@ -99,6 +147,7 @@ class GeneralInfo extends Component {
                           this.getDefaultWork(edu, sectionID, rowID);
         Input = (
           <ListView
+            key={this.state.experience}
             enableEmptySections={true}
             dataSource={this.state.workDataSource}
             renderRow={_renderRow}/>
@@ -118,6 +167,7 @@ class GeneralInfo extends Component {
     let eduSubject = edu.concentration.length === 0 ?
                      '' : edu.concentration[0].name;
     let _onDelete = (rowID) => this.onDeleteEdu(rowID);
+    let _onChangeText = (propName1, propName2, idx, text) => this.onChangeEduInfo(propName1, propName2, idx, text);
 
     return (
       <EduForm
@@ -125,8 +175,20 @@ class GeneralInfo extends Component {
         year={eduYear}
         subject={eduSubject}
         id={rowID}
-        onDelete={_onDelete} />
+        onDelete={_onDelete}
+        onChangeText={_onChangeText} />
     );
+  }
+
+  onChangeEduInfo(propName1, propName2, idx, text) {
+    if (propName1 == 'concentration') {
+      this.state.education[idx][propName1] = [];
+      this.state.education[idx][propName1][0] = {};
+      this.state.education[idx][propName1][0][propName2] = text;
+      return;
+    }
+
+    this.state.education[idx][propName1][propName2] = text;
   }
 
   onDeleteEdu(rowID) {
@@ -137,17 +199,31 @@ class GeneralInfo extends Component {
   }
 
   getDefaultWork(work, sectionID, rowID) {
-    let workName = work.employer.name + ' | ' + work.position.name;
+    let _employer = work.employer.name;
+    let _position = work.position.name;
     let _start = work.start_date;
     let _end = work.end_date == '0000-00' ? 'present' : work.end_date;
     let _onDelete = (rowID) => this.onDeleteWork(rowID);
+    let _onChangeText = (propName1, propName2, idx, text) => this.onChangeExpInfo(propName1, propName2, idx, text);
 
-    return <WorkForm
-            name={workName}
-            start={_start}
-            end={_end}
-            id={rowID}
-            onDelete={_onDelete} />;
+    return (
+      <WorkForm
+        employer={_employer}
+        position={_position}
+        start={_start}
+        end={_end}
+        id={rowID}
+        onDelete={_onDelete}
+        onChangeText={_onChangeText} />
+    );
+  }
+
+  onChangeExpInfo(propName1, propName2, idx, text) {
+    if (propName2 == null) {
+      this.state.experience[idx][propName1] = text;
+    } else {
+      this.state.experience[idx][propName1][propName2] = text;
+    }
   }
 
   onDeleteWork(rowID) {
@@ -158,14 +234,15 @@ class GeneralInfo extends Component {
   }
 
   getTextInput(_propName, _defaultValue) {
-    let _onChangeText = (propName, text) => {
-      this.state[propName] = text;
-    };
-
+    let _onChangeText = (propName, text) => this.onChangeText(propName, text);
     return <EditForm
             propName={_propName}
             defaultValue={_defaultValue}
             onChangeText={_onChangeText} />;
+  }
+
+  onChangeText(propName, text) {
+    this.state[propName] = text;
   }
 
   componentDidMount() {
@@ -223,6 +300,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  add: {
+    color: '#2e3031',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 10,
+  },
+
   nextView: {
     alignItems: 'center',
     marginTop: 64,
@@ -232,6 +316,19 @@ const styles = StyleSheet.create({
   nextImage: {
     width: 230,
     height: 45,
+  },
+
+  flexR: {
+    flexDirection: 'row',
+  },
+
+  horiL: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+
+  horiR: {
+    justifyContent: 'flex-end',
   },
 });
 
