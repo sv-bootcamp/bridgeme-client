@@ -14,9 +14,9 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
-import ExperienceRow from './ExperienceRow';
+import OverviewRow from './OverviewRow';
 
-class UserCareer extends Component {
+class UserOverview extends Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,7 @@ class UserCareer extends Component {
   }
 
   onRequestSuccess(result) {
-    let sectionIDs = ['Education', 'Experience'];
+    let sectionIDs = ['About', 'I can help you with', 'Personality'];
 
     this.setState({
       dataSource: new ListView.DataSource({
@@ -46,8 +46,10 @@ class UserCareer extends Component {
       dataBlob: {},
     });
 
-    this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
-    this.state.dataBlob[sectionIDs[1]] = result.work.slice();
+    // TODO: change with real data
+    this.state.dataBlob[sectionIDs[0]] = '1';
+    this.state.dataBlob[sectionIDs[1]] = '2';
+    this.state.dataBlob[sectionIDs[2]] = '3';
 
     this.setState({
       id: result._id,
@@ -95,11 +97,11 @@ class UserCareer extends Component {
   }
 
   renderRow(rowData) {
-    return <ExperienceRow dataSource={rowData}/>;
+    return <OverviewRow dataSource={rowData}/>;
   }
 
   // Render User profile
-  renderCareer() {
+  renderOverview() {
     return (
       <ListView
         style={styles.lisview}
@@ -117,7 +119,7 @@ class UserCareer extends Component {
       return this.renderLoadingView();
     }
 
-    return this.renderCareer();
+    return this.renderOverview();
   }
 }
 
@@ -145,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = UserCareer;
+module.exports = UserOverview;

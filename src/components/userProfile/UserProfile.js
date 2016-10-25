@@ -3,15 +3,14 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
-  Platform,
+  Image,
   ListView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableHighlight,
-  Image,
   View,
-  StatusBar,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -204,9 +203,7 @@ class UserProfile extends Component {
             tabBarActiveTextColor={'#2e3031'}
             renderTabBar={() => <ScrollableTabBar />}
             >
-            <View tabLabel='OVERVIEW' style={styles.card}>
-              <Text>OverView</Text>
-            </View>
+            <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
             <UserCareer tabLabel='CAREER' id={this.props._id}/>
           </ScrollableTabView>
           <View style={styles.btn}>
