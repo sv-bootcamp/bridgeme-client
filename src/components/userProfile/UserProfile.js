@@ -6,12 +6,12 @@ import {
   Platform,
   ListView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableHighlight,
   Image,
   View,
-  StatusBar,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -192,6 +192,11 @@ class UserProfile extends Component {
     const connect = () => this.sendRequest();
     let editButton;
     let connectButton;
+    const ConnectStatus = {
+      DISCONNECTED: 0,
+      PENDING: 1,
+      CONNECTED: 2,
+    };
 
     // Since we display these buttons by condition,
     // initialize with dummy text component.
@@ -204,7 +209,8 @@ class UserProfile extends Component {
         <Text style={styles.edit}>Edit</Text>
       );
     } else {
-      if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
+      if (this.state.statusAsMentee === ConnectStatus.CONNECTED
+        || this.state.statusAsMentor === ConnectStatus.CONNECTED) {
         connectButton = (
           <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
             colors={['#07e4dd', '#44acff']}>
@@ -213,7 +219,8 @@ class UserProfile extends Component {
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === 0 && this.state.statusAsMentor === 0) {
+      } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
+        && this.state.statusAsMentor === ConnectStatus.DISCONNECTED) {
         connectButton = (
           <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
             colors={['#07e4dd', '#44acff']}>
@@ -222,7 +229,8 @@ class UserProfile extends Component {
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === 1 || this.state.statusAsMentor === 1) {
+      } else if (this.state.statusAsMentee === ConnectStatus.PENDING
+        || this.state.statusAsMentor === ConnectStatus.PENDING) {
         connectButton = (
           <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
             colors={['#07e4dd', '#44acff']}>
