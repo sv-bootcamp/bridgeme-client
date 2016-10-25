@@ -90,7 +90,10 @@ class EduForm extends Component {
 
   onChangeYear(_year) {
     this.props.onChangeText('year', 'name', this.props.id, _year);
-    this.setState({ year: _year });
+    this.setState({
+      year: _year,
+      editMode: !this.state.editMode,
+    });
   }
 
   renderView() {
