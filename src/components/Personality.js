@@ -58,8 +58,7 @@ class Personality extends Component {
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Let’s figure out your
-            personality !</Text>
+          <Text style={styles.title}>Let’s figure out your personality !</Text>
           <Text style={{ color: '#2e3031' }}>Drag each point to express youself.</Text>
         </View>
         {slidersWithTitle}
