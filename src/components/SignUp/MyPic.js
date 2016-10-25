@@ -8,6 +8,7 @@ import {
   CameraRoll,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import FileUploader from './FileUploader';
 
 const options = {
   storageOptions: {
@@ -21,6 +22,7 @@ class MyPic extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDefault: true,
       source: require('../../resources/default_profile.png'),
       uri: '',
     };
@@ -28,22 +30,20 @@ class MyPic extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
+      isDefault: false,
       uri: props.uri,
     });
   }
 
   render() {
     let showPicker = () => this.showPicker();
+    let _source = this.state.isDefault ? this.state.source : { uri: this.state.uri };
 
     return (
       <View style={styles.profileImageView}>
         <TouchableWithoutFeedback onPress={showPicker}>
           <Image style={styles.profileImage}
-                 source={
-                   this.state.uri === '' ?
-                   this.state.source :
-                   { uri: this.state.uri }
-                 } />
+                 source={_source} />
         </TouchableWithoutFeedback>
       </View>
     );
@@ -59,16 +59,26 @@ class MyPic extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         let _uri = (Platform.OS === 'ios') ?
-                  response.uri.replace('file://', '') :
-                  response.uri;
+                    response.uri.replace('file://', '') :
+                    response.uri;
 
         let _source = {
           uri: _uri,
           isStatic: true,
         };
 
+        console.log(response);
+
+        FileUploader.upload({
+            filename: response.fileName, // require, file name
+            filepath: response.path, // require, file absoluete path
+            filetype: response.type,
+        });
+
+        //this.props.readyUploadImage(response);
+
         this.setState({
-          uri: '',
+          isDefault: true,
           source: _source,
         });
       }

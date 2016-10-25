@@ -61,10 +61,6 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
-  uploadImage(source) {
-    
-  }
-
   // Request to server
   requestToServer(method, apiType, urlEtc, paramList) {
     AsyncStorage.multiGet(['loginType', 'token'], (err, stores) => {

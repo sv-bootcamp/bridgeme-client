@@ -47,10 +47,15 @@ class GeneralInfo extends Component {
       experience: [],
       eduDataSource: eduDS.cloneWithRows([]),
       workDataSource: workDS.cloneWithRows([]),
+      imageResource: null,
     };
   }
 
   render() {
+    let _readyUploadImage = (imageResource) => {
+      this.state.imageResource = imageResource;
+    };
+
     let Forms = this.getForms();
     let _source = require('../../resources/GeneralInfo_Next_btn.png');
 
@@ -58,7 +63,7 @@ class GeneralInfo extends Component {
       <View style={styles.container}>
         <Progress level={5} step={1} />
         <ScrollView style={styles.scrollView}>
-          <MyPic uri={this.state.mypic} />
+          <MyPic uri={this.state.mypic} readyUploadImage={_readyUploadImage} />
           {Forms}
           <View style={styles.nextView}>
             <TouchableWithoutFeedback onPress={() => this.regist()}>
@@ -71,7 +76,7 @@ class GeneralInfo extends Component {
   }
 
   regist() {
-    
+    console.log(this.state.imageResource);
   }
 
   getForms() {
