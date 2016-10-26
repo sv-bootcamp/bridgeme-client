@@ -44,14 +44,14 @@ class EduForm extends Component {
         <View>
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.name}
-                     underlineColorAndroid="#efeff2"
+                     underlineColorAndroid="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={_onChangeName} />
         </View>
         <View>
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.subject}
-                     underlineColorAndroid="#efeff2"
+                     underlineColorAndroid="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={_onChangeSubject} />
         </View>

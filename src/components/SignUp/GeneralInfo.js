@@ -21,6 +21,7 @@ import EditForm from './EditForm';
 
 class GeneralInfo extends Component {
 
+  // List data for rendering each section.
   titles = [
     { name: 'Name', isArray: false, },
     { name: 'Email', isArray: false, },
@@ -51,6 +52,7 @@ class GeneralInfo extends Component {
     };
   }
 
+  // Render progress bar, profile image and form.
   render() {
     let _readyUploadImage = (imageResource) => {
       this.state.imageResource = imageResource;
@@ -75,10 +77,13 @@ class GeneralInfo extends Component {
     );
   }
 
+  // Regist general user info.
   regist() {
     console.log(this.state.imageResource);
   }
 
+  // Get Forms(name, email, language, location, about, education, experience)
+  // Each form includes title and input
   getForms() {
     let forms = this.titles.map(
       (title, idx) => {
@@ -96,6 +101,7 @@ class GeneralInfo extends Component {
     return forms;
   }
 
+  // If a form has several inputs, the title should be able to add new input set
   getTitle(title) {
     if (title.isArray == false) {
       return <Text style={styles.title}>{title.name}</Text>;
@@ -115,6 +121,7 @@ class GeneralInfo extends Component {
     );
   }
 
+  // Add new empty input set.
   addNewItem(listName) {
     if (listName == 'Education') {
       this.state.education.unshift({

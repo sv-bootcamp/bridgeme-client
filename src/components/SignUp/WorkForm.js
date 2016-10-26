@@ -46,22 +46,25 @@ class WorkForm extends Component {
         <View>
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.position}
-                     underlineColorAndroid="#efeff2"
+                     underlineColorAndroid="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={_onChangePosition} />
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.employer}
-                     underlineColorAndroid="#efeff2"
+                     underlineColorAndroid="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={_onChangeName} />
         </View>
         <View style={styles.flexR}>
           <DatePicker
+            style={{width: 75}}
             date={startDate}
             showIcon={false}
             customStyles={{ dateInput: styles.formEditDate, }}
             onDateChange={_onStartDateChange} />
+          <View style={{marginTop: 10, marginRight: 4}}><Text>{' - '}</Text></View>
           <DatePicker
+            style={{width: 75}}
             date={endDate}
             showIcon={false}
             customStyles={{ dateInput: styles.formEditDate, }}

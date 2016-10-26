@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
   },
 
   formEditDate: {
-    width: 100,
     height: 30,
     borderWidth: 0,
+    alignItems: 'flex-start',
   },
 
   firstMargin: {
