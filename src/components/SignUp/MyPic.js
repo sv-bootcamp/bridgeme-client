@@ -8,7 +8,6 @@ import {
   CameraRoll,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import FileUploader from './FileUploader';
 
 const options = {
   storageOptions: {
@@ -37,13 +36,13 @@ class MyPic extends Component {
 
   render() {
     let showPicker = () => this.showPicker();
-    let _source = this.state.isDefault ? this.state.source : { uri: this.state.uri };
+    let source = this.state.isDefault ? this.state.source : { uri: this.state.uri };
 
     return (
       <View style={styles.profileImageView}>
         <TouchableWithoutFeedback onPress={showPicker}>
           <Image style={styles.profileImage}
-                 source={_source} />
+                 source={source} />
         </TouchableWithoutFeedback>
       </View>
     );
@@ -58,28 +57,20 @@ class MyPic extends Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        let _uri = (Platform.OS === 'ios') ?
+        let uri = (Platform.OS === 'ios') ?
                     response.uri.replace('file://', '') :
                     response.uri;
 
-        let _source = {
-          uri: _uri,
+        let source = {
+          uri: uri,
           isStatic: true,
         };
 
-        console.log(response);
-
-        FileUploader.upload({
-            filename: response.fileName, // require, file name
-            filepath: response.path, // require, file absoluete path
-            filetype: response.type,
-        });
-
-        //this.props.readyUploadImage(response);
+        this.props.readyUploadImage(response);
 
         this.setState({
           isDefault: true,
-          source: _source,
+          source: source,
         });
       }
     });

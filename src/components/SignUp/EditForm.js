@@ -65,7 +65,7 @@ class EditForm extends Component {
     let defaultValue = this.state.defaultValue;
 
     return (
-      <View style={[commonStyles.flexR, styles.borderLine]}>
+      <View style={[commonStyles.flexR, styles.view]}>
         <View style={commonStyles.editL}>
           <Text style={styles.text}>{defaultValue}</Text>
         </View>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
 
-  borderLine: {
+  view: {
     paddingBottom: 10.5,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',

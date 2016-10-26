@@ -35,9 +35,9 @@ class EduForm extends Component {
 
   renderEdit() {
     let PickerItems = this.getPickerItems();
-    let _onChangeName = (text) => this.onChangeName(text);
-    let _onChangeSubject = (text) => this.onChangeSubject(text);
-    let _onValueChange = (year) => this.onChangeYear(year);
+    let onChangeName = (text) => this.onChangeName(text);
+    let onChangeSubject = (text) => this.onChangeSubject(text);
+    let onValueChange = (year) => this.onChangeYear(year);
 
     return (
       <View style={[styles.formEditView, { borderBottomColor: '#a6aeae' }]}>
@@ -45,21 +45,23 @@ class EduForm extends Component {
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.name}
                      underlineColorAndroid="#a6aeae"
+                     placeholder="Name" placeholderTextColor="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeName} />
+                     onChangeText={onChangeName} />
         </View>
         <View>
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.subject}
                      underlineColorAndroid="#a6aeae"
+                     placeholder="Subject" placeholderTextColor="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeSubject} />
+                     onChangeText={onChangeSubject} />
         </View>
         <View>
           <Picker
             style={styles.formEditYear}
             selectedValue={this.state.year}
-            onValueChange={_onValueChange}>
+            onValueChange={onValueChange}>
             {PickerItems}
           </Picker>
         </View>
@@ -88,10 +90,10 @@ class EduForm extends Component {
     this.props.onChangeText('concentration', 'name', this.props.id, text);
   }
 
-  onChangeYear(_year) {
-    this.props.onChangeText('year', 'name', this.props.id, _year);
+  onChangeYear(year) {
+    this.props.onChangeText('year', 'name', this.props.id, year);
     this.setState({
-      year: _year,
+      year: year,
       editMode: !this.state.editMode,
     });
   }

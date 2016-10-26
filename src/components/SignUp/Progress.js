@@ -10,14 +10,14 @@ class Progress extends Component {
 
   render() {
     let deviceWidth = Dimensions.get('window').width;
-    let _width = (deviceWidth / this.props.level) * this.props.step;
+    let width = (deviceWidth / this.props.level) * this.props.step;
 
     return (
       <View style={styles.progressContainer}>
         <LinearGradient
           colors={['#44acff', '#07e4dd']}
           start={[0.0, 0.0]} end={[1.0, 1.0]}
-          style={[styles.progress, { width: _width }]}>
+          style={[styles.progress, { width: width }]}>
         </LinearGradient>
       </View>
     );

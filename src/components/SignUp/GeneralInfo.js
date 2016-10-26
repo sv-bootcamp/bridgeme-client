@@ -13,11 +13,13 @@ import {
 } from 'react-native';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ServerUtil from '../../utils/ServerUtil';
+import FileUploader from './FileUploader';
 import Progress from './Progress';
 import MyPic from './MyPic';
 import EduForm from './EduForm';
 import WorkForm from './WorkForm';
 import EditForm from './EditForm';
+import Actions from 'react-native-router-flux';
 
 class GeneralInfo extends Component {
 
@@ -38,6 +40,7 @@ class GeneralInfo extends Component {
     let workDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
+      resetFlag: false,
       mypic: '',
       name: '',
       email: '',
@@ -52,24 +55,57 @@ class GeneralInfo extends Component {
     };
   }
 
+  // After rendering, request user profile to server
+  componentDidMount() {
+    let onSuccess = (result) => this.onSuccess(result);
+    let onError = (error) => this.onError(error);
+    ServerUtil.initCallback(onSuccess, onError);
+    ServerUtil.getMyProfile();
+  }
+
+  onSuccess(result) {
+    result.education.reverse();
+    this.setState({
+      mypic: result.profile_picture,
+      name: result.name,
+      gender: result.gender,
+      email: result.email,
+      education: result.education,
+      experience: result.work,
+      eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
+      workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+    });
+  }
+
+  onError(error) {
+    if (error.code != ErrorMeta.ERR_NONE) {
+      Alert.alert(error.msg);
+    }
+  }
+
   // Render progress bar, profile image and form.
   render() {
-    let _readyUploadImage = (imageResource) => {
+    let resetForm = () => {
+      if (this.state.resetFlag) {
+        this.setState({ resetFlag: false });
+      }
+    };
+    let readyUploadImage = (imageResource) => {
       this.state.imageResource = imageResource;
     };
 
     let Forms = this.getForms();
-    let _source = require('../../resources/GeneralInfo_Next_btn.png');
+    let source = require('../../resources/GeneralInfo_Next_btn.png');
 
     return (
       <View style={styles.container}>
         <Progress level={5} step={1} />
         <ScrollView style={styles.scrollView}>
-          <MyPic uri={this.state.mypic} readyUploadImage={_readyUploadImage} />
+          <MyPic uri={this.state.mypic} readyUploadImage={readyUploadImage} />
           {Forms}
           <View style={styles.nextView}>
             <TouchableWithoutFeedback onPress={() => this.regist()}>
-              <Image style={styles.nextImage} source={_source} />
+              <Image style={styles.nextImage} source={source} />
             </TouchableWithoutFeedback>
           </View>
         </ScrollView>
@@ -79,13 +115,32 @@ class GeneralInfo extends Component {
 
   // Regist general user info.
   regist() {
-    console.log(this.state.imageResource);
+    let files = [
+      {
+        filename: this.state.imageResource.fileName, // require, file name
+        filepath: this.state.imageResource.path, // require, file absoluete path
+        filetype: this.state.imageResource.type,
+      },
+    ];
+
+    let fields = {
+      name: this.state.name,
+      email: this.state.email,
+      language: this.state.language,
+      location: this.state.location,
+      about: this.state.about,
+      education: this.state.education,
+      work: this.state.experience,
+    };
+
+    let fileUploader = new FileUploader();
+    fileUploader.upload(files, fields);
   }
 
   // Get Forms(name, email, language, location, about, education, experience)
   // Each form includes title and input
   getForms() {
-    let forms = this.titles.map(
+    let Forms = this.titles.map(
       (title, idx) => {
         let Title = this.getTitle(title);
         let Input = this.getInput(title);
@@ -98,7 +153,7 @@ class GeneralInfo extends Component {
       }
     );
 
-    return forms;
+    return Forms;
   }
 
   // If a form has several inputs, the title should be able to add new input set
@@ -155,24 +210,24 @@ class GeneralInfo extends Component {
     if (title.isArray) {
       let list = this.state[propName];
       if (title.name == 'Education') {
-        let _renderRow = (edu, sectionID, rowID) =>
+        let renderRow = (edu, sectionID, rowID) =>
                           this.getDefaultEdu(edu, sectionID, rowID);
         Input = (
           <ListView
             key={this.state.education}
             enableEmptySections={true}
             dataSource={this.state.eduDataSource}
-            renderRow={_renderRow}/>
+            renderRow={renderRow}/>
         );
       } else if (title.name == 'Experience') {
-        let _renderRow = (edu, sectionID, rowID) =>
+        let renderRow = (edu, sectionID, rowID) =>
                           this.getDefaultWork(edu, sectionID, rowID);
         Input = (
           <ListView
             key={this.state.experience}
             enableEmptySections={true}
             dataSource={this.state.workDataSource}
-            renderRow={_renderRow}/>
+            renderRow={renderRow}/>
         );
       }
     } else {
@@ -188,8 +243,9 @@ class GeneralInfo extends Component {
     let eduYear = edu.year.name;
     let eduSubject = edu.concentration.length === 0 ?
                      '' : edu.concentration[0].name;
-    let _onDelete = (rowID) => this.onDeleteEdu(rowID);
-    let _onChangeText = (propName1, propName2, idx, text) => this.onChangeEduInfo(propName1, propName2, idx, text);
+    let onDelete = (rowID) => this.onDeleteEdu(rowID);
+    let onChangeText = (propName1, propName2, idx, text) =>
+                        this.onChangeEduInfo(propName1, propName2, idx, text);
 
     return (
       <EduForm
@@ -197,8 +253,8 @@ class GeneralInfo extends Component {
         year={eduYear}
         subject={eduSubject}
         id={rowID}
-        onDelete={_onDelete}
-        onChangeText={_onChangeText} />
+        onDelete={onDelete}
+        onChangeText={onChangeText} />
     );
   }
 
@@ -221,22 +277,23 @@ class GeneralInfo extends Component {
   }
 
   getDefaultWork(work, sectionID, rowID) {
-    let _employer = work.employer.name;
-    let _position = work.position.name;
-    let _start = work.start_date;
-    let _end = work.end_date == '0000-00' ? 'present' : work.end_date;
-    let _onDelete = (rowID) => this.onDeleteWork(rowID);
-    let _onChangeText = (propName1, propName2, idx, text) => this.onChangeExpInfo(propName1, propName2, idx, text);
+    let employer = work.employer.name;
+    let position = work.position.name;
+    let start = work.start_date;
+    let end = work.end_date == '0000-00' ? 'present' : work.end_date;
+    let onDelete = (rowID) => this.onDeleteWork(rowID);
+    let onChangeText = (propName1, propName2, idx, text) =>
+                        this.onChangeExpInfo(propName1, propName2, idx, text);
 
     return (
       <WorkForm
-        employer={_employer}
-        position={_position}
-        start={_start}
-        end={_end}
+        employer={employer}
+        position={position}
+        start={start}
+        end={end}
         id={rowID}
-        onDelete={_onDelete}
-        onChangeText={_onChangeText} />
+        onDelete={onDelete}
+        onChangeText={onChangeText} />
     );
   }
 
@@ -255,43 +312,16 @@ class GeneralInfo extends Component {
     });
   }
 
-  getTextInput(_propName, _defaultValue) {
-    let _onChangeText = (propName, text) => this.onChangeText(propName, text);
+  getTextInput(propName, defaultValue) {
+    let onChangeText = (propName, text) => this.onChangeText(propName, text);
     return <EditForm
-            propName={_propName}
-            defaultValue={_defaultValue}
-            onChangeText={_onChangeText} />;
+            propName={propName}
+            defaultValue={defaultValue}
+            onChangeText={onChangeText} />;
   }
 
   onChangeText(propName, text) {
     this.state[propName] = text;
-  }
-
-  componentDidMount() {
-    let _onSuccess = (result) => this.onSuccess(result);
-    let _onError = (error) => this.onError(error);
-    ServerUtil.initCallback(_onSuccess, _onError);
-    ServerUtil.getMyProfile();
-  }
-
-  onSuccess(result) {
-    result.education.reverse();
-    this.setState({
-      mypic: result.profile_picture,
-      name: result.name,
-      gender: result.gender,
-      email: result.email,
-      education: result.education,
-      experience: result.work,
-      eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-      workDataSource: this.state.workDataSource.cloneWithRows(result.work),
-    });
-  }
-
-  onError(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
-    }
   }
 
 }

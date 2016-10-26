@@ -5,22 +5,18 @@ const FileUpload = NativeModules.FileUpload;
 
 class FileUploader {
   option = {
-    uploadUrl: 'http://192.168.0.53:8000/image/upload',
+    uploadUrl: 'http://192.168.0.53:8000/users/edit',
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
     },
-    fields: {
-
-    },
-    files: [],
+    fields: null,
+    files: null,
   };
 
-  upload(files) {
-    this.option.files = [];
-    this.option.files.push(files);
-
-    console.log('File Info : ' + JSON.stringify(this.option.files));
+  upload(files, fields) {
+    this.option.files = files;
+    this.option.fields = {info: escape(JSON.stringify(fields))};
 
     FileUpload.upload(this.option, (error, result) => {
       console.log(error);
@@ -28,6 +24,4 @@ class FileUploader {
   }
 }
 
-const fileUploader = new FileUploader();
-
-module.exports = fileUploader;
+module.exports = FileUploader;

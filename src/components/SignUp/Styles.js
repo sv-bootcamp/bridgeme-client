@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   },
 
   formEditYear: {
+    width: 100,
     height: 24,
   },
 

@@ -33,10 +33,10 @@ class WorkForm extends Component {
   }
 
   renderEdit() {
-    let _onChangeName = (text) => this.onChangeName(text);
-    let _onChangePosition = (text) => this.onChangePosition(text);
-    let _onStartDateChange = (date) => this.onStartDateChange(date);
-    let _onEndDateChange = (date) => this.onEndDateChange(date);
+    let onChangePosition = (text) => this.onChangePosition(text);
+    let onChangeName = (text) => this.onChangeName(text);
+    let onStartDateChange = (date) => this.onStartDateChange(date);
+    let onEndDateChange = (date) => this.onEndDateChange(date);
 
     let startDate = this.state.start;
     let endDate = this.getEndDate(this.state.end);
@@ -47,13 +47,15 @@ class WorkForm extends Component {
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.position}
                      underlineColorAndroid="#a6aeae"
+                     placeholder="Position" placeholderTextColor="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangePosition} />
+                     onChangeText={onChangePosition} />
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.employer}
                      underlineColorAndroid="#a6aeae"
+                     placeholder="Name" placeholderTextColor="#a6aeae"
                      onEndEditing={() => this.toggleEdit()}
-                     onChangeText={_onChangeName} />
+                     onChangeText={onChangeName} />
         </View>
         <View style={styles.flexR}>
           <DatePicker
@@ -61,14 +63,14 @@ class WorkForm extends Component {
             date={startDate}
             showIcon={false}
             customStyles={{ dateInput: styles.formEditDate, }}
-            onDateChange={_onStartDateChange} />
+            onDateChange={onStartDateChange} />
           <View style={{marginTop: 10, marginRight: 4}}><Text>{' - '}</Text></View>
           <DatePicker
             style={{width: 75}}
             date={endDate}
             showIcon={false}
             customStyles={{ dateInput: styles.formEditDate, }}
-            onDateChange={_onEndDateChange} />
+            onDateChange={onEndDateChange} />
         </View>
       </View>
     );
@@ -83,14 +85,14 @@ class WorkForm extends Component {
     }
   }
 
-  onChangeName(text) {
-    this.state.employer = text;
-    this.props.onChangeText('employer', 'name', this.props.id, text);
-  }
-
   onChangePosition(text) {
     this.state.position = text;
     this.props.onChangeText('position', 'name', this.props.id, text);
+  }
+
+  onChangeName(text) {
+    this.state.employer = text;
+    this.props.onChangeText('employer', 'name', this.props.id, text);
   }
 
   onStartDateChange(date) {
