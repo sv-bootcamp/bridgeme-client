@@ -82,7 +82,6 @@ class Row extends Component {
       </TouchableWithoutFeedback>
     );
   }
-
 }
 
 const styles = StyleSheet.create({

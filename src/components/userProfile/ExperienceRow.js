@@ -10,62 +10,132 @@ class ExperienceRow extends Component {
     super(props);
 
     this.state = {
-      name: 'Silicon Valley Bootcamp',
+      schoolName: '',
+      major: '',
+      companyName: '',
       position: '',
-      period: '-',
+      period: '',
+      identifier: 0,
+      loaded: false,
     };
   }
 
-  componentDidMount() {
-    let name = this.state.name;
-    let position = this.state.position;
+  componentWillMount() {
+    let schoolName = this.state.schoolName;
+    let major = this.state.major;
+    let companyName = this.state.companyName;
+    let position = this.state.period;
+    let identifier = this.state.identifier;
 
     if (this.props.dataSource.employer) {
-      name = this.props.dataSource.employer.name;
+      companyName = this.props.dataSource.employer.name;
+      identifier = 1;
       if (this.props.dataSource.position)
-        position = this.props.dataSource.position.name;
+        position = '| ' + this.props.dataSource.position.name;
     } else if (this.props.dataSource.school) {
-      name = this.props.dataSource.school.name;
-
+      schoolName = this.props.dataSource.school.name;
+      identifier = 2;
       if (this.props.dataSource.concentration.length > 0) {
-        position = this.props.dataSource.concentration[0].name;
+        major = this.props.dataSource.concentration[0].name;
       }
     }
 
     this.setState({
-      name: name,
+      schoolName: schoolName,
+      major: major,
+      companyName: companyName,
       position: position,
+      period: '2016.01 - present',
+      identifier: identifier,
+      loaded: true,
     });
   }
 
-  render() {
+  renderEducation() {
     return (
-      <View>
-        <Text style ={styles.name}>{this.state.name}</Text>
-        <Text style ={styles.position}>{this.state.position}</Text>
+      <View style={styles.container}>
+        <Text style ={styles.name}>{this.state.schoolName}</Text>
+        <Text style ={styles.name}>{this.state.major}</Text>
+        <Text style ={styles.period}>{this.state.period}</Text>
         <View style={styles.seperator}></View>
       </View>
     );
   }
+
+  renderExperience() {
+    return (
+      <View style={styles.container}>
+        <Text style ={styles.name}>{this.state.companyName} {this.state.position}</Text>
+        <Text style ={styles.period}>{this.state.period}</Text>
+        <View style={styles.seperator}></View>
+      </View>
+    );
+  }
+
+  // Render loading page
+  renderLoadingView() {
+    return (
+        <View style={styles.header}>
+          <ActivityIndicator
+            animating={!this.state.loaded}
+            style={[styles.activityIndicator]}
+            size="large"
+            />
+        </View>
+    );
+  }
+
+  render() {
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    } else {
+      if (this.state.identifier === 1) {
+        return this.renderExperience();
+      } else if (this.state.identifier === 2) {
+        return this.renderEducation();
+      }
+    }
+  }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
   name: {
     fontSize: 14,
     marginLeft: 17.5,
-    color: '#546979',
+    marginBottom: 5,
+    color: '#2e3031',
   },
   position: {
+    fontSize: 14,
+    marginLeft: 17.5,
+    color: '#2e3031',
+  },
+  period: {
     fontSize: 12,
     marginLeft: 17.5,
-    color: '#546979',
+    marginBottom: 5,
+    color: '#a6aeae',
   },
   seperator: {
-    alignItems: 'center',
-    marginTop: 7.5,
-    marginBottom: 7.5,
+    alignItems: 'stretch',
     borderWidth: 1,
-    borderColor: '#d8d8d8',
+    height: 2,
+    borderColor: '#efeff2',
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: 250,
   },
 });
 

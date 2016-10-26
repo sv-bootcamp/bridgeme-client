@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
   tabs: {
     height: 45,
     flexDirection: 'row',
-    paddingTop: 5,
+    paddingTop: 10,
     borderWidth: 1,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
+    borderTopColor: '#d6dada',
     borderBottomColor: 'rgba(0,0,0,0.05)',
   },
 });

@@ -7,7 +7,7 @@ import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
-import Personality from './Personality';
+import MyPage from './MyPage';
 import {
   ActionConst,
   Actions,
@@ -53,26 +53,30 @@ class App extends Component {
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
         <Scene key="root">
           <Scene key="splashPage" component={SplashPage}
-                 hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
+            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
 
           <Scene key="login" component={Login}
-                 initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
+            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
 
-          <Scene key="main" component={Main} title="All Lists"
-                 hideNavBar={false} type={ActionConst.RESET} />
+          <Scene key="main" component={Main} title="Bridgeme"
+            hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
 
-          <Scene key="userProfile" component={UserProfile}
-                 title="User Profile" />
+          <Scene key='myPage' component={MyPage}/>
+
+          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+            backButtonImage={require('../resources/icon-arrow-left-white.png')}
+            navigationBarStyle={{ backgroundColor: 'transparent',
+              borderBottomColor: 'transparent', }}/>
 
           <Scene key="activity" component={Activity} />
 
           <Scene key="evalPageMain" component={EvalPage} hideBackImage={true} panHandlers={null}
-                 onBack={() => false} title="Survey" hideNavBar={false} />
+            onBack={() => false} title="Survey" hideNavBar={false} />
 
           <Scene key="evalPage" component={EvalPage}
-                 title="Survey" hideNavBar={false} />
+            title="Survey" hideNavBar={false} />
         </Scene>
       </Router>
    );
