@@ -90,13 +90,11 @@ const styles = StyleSheet.create({
     color: '#2e3031',
     fontSize: 16,
   },
-
   input: {
     height: 48,
     margin: 0,
     padding: 0,
   },
-
   view: {
     paddingBottom: 10.5,
     borderBottomWidth: 1,

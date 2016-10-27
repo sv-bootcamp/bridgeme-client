@@ -91,12 +91,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderBottomColor: '#d6dada',
   },
-
   title: {
     fontSize: 16,
     color: '#2e3031',
   },
-
   leftBtn: {
     fontSize: 16,
     color: '#557bfc',

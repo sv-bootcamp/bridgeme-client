@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   progressContainer: {
     backgroundColor: '#efeff2',
   },
-
   progress: {
     height: 2,
   },

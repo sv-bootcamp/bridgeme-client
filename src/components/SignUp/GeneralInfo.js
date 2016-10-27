@@ -11,15 +11,16 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import Actions from 'react-native-router-flux';
+import EditForm from './EditForm';
+import EduForm from './EduForm';
 import ErrorMeta from '../../utils/ErrorMeta';
-import ServerUtil from '../../utils/ServerUtil';
+import LinearGradient from 'react-native-linear-gradient';
+import MyPic from './MyPic';
 import FileUploader from './FileUploader';
 import Progress from './Progress';
-import MyPic from './MyPic';
-import EduForm from './EduForm';
+import ServerUtil from '../../utils/ServerUtil';
 import WorkForm from './WorkForm';
-import EditForm from './EditForm';
-import Actions from 'react-native-router-flux';
 
 class GeneralInfo extends Component {
 
@@ -95,7 +96,6 @@ class GeneralInfo extends Component {
     };
 
     let Forms = this.getForms();
-    let source = require('../../resources/GeneralInfo_Next_btn.png');
 
     return (
       <View style={styles.container}>
@@ -105,7 +105,12 @@ class GeneralInfo extends Component {
           {Forms}
           <View style={styles.nextView}>
             <TouchableWithoutFeedback onPress={() => this.regist()}>
-              <Image style={styles.nextImage} source={source} />
+              <LinearGradient
+                colors={['#44acff', '#07e4dd']}
+                start={[0.0, 0.0]} end={[1.0, 1.0]}
+                style={styles.nextImage}>
+                <Text style={styles.nextTxt}>NEXT</Text>
+              </LinearGradient>
             </TouchableWithoutFeedback>
           </View>
         </ScrollView>
@@ -127,12 +132,18 @@ class GeneralInfo extends Component {
     }
 
     if (this.state.name === '') {
-      alert('Please input your name.');
+      Alert.alert(
+        'Sign In',
+        'Please input your name.',
+      );
       return;
     }
 
     if (this.state.email === '') {
-      alert('Please input your email.');
+      Alert.alert(
+        'Sign In',
+        'Please input your email.',
+      );
       return;
     }
 
@@ -384,6 +395,15 @@ const styles = StyleSheet.create({
   nextImage: {
     width: 230,
     height: 45,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  nextTxt: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 
   flexR: {
