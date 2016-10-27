@@ -23,7 +23,7 @@ class MyPic extends Component {
     super(props);
     this.state = {
       isDefault: true,
-      source: require('../../resources/default_profile.png'),
+      source: require('../../resources/profile-img.png'),
       uri: '',
     };
   }

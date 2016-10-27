@@ -1,6 +1,7 @@
+import Actions from 'react-native-router-flux';
+import NativeModules from 'NativeModules';
 import React from 'react';
 import UrlMeta from '../../utils/UrlMeta';
-import NativeModules from 'NativeModules';
 
 const FileUpload = NativeModules.FileUpload;
 
@@ -23,6 +24,8 @@ class FileUploader {
     FileUpload.upload(this.option, (error, result) => {
       if (error) {
         alert(error);
+      } else {
+        
       }
     });
   }

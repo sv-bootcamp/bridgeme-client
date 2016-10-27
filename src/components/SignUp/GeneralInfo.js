@@ -11,7 +11,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import Actions from 'react-native-router-flux';
 import EditForm from './EditForm';
 import EduForm from './EduForm';
 import ErrorMeta from '../../utils/ErrorMeta';
