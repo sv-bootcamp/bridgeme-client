@@ -19,10 +19,11 @@ class FileUploader {
   upload(files, fields) {
     this.option.files = files;
     this.option.fields = {info: escape(JSON.stringify(fields))};
-    console.log('Send');
 
     FileUpload.upload(this.option, (error, result) => {
-      console.log(error);
+      if (error) {
+        alert(error);
+      }
     });
   }
 }

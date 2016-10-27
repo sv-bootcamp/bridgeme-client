@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {
+  Image,
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
-  Image,
-  CameraRoll,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 

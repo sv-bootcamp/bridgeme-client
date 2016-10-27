@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
+  Alert,
+  Image,
+  ListView,
   Platform,
   ScrollView,
-  TouchableWithoutFeedback,
-  ListView,
-  View,
-  Image,
+  StyleSheet,
   Text,
   TextInput,
-  Alert,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ServerUtil from '../../utils/ServerUtil';

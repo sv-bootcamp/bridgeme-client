@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-  Text,
   Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
   TextInput,
+  View,
 } from 'react-native';
 import commonStyles from './Styles';
 

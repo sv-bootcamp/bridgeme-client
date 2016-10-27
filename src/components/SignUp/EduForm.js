@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  TouchableWithoutFeedback,
-  ScrollView,
-  View,
-  Text,
   Image,
-  TextInput,
   Picker,
+  ScrollView,
+  TextInput,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
@@ -133,9 +133,11 @@ class EduForm extends Component {
   }
 
   toggleEdit() {
-    this.setState({
-      editMode: !this.state.editMode,
-    });
+    this.setState(
+      {
+        editMode: !this.state.editMode,
+      }
+    );
   }
 
 }

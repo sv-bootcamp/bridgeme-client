@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Dimensions,
+  StyleSheet,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
+const deviceWidth = Dimensions.get('window').width;
 
 // This is a progress line.
 // This component receives 'level' and 'step' to define line length
 class Progress extends Component {
 
   render() {
-    let deviceWidth = Dimensions.get('window').width;
     let width = (deviceWidth / this.props.level) * this.props.step;
 
     return (
@@ -24,10 +25,8 @@ class Progress extends Component {
       </View>
     );
   }
-
 }
 
-const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   progressContainer: {
     backgroundColor: '#efeff2',

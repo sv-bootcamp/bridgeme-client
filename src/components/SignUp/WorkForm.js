@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ScrollView,
-  View,
-  Text,
   Image,
+  ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
