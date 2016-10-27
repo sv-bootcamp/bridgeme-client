@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import commonStyles from './Styles';
 
+// A form component for single input
 class EditForm extends Component {
 
   constructor(props) {
@@ -52,6 +53,7 @@ class EditForm extends Component {
     );
   }
 
+  // When you finish editing, this component is changed into none edit mode.
   reflctInput() {
     this.setState({ editMode: false });
   }
@@ -74,6 +76,7 @@ class EditForm extends Component {
     );
   }
 
+  // switch edit or view mode
   toggleEdit() {
     this.setState({
       editMode: !this.state.editMode,

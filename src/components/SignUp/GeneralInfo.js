@@ -139,7 +139,7 @@ class GeneralInfo extends Component {
     let fields = {
       name: this.state.name,
       email: this.state.email,
-      language: this.state.language,
+      languages: this.state.language,
       location: this.state.location,
       about: this.state.about,
       education: this.state.education,

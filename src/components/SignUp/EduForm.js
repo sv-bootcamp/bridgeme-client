@@ -69,9 +69,11 @@ class EduForm extends Component {
     );
   }
 
+  // Get picker items(year for education)
   getPickerItems() {
     let yearList = [];
-    for (let i = 2000; i < 2017; i++) {
+    let now = new Date();
+    for (let i = 1980; i <= now.getFullYear(); i++) {
       yearList.push(i + '');
     }
 
