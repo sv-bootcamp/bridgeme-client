@@ -10,6 +10,8 @@ class UrlMeta {
   static API_ACTIVITY = 'match/activity/';
   static API_MENTOR_REQ = 'match/request/';
   static API_MENTOR_RESP = 'match/response/';
+
+  static API_USER_EDIT = 'users/edit/';
 }
 
 module.exports = UrlMeta;

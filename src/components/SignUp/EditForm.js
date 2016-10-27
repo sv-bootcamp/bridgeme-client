@@ -53,12 +53,7 @@ class EditForm extends Component {
   }
 
   reflctInput() {
-    if (this.state.defaultValue.length === 0) {
-      this.setState({ editMode: false });
-      //this.setState({ editMode: true });
-    } else {
-      this.setState({ editMode: false });
-    }
+    this.setState({ editMode: false });
   }
 
   renderView() {

@@ -115,13 +115,26 @@ class GeneralInfo extends Component {
 
   // Regist general user info.
   regist() {
-    let files = [
-      {
+    let files = [ ];
+
+    if (this.state.imageResource != null) {
+      let file = {
         filename: this.state.imageResource.fileName, // require, file name
         filepath: this.state.imageResource.path, // require, file absoluete path
         filetype: this.state.imageResource.type,
-      },
-    ];
+      };
+      files.push(file);
+    }
+
+    if (this.state.name === '') {
+      alert('Please input your name.');
+      return;
+    }
+
+    if (this.state.email === '') {
+      alert('Please input your email.');
+      return;
+    }
 
     let fields = {
       name: this.state.name,

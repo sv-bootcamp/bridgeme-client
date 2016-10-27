@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+// This is a progress line.
+// This component receives 'level' and 'step' to define line length
 class Progress extends Component {
 
   render() {

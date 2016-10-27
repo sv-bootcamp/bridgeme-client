@@ -16,6 +16,8 @@ const options = {
   },
 };
 
+// Profile image Component
+// User can change this image from camera or local images.
 class MyPic extends Component {
 
   constructor(props) {
