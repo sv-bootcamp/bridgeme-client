@@ -3,7 +3,6 @@ import {
   Alert,
   Dimensions,
   Image,
-  LinearGradient,
   Platform,
   StyleSheet,
   Text,
@@ -12,12 +11,14 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
 
 class Row extends Component {
 
   constructor(props) {
     super(props);
 
+    // Current location and skills will be changed with real data later.
     this.state = {
       profileImage: '',
       name: '',
@@ -90,11 +91,15 @@ class Row extends Component {
               <Text style={styles.skillTitle}>I CAN HELP YOU WITH</Text>
               <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
-
+            <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+                locations={[0, 0.75]}
+                colors={['#07e4dd', '#44acff']}>
             <TouchableWithoutFeedback>
-              <Text style={styles.buttonText}>CONNECT</Text>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>CONNECT</Text>
+              </View>
             </TouchableWithoutFeedback>
-
+            </LinearGradient>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -179,13 +184,24 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#2e3031',
   },
+  connectBtnStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 170,
+    height: 45,
+    left: CARD_WIDTH / 2 - 85,
+    marginBottom: 25,
+    borderRadius: 121,
+  },
+  buttonContainer: {
+    backgroundColor: 'transparent',
+  },
   buttonText: {
     fontFamily: 'opensans',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
-    paddingTop: 8,
   },
 });
 
