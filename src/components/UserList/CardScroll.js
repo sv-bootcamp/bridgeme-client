@@ -54,8 +54,8 @@ export default class CardScroll extends Component {
     this.bias = 0;
     this.state = {
       showPreview: props.showPreview,
-  };
-}
+    };
+  }
 
   componentDidMount() {
     this.reset();
@@ -79,30 +79,31 @@ export default class CardScroll extends Component {
 
   // Control preview page and next page
   controlScroll(e) {
-   const event = e.nativeEvent;
+    const event = e.nativeEvent;
 
-   if (this.props.showPreview === true && Platform.OS === 'ios') {
-     const newShowPreview = event.zoomScale <= 1;
-     if (this.state.showPreview !== newShowPreview) {
-       this.setState({ showPreview: newShowPreview });
-     }
-     if (!newShowPreview) {
-       return;
-     }
-   }
+    if (this.props.showPreview === true && Platform.OS === 'ios') {
+      const newShowPreview = event.zoomScale <= 1;
+      if (this.state.showPreview !== newShowPreview) {
+        this.setState({ showPreview: newShowPreview });
+      }
 
-   if (this.resetPrevListView !== null) {
-     const layoutWidth = event.layoutMeasurement.width;
-     const currentIndex = Math.floor((event.contentOffset.x + (0.5 * layoutWidth)) / layoutWidth);
-     const newPreviewOffset = ((currentIndex - 2) * this.props.previewImageSize) + this._bias;
-     if (this.previewOffset !== newPreviewOffset) {
-       this.resetPrevListView.scrollTo({ x: newPreviewOffset });
-       this.previewOffset = newPreviewOffset;
-     }
-   }
- }
+      if (!newShowPreview) {
+        return;
+      }
+    }
 
- renderView(row) {
+    if (this.resetPrevListView !== null) {
+      const layoutWidth = event.layoutMeasurement.width;
+      const currentIndex = Math.floor((event.contentOffset.x + (0.5 * layoutWidth)) / layoutWidth);
+      const newPreviewOffset = ((currentIndex - 2) * this.props.previewImageSize) + this._bias;
+      if (this.previewOffset !== newPreviewOffset) {
+        this.resetPrevListView.scrollTo({ x: newPreviewOffset });
+        this.previewOffset = newPreviewOffset;
+      }
+    }
+  }
+
+  renderView(row) {
     const {
       width,
       height,
@@ -117,26 +118,28 @@ export default class CardScroll extends Component {
 
     return (
       <Image
-        style={[ imageStyle, { width, height: imageHeight }, ]}
+        style={
+          [imageStyle, { width, height: imageHeight },
+          ]}
         source={getImageSourceFromDataSource(row.image)}
         resizeMode="contain"
       />
     );
   }
 
- renderScrollComponent(props) {
-   return React.cloneElement(
+  renderScrollComponent(props) {
+    return React.cloneElement(
      this.props.renderScrollComponent(props),
      {
-       horizontal: true,
-       pagingEnabled: false,
-       maximumZoomScale: 3.0,
-       directionalLockEnabled: true,
-       showsVerticalScrollIndicator: false,
-       showsHorizontalScrollIndicator: false,
-       ...props,
-     });
- }
+        horizontal: true,
+        pagingEnabled: false,
+        maximumZoomScale: 3.0,
+        directionalLockEnabled: true,
+        showsVerticalScrollIndicator: false,
+        showsHorizontalScrollIndicator: false,
+        ...props,
+      });
+  }
 
   render() {
     return (
@@ -146,8 +149,12 @@ export default class CardScroll extends Component {
           dataSource={this.props.dataSource}
           style={styles.listView}
           renderRow={this.props.renderRow.bind(this)}
-          ref={comp => { this.resetListView = comp; return; }}
-        />
+          ref={comp => {
+            this.resetListView = comp;
+            return;
+          }
+        }
+      />
     );
   }
 }
