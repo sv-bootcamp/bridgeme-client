@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   formView: {
-    width: 320,
+    width: deviceWidth - 40,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',
     paddingBottom: 15,

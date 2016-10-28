@@ -62,6 +62,8 @@ class WorkForm extends Component {
             style={{ width: 75 }}
             date={startDate}
             showIcon={false}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
             customStyles={{ dateInput: styles.formEditDate, }}
             onDateChange={onStartDateChange} />
           <View style={{ marginTop: 10, marginRight: 4 }}><Text>{' - '}</Text></View>
@@ -69,6 +71,8 @@ class WorkForm extends Component {
             style={{ width: 75 }}
             date={endDate}
             showIcon={false}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
             customStyles={{ dateInput: styles.formEditDate, }}
             onDateChange={onEndDateChange} />
         </View>
@@ -77,7 +81,7 @@ class WorkForm extends Component {
   }
 
   getEndDate(endDate) {
-    if (endDate == 'present') {
+    if (endDate == 'present' || endDate === '') {
       let now = new Date();
       return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
     } else {

@@ -264,10 +264,12 @@ class GeneralInfo extends Component {
   }
 
   getDefaultEdu(edu, sectionID, rowID) {
-    let eduName = edu.school.name;
-    let eduYear = edu.year.name;
-    let eduSubject = edu.concentration.length === 0 ?
-                     '' : edu.concentration[0].name;
+    let eduName = edu.school === undefined ? '' : edu.school.name;
+    let eduYear = edu.year === undefined ? '' : edu.year.name;
+    let eduSubject = '';
+    if (edu.concentration !== undefined && edu.concentration.length > 0) {
+      eduSubject = edu.concentration[0].name;
+    }
     let onDelete = (rowID) => this.onDeleteEdu(rowID);
     let onChangeText = (propName1, propName2, idx, text) =>
                         this.onChangeEduInfo(propName1, propName2, idx, text);
@@ -302,10 +304,13 @@ class GeneralInfo extends Component {
   }
 
   getDefaultWork(work, sectionID, rowID) {
-    let employer = work.employer.name;
-    let position = work.position.name;
-    let start = work.start_date;
-    let end = work.end_date == '0000-00' ? 'present' : work.end_date;
+    let employer = work.employer === undefined ? '' : work.employer.name;
+    let position = work.position === undefined ? '' : work.position.name;
+    let start = work.start_date === undefined ? '' : work.start_date;
+    let end = '';
+    if (work.end_date !== undefined) {
+      end = work.end_date == '0000-00' ? 'present' : work.end_date;
+    }
     let onDelete = (rowID) => this.onDeleteWork(rowID);
     let onChangeText = (propName1, propName2, idx, text) =>
                         this.onChangeExpInfo(propName1, propName2, idx, text);
