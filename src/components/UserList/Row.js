@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import {
+  Alert,
+  Dimensions,
   Image,
+  LinearGradient,
+  Platform,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -17,16 +22,31 @@ class Row extends Component {
       profileImage: '',
       name: '',
       job: '',
-      education: '',
+      position: 'employer',
+      currentLocation: 'San Jose, CA, USA',
+      skills: ['# Motivation', '# prefered_skill', '# freelance'],
     };
   }
 
   componentWillMount() {
+    let job = this.state.job;
+    let position = this.state.position;
+    let skills = this.state.skills;
+
+    if (this.props.dataSource.work.length > 0) {
+      job = 'at ' + this.props.dataSource.work[0].employer.name;
+      if (this.props.dataSource.work[0].position) {
+        position = this.props.dataSource.work[0].position.name;
+      }
+    }
+
     this.setState({
       profileImage: this.getProfileImage(),
       name: this.getName(),
-      job: this.getJob(),
-      education: this.getEducation(),
+      job: job,
+      position: position,
+      currentLocation: this.getCurrentLocation(),
+      skills: skills,
     });
   }
 
@@ -46,20 +66,11 @@ class Row extends Component {
     }
   }
 
-  getJob() {
-    if (this.props.dataSource.work.length > 0) {
-      return this.props.dataSource.work[0].employer.name;
+  getCurrentLocation() {
+    if (this.props.dataSource.location) {
+      return this.props.dataSource.location;
     } else {
-      return this.state.job;
-    }
-  }
-
-  getEducation() {
-    if (this.props.dataSource.education.length > 0) {
-      let lastIndex = this.props.dataSource.education.length - 1;
-      return this.props.dataSource.education[lastIndex].school.name;
-    } else {
-      return this.state.education;
+      return this.state.currentLocation;
     }
   }
 
@@ -69,64 +80,112 @@ class Row extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>
-        <View style={styles.row}>
+        <View style={styles.rowView}>
             <Image style={styles.photo}
                    source={{ uri: this.state.profileImage }}/>
-            <View style={styles.imageSeperator}></View>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.job}>{this.state.job}</Text>
-              <Text style={styles.education}>{this.state.education}</Text>
+              <Text style={styles.job}> {this.state.position} {this.state.job}</Text>
+              <Text style={styles.location}> {this.state.currentLocation}</Text>
+              <Text style={styles.skillTitle}>I CAN HELP YOU WITH</Text>
+              <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
+
+            <TouchableWithoutFeedback>
+              <Text style={styles.buttonText}>CONNECT</Text>
+            </TouchableWithoutFeedback>
+
         </View>
       </TouchableWithoutFeedback>
     );
   }
 }
 
+const CARD_PREVIEW_WIDTH = 10;
+const CARD_MARGIN = 25;
+const CARD_WIDTH = Dimensions.get('window').width - (CARD_MARGIN + CARD_PREVIEW_WIDTH) * 2;
+const CARD_HEIGHT = Dimensions.get('window').height - 200;
+const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
-  row: {
-    flex: 2,
-    flexDirection: 'row',
-    backgroundColor: '#f7f7f9',
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+  rowView: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    width: CARD_WIDTH,
+    margin: CARD_MARGIN,
+    marginTop: 100,
+    height: CARD_HEIGHT,
+    justifyContent: 'center',
+    borderRadius: 4,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: {
+      height: 1,
+      width: 0.3,
+    },
+    ...Platform.select({
+      ios: {
+        marginTop: 100,
+      },
+      android: {
+        marginTop: 90,
+      },
+    }),
   },
   photo: {
-    height: 80,
-    width: 80,
-    margin: 15,
-    borderRadius: 40,
-  },
-  imageSeperator: {
-    alignItems: 'center',
-    marginTop: 7.5,
-    marginBottom: 7.5,
-    borderWidth: 1,
-    borderColor: '#e3e3e3',
+    height: 182,
+    width: CARD_WIDTH,
+    borderRadius: 2,
   },
   userInformation: {
-    flex: 7,
-    marginLeft: 28,
+    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'stretch',
+    backgroundColor: '#ffffff',
+    paddingLeft: 25,
   },
   name: {
     fontFamily: 'opensans',
-    fontSize: 17,
+    fontSize: 22,
+    margin: 10,
+    color: '#2e3031',
     fontWeight: 'bold',
   },
   job: {
     fontFamily: 'opensans',
-    fontSize: 13,
-    marginTop: 5,
+    fontSize: 14,
+    marginLeft: 10,
+    marginTop: 10,
+    color: '#2e3031',
   },
-  education: {
+  location: {
     fontFamily: 'opensans',
-    fontSize: 13,
-    marginTop: 5,
+    fontSize: 14,
+    marginLeft: 10,
+    color: '#2e3031',
+  },
+  skillTitle: {
+    fontFamily: 'opensans',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginTop: 20,
+    color: '#a6aeae',
+  },
+  skill: {
+    fontFamily: 'opensans',
+    fontSize: 12,
+    marginLeft: 10,
+    marginTop: 10,
+    color: '#2e3031',
+  },
+  buttonText: {
+    fontFamily: 'opensans',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    alignSelf: 'center',
+    paddingTop: 8,
   },
 });
 
