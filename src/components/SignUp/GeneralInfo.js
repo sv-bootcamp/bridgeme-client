@@ -36,6 +36,11 @@ class GeneralInfo extends Component {
 
   constructor(props) {
     super(props);
+
+    let onSuccess = (result) => this.onSuccess(result);
+    let onError = (error) => this.onError(error);
+    ServerUtil.initCallback(onSuccess, onError);
+
     let eduDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let workDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -57,9 +62,6 @@ class GeneralInfo extends Component {
 
   // After rendering, request user profile to server
   componentDidMount() {
-    let onSuccess = (result) => this.onSuccess(result);
-    let onError = (error) => this.onError(error);
-    ServerUtil.initCallback(onSuccess, onError);
     ServerUtil.getMyProfile();
   }
 
