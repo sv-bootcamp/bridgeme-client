@@ -146,6 +146,11 @@ class UserProfile extends Component {
   renderUserProfile() {
     const connect = () => this.sendRequest();
     let connectButton;
+    const ConnectStatus = {
+      DISCONNECTED: 0,
+      PENDING: 1,
+      CONNECTED: 2,
+    };
 
     if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
       connectButton = (
@@ -174,6 +179,38 @@ class UserProfile extends Component {
         </TouchableHighlight>
         </LinearGradient>
       );
+    } else {
+      if (this.state.statusAsMentee === ConnectStatus.CONNECTED
+        || this.state.statusAsMentor === ConnectStatus.CONNECTED) {
+        connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight>
+            <Text style={styles.buttonText}>WAITING...</Text>
+          </TouchableHighlight>
+          </LinearGradient>
+        );
+      } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
+        && this.state.statusAsMentor === ConnectStatus.DISCONNECTED) {
+        connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight onPress={connect}>
+            <Text style={styles.buttonText}>CONNECT</Text>
+          </TouchableHighlight>
+          </LinearGradient>
+        );
+      } else if (this.state.statusAsMentee === ConnectStatus.PENDING
+        || this.state.statusAsMentor === ConnectStatus.PENDING) {
+        connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#07e4dd', '#44acff']}>
+          <TouchableHighlight>
+            <Text style={styles.buttonText}>CONNECTED</Text>
+          </TouchableHighlight>
+          </LinearGradient>
+        );
+      }
     }
 
     return (

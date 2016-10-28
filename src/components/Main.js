@@ -10,6 +10,7 @@ import Activity from './Activity/Activity';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import TabBar from './Shared/TabBar';
+import MyPage from './MyPage';
 
 class Main extends Component {
 
@@ -36,7 +37,8 @@ class Main extends Component {
             <Text>Messenger</Text>
           </View>
         </ScrollView>
-        <UserProfile tabLabel="md-contact" style={styles.tabView} />
+
+        <MyPage tabLabel="md-contact"/>
       </ScrollableTabView>
     );
   }
