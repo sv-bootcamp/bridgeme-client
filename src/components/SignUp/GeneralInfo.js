@@ -364,35 +364,29 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-
   scrollView: {
     paddingLeft: 40,
   },
-
   form: {
     marginTop: 20,
   },
-
   title: {
     color: '#a6aeae',
     fontSize: 12,
     fontWeight: 'bold',
   },
-
   add: {
     color: '#2e3031',
     fontSize: 12,
     fontWeight: 'bold',
     marginRight: 10,
   },
-
   nextView: {
     alignItems: 'center',
     marginTop: 64,
     marginBottom: 30,
     marginRight: 40,
   },
-
   nextImage: {
     width: 230,
     height: 45,
@@ -400,22 +394,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   nextTxt: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
   },
-
   flexR: {
     flexDirection: 'row',
   },
-
   horiL: {
     flex: 1,
     justifyContent: 'flex-start',
   },
-
   horiR: {
     justifyContent: 'flex-end',
   },
