@@ -37,7 +37,6 @@ class Main extends Component {
             <Text>Messenger</Text>
           </View>
         </ScrollView>
-
         <MyPage tabLabel="md-contact"/>
       </ScrollableTabView>
     );

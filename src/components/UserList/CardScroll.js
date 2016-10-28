@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 
 export default class CardScroll extends Component {
-
   static propTypes = {
     dataSource: PropTypes.instanceOf(ListView.DataSource).isRequired,
     initialIdx: PropTypes.number,

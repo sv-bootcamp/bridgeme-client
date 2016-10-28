@@ -6,15 +6,14 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 
 class Row extends Component {
-
   constructor(props) {
     super(props);
 
