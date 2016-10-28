@@ -1,15 +1,13 @@
-'use strict'
-
 import React, { PropTypes, Component } from 'react';
 import {
-  View,
+  Dimensions,
   Image,
   ListView,
+  Platform,
   ScrollView,
   StyleSheet,
-  Dimensions,
-  Platform,
   Text,
+  View,
 } from 'react-native';
 
 export default class CardScroll extends Component {
@@ -67,6 +65,7 @@ export default class CardScroll extends Component {
     this.reset();
   }
 
+  // Reset card page
   reset() {
     const { initialIdx, previewImageSize, width } = this.props;
     this.resetListView.scrollTo({ x: initialIdx * width, animated: false });
@@ -78,6 +77,7 @@ export default class CardScroll extends Component {
     }
   }
 
+  // Control preview page and next page
   controlScroll(e) {
    const event = e.nativeEvent;
 
@@ -151,7 +151,6 @@ export default class CardScroll extends Component {
     );
   }
 }
-
 
 const CARD_PREVIEW_WIDTH = 10;
 const CARD_MARGIN = 25;
