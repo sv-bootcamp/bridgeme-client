@@ -11,7 +11,6 @@ import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
 
 class SplashPage extends Component {
-
   constructor(props) {
     super(props);
 

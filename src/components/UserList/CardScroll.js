@@ -34,7 +34,7 @@ export default class CardScroll extends Component {
     initialIdx: 0,
     showPreview: true,
     previewImageSize: 80,
-    renderScrollComponent: (props) => <ScrollView {...props} />,
+    renderScrollComponent: (props) => <ScrollView {...props}/>,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     getImageSourceFromDataSource: (row) => row,

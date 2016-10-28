@@ -8,7 +8,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class TabBar extends Component {
-
   constructor(props) {
     super(props);
     this.tabIcons = [];

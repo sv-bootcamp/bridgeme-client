@@ -29,7 +29,6 @@ const reducerCreate = params=> {
 };
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.scene = null;

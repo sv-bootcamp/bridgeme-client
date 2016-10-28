@@ -12,7 +12,6 @@ import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
 
 class Login extends Component {
-
   constructor(props) {
     super(props);
     LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);

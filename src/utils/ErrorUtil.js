@@ -1,7 +1,6 @@
 import ErrorMeta from './ErrorMeta';
 
 class ErrorUtil {
-
   static getErrorMsg(errCode) {
     let result = { code: errCode };
 

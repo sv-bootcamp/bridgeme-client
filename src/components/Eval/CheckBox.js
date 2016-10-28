@@ -10,7 +10,6 @@ import {
 let PropTypes = React.PropTypes;
 
 class CheckBox extends Component {
-
   constructor(props) {
     super(props);
   }

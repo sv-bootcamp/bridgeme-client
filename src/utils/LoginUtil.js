@@ -14,7 +14,6 @@ import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
 
 class LoginUtil {
-
   constructor() {
     this.successCallback = null;
     this.errorCallback = null;
