@@ -61,7 +61,7 @@ class App extends Component {
           <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
             rightButtonTextStyle={{ color: 'transparent', }}
             rightButtonIconStyle={{ marginBottom: 13, marginRight: 6 }}
-            onRight={()=>Alert.alert('Filter Button')
+            onRight={()=>Alert.alert('Filtering service will come soon')
             }
             rightButtonImage={require('../resources/filter.png')}
             hideNavBar={false} type={ActionConst.RESET}/>
@@ -70,7 +70,7 @@ class App extends Component {
 
           <Scene key='myPage' component={MyPage}/>
 
-          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+            <Scene key="userProfile" component={UserProfile} hideBackImage={false}
             backButtonImage={require('../resources/icon-arrow-left-white.png')}
             navigationBarStyle={{ backgroundColor: 'transparent',
               borderBottomColor: 'transparent', }}/>

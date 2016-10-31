@@ -144,6 +144,7 @@ export default class CardScroll extends Component {
     return (
         <ListView
           renderScrollComponent={this.renderScrollComponent}
+          initialListSize={5}
           onScroll={this.controlScroll}
           dataSource={this.props.dataSource}
           style={styles.listView}

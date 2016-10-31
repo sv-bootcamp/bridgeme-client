@@ -68,7 +68,7 @@ class UserOverview extends Component {
     ServerUtil.getOthersProfile(this.props.id);
   }
 
-  // Receive props befofe completly changed
+  // Receive props befofe completely changed
   componentWillReceiveProps(props) {
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
@@ -107,6 +107,7 @@ class UserOverview extends Component {
         style={styles.lisview}
         showsVerticalScrollIndicator={false}
         dataSource={this.state.dataSource}
+        scrollEnabled={false}
         renderRow={this.renderRow}
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}

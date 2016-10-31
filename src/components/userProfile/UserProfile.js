@@ -152,65 +152,39 @@ class UserProfile extends Component {
       CONNECTED: 2,
     };
 
-    if (this.state.statusAsMentee === 2 || this.state.statusAsMentor === 2) {
-      connectButton = (
-        <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-          colors={['#07e4dd', '#44acff']}>
-        <TouchableHighlight>
-          <Text style={styles.buttonText}>WAITING...</Text>
-        </TouchableHighlight>
-        </LinearGradient>
-      );
-    } else if (this.state.statusAsMentee === 0 && this.state.statusAsMentor === 0) {
-      connectButton = (
-        <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-          colors={['#07e4dd', '#44acff']}>
-        <TouchableHighlight onPress={connect}>
-          <Text style={styles.buttonText}>CONNECT</Text>
-        </TouchableHighlight>
-        </LinearGradient>
-      );
-    } else if (this.state.statusAsMentee === 1 || this.state.statusAsMentor === 1) {
-      connectButton = (
-        <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-          colors={['#07e4dd', '#44acff']}>
-        <TouchableHighlight>
-          <Text style={styles.buttonText}>CONNECTED</Text>
-        </TouchableHighlight>
-        </LinearGradient>
-      );
-    } else {
-      if (this.state.statusAsMentee === ConnectStatus.CONNECTED
+    if (this.state.statusAsMentee === ConnectStatus.CONNECTED
         || this.state.statusAsMentor === ConnectStatus.CONNECTED) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight>
             <Text style={styles.buttonText}>WAITING...</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
+    } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
         && this.state.statusAsMentor === ConnectStatus.DISCONNECTED) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight onPress={connect}>
             <Text style={styles.buttonText}>CONNECT</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === ConnectStatus.PENDING
+    } else if (this.state.statusAsMentee === ConnectStatus.PENDING
         || this.state.statusAsMentor === ConnectStatus.PENDING) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight>
             <Text style={styles.buttonText}>CONNECTED</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      }
     }
 
     return (
@@ -225,6 +199,8 @@ class UserProfile extends Component {
             <Image style={styles.profileImage}
                  source={{ uri: this.state.profileImage }} />
            </LinearGradient>
+           <Image style={styles.bookmarkIcon}
+                  source={require('../../resources/icon-bookmark.png')}/>
            <View style={styles.profileUserInfo}>
               <Text style={styles.name}>{this.state.name}</Text>
               <Text style={styles.positionText}>
@@ -280,6 +256,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     color: '#ffffff',
   },
+  bookmarkIcon: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 25,
+    top: 32,
+  },
   profileImage: {
     alignItems: 'stretch',
     opacity: 0.4,
@@ -306,7 +288,6 @@ const styles = StyleSheet.create({
   },
   connectBtnStyle: {
     alignItems: 'stretch',
-    position: 'absolute',
     height: 45,
     left: 0,
     right: 0,

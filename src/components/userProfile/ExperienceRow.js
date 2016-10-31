@@ -103,18 +103,15 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 14,
-    marginLeft: 17.5,
     marginBottom: 5,
     color: '#2e3031',
   },
   position: {
     fontSize: 14,
-    marginLeft: 17.5,
     color: '#2e3031',
   },
   period: {
     fontSize: 12,
-    marginLeft: 17.5,
     marginBottom: 5,
     color: '#a6aeae',
   },
