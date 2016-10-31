@@ -21,7 +21,6 @@ import {
 } from 'react-native-router-flux';
 
 class EvalPage extends Component {
-
   constructor(props) {
     super(props);
 

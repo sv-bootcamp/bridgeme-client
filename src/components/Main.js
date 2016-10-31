@@ -13,7 +13,6 @@ import TabBar from './Shared/TabBar';
 import MyPage from './MyPage';
 
 class Main extends Component {
-
   constructor(props) {
     super(props);
   }

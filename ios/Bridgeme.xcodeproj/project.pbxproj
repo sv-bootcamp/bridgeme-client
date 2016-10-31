@@ -262,13 +262,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		00E356EF1AD99517003FC87E /* yodaTests */ = {
+		00E356EF1AD99517003FC87E /* YodaTests */ = {
 			isa = PBXGroup;
 			children = (
 				00E356F21AD99517003FC87E /* yodaTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = yodaTests;
+			path = YodaTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -295,7 +295,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* yoda */ = {
+		13B07FAE1A68108700A75B9A /* Bridgeme */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -306,7 +306,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AAB23E201D75476D00C97A58 /* LaunchScreen.xib */,
 			);
-			name = yoda;
+			name = Bridgeme;
 			sourceTree = "<group>";
 		};
 		146834001AC3E56700842450 /* Products */ = {
@@ -358,9 +358,9 @@
 			children = (
 				AA20BCD31DA4B63F00BFA62C /* opensans.ttf */,
 				AA49EE0F1D6FFBB10083C256 /* Frameworks */,
-				13B07FAE1A68108700A75B9A /* yoda */,
+				13B07FAE1A68108700A75B9A /* Bridgeme */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* yodaTests */,
+				00E356EF1AD99517003FC87E /* YodaTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				D0759F6731D64D8E98B904C1 /* Resources */,
 			);

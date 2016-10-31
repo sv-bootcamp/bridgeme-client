@@ -5,7 +5,6 @@ import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
 
 class ServerUtil {
-
   constructor() {
     successCallback = null;
     errorCallback = null;

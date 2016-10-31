@@ -13,7 +13,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 class Personality extends Component {
-
   constructor(props) {
     super(props);
 
