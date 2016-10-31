@@ -12,6 +12,7 @@ export default class InputToolbar extends React.Component {
     if (this.props.renderActions) {
       return this.props.renderActions(this.props);
     }
+
     return null;
   }
 
@@ -19,6 +20,7 @@ export default class InputToolbar extends React.Component {
     if (this.props.renderSend) {
       return this.props.renderSend(this.props);
     }
+
     return <Send {...this.props}/>;
   }
 
@@ -42,6 +44,7 @@ export default class InputToolbar extends React.Component {
         </View>
       );
     }
+
     return null;
   }
 

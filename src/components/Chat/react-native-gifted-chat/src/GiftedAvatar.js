@@ -26,7 +26,7 @@ export default class GiftedAvatar extends React.Component {
     }
 
     let sumChars = 0;
-    for(let i = 0; i < userName.length; i++) {
+    for (let i = 0; i < userName.length; i++) {
       sumChars += userName.charCodeAt(i);
     }
 
@@ -51,11 +51,12 @@ export default class GiftedAvatar extends React.Component {
     } else if (typeof this.props.user.avatar === 'string') {
       return (
         <Image
-          source={{uri: this.props.user.avatar}}
+          source={{ uri: this.props.user.avatar }}
           style={[defaultStyles.avatarStyle, this.props.avatarStyle]}
         />
       );
     }
+
     return null;
   }
 
@@ -73,17 +74,18 @@ export default class GiftedAvatar extends React.Component {
       return (
         <View style={[
           defaultStyles.avatarStyle,
-          {backgroundColor: 'transparent'},
+          { backgroundColor: 'transparent' },
           this.props.avatarStyle,
         ]}/>
-      )
+      );
     }
+
     if (this.props.user.avatar) {
       return (
         <TouchableOpacity
           disabled={this.props.onPress ? false : true}
           onPress={() => {
-            const {onPress, ...other} = this.props;
+            const { onPress, ...other } = this.props;
             this.props.onPress && this.props.onPress(other);
           }}
         >
@@ -100,12 +102,13 @@ export default class GiftedAvatar extends React.Component {
       <TouchableOpacity
         disabled={this.props.onPress ? false : true}
         onPress={() => {
-          const {onPress, ...other} = this.props;
+          const { onPress, ...other } = this.props;
           this.props.onPress && this.props.onPress(other);
         }}
+
         style={[
           defaultStyles.avatarStyle,
-          {backgroundColor: this.avatarColor},
+          { backgroundColor: this.avatarColor },
           this.props.avatarStyle,
         ]}
       >

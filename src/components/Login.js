@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import {
- Alert,
- Image,
- StyleSheet,
- TouchableWithoutFeedback,
- TouchableHighlight,
- View,
+  Alert,
+  AsyncStorage,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
+import ServerUtil from '../utils/ServerUtil';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
+    ServerUtil.initCallback(
+      (result) => this.onServerSuccess(result),
+      (error) => this.onServerFail(error));
+
+  }
+  componentDidMount(){
+
   }
 
   componentWillMount() {
@@ -25,27 +34,26 @@ class Login extends Component {
 
   render() {
     return (
-
-          //  Render the screen on View.
-           <View style={styles.container}>
-             <View style={styles.welcomeContain}>
-                <Image source={require('../resources/splash_icon_1x.png')} />
-             </View>
-
-             {/* Render facebook login button */}
-             <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
-               <Image style={styles.facebookLoginButton}
-               source={require('../resources/facebook_2x.png')} />
-              </TouchableWithoutFeedback>
+      //  Render the screen on View.
+      <View style={styles.container}>
+        <View style={styles.welcomeContain}>
+          <Image source={require('../resources/splash_icon_1x.png')} />
         </View>
-     );
+
+        {/* Render facebook login button */}
+        <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
+          <Image style={styles.facebookLoginButton}
+                 source={require('../resources/facebook_2x.png')} />
+        </TouchableWithoutFeedback>
+      </View>
+    );
   }
 
   onLoginSuccess(result) {
     if (result === undefined) {
       Actions.login();
     } else {
-      Actions.main();
+      ServerUtil.getMyProfile();
     }
   }
 
@@ -55,20 +63,14 @@ class Login extends Component {
     }
   }
 
-  // Token already exists on the server
-  onServerSuccess(result) {
-    if (result === undefined) {
-      Actions.login();
-    } else {
-      Actions.main();
-    }
+  onServerSuccess(myProflile) {
+    Actions.main({me:myProflile});
   }
 
   onServerFail(error) {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
-
     Actions.login();
   }
 }

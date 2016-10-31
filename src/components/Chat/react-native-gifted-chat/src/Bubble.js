@@ -17,49 +17,70 @@ export default class Bubble extends React.Component {
   }
 
   handleBubbleToNext() {
-    if (this.props.isSameUser(this.props.currentMessage, this.props.nextMessage) && this.props.isSameDay(this.props.currentMessage, this.props.nextMessage)) {
-      return StyleSheet.flatten([styles[this.props.position].containerToNext, this.props.containerToNextStyle[this.props.position]]);
+    if (
+      this.props.isSameUser(this.props.currentMessage, this.props.nextMessage) &&
+      this.props.isSameDay(this.props.currentMessage, this.props.nextMessage)
+    ) {
+      return StyleSheet
+        .flatten(
+          [
+            styles[this.props.position].containerToNext,
+            this.props.containerToNextStyle[this.props.position],
+          ]);
     }
+
     return null;
   }
 
   handleBubbleToPrevious() {
-    if (this.props.isSameUser(this.props.currentMessage, this.props.previousMessage) && this.props.isSameDay(this.props.currentMessage, this.props.previousMessage)) {
-      return StyleSheet.flatten([styles[this.props.position].containerToPrevious, this.props.containerToPreviousStyle[this.props.position]]);
+    if (this.props.isSameUser(this.props.currentMessage, this.props.previousMessage) &&
+      this.props.isSameDay(this.props.currentMessage, this.props.previousMessage)) {
+      return StyleSheet.flatten(
+        [
+          styles[this.props.position].containerToPrevious,
+          this.props.containerToPreviousStyle[this.props.position],
+        ]);
     }
+
     return null;
   }
 
   renderMessageText() {
     if (this.props.currentMessage.text) {
-      const {containerStyle, wrapperStyle, ...messageTextProps} = this.props;
+      const { containerStyle, wrapperStyle, ...messageTextProps } = this.props;
       if (this.props.renderMessageText) {
         return this.props.renderMessageText(messageTextProps);
       }
+
       return <MessageText {...messageTextProps}/>;
     }
+
     return null;
   }
 
   renderMessageImage() {
     if (this.props.currentMessage.image) {
-      const {containerStyle, wrapperStyle, ...messageImageProps} = this.props;
+      const { containerStyle, wrapperStyle, ...messageImageProps } = this.props;
       if (this.props.renderMessageImage) {
         return this.props.renderMessageImage(messageImageProps);
       }
+
       return <MessageImage {...messageImageProps}/>;
     }
+
     return null;
   }
 
   renderTime() {
     if (this.props.currentMessage.createdAt) {
-      const {containerStyle, wrapperStyle, ...timeProps} = this.props;
+      const { containerStyle, wrapperStyle, ...timeProps } = this.props;
       if (this.props.renderTime) {
         return this.props.renderTime(timeProps);
       }
+
       return <Time {...timeProps}/>;
     }
+
     return null;
   }
 
@@ -67,6 +88,7 @@ export default class Bubble extends React.Component {
     if (this.props.renderCustomView) {
       return this.props.renderCustomView(this.props);
     }
+
     return null;
   }
 
@@ -97,8 +119,16 @@ export default class Bubble extends React.Component {
 
   render() {
     return (
-      <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
-        <View style={[styles[this.props.position].wrapper, this.props.wrapperStyle[this.props.position], this.handleBubbleToNext(), this.handleBubbleToPrevious()]}>
+      <View style={
+        [styles[this.props.position].container, this.props.containerStyle[this.props.position]]}
+      >
+        <View style={[
+          styles[
+          this.props.position].wrapper,
+          this.props.wrapperStyle[this.props.position],
+          this.handleBubbleToNext(),
+          this.handleBubbleToPrevious(),
+        ]}>
           <TouchableWithoutFeedback
             onLongPress={this.onLongPress}
             {...this.props.touchableProps}
@@ -169,7 +199,9 @@ Bubble.defaultProps = {
   renderCustomView: null,
   renderTime: null,
   isSameUser: () => {},
+
   isSameDay: () => {},
+
   position: 'left',
   currentMessage: {
     text: null,

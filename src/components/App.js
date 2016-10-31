@@ -3,6 +3,8 @@ import { Platform, Alert } from 'react-native';
 import SplashPage from './SplashPage';
 import Login from './Login';
 import Main from './Main';
+import ChannelList from './Chat/ChannelList';
+import ChatPage from './Chat/ChatPage';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
@@ -28,6 +30,15 @@ const reducerCreate = params=> {
     };
 };
 
+const refreshPreviousSceneOnBack = () => {
+  Actions.pop();
+
+  //Delay 10ms to refresh previous scene when current scene is completely popped.
+  setTimeout(() => {
+    Actions.refresh();
+  }, 10);
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +46,6 @@ class App extends Component {
   }
 
   render() {
-
     // Platform verification
     let isAndroid = (Platform.OS === 'android');
 
@@ -76,6 +86,10 @@ class App extends Component {
               borderBottomColor: 'transparent', }}/>
 
           <Scene key="activity" component={Activity} />
+
+          <Scene key="chatPage" onBack={refreshPreviousSceneOnBack} component={ChatPage} />
+
+          <Scene key="channelList" component={ChannelList} />
 
           <Scene key="evalPageMain" component={EvalPage} hideBackImage={true} panHandlers={null}
             onBack={() => false} title="Survey" hideNavBar={false} />

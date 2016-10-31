@@ -15,12 +15,14 @@ export default class Composer extends React.Component {
         onChange={(e) => {
           this.props.onChange(e);
         }}
+
         style={[styles.textInput, this.props.textInputStyle, {
           height: this.props.composerHeight,
-        }]}
+        },
+        ]}
         value={this.props.text}
         enablesReturnKeyAutomatically={true}
-        underlineColorAndroid="transparent"
+        underlineColorAndroid='transparent'
         {...this.props.textInputProps}
       />
     );
@@ -46,12 +48,13 @@ const styles = StyleSheet.create({
 
 Composer.defaultProps = {
   onChange: () => {},
+
   composerHeight: Platform.select({
     ios: 33,
     android: 41,
   }), // TODO SHARE with GiftedChat.js and tests
   text: '',
-  placeholder: 'Type a message...',
+  placeholder: 'Type your message...',
   placeholderTextColor: '#b2b2b2',
   textInputProps: null,
   multiline: true,
