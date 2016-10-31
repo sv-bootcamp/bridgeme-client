@@ -12,7 +12,6 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.yoloci.fileupload.FileUploadPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,6 @@ public class MainApplication extends Application implements ReactApplication {
               new MainReactPackage(),
               new LinearGradientPackage(),
               new ImagePickerPackage(),
-              new FileUploadPackage(),
               new FBSDKPackage(mCallbackManager)
       );
     }

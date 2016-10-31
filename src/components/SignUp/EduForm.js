@@ -57,13 +57,17 @@ class EduForm extends Component {
                      onEndEditing={() => this.toggleEdit()}
                      onChangeText={onChangeSubject} />
         </View>
-        <View>
+        <View style={styles.flexR}>
           <Picker
             style={styles.formEditYear}
             selectedValue={this.state.year}
             onValueChange={onValueChange}>
             {PickerItems}
           </Picker>
+          <TouchableWithoutFeedback onPress={() => this.toggleEdit()}>
+            <View style={{ flex: 1 }}>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );

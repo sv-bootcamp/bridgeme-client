@@ -16,7 +16,6 @@ import EduForm from './EduForm';
 import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import MyPic from './MyPic';
-import FileUploader from './FileUploader';
 import Progress from './Progress';
 import ServerUtil from '../../utils/ServerUtil';
 import WorkForm from './WorkForm';
@@ -121,17 +120,6 @@ class GeneralInfo extends Component {
 
   // Regist general user info.
   regist() {
-    let files = [ ];
-
-    if (this.state.imageResource != null) {
-      let file = {
-        filename: this.state.imageResource.fileName, // require, file name
-        filepath: this.state.imageResource.path, // require, file absoluete path
-        filetype: this.state.imageResource.type,
-      };
-      files.push(file);
-    }
-
     if (this.state.name === '') {
       Alert.alert(
         'Sign In',
@@ -148,7 +136,12 @@ class GeneralInfo extends Component {
       return;
     }
 
-    let fields = {
+    let image = null;
+    if (this.state.imageResource !== null) {
+      image = this.state.imageResource.data;
+    }
+
+    let fieldSet = {
       name: this.state.name,
       email: this.state.email,
       languages: this.state.language,
@@ -156,10 +149,21 @@ class GeneralInfo extends Component {
       about: this.state.about,
       education: this.state.education,
       work: this.state.experience,
+      image: image,
     };
 
-    let fileUploader = new FileUploader();
-    fileUploader.upload(files, fields);
+    let onUploadSuccess = (result) => this.onUploadSuccess(result);
+    let onUploadError = (error) => this.onUploadError(error);
+    ServerUtil.initCallback(onUploadSuccess, onUploadError);
+    ServerUtil.editGeneral(fieldSet);
+  }
+
+  onUploadSuccess(result) {
+    alert(JSON.stringify(result));
+  }
+
+  onUploadError(error) {
+    alert(JSON.stringify(error));
   }
 
   // Get Forms(name, email, language, location, about, education, experience)
@@ -400,6 +404,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nextTxt: {
+    backgroundColor: 'transparent',
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',

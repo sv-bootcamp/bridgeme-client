@@ -13,6 +13,7 @@ const options = {
     skipBackup: true,
     path: 'images',
   },
+  maxWidth: 110,
 };
 
 // Profile image Component

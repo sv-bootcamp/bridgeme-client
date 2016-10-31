@@ -75,6 +75,10 @@ class WorkForm extends Component {
             cancelBtnText="Cancel"
             customStyles={{ dateInput: styles.formEditDate, }}
             onDateChange={onEndDateChange} />
+          <TouchableWithoutFeedback onPress={() => this.toggleEdit()}>
+            <View style={{ flex: 1 }}>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );

@@ -3,7 +3,7 @@ import NativeModules from 'NativeModules';
 import React from 'react';
 import UrlMeta from '../../utils/UrlMeta';
 
-const FileUpload = NativeModules.FileUpload;
+// const FileUpload = NativeModules.FileUpload;
 
 // This component is for multipart upload.
 class FileUploader {
@@ -21,13 +21,13 @@ class FileUploader {
     this.option.files = files;
     this.option.fields = {info: escape(JSON.stringify(fields))};
 
-    FileUpload.upload(this.option, (error, result) => {
-      if (error) {
-        alert(error);
-      } else {
-        
-      }
-    });
+    // FileUpload.upload(this.option, (error, result) => {
+    //   if (error) {
+    //     alert(error);
+    //   } else {
+    //     alert(JSON.stringify(result));
+    //   }
+    // });
   }
 }
 

@@ -61,6 +61,11 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
+  // Edit general infomation
+  editGeneral(fieldSet) {
+    this.requestToServer('POST', UrlMeta.API_EDIT_GENERAL, '', fieldSet);
+  }
+
   // Request to server
   requestToServer(method, apiType, urlEtc, paramList) {
     AsyncStorage.multiGet(['loginType', 'token'], (err, stores) => {
@@ -115,6 +120,8 @@ class ServerUtil {
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       body.match_id = paramList[0];
       body.option = paramList[1];
+    } else if (apiType === UrlMeta.API_EDIT_GENERAL) {
+      return JSON.stringify(paramList);
     }
 
     return JSON.stringify(body);
