@@ -91,21 +91,21 @@ class UserList extends Component {
 
   renderCardView() {
     return (
-        <CardScroll
-           dataSource={this.state.dataSource}
-           renderRow={this.renderRow}
-           refreshControl={
-             <RefreshControl
-               refreshing={this.state.isRefreshing}
-               onRefresh={this.onRefresh.bind(this)}
-               tintColor="#1ecfe2"
-               title="Loading..."
-               titleColor="#0e417a"
-               style={{ backgroundColor: 'transparent' }}
+      <CardScroll
+        dataSource={this.state.dataSource}
+         renderRow={this.renderRow}
+         refreshControl={
+           <RefreshControl
+             refreshing={this.state.isRefreshing}
+             onRefresh={this.onRefresh.bind(this)}
+             tintColor="#1ecfe2"
+             title="Loading..."
+             titleColor="#0e417a"
+             style={{ backgroundColor: 'transparent' }}
              />
-           }
+         }
        />
-    );
+   );
   }
 
   render() {

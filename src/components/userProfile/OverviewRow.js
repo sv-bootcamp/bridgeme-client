@@ -44,12 +44,12 @@ class OverviewRow extends Component {
       return this.renderLoadingView();
     } else {
       return (
-          <View style={styles.container}>
-            <Text style ={styles.name}>{this.state.about}</Text>
-            <Text style ={styles.period}>{this.state.keyword}</Text>
-            <Text style ={styles.period}>{this.state.personality}</Text>
-            <View style={styles.seperator}></View>
-          </View>
+        <View style={styles.container}>
+          <Text style ={styles.name}>{this.state.about}</Text>
+          <Text style ={styles.period}>{this.state.keyword}</Text>
+          <Text style ={styles.period}>{this.state.personality}</Text>
+          <View style={styles.seperator}></View>
+        </View>
       );
     }
   }

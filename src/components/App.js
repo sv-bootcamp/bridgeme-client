@@ -59,7 +59,7 @@ class App extends Component {
 
           {/* The right button(filter) function will be added later */}
           <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
-            rightButtonTextStyle={{ color: 'transparent', }}
+            rightButtonTextStyle={{ color: 'transparent' }}
             rightButtonIconStyle={{ marginBottom: 13, marginRight: 6 }}
             onRight={()=>Alert.alert('Filtering service will come soon')
             }

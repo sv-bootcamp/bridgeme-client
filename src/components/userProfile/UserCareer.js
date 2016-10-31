@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   ActivityIndicator,
+  Alert,
   Dimensions,
   Image,
   ListView,
@@ -12,9 +12,9 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
+import ServerUtil from '../../utils/ServerUtil';
 
 class UserCareer extends Component {
   constructor(props) {

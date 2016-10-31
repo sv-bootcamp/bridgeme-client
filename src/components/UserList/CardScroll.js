@@ -39,7 +39,7 @@ export default class CardScroll extends Component {
     height: Dimensions.get('window').height,
     getImageSourceFromDataSource: (row) => row,
     inactiveCardScale: 0.9,
-    inactiveCardOpacity: 1
+    inactiveCardOpacity: 1,
   };
 
   constructor(props) {
@@ -142,18 +142,18 @@ export default class CardScroll extends Component {
 
   render() {
     return (
-        <ListView
-          renderScrollComponent={this.renderScrollComponent}
-          initialListSize={5}
-          onScroll={this.controlScroll}
-          dataSource={this.props.dataSource}
-          style={styles.listView}
-          renderRow={this.props.renderRow.bind(this)}
-          ref={comp => {
-            this.resetListView = comp;
-            return;
-          }
+      <ListView
+        renderScrollComponent={this.renderScrollComponent}
+        initialListSize={5}
+        onScroll={this.controlScroll}
+        dataSource={this.props.dataSource}
+        style={styles.listView}
+        renderRow={this.props.renderRow.bind(this)}
+        ref={comp => {
+          this.resetListView = comp;
+          return;
         }
+      }
       />
     );
   }
