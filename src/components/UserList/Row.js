@@ -90,6 +90,8 @@ class Row extends Component {
         <View style={styles.rowView}>
             <Image style={styles.photo}
                    source={{ uri: this.state.profileImage }}/>
+             <Image style={styles.bookmarkIcon}
+                    source={require('../../resources/icon-bookmark.png')}/>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
               <Text style={styles.job}> {this.state.currentJob}</Text>
@@ -113,9 +115,9 @@ class Row extends Component {
 }
 
 const CARD_PREVIEW_WIDTH = 10;
-const CARD_MARGIN = 25;
-const CARD_WIDTH = Dimensions.get('window').width - (CARD_MARGIN + CARD_PREVIEW_WIDTH) * 2;
-const CARD_HEIGHT = Dimensions.get('window').height - 200;
+const CARD_MARGIN = 10;
+const CARD_WIDTH = Dimensions.get('window').width - (CARD_MARGIN + 10 + CARD_PREVIEW_WIDTH) * 2;
+const CARD_HEIGHT = Dimensions.get('window').height - 180;
 const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   rowView: {
@@ -142,6 +144,12 @@ const styles = StyleSheet.create({
         marginTop: 90,
       },
     }),
+  },
+  bookmarkIcon: {
+    position: 'absolute',
+    zIndex: 1,
+    right: 20,
+    top: 20,
   },
   photo: {
     height: 182,

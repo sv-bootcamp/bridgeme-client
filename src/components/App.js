@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import SplashPage from './SplashPage';
 import Login from './Login';
 import Main from './Main';
@@ -57,7 +57,13 @@ class App extends Component {
           <Scene key="login" component={Login}
             initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
 
-          <Scene key="main" component={Main} title="Bridgeme"
+          {/* The right button(filter) function will be added later */}
+          <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
+            rightButtonTextStyle={{ color: 'transparent', }}
+            rightButtonIconStyle={{ marginBottom: 13, marginRight: 6 }}
+            onRight={()=>Alert.alert('Filter Button')
+            }
+            rightButtonImage={require('../resources/filter.png')}
             hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
