@@ -22,32 +22,39 @@ class Row extends Component {
       profileImage: '',
       name: '',
       job: '',
-      position: 'employer',
+      position: 'Employer',
+      currentJob: '',
       currentLocation: 'San Jose, CA, USA',
       skills: ['# Motivation', '# prefered_skill', '# freelance'],
     };
   }
 
   componentWillMount() {
-    let job = this.state.job;
-    let position = this.state.position;
-    let skills = this.state.skills;
 
-    if (this.props.dataSource.work.length > 0) {
-      job = 'at ' + this.props.dataSource.work[0].employer.name;
-      if (this.props.dataSource.work[0].position) {
-        position = this.props.dataSource.work[0].position.name;
-      }
-    }
+    // Skills will be updated later
+    let skills = this.state.skills;
 
     this.setState({
       profileImage: this.getProfileImage(),
       name: this.getName(),
-      job: job,
-      position: position,
+      currentJob: this.getCurrentJob(),
       currentLocation: this.getCurrentLocation(),
       skills: skills,
     });
+  }
+
+  getCurrentJob() {
+    let job = this.state.job;
+    let position = this.state.position;
+
+    if (this.props.dataSource.work.length > 0) {
+      job = this.props.dataSource.work[0].employer.name;
+      if (this.props.dataSource.work[0].position) {
+        position = this.props.dataSource.work[0].position.name;
+      }
+
+      return position + ' at ' + job;
+    }
   }
 
   getProfileImage() {
@@ -85,7 +92,7 @@ class Row extends Component {
                    source={{ uri: this.state.profileImage }}/>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.job}> {this.state.position} {this.state.job}</Text>
+              <Text style={styles.job}> {this.state.currentJob}</Text>
               <Text style={styles.location}> {this.state.currentLocation}</Text>
               <Text style={styles.skillTitle}>I CAN HELP YOU WITH</Text>
               <Text style={styles.skill}>{this.state.skills}</Text>
