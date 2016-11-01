@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Image,
   Platform,
   ScrollView,
@@ -11,6 +12,8 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import ServerUtil from '../utils/ServerUtil';
+import ErrorMeta from '../utils/ErrorMeta';
 
 class Personality extends Component {
   constructor(props) {
@@ -29,10 +32,44 @@ class Personality extends Component {
         ['Traditional', 'Free Thinking'],
       ],
     };
+
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error)
+    );
+  }
+
+  componentDidMount() {
+    let values = new Array(this.state.sliderTitle.length);
+    values.fill(0, 0, values.length);
+    this.setState({ values: values });
+  }
+
+  sendRequest() {
+    const personality = [];
+
+    for (let [index, value] of this.state.values.entries()) {
+
+      // If user set default value(0), add both of personalities
+      if (value === 0) {
+        for (let title of this.state.sliderTitle[index]) {
+          personality.push({
+            option: title,
+            score: value,
+          });
+        }
+      } else {
+        personality.push({
+          option: this.state.sliderTitle[index][value > 0 ? 1 : 0],
+          score: Math.abs(value),
+        });
+      }
+    }
+
+    ServerUtil.editPersonality(personality);
   }
 
   render() {
-
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (
         <View key={index}>
           <View style={styles.sliderTitle}>
@@ -47,9 +84,10 @@ class Personality extends Component {
               this.setState({ values: newValues });
             }}
 
-            maximumValue={4}
-            minimumValue={0}
+            maximumValue={2}
+            minimumValue={-2}
             step={1}
+            value={0}
           />
         </View>
       )
@@ -61,7 +99,7 @@ class Personality extends Component {
           <Text style={{ color: '#2e3031' }}>Drag each point to express youself.</Text>
         </View>
         {slidersWithTitle}
-        <TouchableOpacity style={{ alignSelf: 'stretch' }}>
+        <TouchableOpacity style={{ alignSelf: 'stretch' }} onPress={this.sendRequest.bind(this)}>
           <LinearGradient
             start={[0.9, 0.5]} end={[0.0, 0.5]}
             locations={[0, 0.75]}
