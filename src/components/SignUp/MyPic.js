@@ -53,11 +53,11 @@ class MyPic extends Component {
   showPicker() {
     ImagePicker.showImagePicker(options, (response)  => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        alert('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        alert('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        alert('User tapped custom button: ', response.customButton);
       } else {
         let uri = (Platform.OS === 'ios') ?
                     response.uri.replace('file://', '') :

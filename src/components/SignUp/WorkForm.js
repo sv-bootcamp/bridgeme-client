@@ -12,7 +12,6 @@ import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
 
 class WorkForm extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
