@@ -40,14 +40,6 @@ class Personality extends Component {
     );
   }
 
-  onRequestSuccess(result) {
-    console.log(result);
-  }
-
-  onRequestFail(error) {
-    console.log(error);
-  }
-
   componentDidMount() {
     let values = new Array(this.state.sliderTitle.length);
     values.fill(0, 0, values.length);
