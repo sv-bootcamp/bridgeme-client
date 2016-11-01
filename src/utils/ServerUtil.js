@@ -61,6 +61,11 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
+  editPersonality(object) {
+    let paramList = [object];
+    this.requestToServer('POST', UrlMeta.API_EDIT_PERSONALITY, '', paramList);
+  }
+
   // Request to server
   requestToServer(method, apiType, urlEtc, paramList) {
     AsyncStorage.multiGet(['loginType', 'token'], (err, stores) => {
@@ -115,6 +120,8 @@ class ServerUtil {
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       body.match_id = paramList[0];
       body.option = paramList[1];
+    } else if (apiType === UrlMeta.API_EDIT_PERSONALITY) {
+      body.personality = paramList[0];
     }
 
     return JSON.stringify(body);
