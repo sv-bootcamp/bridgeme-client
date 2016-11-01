@@ -17,11 +17,12 @@ export default class LoadEarlier extends React.Component {
         </Text>
       );
     }
+
     return (
       <View>
         <Text style={[styles.text, this.props.textStyle, {
             opacity: 0,
-          }]}>
+          }, ]}>
           {this.props.label}
         </Text>
         <ActivityIndicator
@@ -32,6 +33,7 @@ export default class LoadEarlier extends React.Component {
       </View>
     );
   }
+
   render() {
     return (
       <TouchableOpacity
@@ -41,6 +43,7 @@ export default class LoadEarlier extends React.Component {
             this.props.onLoadEarlier();
           }
         }}
+
         disabled={this.props.isLoadingEarlier === true}
       >
         <View style={[styles.wrapper, this.props.wrapperStyle]}>
@@ -76,11 +79,12 @@ const styles = StyleSheet.create({
       ios: -14,
       android: -16,
     }),
-  }
+  },
 });
 
 LoadEarlier.defaultProps = {
   onLoadEarlier: () => {},
+
   isLoadingEarlier: false,
   label: 'Load earlier messages',
   containerStyle: {},

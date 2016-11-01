@@ -27,6 +27,7 @@ export default class Actions extends React.Component {
             this.props.options[key](this.props);
             return;
           }
+
           i++;
         }
       }
@@ -37,6 +38,7 @@ export default class Actions extends React.Component {
     if (this.props.icon) {
       return this.props.icon();
     }
+
     return (
       <View
         style={[styles.wrapper, this.props.wrapperStyle]}
@@ -90,6 +92,7 @@ Actions.contextTypes = {
 
 Actions.defaultProps = {
   onSend: () => {},
+
   options: {},
   icon: null,
   containerStyle: {},

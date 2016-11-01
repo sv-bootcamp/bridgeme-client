@@ -15,13 +15,20 @@ export default class Message extends React.Component {
   isSameDay(currentMessage = {}, diffMessage = {}) {
     let diff = 0;
     if (diffMessage.createdAt && currentMessage.createdAt) {
-      diff = Math.abs(moment(diffMessage.createdAt).startOf('day').diff(moment(currentMessage.createdAt).startOf('day'), 'days'));
+      diff = Math.abs(
+        moment(diffMessage.createdAt)
+          .startOf('day')
+          .diff(moment(currentMessage.createdAt)
+            .startOf('day'), 'days')
+      );
     } else {
       diff = 1;
     }
+
     if (diff === 0) {
       return true;
     }
+
     return false;
   }
 
@@ -31,12 +38,13 @@ export default class Message extends React.Component {
         return true;
       }
     }
+
     return false;
   }
 
   renderDay() {
     if (this.props.currentMessage.createdAt) {
-      const {containerStyle, ...other} = this.props;
+      const { containerStyle, ...other } = this.props;
       const dayProps = {
         ...other,
         isSameUser: this.isSameUser,
@@ -45,13 +53,15 @@ export default class Message extends React.Component {
       if (this.props.renderDay) {
         return this.props.renderDay(dayProps);
       }
+
       return <Day {...dayProps}/>;
     }
+
     return null;
   }
 
   renderBubble() {
-    const {containerStyle, ...other} = this.props;
+    const { containerStyle, ...other } = this.props;
     const bubbleProps = {
       ...other,
       isSameUser: this.isSameUser,
@@ -60,12 +70,13 @@ export default class Message extends React.Component {
     if (this.props.renderBubble) {
       return this.props.renderBubble(bubbleProps);
     }
+
     return <Bubble {...bubbleProps}/>;
   }
 
   renderAvatar() {
     if (this.props.user._id !== this.props.currentMessage.user._id) {
-      const {containerStyle, ...other} = this.props;
+      const { containerStyle, ...other } = this.props;
       const avatarProps = {
         ...other,
         isSameUser: this.isSameUser,
@@ -74,6 +85,7 @@ export default class Message extends React.Component {
 
       return <Avatar {...avatarProps}/>;
     }
+
     return null;
   }
 
@@ -83,7 +95,7 @@ export default class Message extends React.Component {
         {this.renderDay()}
         <View style={[styles[this.props.position].container, {
           marginBottom: this.isSameUser(this.props.currentMessage, this.props.nextMessage) ? 2 : 10,
-        }, this.props.containerStyle[this.props.position]]}>
+        }, this.props.containerStyle[this.props.position], ]}>
           {this.props.position === 'left' ? this.renderAvatar() : null}
           {this.renderBubble()}
           {this.props.position === 'right' ? this.renderAvatar() : null}

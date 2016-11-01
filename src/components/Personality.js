@@ -16,7 +16,6 @@ import ServerUtil from '../utils/ServerUtil';
 import ErrorMeta from '../utils/ErrorMeta';
 
 class Personality extends Component {
-
   constructor(props) {
     super(props);
 

@@ -13,7 +13,6 @@ import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
-
   constructor(props) {
     super(props);
 
