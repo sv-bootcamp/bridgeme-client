@@ -19,6 +19,10 @@ import MyPic from './MyPic';
 import Progress from './Progress';
 import ServerUtil from '../../utils/ServerUtil';
 import WorkForm from './WorkForm';
+import {
+  Actions,
+  Scene,
+} from 'react-native-router-flux';
 
 class GeneralInfo extends Component {
 
@@ -26,7 +30,7 @@ class GeneralInfo extends Component {
   titles = [
     { name: 'Name', isArray: false, },
     { name: 'Email', isArray: false, },
-    { name: 'Language', isArray: false, },
+    { name: 'Languages', isArray: false, },
     { name: 'Location', isArray: false, },
     { name: 'About', isArray: false, },
     { name: 'Education', isArray: true, },
@@ -48,7 +52,7 @@ class GeneralInfo extends Component {
       mypic: '',
       name: '',
       email: '',
-      language: '',
+      languages: '',
       location: '',
       about: '',
       education: [],
@@ -65,12 +69,16 @@ class GeneralInfo extends Component {
   }
 
   onSuccess(result) {
+    console.log(result);
     result.education.reverse();
     this.setState({
       mypic: result.profile_picture,
       name: result.name,
       gender: result.gender,
       email: result.email,
+      languages: result.languages,
+      location: result.location,
+      about: result.about,
       education: result.education,
       experience: result.work,
       eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
@@ -128,10 +136,11 @@ class GeneralInfo extends Component {
       return;
     }
 
-    if (this.state.email === '') {
+    let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (emailFilter.test(this.state.email) === false) {
       Alert.alert(
         'Sign In',
-        'Please input your email.',
+        'Please input your correct email.',
       );
       return;
     }
@@ -144,7 +153,7 @@ class GeneralInfo extends Component {
     let fieldSet = {
       name: this.state.name,
       email: this.state.email,
-      languages: this.state.language,
+      languages: this.state.languages,
       location: this.state.location,
       about: this.state.about,
       education: this.state.education,
@@ -159,14 +168,14 @@ class GeneralInfo extends Component {
   }
 
   onUploadSuccess(result) {
-    alert(JSON.stringify(result));
+    Actions.generalInfo();
   }
 
   onUploadError(error) {
     alert(JSON.stringify(error));
   }
 
-  // Get Forms(name, email, language, location, about, education, experience)
+  // Get Forms(name, email, languages, location, about, education, experience)
   // Each form includes title and input
   getForms() {
     let Forms = this.titles.map(
