@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import ServerUtil from '../utils/ServerUtil';
 
 class MyPage extends Component {
   constructor(props) {
@@ -22,7 +23,43 @@ class MyPage extends Component {
       loaded: true,
       trueSwitchIsOn: true,
       falseSwitchIsOn: false,
+      profileImage: 'http://lorempixel.com/1024/1024/cats',
+      name: '',
+      currentStatus: '',
+      currentPosition: '',
     };
+
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+  }
+
+  onRequestSuccess(result) {
+    let currentStatus = this.state.currentStatus;
+    let currentPosition = this.state.currentPosition;
+
+    if (result.work.length > 0) {
+      const work = result.work[0];
+
+      if (work.employer) currentStatus = work.employer.name;
+      if (work.position) currentPosition = work.position.name;
+    } else if (result.education.length > 0) {
+      const education = result.education[result.education.length - 1];
+
+      if (education.school) currentStatus = education.school.name;
+      if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+    }
+
+    this.setState({
+      name: result.name,
+      profileImage: result.profile_picture,
+      currentStatus: currentStatus,
+      currentPosition: currentPosition,
+    });
+  }
+
+  componentDidMount() {
+    ServerUtil.getMyProfile();
   }
 
   render() {
@@ -30,7 +67,7 @@ class MyPage extends Component {
       <View style={styles.container}>
         <View style={styles.userInfo}>
           <Image style={styles.profileImage}
-                 source={{ uri: 'http://lorempixel.com/1024/1024/cats' }} />
+                 source={{ uri: this.state.profileImage }} />
 
           <View style={styles.infoText}>
             <Text style={{
@@ -38,10 +75,10 @@ class MyPage extends Component {
               fontSize: 18,
               fontWeight: '500',
             }}>
-              Stacy Kim
+              {this.state.name}
             </Text>
-            <Text>
-              UI/UX Desginer at bridge.me
+            <Text ellipsizeMode ='tail' numberOfLines={1}>
+              {this.state.currentPosition} at {this.state.currentStatus}
             </Text>
             <TouchableWithoutFeedback onPress={() => Actions.userProfile({ myProfile: true })}>
               <View>
@@ -54,11 +91,11 @@ class MyPage extends Component {
         </View>
 
         <TouchableOpacity style={styles.menu}>
-          <Image source={require('../resources/page-1@3x.png')} />
+          <Image source={require('../resources/page-1.png')} />
           <Text>  Edit my profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
-          <Image source={require('../resources/for-you-icon-line@3x.png')} />
+          <Image source={require('../resources/for-you-icon-line.png')} />
           <Text>  Bookmarks</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{
@@ -73,7 +110,7 @@ class MyPage extends Component {
           paddingRight: 20,
         }}>
           <View style={{ flexDirection: 'row' }}>
-            <Image source={require('../resources/icon-bookmark@3x.png')} />
+            <Image source={require('../resources/icon-bookmark.png')} />
             <Text>  Recieve a request</Text>
           </View>
           <Switch
@@ -81,7 +118,7 @@ class MyPage extends Component {
             value={this.state.trueSwitchIsOn} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
-          <Image source={require('../resources/icon-logout@3x.png')} />
+          <Image source={require('../resources/icon-logout.png')} />
           <Text>  Log out</Text>
         </TouchableOpacity>
         <View style={{ flex: 3 }}>
@@ -127,6 +164,7 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
   },
   infoText: {
+    flex: 1,
     height: 70,
     flexDirection: 'column',
     justifyContent: 'space-between',
