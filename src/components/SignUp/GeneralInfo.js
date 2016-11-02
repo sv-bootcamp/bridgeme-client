@@ -69,7 +69,6 @@ class GeneralInfo extends Component {
   }
 
   onSuccess(result) {
-    console.log(result);
     result.education.reverse();
     this.setState({
       mypic: result.profile_picture,
@@ -168,7 +167,7 @@ class GeneralInfo extends Component {
   }
 
   onUploadSuccess(result) {
-    Actions.generalInfo();
+    Actions.main();
   }
 
   onUploadError(error) {
