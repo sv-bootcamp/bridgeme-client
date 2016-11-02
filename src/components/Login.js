@@ -20,10 +20,6 @@ class Login extends Component {
     ServerUtil.initCallback(
       (result) => this.onServerSuccess(result),
       (error) => this.onServerFail(error));
-
-  }
-  componentDidMount(){
-
   }
 
   componentWillMount() {
@@ -34,6 +30,7 @@ class Login extends Component {
 
   render() {
     return (
+
       //  Render the screen on View.
       <View style={styles.container}>
         <View style={styles.welcomeContain}>
@@ -64,13 +61,14 @@ class Login extends Component {
   }
 
   onServerSuccess(myProflile) {
-    Actions.main({me:myProflile});
+    Actions.main({ me: myProflile });
   }
 
   onServerFail(error) {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
+
     Actions.login();
   }
 }

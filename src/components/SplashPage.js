@@ -35,6 +35,7 @@ class SplashPage extends Component {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
+
     Actions.login();
   }
 

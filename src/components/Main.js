@@ -23,27 +23,27 @@ class Main extends Component {
   constructor(props) {
     super(props);
     new SendBird({
-      appId: APP_ID
+      appId: APP_ID,
     });
   }
 
-  componentDidMount(){
-    AsyncStorage.getItem('userInfo', (err, result) => {
-      if(err){
-        throw new Error(err)
-      }
-      this.userInfo = JSON.parse(result);
-      SendBird().connect(`${this.userInfo._id}`, function (user, error) {
-        if(error){
-          throw new Error(error)
+  componentDidMount() {
+    SendBird().connect(this.props.me._id, function (user, error) {
+        if (error) {
+          alert(error);
+          throw new Error(error);
         }
-        SendBird().updateCurrentUserInfo(this.userInfo.name, this.userInfo.profile_picture, function (response, error) {
-          if(error){
-            throw new Error(error)
+
+        SendBird().updateCurrentUserInfo(
+          this.props.me.name,
+          this.props.me.profile_picture,
+          function (response, error) {
+          if (error) {
+            alert(error);
+            throw new Error(error);
           }
         }.bind(this));
       }.bind(this));
-    });
   }
 
   render() {
