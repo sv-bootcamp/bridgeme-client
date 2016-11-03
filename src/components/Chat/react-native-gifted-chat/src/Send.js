@@ -7,25 +7,20 @@ import {
 } from 'react-native';
 
 export default class Send extends React.Component {
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.text.trim().length === 0 && nextProps.text.trim().length > 0 || this.props.text.trim().length > 0 && nextProps.text.trim().length === 0) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
   render() {
     if (this.props.text.trim().length > 0) {
       return (
         <TouchableOpacity
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
-            this.props.onSend({text: this.props.text.trim()}, true);
+            this.props.onSend({ text: this.props.text.trim() }, true);
           }}
         >
           <Text style={[styles.text, this.props.textStyle]}>{this.props.label}</Text>
         </TouchableOpacity>
       );
     }
+
     return <View/>;
   }
 }
@@ -49,6 +44,7 @@ const styles = StyleSheet.create({
 Send.defaultProps = {
   text: '',
   onSend: () => {},
+
   label: 'Send',
   containerStyle: {},
   textStyle: {},

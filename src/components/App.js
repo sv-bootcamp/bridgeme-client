@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import SplashPage from './SplashPage';
 import Login from './Login';
 import Main from './Main';
+import ChannelList from './Chat/ChannelList';
+import ChatPage from './Chat/ChatPage';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
@@ -28,15 +30,22 @@ const reducerCreate = params=> {
     };
 };
 
-class App extends Component {
+const refreshPreviousSceneOnBack = () => {
+  Actions.pop();
 
+  //Delay 10ms to refresh previous scene when current scene is completely popped.
+  setTimeout(() => {
+    Actions.refresh();
+  }, 10);
+};
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.scene = null;
   }
 
   render() {
-
     // Platform verification
     let isAndroid = (Platform.OS === 'android');
 
@@ -58,19 +67,29 @@ class App extends Component {
           <Scene key="login" component={Login}
             initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
 
-          <Scene key="main" component={Main} title="Bridgeme"
+          {/* The right button(filter) function will be added later */}
+          <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
+            rightButtonTextStyle={{ color: 'transparent' }}
+            rightButtonIconStyle={{ marginBottom: 13, marginRight: 6 }}
+            onRight={()=>Alert.alert('Filtering service will come soon')
+            }
+            rightButtonImage={require('../resources/filter.png')}
             hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
 
           <Scene key='myPage' component={MyPage}/>
 
-          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+            <Scene key="userProfile" component={UserProfile} hideBackImage={false}
             backButtonImage={require('../resources/icon-arrow-left-white.png')}
             navigationBarStyle={{ backgroundColor: 'transparent',
               borderBottomColor: 'transparent', }}/>
 
           <Scene key="activity" component={Activity} />
+
+          <Scene key="chatPage" onBack={refreshPreviousSceneOnBack} component={ChatPage} />
+
+          <Scene key="channelList" component={ChannelList} />
 
           <Scene key="evalPageMain" component={EvalPage} hideBackImage={true} panHandlers={null}
             onBack={() => false} title="Survey" hideNavBar={false} />

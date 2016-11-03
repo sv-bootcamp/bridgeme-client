@@ -11,7 +11,6 @@ import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
 
 class SplashPage extends Component {
-
   constructor(props) {
     super(props);
 
@@ -23,11 +22,12 @@ class SplashPage extends Component {
 
   componentWillMount() {
     LoginUtil.hasToken();
+
   }
 
   // Token already exists on the server
   onServerSuccess(result) {
-    Actions.main();
+    Actions.login();
   }
 
   // If the token is not validate and has an error
@@ -35,7 +35,6 @@ class SplashPage extends Component {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
-
     Actions.login();
   }
 

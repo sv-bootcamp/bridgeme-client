@@ -1,21 +1,49 @@
 import React, { Component } from 'react';
 import {
+  AppState,
+  AsyncStorage,
+  NetInfo,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  ScrollView,
 } from 'react-native';
-import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import Activity from './Activity/Activity';
+import ChannelList from './Chat/ChannelList';
+import MyPage from './MyPage';
+import SendBird from 'sendbird';
+import ScrollableTabView  from 'react-native-scrollable-tab-view';
+import TabBar from './Shared/TabBar';
 import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
-import TabBar from './Shared/TabBar';
-import MyPage from './MyPage';
+
+const APP_ID = 'D1A48349-CBE6-41FF-9FF8-BCAA2A068B05';
 
 class Main extends Component {
-
   constructor(props) {
     super(props);
+    new SendBird({
+      appId: APP_ID
+    });
+  }
+
+  componentDidMount(){
+    AsyncStorage.getItem('userInfo', (err, result) => {
+      if(err){
+        throw new Error(err)
+      }
+      this.userInfo = JSON.parse(result);
+      SendBird().connect(`${this.userInfo._id}`, function (user, error) {
+        if(error){
+          throw new Error(error)
+        }
+        SendBird().updateCurrentUserInfo(this.userInfo.name, this.userInfo.profile_picture, function (response, error) {
+          if(error){
+            throw new Error(error)
+          }
+        }.bind(this));
+      }.bind(this));
+    });
   }
 
   render() {
@@ -32,11 +60,7 @@ class Main extends Component {
           </View>
         </ScrollView>
         <Activity tabLabel="ios-people" style={styles.tabView} />
-        <ScrollView tabLabel="ios-chatbubbles" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Messenger</Text>
-          </View>
-        </ScrollView>
+        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
         <MyPage tabLabel="md-contact"/>
       </ScrollableTabView>
     );

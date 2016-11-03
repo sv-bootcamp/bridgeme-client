@@ -14,12 +14,16 @@ export default class Day extends React.Component {
         <View style={[styles.container, this.props.containerStyle]}>
           <View style={[styles.wrapper, this.props.wrapperStyle]}>
             <Text style={[styles.text, this.props.textStyle]}>
-              {moment(this.props.currentMessage.createdAt).locale(this.context.getLocale()).format('ll').toUpperCase()}
+              {
+                moment(this.props.currentMessage.createdAt)
+                .locale(this.context.getLocale()).format('ll').toUpperCase()
+              }
             </Text>
           </View>
         </View>
       );
     }
+
     return null;
   }
 }
@@ -53,6 +57,7 @@ Day.contextTypes = {
 
 Day.defaultProps = {
   isSameDay: () => {},
+
   currentMessage: {
     // TODO test if crash when createdAt === null
     createdAt: null,

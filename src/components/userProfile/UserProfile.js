@@ -3,14 +3,13 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
-  Platform,
+  Image,
   ListView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableHighlight,
-  Image,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -18,7 +17,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
-import ScrollableTabView  from 'react-native-scrollable-tab-view';
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
+import UserCareer from './UserCareer';
+import UserOverview from './UserOverview';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -31,16 +32,11 @@ class UserProfile extends Component {
       currentStatus: '',
       currentPosition: '',
       currentLocation: '',
+      statusAsMentee: '',
+      statusAsMentor: '',
       loaded: false,
       evalLoaded: false,
       connectPressed: false,
-      dataBlob: {},
-      statusAsMentee: '',
-      statusAsMentor: '',
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
     };
 
     ServerUtil.initCallback(
@@ -49,28 +45,17 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
-
     // Check result code: profile Request/mentor request
     if (result._id) {
       let currentStatus = this.state.currentStatus;
       let currentPosition = this.state.currentPosition;
       let currentLocation = this.state.currentLocation;
 
-      let sectionIDs = ['Education', 'Experience'];
-
-      this.setState({
-        dataSource: new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2,
-          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-        }),
-        dataBlob: {},
-      });
-
       if (result.work.length > 0) {
         let work = result.work[0];
 
         if (work.employer) {
-          currentStatus = work.employer.name;
+          currentStatus = 'at ' + work.employer.name;
         }
 
         if (work.position) {
@@ -85,16 +70,13 @@ class UserProfile extends Component {
         let education = result.education[lastIndex];
 
         if (education.school) {
-          currentStatus = education.school.name;
+          currentStatus = 'at ' + education.school.name;
         }
 
         if (education.concentration.length > 0) {
           currentPosition = education.concentration[0].name;
         }
       }
-
-      this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
-      this.state.dataBlob[sectionIDs[1]] = result.work.slice();
 
       let statusAsMentee = this.state.statusAsMentee;
       let statusAsMentor = this.state.statusAsMentor;
@@ -111,7 +93,6 @@ class UserProfile extends Component {
         currentStatus: currentStatus,
         currentPosition: currentPosition,
         currentLocation: currentLocation,
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
         isRefreshing: false,
         statusAsMentee: statusAsMentee,
@@ -130,11 +111,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    if (this.props.myProfile) {
-      ServerUtil.getMyProfile();
-    } else {
-      ServerUtil.getOthersProfile(this.props._id);
-    }
+    ServerUtil.getOthersProfile(this.props._id);
   }
 
   // Receive props befofe completly changed
@@ -143,14 +120,9 @@ class UserProfile extends Component {
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
 
-    if (props.myProfile) {
-      ServerUtil.getMyProfile();
-    } else {
-      ServerUtil.getOthersProfile(props._id);
-    }
+    ServerUtil.getOthersProfile(props._id);
   }
 
-  // Send mentor request
   sendRequest() {
     ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
     this.setState({
@@ -162,35 +134,17 @@ class UserProfile extends Component {
   // Render loading page while fetching user profiles
   renderLoadingView() {
     return (
-      <View style={styles.header}>
-        <ActivityIndicator
-          animating={!this.state.loaded}
-          style={[styles.activityIndicator]}
-          size="large"
-        />
-        <Text style={styles.headerText}>Loading...</Text>
-      </View>
-    );
-  }
-
-  // Render loading page while fetching eval page
-  renderLoadingEval() {
-    return (
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Loading survey page...</Text>
-        <ActivityIndicator
-          animating={!this.state.evalLoaded}
-          style={[styles.activityIndicator]}
-          size="large"
-        />
-      </View>
+      <ActivityIndicator
+        animating={!this.state.loaded}
+        style={[styles.activityIndicator]}
+        size="large"
+      />
     );
   }
 
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
-    let editButton;
     let connectButton;
     const ConnectStatus = {
       DISCONNECTED: 0,
@@ -198,96 +152,78 @@ class UserProfile extends Component {
       CONNECTED: 2,
     };
 
-    // Since we display these buttons by condition,
-    // initialize with dummy text component.
-    editButton = connectButton = (<Text></Text>);
-
-    if (this.props.myProfile) {
-      editButton = (
-
-        // TODO: Replace below text with button
-        <Text style={styles.edit}>Edit</Text>
-      );
-    } else {
-      if (this.state.statusAsMentee === ConnectStatus.CONNECTED
+    if (this.state.statusAsMentee === ConnectStatus.CONNECTED
         || this.state.statusAsMentor === ConnectStatus.CONNECTED) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight>
             <Text style={styles.buttonText}>WAITING...</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
+    } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
         && this.state.statusAsMentor === ConnectStatus.DISCONNECTED) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight onPress={connect}>
             <Text style={styles.buttonText}>CONNECT</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      } else if (this.state.statusAsMentee === ConnectStatus.PENDING
+    } else if (this.state.statusAsMentee === ConnectStatus.PENDING
         || this.state.statusAsMentor === ConnectStatus.PENDING) {
-        connectButton = (
-          <LinearGradient style={styles.connectBtnStyle} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#07e4dd', '#44acff']}>
+      connectButton = (
+          <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
           <TouchableHighlight>
             <Text style={styles.buttonText}>CONNECTED</Text>
           </TouchableHighlight>
           </LinearGradient>
         );
-      }
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.scroll}>
-          <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#546979', '#08233a']}>
-            <Image style={styles.profileImage}
-                 source={{ uri: this.state.profileImage }} />
-           </LinearGradient>
-          <View style={styles.profileUserInfo}>
-            {editButton}
-            <Text style={styles.name}>{this.state.name}</Text>
-            <Text style={styles.positionText}>
-              {this.state.currentStatus} | {this.state.currentPosition}
-            </Text>
-            <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
-          </View>
-          <View style={styles.profileUserExperice}>
-            {editButton}
-            <ListView
-              scrollEnabled={true}
-              showsVerticalScrollIndicator={false}
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow}
-              enableEmptySections={true}
-              renderSectionHeader = {this.renderSectionHeader}
-            />
-          </View>
-          {connectButton}
+        <ScrollView>
           <StatusBar
                backgroundColor = "transparent"
                barStyle = "light-content"
                networkActivityIndicatorVisible={true}
             />
+          <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
+            colors={['#546979', '#08233a']}>
+            <Image style={styles.profileImage}
+                 source={{ uri: this.state.profileImage }} />
+           </LinearGradient>
+           <Image style={styles.bookmarkIcon}
+                  source={require('../../resources/icon-bookmark.png')}/>
+           <View style={styles.profileUserInfo}>
+              <Text style={styles.name}>{this.state.name}</Text>
+              <Text style={styles.positionText}>
+                {this.state.currentPosition} {this.state.currentStatus}
+              </Text>
+              <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
+            </View>
+
+          <ScrollableTabView
+            initialPage={0}
+            tabBarTextStyle={styles.tabBarText}
+            tabBarInactiveTextColor={'#a6aeae'}
+            tabBarActiveTextColor={'#2e3031'}
+            renderTabBar={() => <ScrollableTabBar />}
+            >
+            <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
+            <UserCareer tabLabel='CAREER' id={this.props._id}/>
+          </ScrollableTabView>
+          <View style={styles.btn}>
+            {connectButton}
+          </View>
         </ScrollView>
     );
-  }
-
-  renderSectionHeader(sectionData, sectionID) {
-    return (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{sectionID}</Text>
-      </View>
-    );
-  }
-
-  renderRow(rowData) {
-    return <ExperienceRow dataSource={rowData}/>;
   }
 
   render() {
@@ -302,7 +238,8 @@ class UserProfile extends Component {
 }
 
 // Get device size
-const { height, width } = Dimensions.get('window');
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   name: {
     fontSize: 22,
@@ -319,24 +256,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     color: '#ffffff',
   },
-  edit: {
+  bookmarkIcon: {
     position: 'absolute',
-    right: 10,
-    top: 10,
-  },
-  experienceText: {
-    fontSize: 15,
-    color: '#546979',
-    marginBottom: 10,
-  },
-  educationText: {
-    fontSize: 15,
-    color: '#546979',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  scroll: {
-    alignItems: 'stretch',
+    zIndex: 1,
+    right: 25,
+    top: 32,
   },
   profileImage: {
     alignItems: 'stretch',
@@ -359,32 +283,14 @@ const styles = StyleSheet.create({
     zIndex: 100,
     backgroundColor: 'transparent',
   },
-  profileUserExperice: {
-    flex: 2.5,
-    margin: 10,
-    padding: 15,
+  btn: {
+    alignItems: 'stretch',
   },
   connectBtnStyle: {
+    alignItems: 'stretch',
     height: 45,
-  },
-  connectButton: {
-    height: 45,
-    justifyContent: 'center',
-    backgroundColor: '#1ecfe2',
-    borderRadius: 2,
-    position: 'absolute',
-    left: 10,
-    right: 10,
-    bottom: 10,
-  },
-  waitingButton: {
-    height: 45,
-    justifyContent: 'center',
-    backgroundColor: '#979797',
-    borderRadius: 2,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+    left: 0,
+    right: 0,
   },
   buttonText: {
     fontFamily: 'opensans',
@@ -399,24 +305,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
+  card: {
+    borderWidth: 1,
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    margin: 5,
+    height: 150,
+    padding: 15,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 2, height: 2, },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
   },
-  headerText: {
-    fontSize: 20,
-    color: '#0e417a',
-    marginTop: 300,
-  },
-  section: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  sectionName: {
+  tabBarText: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#2e3031',
   },
 });
 
