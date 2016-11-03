@@ -100,7 +100,7 @@ class MyPage extends Component {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
           <View style={styles.receiveRequest}>
-            <Image source={require('../resources/icon-bookmark.png')} />
+            <Image source={require('../resources/icon-request.png')} />
             <Text>  Recieve a request</Text>
           </View>
           <Switch
