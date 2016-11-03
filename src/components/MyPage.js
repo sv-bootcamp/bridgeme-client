@@ -98,24 +98,16 @@ class MyPage extends Component {
           <Image source={require('../resources/for-you-icon-line.png')} />
           <Text>  Bookmarks</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{
-          flex: 1,
-          backgroundColor: 'white',
-          borderWidth: 1,
-          borderColor: '#efeff2',
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingLeft: 20,
-          paddingRight: 20,
-        }}>
+        <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
           <View style={{ flexDirection: 'row' }}>
             <Image source={require('../resources/icon-bookmark.png')} />
             <Text>  Recieve a request</Text>
           </View>
           <Switch
+            style={{ marginRight: 20 }}
             onValueChange={(value) => this.setState({ trueSwitchIsOn: value })}
-            value={this.state.trueSwitchIsOn} />
+            value={this.state.trueSwitchIsOn}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
           <Image source={require('../resources/icon-logout.png')} />
