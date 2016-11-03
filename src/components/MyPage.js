@@ -20,10 +20,10 @@ class MyPage extends Component {
     super(props);
 
     this.state = {
-      loaded: true,
+      loaded: false,
       trueSwitchIsOn: true,
       falseSwitchIsOn: false,
-      profileImage: 'http://lorempixel.com/1024/1024/cats',
+      profileImage: '../resources/profile-img.png',
       name: '',
       currentStatus: '',
       currentPosition: '',
@@ -55,6 +55,7 @@ class MyPage extends Component {
       profileImage: result.profile_picture,
       currentStatus: currentStatus,
       currentPosition: currentPosition,
+      loaded: true,
     });
   }
 
@@ -63,18 +64,17 @@ class MyPage extends Component {
   }
 
   render() {
+    const defaultProfileImage = require('../resources/profile-img.png');
+    const facebookProfileImage = { uri: this.state.profileImage };
+
     return (
       <View style={styles.container}>
         <View style={styles.userInfo}>
           <Image style={styles.profileImage}
-                 source={{ uri: this.state.profileImage }} />
+                 source={this.state.loaded ? facebookProfileImage : defaultProfileImage}/>
 
-          <View style={styles.infoText}>
-            <Text style={{
-              color: '#2e3031',
-              fontSize: 18,
-              fontWeight: '500',
-            }}>
+          <View style={styles.infoTextContainer}>
+            <Text style={styles.infoText}>
               {this.state.name}
             </Text>
             <Text ellipsizeMode ='tail' numberOfLines={1}>
@@ -82,7 +82,7 @@ class MyPage extends Component {
             </Text>
             <TouchableWithoutFeedback onPress={() => Actions.userProfile({ myProfile: true })}>
               <View>
-                <Text style={{ color: '#557bfc' }}>
+                <Text style={styles.linkText}>
                   View Profile
                 </Text>
               </View>
@@ -99,12 +99,12 @@ class MyPage extends Component {
           <Text>  Bookmarks</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={styles.receiveRequest}>
             <Image source={require('../resources/icon-bookmark.png')} />
             <Text>  Recieve a request</Text>
           </View>
           <Switch
-            style={{ marginRight: 20 }}
+            style={styles.switchButton}
             onValueChange={(value) => this.setState({ trueSwitchIsOn: value })}
             value={this.state.trueSwitchIsOn}
           />
@@ -155,12 +155,26 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#efeff2',
   },
-  infoText: {
+  infoTextContainer: {
     flex: 1,
     height: 70,
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginLeft: 20,
+  },
+  infoText: {
+    color: '#2e3031',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  linkText: {
+    color: '#557bfc',
+  },
+  receiveRequest: {
+    flexDirection: 'row',
+  },
+  switchButton: {
+    marginRight: 20,
   },
 });
 
