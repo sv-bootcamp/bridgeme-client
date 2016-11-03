@@ -12,6 +12,12 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Menu, {
+  MenuContext,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger
+} from 'react-native-menu';
 import LinearGradient from 'react-native-linear-gradient';
 
 class RequestPage extends Component {
@@ -19,7 +25,8 @@ class RequestPage extends Component {
     super(props);
     this.state = {
       message: '',
-      text: '',
+      selection: '  -- Choose --',
+      messageLength: 0,
       loaded: false,
     };
   }
@@ -27,6 +34,13 @@ class RequestPage extends Component {
   componentDidMount() {
     this.setState({
       loaded: true,
+    });
+  }
+
+  onChangeMessage(message) {
+    this.setState({
+      message: message,
+      messageLength: message.length,
     });
   }
 
@@ -45,23 +59,48 @@ class RequestPage extends Component {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
         <Text style={styles.subTitle}>Subjects</Text>
-        <Text>Get a new Job</Text>
-        <Text style={styles.subTitle}>Message</Text>
+        <MenuContext ref="MenuContext">
+          <View style={styles.dropdownContent}>
+            <Menu style={styles.dropdown}
+              onSelect={(value) => this.setState({ selection: value })}>
+              <MenuTrigger>
+                <Text>{this.state.selection}</Text>
+              </MenuTrigger>
+            <MenuOptions optionsContainerStyle={styles.dropdownOptions}
+                        renderOptionsContainer={(options) =>
+                         <ScrollView>{options}</ScrollView>}>
+              <MenuOption value="One">
+               <Text>Get a new job</Text>
+              </MenuOption>
+              <MenuOption value="Two">
+               <Text>Option Two</Text>
+              </MenuOption>
+              <MenuOption value="Three">
+               <Text>Option Three</Text>
+              </MenuOption>
+            </MenuOptions>
+            </Menu>
+          </View>
+        </MenuContext>
+        <View style={styles.messageContainer}>
+          <Text style={styles.subTitle}>Message</Text>
+          <Text style={styles.messageLength}>{this.state.messageLength} / 140 </Text>
+        </View>
         <TextInput
           multiline={true}
           style={styles.multiline}
           placeholder='Enter message'
-          onChangeText={(text) => this.setState({ text })}/>
-
-          <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
-              locations={[0, 0.75]}
-              colors={['#07e4dd', '#44acff']}>
+          maxLength={140}
+          onChangeText={this.onChangeMessage.bind(this)}/>
+        <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
+          locations={[0, 0.75]}
+          colors={['#07e4dd', '#44acff']}>
           <TouchableWithoutFeedback>
             <View style={styles.buttonContainer}>
               <Text style={styles.buttonText}>SEND</Text>
             </View>
           </TouchableWithoutFeedback>
-          </LinearGradient>
+        </LinearGradient>
       </ScrollView>
     );
   }
@@ -80,7 +119,6 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   content: {
-    flex: 1,
     ...Platform.select({
       ios: {
         marginTop: 64,
@@ -105,14 +143,24 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 12,
     fontWeight: 'bold',
-    marginLeft: 30,
+    marginLeft: 36,
     marginBottom: 10,
     color: '#a6aeae',
+    backgroundColor: 'transparent',
+  },
+  messageContainer: {
+    flexDirection: 'row',
+  },
+  messageLength: {
+    fontSize: 10,
+    left: WIDTH / 2 + 50,
+    color: '#a6aeae',
+    backgroundColor: 'transparent',
   },
   multiline: {
     alignSelf: 'center',
-    width: 315,
-    height: 263,
+    width: WIDTH - (WIDTH / 6),
+    height: HEIGHT / 2.5,
     borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 2,
@@ -136,6 +184,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
+  },
+  dropdownContent: {
+    marginBottom: 30,
+    alignSelf: 'center',
+    borderColor: '#efeff2',
+  },
+  dropdown: {
+    justifyContent: 'center',
+    width: WIDTH - (WIDTH / 6),
+    height: 40,
+    borderColor: '#efeff2',
+    borderRadius: 2,
+    borderWidth: 1,
+    padding: 5,
+  },
+  dropdownOptions: {
+    borderColor: '#efeff2',
+    borderWidth: 2,
+    width: WIDTH - (WIDTH / 6),
+    height: 100,
   },
 });
 
