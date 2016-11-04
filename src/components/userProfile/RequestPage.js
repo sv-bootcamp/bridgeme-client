@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   Image,
   Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -19,10 +21,16 @@ import Menu, {
   MenuTrigger
 } from 'react-native-menu';
 import LinearGradient from 'react-native-linear-gradient';
+import ErrorMeta from '../../utils/ErrorMeta';
+import ServerUtil from '../../utils/ServerUtil';
 
 class RequestPage extends Component {
   constructor(props) {
     super(props);
+    ServerUtil.initCallback(
+      (result) => this.onRequestSuccess(result),
+      (error) => this.onRequestFail(error));
+
     this.state = {
       message: '',
       selection: '  -- Choose --',
@@ -54,7 +62,23 @@ class RequestPage extends Component {
     );
   }
 
+  sendMessage() {
+    ServerUtil.sendMentoringRequest(this.props.id, 'Mentor request');
+  }
+
+  onRequestSuccess(result) {
+    Actions.requestSent();
+  }
+
+  onRequestFail(error) {
+    if (error.code != ErrorMeta.ERR_NONE) {
+      Alert.alert(error.msg);
+    }
+  }
+
   renderRequestPage() {
+    const send = () => this.sendMessage();
+
     return (
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
@@ -95,20 +119,25 @@ class RequestPage extends Component {
         <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
           locations={[0, 0.75]}
           colors={['#07e4dd', '#44acff']}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={send}>
             <View style={styles.buttonContainer}>
               <Text style={styles.buttonText}>SEND</Text>
             </View>
           </TouchableWithoutFeedback>
         </LinearGradient>
+        <StatusBar
+             backgroundColor = 'transparent'
+             barStyle = 'default'
+             networkActivityIndicatorVisible={false}
+          />
       </ScrollView>
     );
   }
 
   render() {
-    // if (!this.state.loaded) {
-    //   return this.renderLoadingView();
-    // }
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
 
     return this.renderRequestPage();
   }

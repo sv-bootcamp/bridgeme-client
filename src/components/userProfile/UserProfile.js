@@ -124,11 +124,7 @@ class UserProfile extends Component {
   }
 
   sendRequest() {
-    ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
-    this.setState({
-      status: 2,
-      connectPressed: true,
-    });
+    Actions.requestPage({ id: this.state.id });
   }
 
   // Render loading page while fetching user profiles
@@ -192,7 +188,7 @@ class UserProfile extends Component {
           <StatusBar
                backgroundColor = "transparent"
                barStyle = "light-content"
-               networkActivityIndicatorVisible={true}
+               networkActivityIndicatorVisible={false}
             />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
             colors={['#546979', '#08233a']}>
@@ -229,8 +225,6 @@ class UserProfile extends Component {
   render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
-    } else if (this.state.connectPressed) {
-      return this.renderLoadingEval();
     }
 
     return this.renderUserProfile();

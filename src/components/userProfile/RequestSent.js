@@ -45,9 +45,9 @@ class RequestSent extends Component {
   }
 
   render() {
-    // if (!this.state.loaded) {
-    //   return this.renderLoadingView();
-    // }
+    if (!this.state.loaded) {
+      return this.renderLoadingView();
+    }
 
     return this.renderRequestSent();
   }
