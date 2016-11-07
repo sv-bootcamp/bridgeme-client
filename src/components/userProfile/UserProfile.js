@@ -236,16 +236,18 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   name: {
+    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
-    fontWeight: 'bold',
     color: '#ffffff',
   },
   positionText: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 30,
     color: '#ffffff',
   },
   currentLocationText: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 5,
     color: '#ffffff',
@@ -279,6 +281,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignItems: 'stretch',
+    justifyContent: 'center',
   },
   connectBtnStyle: {
     alignItems: 'stretch',
@@ -287,12 +290,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonText: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
-    paddingTop: 8,
+    paddingTop: 10,
   },
   activityIndicator: {
     alignItems: 'center',

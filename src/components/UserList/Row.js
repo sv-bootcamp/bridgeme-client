@@ -96,7 +96,7 @@ class Row extends Component {
               <Text style={styles.name}>{this.state.name}</Text>
               <Text style={styles.job}> {this.state.currentJob}</Text>
               <Text style={styles.location}> {this.state.currentLocation}</Text>
-              <Text style={styles.skillTitle}>I CAN HELP YOU WITH</Text>
+            <Text style={styles.skillTitle}>I am expertised in</Text>
               <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
             <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
@@ -161,40 +161,39 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor: '#ffffff',
-    paddingLeft: 25,
   },
   name: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
-    margin: 10,
+    marginTop: 25,
+    marginLeft: 25,
     color: '#2e3031',
-    fontWeight: 'bold',
   },
   job: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
-    marginLeft: 10,
-    marginTop: 10,
+    marginTop: 25,
+    marginLeft: 25,
     color: '#2e3031',
   },
   location: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
-    marginLeft: 10,
+    marginLeft: 25,
     color: '#2e3031',
   },
   skillTitle: {
-    fontFamily: 'opensans',
-    fontSize: 10,
+    fontFamily: 'SFUIText-Bold',
+    fontSize: 12,
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 25,
     marginTop: 20,
     color: '#a6aeae',
   },
   skill: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
-    marginLeft: 10,
+    marginLeft: 25,
     marginTop: 10,
     color: '#2e3031',
   },
@@ -211,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
