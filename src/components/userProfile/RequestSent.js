@@ -22,6 +22,11 @@ class RequestSent extends Component {
     this.setState({
       loaded: true,
     });
+
+    // This temporary function.
+    setTimeout(() => {
+      Actions.pop();
+    }, 2000);
   }
 
   renderLoadingView() {

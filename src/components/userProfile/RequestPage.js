@@ -63,7 +63,11 @@ class RequestPage extends Component {
   }
 
   sendMessage() {
-    ServerUtil.sendMentoringRequest(this.props.id, 'Mentor request');
+
+    // TODO: This will be changed with request to server
+    Actions.requestSent();
+
+    // ServerUtil.sendMentoringRequest(this.props.id, 'Mentor request');
   }
 
   onRequestSuccess(result) {

@@ -84,7 +84,8 @@ class App extends Component {
               borderBottomColor: 'transparent', }}/>
           <Scene key="requestPage" component={RequestPage} title='Request Connection'
             backButtonImage={require('../resources/icon-cancel.png')}/>
-          <Scene key="requestSent" component={RequestSent} title='Request Sent'/>
+          <Scene key="requestSent" component={RequestSent} title='Request Sent'
+          hideBackImage={true} type={ActionConst.REPLACE}/>
           <Scene key="activity" component={Activity} />
           <Scene key="chatPage" onBack={refreshPreviousSceneOnBack} component={ChatPage} />
           <Scene key="channelList" component={ChannelList} />
