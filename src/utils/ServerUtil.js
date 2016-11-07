@@ -5,7 +5,6 @@ import UrlMeta from './UrlMeta';
 import LoginMeta from './LoginMeta';
 
 class ServerUtil {
-
   constructor() {
     successCallback = null;
     errorCallback = null;
@@ -61,9 +60,13 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
-  // Edit general infomation
   editGeneral(fieldSet) {
     this.requestToServer('POST', UrlMeta.API_EDIT_GENERAL, '', fieldSet);
+  }
+
+  editPersonality(object) {
+    let paramList = [object];
+    this.requestToServer('POST', UrlMeta.API_EDIT_PERSONALITY, '', paramList);
   }
 
   // Request to server
@@ -122,6 +125,8 @@ class ServerUtil {
       body.option = paramList[1];
     } else if (apiType === UrlMeta.API_EDIT_GENERAL) {
       return JSON.stringify(paramList);
+    } else if (apiType === UrlMeta.API_EDIT_PERSONALITY) {
+      body.personality = paramList[0];
     }
 
     return JSON.stringify(body);

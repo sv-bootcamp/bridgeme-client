@@ -12,6 +12,7 @@ import Row from './Row';
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ServerUtil from '../../utils/ServerUtil';
+import CardScroll from './CardScroll';
 
 class UserList extends Component {
   constructor(props) {
@@ -88,24 +89,23 @@ class UserList extends Component {
     );
   }
 
-  renderListView() {
+  renderCardView() {
     return (
-      <ListView style={styles.listView}
+      <CardScroll
         dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        enableEmptySections={true}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this.onRefresh.bind(this)}
-            tintColor="#1ecfe2"
-            title="Loading..."
-            titleColor="#0e417a"
-            style={{ backgroundColor: 'transparent' }}
-          />
-        }
-      />
-    );
+         renderRow={this.renderRow}
+         refreshControl={
+           <RefreshControl
+             refreshing={this.state.isRefreshing}
+             onRefresh={this.onRefresh.bind(this)}
+             tintColor="#1ecfe2"
+             title="Loading..."
+             titleColor="#0e417a"
+             style={{ backgroundColor: 'transparent' }}
+             />
+         }
+       />
+   );
   }
 
   render() {
@@ -113,7 +113,7 @@ class UserList extends Component {
       return this.renderLoadingView();
     }
 
-    return this.renderListView();
+    return this.renderCardView();
   }
 }
 
@@ -122,16 +122,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#F5FCFF',
-  },
-  listView: {
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
   },
   activityIndicator: {
     alignItems: 'center',
