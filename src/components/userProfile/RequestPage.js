@@ -126,10 +126,10 @@ class RequestPage extends Component {
           </TouchableWithoutFeedback>
         </LinearGradient>
         <StatusBar
-             backgroundColor = 'transparent'
-             barStyle = 'default'
-             networkActivityIndicatorVisible={false}
-          />
+         backgroundColor = 'transparent'
+         barStyle = 'default'
+         networkActivityIndicatorVisible={false}
+        />
       </ScrollView>
     );
   }
