@@ -20,7 +20,8 @@ class EduForm extends Component {
     this.state = {
       editMode: false,
       name: this.props.name,
-      year: this.props.year + '',
+      startYear: this.props.startYear,
+      endYear: this.props.endYear,
       subject: this.props.subject,
     };
   }
@@ -37,7 +38,9 @@ class EduForm extends Component {
     let PickerItems = this.getPickerItems();
     let onChangeName = (text) => this.onChangeName(text);
     let onChangeSubject = (text) => this.onChangeSubject(text);
-    let onValueChange = (year) => this.onChangeYear(year);
+    let onChangeStartYear = (year) => this.onChangeStartYear(year);
+    let onChangeEndYear = (year) => this.onChangeEndYear(year);
+    let toggleEdit = () => this.toggleEdit();
 
     return (
       <View style={[styles.formEditView, { borderBottomColor: '#a6aeae' }]}>
@@ -46,7 +49,7 @@ class EduForm extends Component {
                      defaultValue={this.state.name}
                      underlineColorAndroid="#a6aeae"
                      placeholder="Name" placeholderTextColor="#a6aeae"
-                     onEndEditing={() => this.toggleEdit()}
+                     onEndEditing={toggleEdit}
                      onChangeText={onChangeName} />
         </View>
         <View>
@@ -54,17 +57,24 @@ class EduForm extends Component {
                      defaultValue={this.state.subject}
                      underlineColorAndroid="#a6aeae"
                      placeholder="Subject" placeholderTextColor="#a6aeae"
-                     onEndEditing={() => this.toggleEdit()}
+                     onEndEditing={toggleEdit}
                      onChangeText={onChangeSubject} />
         </View>
         <View style={styles.flexR}>
           <Picker
             style={styles.formEditYear}
-            selectedValue={this.state.year}
-            onValueChange={onValueChange}>
+            selectedValue={this.state.startYear}
+            onValueChange={onChangeStartYear}>
             {PickerItems}
           </Picker>
-          <TouchableWithoutFeedback onPress={() => this.toggleEdit()}>
+          <View style={{ marginRight: 10 }}><Text>{'- '}</Text></View>
+          <Picker
+            style={styles.formEditYear}
+            selectedValue={this.state.endYear}
+            onValueChange={onChangeEndYear}>
+            {PickerItems}
+          </Picker>
+          <TouchableWithoutFeedback onPress={toggleEdit}>
             <View style={{ flex: 1 }}>
             </View>
           </TouchableWithoutFeedback>
@@ -81,6 +91,7 @@ class EduForm extends Component {
       yearList.push(i + '');
     }
 
+    yearList.reverse();
     return yearList.map(
       (year, idx) => <Item key={idx} label={year} value={year} style={styles.formDate} />
     );
@@ -96,10 +107,18 @@ class EduForm extends Component {
     this.props.onChangeText('concentration', 'name', this.props.id, text);
   }
 
-  onChangeYear(year) {
-    this.props.onChangeText('year', 'name', this.props.id, year);
+  onChangeStartYear(year) {
+    this.props.onChangeText('startYear', 'name', this.props.id, year);
     this.setState({
-      year: year,
+      startYear: year,
+      editMode: !this.state.editMode,
+    });
+  }
+
+  onChangeEndYear(year) {
+    this.props.onChangeText('endYear', 'name', this.props.id, year);
+    this.setState({
+      endYear: year,
       editMode: !this.state.editMode,
     });
   }
@@ -125,7 +144,13 @@ class EduForm extends Component {
           <View style={styles.formNameContainer}>
             <Text style={styles.formName}>{this.state.subject}</Text>
           </View>
-          <View><Text style={styles.formDate}>{this.state.year}</Text></View>
+          <View style={styles.flexR}>
+            <Text style={styles.formDate}>{this.state.startYear}</Text>
+            <View>
+              <Text style={styles.formDate}>{' - '}</Text>
+            </View>
+            <Text style={styles.formDate}>{this.state.endYear}</Text>
+          </View>
         </View>
         <TouchableWithoutFeedback onPress={() => this.props.onDelete(this.props.id)}>
           <View style={styles.deleteView}>

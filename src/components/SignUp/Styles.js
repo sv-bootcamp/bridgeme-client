@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
   editR: {
     width: 26,
     marginTop: 15,
+    marginRight: 20,
     justifyContent: 'flex-end',
   },
   editBtn: {
     width: 16,
     height: 16,
-    marginRight: 10,
   },
 });
 

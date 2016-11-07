@@ -16,7 +16,7 @@ import EduForm from './EduForm';
 import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import MyPic from './MyPic';
-import Progress from './Progress';
+import Progress from '../Shared/Progress';
 import ServerUtil from '../../utils/ServerUtil';
 import WorkForm from './WorkForm';
 import {
@@ -277,7 +277,9 @@ class GeneralInfo extends Component {
 
   getDefaultEdu(edu, sectionID, rowID) {
     let eduName = edu.school === undefined ? '' : edu.school.name;
-    let eduYear = edu.year === undefined ? '' : edu.year.name;
+    let startYear = edu.startYear === undefined ? '' : edu.startYear.name;
+    let endYear = edu.year === undefined ? '' : edu.year.name;
+    if (edu.endYear !== undefined) endYear = edu.endYear.name;
     let eduSubject = '';
     if (edu.concentration !== undefined && edu.concentration.length > 0) {
       eduSubject = edu.concentration[0].name;
@@ -289,7 +291,8 @@ class GeneralInfo extends Component {
     return (
       <EduForm
         name={eduName}
-        year={eduYear}
+        startYear={startYear}
+        endYear={endYear}
         subject={eduSubject}
         id={rowID}
         onDelete={onDelete}
@@ -305,6 +308,9 @@ class GeneralInfo extends Component {
       return;
     }
 
+    if (this.state.education[idx][propName1] === undefined) {
+      this.state.education[idx][propName1] = {};
+    }
     this.state.education[idx][propName1][propName2] = text;
   }
 
@@ -396,7 +402,7 @@ const styles = StyleSheet.create({
     color: '#2e3031',
     fontSize: 12,
     fontWeight: 'bold',
-    marginRight: 10,
+    marginRight: 30,
   },
   nextView: {
     alignItems: 'center',

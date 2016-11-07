@@ -47,13 +47,11 @@ class WorkForm extends Component {
                      defaultValue={this.state.position}
                      underlineColorAndroid="#a6aeae"
                      placeholder="Position" placeholderTextColor="#a6aeae"
-                     onEndEditing={() => this.toggleEdit()}
                      onChangeText={onChangePosition} />
           <TextInput style={[styles.formName, styles.formEditName]}
                      defaultValue={this.state.employer}
                      underlineColorAndroid="#a6aeae"
                      placeholder="Name" placeholderTextColor="#a6aeae"
-                     onEndEditing={() => this.toggleEdit()}
                      onChangeText={onChangeName} />
         </View>
         <View style={styles.flexR}>
