@@ -8,6 +8,7 @@ import UserList from './UserList/UserList';
 import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
+import MyPage from './MyPage';
 import {
   ActionConst,
   Actions,
@@ -65,13 +66,17 @@ class App extends Component {
           <Scene key="generalInfo" component={GeneralInfo} title="General Info"
             hideNavBar={false} type={ActionConst.RESET} />
 
-          <Scene key="main" component={Main} title="All Lists"
-            hideNavBar={false} type={ActionConst.RESET} />
+          <Scene key="main" component={Main} title="Bridgeme"
+            hideNavBar={false} type={ActionConst.RESET}/>
 
           <Scene key="userList" component={UserList} />
 
-          <Scene key="userProfile" component={UserProfile}
-            title="User Profile" />
+          <Scene key='myPage' component={MyPage}/>
+
+          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+            backButtonImage={require('../resources/icon-arrow-left-white.png')}
+            navigationBarStyle={{ backgroundColor: 'transparent',
+              borderBottomColor: 'transparent', }}/>
 
           <Scene key="activity" component={Activity} />
 
