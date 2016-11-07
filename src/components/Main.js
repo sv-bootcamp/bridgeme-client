@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppState,
-  AsyncStorage,
   NetInfo,
   ScrollView,
   StyleSheet,
@@ -16,7 +15,6 @@ import SendBird from 'sendbird';
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import UserList from './UserList/UserList';
-import UserProfile from './userProfile/UserProfile';
 
 const APP_ID = 'D1A48349-CBE6-41FF-9FF8-BCAA2A068B05';
 
@@ -29,22 +27,26 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    SendBird().connect(this.props.me._id, function (user, error) {
-        if (error) {
-          alert(error);
-          throw new Error(error);
-        }
+    this.connectSendBird();
+  }
 
-        SendBird().updateCurrentUserInfo(
-          this.props.me.name,
-          this.props.me.profile_picture,
-          function (response, error) {
+  connectSendBird() {
+    SendBird().connect(this.props.me._id, function (user, error) {
+      if (error) {
+        alert(error);
+        throw new Error(error);
+      }
+
+      SendBird().updateCurrentUserInfo(
+        this.props.me.name,
+        this.props.me.profile_picture,
+        function (response, error) {
           if (error) {
             alert(error);
             throw new Error(error);
           }
         }.bind(this));
-      }.bind(this));
+    }.bind(this));
   }
 
   render() {
