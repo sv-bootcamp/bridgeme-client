@@ -79,12 +79,12 @@ class UserList extends Component {
   renderLoadingView() {
     return (
         <View style={styles.header}>
-          <Text style={styles.headerText}>Loading...</Text>
           <ActivityIndicator
             animating={!this.state.loaded}
             style={[styles.activityIndicator]}
             size="large"
             />
+          <Text style={styles.headerText}>Loading...</Text>
         </View>
     );
   }
@@ -93,16 +93,16 @@ class UserList extends Component {
     return (
       <CardScroll
         dataSource={this.state.dataSource}
-         renderRow={this.renderRow}
-         refreshControl={
-           <RefreshControl
-             refreshing={this.state.isRefreshing}
-             onRefresh={this.onRefresh.bind(this)}
-             tintColor="#1ecfe2"
-             title="Loading..."
-             titleColor="#0e417a"
-             style={{ backgroundColor: 'transparent' }}
-             />
+        renderRow={this.renderRow}
+        refreshControl={
+         <RefreshControl
+           refreshing={this.state.isRefreshing}
+           onRefresh={this.onRefresh.bind(this)}
+           tintColor="#1ecfe2"
+           title="Loading..."
+           titleColor="#0e417a"
+           style={{ backgroundColor: 'transparent' }}
+           />
          }
        />
    );

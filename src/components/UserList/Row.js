@@ -19,7 +19,7 @@ class Row extends Component {
 
     // Current location and skills will be changed with real data later.
     this.state = {
-      profileImage: '',
+      profileImage: '../../resources/pattern.png',
       name: '',
       job: '',
       position: 'Employer',
@@ -58,10 +58,13 @@ class Row extends Component {
   }
 
   getProfileImage() {
+    let image;
     if (this.props.dataSource.profile_picture) {
-      return this.props.dataSource.profile_picture;
+      image = { uri: this.props.dataSource.profile_picture };
+      return image;
     } else {
-      return '../../resources/btn_connect_2x.png';
+      image = require('../../resources/pattern.png');
+      return image;
     }
   }
 
@@ -88,16 +91,16 @@ class Row extends Component {
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>
         <View style={styles.rowView}>
-            <Image style={styles.photo}
-                   source={{ uri: this.state.profileImage }}/>
-             <Image style={styles.bookmarkIcon}
-                    source={require('../../resources/icon-bookmark.png')}/>
-            <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.job}> {this.state.currentJob}</Text>
-              <Text style={styles.location}> {this.state.currentLocation}</Text>
-              <Text style={styles.skillTitle}>I CAN HELP YOU WITH</Text>
-              <Text style={styles.skill}>{this.state.skills}</Text>
+          <Image style={styles.photo}
+            source={this.state.profileImage}/>
+          <Image style={styles.bookmarkIcon}
+            source={require('../../resources/icon-bookmark.png')}/>
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text style={styles.job}> {this.state.currentJob}</Text>
+            <Text style={styles.location}> {this.state.currentLocation}</Text>
+            <Text style={styles.skillTitle}>I am expertised in</Text>
+            <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
             <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
@@ -161,40 +164,39 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor: '#ffffff',
-    paddingLeft: 25,
   },
   name: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
-    margin: 10,
+    marginTop: 25,
+    marginLeft: 25,
     color: '#2e3031',
-    fontWeight: 'bold',
   },
   job: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
-    marginLeft: 10,
-    marginTop: 10,
+    marginTop: 25,
+    marginLeft: 25,
     color: '#2e3031',
   },
   location: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
-    marginLeft: 10,
+    marginLeft: 25,
     color: '#2e3031',
   },
   skillTitle: {
-    fontFamily: 'opensans',
-    fontSize: 10,
+    fontFamily: 'SFUIText-Bold',
+    fontSize: 12,
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 25,
     marginTop: 20,
     color: '#a6aeae',
   },
   skill: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
-    marginLeft: 10,
+    marginLeft: 25,
     marginTop: 10,
     color: '#2e3031',
   },
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',

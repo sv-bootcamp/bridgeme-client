@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
 import ChannelList from './Chat/ChannelList';
 import MyPage from './MyPage';
@@ -49,9 +50,31 @@ class Main extends Component {
   }
 
   render() {
+    const pageTitle = {
+      HOME: 0,
+      TOURNAMENT: 1,
+      MYCONNECTION: 2,
+      CHAT: 3,
+      MYPROFILE: 4,
+    };
+
     return (
         <ScrollableTabView
           initialPage={0}
+          onChangeTab={(obj) => {
+            if (obj.i === pageTitle.HOME) {
+              Actions.refresh({ title: 'Bridgeme' });
+            } else if (obj.i === pageTitle.TOURNAMENT) {
+              Actions.refresh({ title: 'Tournament' });
+            } else if (obj.i === pageTitle.MYCONNECTION) {
+              Actions.refresh({ title: 'My Connection' });
+            } else if (obj.i === pageTitle.CHAT) {
+              Actions.refresh({ title: 'Chat' });
+            } else if (obj.i === pageTitle.MYPROFILE) {
+              Actions.refresh({ title: 'My Profile' });
+            }
+          }}
+
           tabBarPosition='bottom'
           renderTabBar={() => <TabBar />}
           >

@@ -36,7 +36,7 @@ class UserOverview extends Component {
   }
 
   onRequestSuccess(result) {
-    let sectionIDs = ['About', 'I can help you with', 'Personality'];
+    let sectionIDs = ['About', 'I am expertised in', 'Personality'];
 
     this.setState({
       dataSource: new ListView.DataSource({
@@ -142,9 +142,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionName: {
+    fontFamily: 'SFUIText-Bold',
     fontSize: 12,
-    fontWeight: 'bold',
-    color: '#2e3031',
+    color: '#a6aeae',
   },
 });
 

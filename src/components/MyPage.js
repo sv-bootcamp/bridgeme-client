@@ -105,7 +105,7 @@ class MyPage extends Component {
           </View>
           <Switch
             style={styles.switchButton}
-            onValueChange={this.onValueChange.bind(this)}
+            onValueChange={(value) => this.setState({ trueSwitchIsOn: value })}
             onTintColor='#557bfc'
             value={this.state.trueSwitchIsOn}
           />
