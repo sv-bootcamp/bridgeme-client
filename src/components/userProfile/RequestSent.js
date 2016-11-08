@@ -23,7 +23,7 @@ class RequestSent extends Component {
       loaded: true,
     });
 
-    // This temporary function.
+    // This is temporary function.
     setTimeout(() => {
       Actions.pop();
     }, 2000);

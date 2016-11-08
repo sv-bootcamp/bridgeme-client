@@ -19,7 +19,7 @@ class Row extends Component {
 
     // Current location and skills will be changed with real data later.
     this.state = {
-      profileImage: '',
+      profileImage: '../../resources/pattern.png',
       name: '',
       job: '',
       position: 'Employer',
@@ -58,10 +58,13 @@ class Row extends Component {
   }
 
   getProfileImage() {
+    let image;
     if (this.props.dataSource.profile_picture) {
-      return this.props.dataSource.profile_picture;
+      image = { uri: this.props.dataSource.profile_picture };
+      return image;
     } else {
-      return '../../resources/btn_connect_2x.png';
+      image = require('../../resources/pattern.png');
+      return image;
     }
   }
 
@@ -88,16 +91,16 @@ class Row extends Component {
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>
         <View style={styles.rowView}>
-            <Image style={styles.photo}
-                   source={{ uri: this.state.profileImage }}/>
-             <Image style={styles.bookmarkIcon}
-                    source={require('../../resources/icon-bookmark.png')}/>
-            <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.job}> {this.state.currentJob}</Text>
-              <Text style={styles.location}> {this.state.currentLocation}</Text>
+          <Image style={styles.photo}
+            source={this.state.profileImage}/>
+          <Image style={styles.bookmarkIcon}
+            source={require('../../resources/icon-bookmark.png')}/>
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text style={styles.job}> {this.state.currentJob}</Text>
+            <Text style={styles.location}> {this.state.currentLocation}</Text>
             <Text style={styles.skillTitle}>I am expertised in</Text>
-              <Text style={styles.skill}>{this.state.skills}</Text>
+            <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
             <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
