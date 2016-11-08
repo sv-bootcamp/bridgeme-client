@@ -19,39 +19,39 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  // implement CallbackManager for facebook SDK
-  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+    // implement CallbackManager for facebook SDK
+    private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
-  protected static CallbackManager getCallbackManager() {
-    return mCallbackManager;
-  }
+    protected static CallbackManager getCallbackManager() {
+        return mCallbackManager;
+    }
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        protected boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new LinearGradientPackage(),
+                    new ImagePickerPackage(),
+                    new FBSDKPackage(mCallbackManager)
+            );
+        }
+    };
+
     @Override
-    protected boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-              new MainReactPackage(),
-              new LinearGradientPackage(),
-              new ImagePickerPackage(),
-              new FBSDKPackage(mCallbackManager)
-      );
+    public void onCreate() {
+        super.onCreate();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    FacebookSdk.sdkInitialize(getApplicationContext());
-    AppEventsLogger.activateApp(this);
-  }
 }

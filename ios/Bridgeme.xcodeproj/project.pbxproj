@@ -40,13 +40,10 @@
 		CAD4F49CCA74414DB6CE0F54 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39817FD5C2A845CD8964A8D1 /* Foundation.ttf */; };
 		DAB407959AAC40BC9D08F885 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AFAEADFECB4B46DCAF4C4EAC /* Entypo.ttf */; };
 		DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */; };
-<<<<<<< HEAD:ios/Yoda.xcodeproj/project.pbxproj
 		C7863A15678044F6BAAF9F91 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B201487004F4267864CA47E /* libBVLinearGradient.a */; };
 		46B97FC1210140F0A9568E74 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E51CD6A690CC45538F3228D3 /* libRNImagePicker.a */; };
-=======
 		EDB91A7E8A604D529D47E280 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6EC3E37F8A04FAB84EFA14B /* Zocial.ttf */; };
 		F79078921A5D45D38F72BD3E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10EBB3803A9F4ED4B9BF0A76 /* FontAwesome.ttf */; };
->>>>>>> origin/master:ios/Bridgeme.xcodeproj/project.pbxproj
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

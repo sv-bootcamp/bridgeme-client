@@ -49,9 +49,9 @@ class App extends Component {
 
   render() {
     let backAndroidHandler = () => {
-      if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
-        return true;
-      } else if (App.scene.sceneKey === 'generalInfo') {
+      if (App.scene.sceneKey === 'evalPageMain' ||
+          App.scene.sceneKey === 'main' ||
+          App.scene.sceneKey === 'generalInfo') {
         return true;
       } else {
         Actions.pop();
