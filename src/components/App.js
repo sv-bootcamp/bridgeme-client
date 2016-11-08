@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Alert } from 'react-native';
-import SplashPage from './SplashPage';
 import Login from './Login';
 import GeneralInfo from './SignUp/GeneralInfo';
 import Main from './Main';
@@ -49,9 +48,6 @@ class App extends Component {
   }
 
   render() {
-    // Platform verification
-    let isAndroid = (Platform.OS === 'android');
-
     let backAndroidHandler = () => {
       if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
         return true;
@@ -68,10 +64,8 @@ class App extends Component {
         <Scene key="root"
                titleStyle={styles.title} rightButtonTextStyle={styles.leftBtn}
                navigationBarStyle={styles.bar}>
-          <Scene key="splashPage" component={SplashPage}
-            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
           <Scene key="login" component={Login}
-            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET} />
+            initial={true} hideNavBar={true} type={ActionConst.RESET} />
 
           <Scene key="generalInfo" component={GeneralInfo} title="General Info"
             hideNavBar={false} type={ActionConst.RESET} />

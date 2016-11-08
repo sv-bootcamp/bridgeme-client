@@ -20,7 +20,6 @@ class SplashPage extends Component {
 
   componentWillMount() {
     LoginUtil.hasToken();
-
   }
 
   // Token already exists on the server

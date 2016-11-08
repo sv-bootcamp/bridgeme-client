@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   AsyncStorage,
   Image,
   StyleSheet,
+  Text,
   TouchableWithoutFeedback,
   TouchableHighlight,
   View,
@@ -11,24 +13,38 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
-import ServerUtil from '../utils/ServerUtil';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
-    ServerUtil.initCallback(
-      (result) => this.onServerSuccess(result),
-      (error) => this.onServerFail(error));
-  }
 
-  componentWillMount() {
-    if (this.props.session === undefined) {
-      LoginUtil.hasToken();
-    }
+    let onLoginSuccess = (result) => this.onLoginSuccess(result);
+    let onLoginFail = (error) => this.onLoginFail(error);
+    LoginUtil.initCallback(onLoginSuccess, onLoginFail);
+
+    this.state = {
+      loaded: false,
+    };
   }
 
   render() {
+    return this.state.loaded ? this.renderLoginView() : this.renderLoadingView();
+  }
+
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          animating={!this.state.loaded}
+          style={[styles.activityIndicator]}
+          size="large"
+          />
+        <Text style={styles.headerText}>Loading...</Text>
+      </View>
+    );
+  }
+
+  renderLoginView() {
     return (
 
       //  Render the screen on View.
@@ -46,18 +62,26 @@ class Login extends Component {
     );
   }
 
+  componentDidMount() {
+    LoginUtil.hasToken();
+  }
+
   onLoginSuccess(result) {
-    if (result === undefined) {
-      Actions.login();
-    } else {
+    if (result) {
       Actions.generalInfo();
+      return;
     }
+
+    // If there is no token...
+    this.setState({ loaded: !this.state.loaded });
   }
 
   onLoginFail(error) {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
+
+    this.setState({ loaded: true });
   }
 
   onServerSuccess(myProflile) {
@@ -89,6 +113,15 @@ const styles = StyleSheet.create({
     height: 40,
     width: 290,
     marginBottom: 10,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    color: '#0e417a',
   },
 });
 
