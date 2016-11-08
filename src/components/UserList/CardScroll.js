@@ -39,7 +39,7 @@ export default class CardScroll extends Component {
     height: Dimensions.get('window').height,
     getImageSourceFromDataSource: (row) => row,
     inactiveCardScale: 0.9,
-    inactiveCardOpacity: 1,
+    activeCardOpacity: 1,
   };
 
   constructor(props) {
@@ -136,6 +136,7 @@ export default class CardScroll extends Component {
         directionalLockEnabled: true,
         showsVerticalScrollIndicator: false,
         showsHorizontalScrollIndicator: false,
+        automaticallyAdjustContentInsets: true,
         ...props,
       });
   }

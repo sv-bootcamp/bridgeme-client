@@ -20,7 +20,6 @@ class Login extends Component {
     ServerUtil.initCallback(
       (result) => this.onServerSuccess(result),
       (error) => this.onServerFail(error));
-
   }
 
   componentWillMount() {
