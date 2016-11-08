@@ -130,13 +130,25 @@ const styles = StyleSheet.create({
   },
   slider: {
     flex: 1,
-    margin: 30,
+    marginTop: 15,
+    marginBottom: 25,
+    ...Platform.select({
+      ios: {
+        marginLeft: 30,
+        marginRight: 30,
+      },
+      android: {
+        marginLeft: 15,
+        marginRight: 15,
+      },
+    }),
   },
   linearGradient: {
-    height: 50,
+    height: 45,
     borderRadius: 50,
     margin: 30,
-    alignSelf: 'stretch',
+    width: 230,
+    alignSelf: 'center',
     justifyContent: 'center',
   },
   buttonText: {
