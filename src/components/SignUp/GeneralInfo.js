@@ -167,7 +167,7 @@ class GeneralInfo extends Component {
   }
 
   onUploadSuccess(result) {
-    Actions.main();
+    Actions.main({ me: this.props.me });
   }
 
   onUploadError(error) {

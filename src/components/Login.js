@@ -13,14 +13,18 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../utils/ErrorMeta';
 import LoginUtil from '../utils/LoginUtil';
+import ServerUtil from '../utils/ServerUtil';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     let onLoginSuccess = (result) => this.onLoginSuccess(result);
-    let onLoginFail = (error) => this.onLoginFail(error);
-    LoginUtil.initCallback(onLoginSuccess, onLoginFail);
+    let onServerFail = (error) => this.onServerFail(error);
+    let onServerSuccess = (profile) => this.onServerSuccess(profile);
+
+    LoginUtil.initCallback(onLoginSuccess, onServerFail);
+    ServerUtil.initCallback(onServerSuccess, onServerFail);
 
     this.state = {
       loaded: false,
@@ -68,7 +72,7 @@ class Login extends Component {
 
   onLoginSuccess(result) {
     if (result) {
-      Actions.generalInfo();
+      ServerUtil.getMyProfile();
       return;
     }
 
@@ -85,7 +89,7 @@ class Login extends Component {
   }
 
   onServerSuccess(myProflile) {
-    Actions.main({ me: myProflile });
+    Actions.generalInfo({ me: myProflile });
   }
 
   onServerFail(error) {
