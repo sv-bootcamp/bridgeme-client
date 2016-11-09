@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Alert,
+  AsyncStorage,
   Dimensions,
   Image,
   ListView,
@@ -35,7 +36,6 @@ class MyPage extends Component {
   }
 
   onRequestSuccess(result) {
-
     if (result.msg) {
 
       // When setting mentor mode is done
@@ -86,6 +86,15 @@ class MyPage extends Component {
     ServerUtil.setRequestSetting(value);
   }
 
+  signOut = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      Actions.login();
+    } catch (error) {
+      alert('ERROR: Try again');
+    }
+  };
+
   render() {
     const defaultProfileImage = require('../resources/profile-img.png');
     const facebookProfileImage = { uri: this.state.profileImage };
@@ -132,7 +141,7 @@ class MyPage extends Component {
             value={this.state.trueSwitchIsOn}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}>
+        <TouchableOpacity style={styles.menu} onPress={this.signOut}>
           <Image source={require('../resources/icon-logout.png')} />
           <Text>  Log out</Text>
         </TouchableOpacity>

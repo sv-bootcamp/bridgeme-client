@@ -46,6 +46,10 @@ class ServerUtil {
     this.requestToServer('GET', UrlMeta.API_GET_REQUEST_SETTING, '');
   }
 
+  signOut() {
+    this.requestToServer('GET', UrlMeta.API_SIGN_OUT, '');
+  }
+
   // Request to mentor
   sendMentoringRequest(mentorId, content) {
     let paramList = [mentorId, content];
