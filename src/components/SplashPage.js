@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
  Image,
- Navigator,
  StyleSheet,
- Text,
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -22,12 +20,11 @@ class SplashPage extends Component {
 
   componentWillMount() {
     LoginUtil.hasToken();
-
   }
 
   // Token already exists on the server
   onServerSuccess(result) {
-    Actions.login();
+    Actions.generalInfo();
   }
 
   // If the token is not validate and has an error
@@ -35,6 +32,7 @@ class SplashPage extends Component {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
+
     Actions.login();
   }
 

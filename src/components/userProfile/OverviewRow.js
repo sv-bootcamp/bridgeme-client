@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   name: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginBottom: 5,
     color: '#2e3031',
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     color: '#2e3031',
   },
   period: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     marginBottom: 5,
     color: '#a6aeae',

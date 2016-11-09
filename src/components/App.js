@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, Alert } from 'react-native';
-import SplashPage from './SplashPage';
+import { Platform, StyleSheet, Alert } from 'react-native';
 import Login from './Login';
+import GeneralInfo from './SignUp/GeneralInfo';
 import Main from './Main';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
@@ -10,6 +10,8 @@ import UserProfile from './userProfile/UserProfile';
 import Activity from './Activity/Activity';
 import EvalPage from './Eval/EvalPage';
 import MyPage from './MyPage';
+import RequestPage from './userProfile/RequestPage';
+import RequestSent from './userProfile/RequestSent';
 import {
   ActionConst,
   Actions,
@@ -46,11 +48,10 @@ class App extends Component {
   }
 
   render() {
-    // Platform verification
-    let isAndroid = (Platform.OS === 'android');
-
     let backAndroidHandler = () => {
-      if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
+      if (App.scene.sceneKey === 'evalPageMain' ||
+          App.scene.sceneKey === 'main' ||
+          App.scene.sceneKey === 'generalInfo') {
         return true;
       } else {
         Actions.pop();
@@ -60,12 +61,14 @@ class App extends Component {
 
     return (
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
-        <Scene key="root">
-          <Scene key="splashPage" component={SplashPage}
-            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
-
+        <Scene key="root"
+               titleStyle={styles.title} rightButtonTextStyle={styles.leftBtn}
+               navigationBarStyle={styles.bar}>
           <Scene key="login" component={Login}
-            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
+            initial={true} hideNavBar={true} type={ActionConst.RESET} />
+
+          <Scene key="generalInfo" component={GeneralInfo} title="General Info"
+            hideNavBar={false} type={ActionConst.RESET} />
 
           {/* The right button(filter) function will be added later */}
           <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
@@ -75,25 +78,21 @@ class App extends Component {
             }
             rightButtonImage={require('../resources/filter.png')}
             hideNavBar={false} type={ActionConst.RESET}/>
-
           <Scene key="userList" component={UserList} />
-
           <Scene key='myPage' component={MyPage}/>
-
-            <Scene key="userProfile" component={UserProfile} hideBackImage={false}
+          <Scene key="userProfile" component={UserProfile} hideBackImage={false}
             backButtonImage={require('../resources/icon-arrow-left-white.png')}
             navigationBarStyle={{ backgroundColor: 'transparent',
               borderBottomColor: 'transparent', }}/>
-
+          <Scene key="requestPage" component={RequestPage} title='Request Connection'
+            backButtonImage={require('../resources/icon-cancel.png')}/>
+          <Scene key="requestSent" component={RequestSent} title='Request Sent'
+          hideBackImage={true} type={ActionConst.REPLACE}/>
           <Scene key="activity" component={Activity} />
-
           <Scene key="chatPage" onBack={refreshPreviousSceneOnBack} component={ChatPage} />
-
           <Scene key="channelList" component={ChannelList} />
-
           <Scene key="evalPageMain" component={EvalPage} hideBackImage={true} panHandlers={null}
             onBack={() => false} title="Survey" hideNavBar={false} />
-
           <Scene key="evalPage" component={EvalPage}
             title="Survey" hideNavBar={false} />
         </Scene>
@@ -101,5 +100,20 @@ class App extends Component {
    );
   }
 }
+
+const styles = StyleSheet.create({
+  bar: {
+    backgroundColor: '#fafafa',
+    borderBottomColor: '#d6dada',
+  },
+  title: {
+    fontSize: 16,
+    color: '#2e3031',
+  },
+  leftBtn: {
+    fontSize: 16,
+    color: '#557bfc',
+  },
+});
 
 module.exports = App;

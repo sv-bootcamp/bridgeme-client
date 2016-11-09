@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionName: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     fontWeight: 'bold',
     color: '#2e3031',

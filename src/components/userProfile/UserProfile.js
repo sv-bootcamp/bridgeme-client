@@ -27,7 +27,7 @@ class UserProfile extends Component {
 
     this.state = {
       id: '',
-      profileImage: '../../resources/btn_connect_2x.png',
+      profileImage: '../../resources/pattern.png',
       name: '',
       currentStatus: '',
       currentPosition: '',
@@ -45,6 +45,7 @@ class UserProfile extends Component {
   }
 
   onRequestSuccess(result) {
+
     // Check result code: profile Request/mentor request
     if (result._id) {
       let currentStatus = this.state.currentStatus;
@@ -86,9 +87,16 @@ class UserProfile extends Component {
         statusAsMentor = result.relation.asMentor;
       }
 
+      let image;
+      if (result.profile_picture) {
+        image = { uri: result.profile_picture };
+      } else {
+        image = require('../../resources/pattern.png');
+      }
+
       this.setState({
         id: result._id,
-        profileImage: result.profile_picture,
+        profileImage: image,
         name: result.name,
         currentStatus: currentStatus,
         currentPosition: currentPosition,
@@ -124,11 +132,7 @@ class UserProfile extends Component {
   }
 
   sendRequest() {
-    ServerUtil.sendMentoringRequest(this.state.id, 'Mentor request');
-    this.setState({
-      status: 2,
-      connectPressed: true,
-    });
+    Actions.requestPage({ id: this.state.id });
   }
 
   // Render loading page while fetching user profiles
@@ -190,24 +194,24 @@ class UserProfile extends Component {
     return (
         <ScrollView>
           <StatusBar
-               backgroundColor = "transparent"
-               barStyle = "light-content"
-               networkActivityIndicatorVisible={true}
-            />
+            backgroundColor = "transparent"
+            barStyle = "light-content"
+            networkActivityIndicatorVisible={false}
+          />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
             colors={['#546979', '#08233a']}>
             <Image style={styles.profileImage}
-                 source={{ uri: this.state.profileImage }} />
-           </LinearGradient>
-           <Image style={styles.bookmarkIcon}
-                  source={require('../../resources/icon-bookmark.png')}/>
-           <View style={styles.profileUserInfo}>
-              <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.positionText}>
-                {this.state.currentPosition} {this.state.currentStatus}
-              </Text>
-              <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
-            </View>
+              source={this.state.profileImage} />
+          </LinearGradient>
+          <Image style={styles.bookmarkIcon}
+            source={require('../../resources/icon-bookmark.png')}/>
+          <View style={styles.profileUserInfo}>
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text style={styles.positionText}>
+              {this.state.currentPosition} {this.state.currentStatus}
+            </Text>
+            <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
+          </View>
 
           <ScrollableTabView
             initialPage={0}
@@ -229,8 +233,6 @@ class UserProfile extends Component {
   render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
-    } else if (this.state.connectPressed) {
-      return this.renderLoadingEval();
     }
 
     return this.renderUserProfile();
@@ -242,16 +244,18 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   name: {
+    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
-    fontWeight: 'bold',
     color: '#ffffff',
   },
   positionText: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 30,
     color: '#ffffff',
   },
   currentLocationText: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 5,
     color: '#ffffff',
@@ -266,6 +270,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     opacity: 0.4,
     height: 300,
+    width: WIDTH,
   },
   profileImgGradient: {
     shadowColor: '#000000',
@@ -285,6 +290,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignItems: 'stretch',
+    justifyContent: 'center',
   },
   connectBtnStyle: {
     alignItems: 'stretch',
@@ -293,12 +299,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonText: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
-    paddingTop: 8,
+    paddingTop: 10,
   },
   activityIndicator: {
     alignItems: 'center',

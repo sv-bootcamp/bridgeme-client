@@ -124,16 +124,16 @@ class MyPage extends Component {
 
         <TouchableOpacity style={styles.menu}>
           <Image source={require('../resources/page-1.png')} />
-          <Text>  Edit my profile</Text>
+          <Text style={styles.menuText}>Edit my profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
           <Image source={require('../resources/for-you-icon-line.png')} />
-          <Text>  Bookmarks</Text>
+          <Text style={styles.menuText}>Bookmarks</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
           <View style={styles.receiveRequest}>
             <Image source={require('../resources/icon-request.png')} />
-            <Text>  Recieve a request</Text>
+            <Text style={styles.menuText}>Recieve a request</Text>
           </View>
           <Switch
             style={styles.switchButton}
@@ -143,7 +143,7 @@ class MyPage extends Component {
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu} onPress={this.signOut}>
           <Image source={require('../resources/icon-logout.png')} />
-          <Text>  Log out</Text>
+          <Text style={styles.menuText}>Log out</Text>
         </TouchableOpacity>
         <View style={{ flex: 3 }}>
         </View>
@@ -179,6 +179,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#efeff2',
     paddingLeft: 20,
+  },
+  menuText: {
+    marginLeft: 15,
   },
   profileImage: {
     width: 100,

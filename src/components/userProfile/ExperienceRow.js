@@ -102,16 +102,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   name: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginBottom: 5,
     color: '#2e3031',
   },
   position: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     color: '#2e3031',
   },
   period: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
+    marginTop: 5,
     marginBottom: 5,
     color: '#a6aeae',
   },

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   AsyncStorage,
   Image,
   StyleSheet,
+  Text,
   TouchableWithoutFeedback,
   TouchableHighlight,
   View,
@@ -16,24 +18,39 @@ import ServerUtil from '../utils/ServerUtil';
 class Login extends Component {
   constructor(props) {
     super(props);
-    LoginUtil.initCallback(this.onLoginSuccess, this.onLoginFail);
-    ServerUtil.initCallback(
-      (result) => this.onServerSuccess(result),
-      (error) => this.onServerFail(error));
 
-  }
-  componentDidMount(){
+    let onLoginSuccess = (result) => this.onLoginSuccess(result);
+    let onServerFail = (error) => this.onServerFail(error);
+    let onServerSuccess = (profile) => this.onServerSuccess(profile);
 
-  }
+    LoginUtil.initCallback(onLoginSuccess, onServerFail);
+    ServerUtil.initCallback(onServerSuccess, onServerFail);
 
-  componentWillMount() {
-    if (this.props.session === undefined) {
-      LoginUtil.hasToken();
-    }
+    this.state = {
+      loaded: false,
+    };
   }
 
   render() {
+    return this.state.loaded ? this.renderLoginView() : this.renderLoadingView();
+  }
+
+  renderLoadingView() {
     return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          animating={!this.state.loaded}
+          style={[styles.activityIndicator]}
+          size="large"
+          />
+        <Text style={styles.headerText}>Loading...</Text>
+      </View>
+    );
+  }
+
+  renderLoginView() {
+    return (
+
       //  Render the screen on View.
       <View style={styles.container}>
         <View style={styles.welcomeContain}>
@@ -49,28 +66,37 @@ class Login extends Component {
     );
   }
 
+  componentDidMount() {
+    LoginUtil.hasToken();
+  }
+
   onLoginSuccess(result) {
-    if (result === undefined) {
-      Actions.login();
-    } else {
+    if (result) {
       ServerUtil.getMyProfile();
+      return;
     }
+
+    // If there is no token...
+    this.setState({ loaded: !this.state.loaded });
   }
 
   onLoginFail(error) {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(error.msg);
     }
+
+    this.setState({ loaded: true });
   }
 
   onServerSuccess(myProflile) {
-    Actions.main({me:myProflile});
+    Actions.generalInfo({ me: myProflile });
   }
 
   onServerFail(error) {
     if (error.code !== ErrorMeta.ERR_NONE) {
       alert(JSON.stringify(error.msg));
     }
+
     Actions.login();
   }
 }
@@ -91,6 +117,15 @@ const styles = StyleSheet.create({
     height: 40,
     width: 290,
     marginBottom: 10,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    color: '#0e417a',
   },
 });
 
