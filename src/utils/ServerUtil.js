@@ -60,6 +60,10 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
+  editGeneral(fieldSet) {
+    this.requestToServer('POST', UrlMeta.API_EDIT_GENERAL, '', fieldSet);
+  }
+
   editPersonality(object) {
     let paramList = [object];
     this.requestToServer('POST', UrlMeta.API_EDIT_PERSONALITY, '', paramList);
@@ -119,6 +123,8 @@ class ServerUtil {
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       body.match_id = paramList[0];
       body.option = paramList[1];
+    } else if (apiType === UrlMeta.API_EDIT_GENERAL) {
+      return JSON.stringify(paramList);
     } else if (apiType === UrlMeta.API_EDIT_PERSONALITY) {
       body.personality = paramList[0];
     }

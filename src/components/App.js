@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, Alert } from 'react-native';
-import SplashPage from './SplashPage';
+import { Platform, StyleSheet, Alert } from 'react-native';
 import Login from './Login';
+import GeneralInfo from './SignUp/GeneralInfo';
 import Main from './Main';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
@@ -48,11 +48,10 @@ class App extends Component {
   }
 
   render() {
-    // Platform verification
-    let isAndroid = (Platform.OS === 'android');
-
     let backAndroidHandler = () => {
-      if (App.scene.sceneKey === 'evalPageMain' || App.scene.sceneKey == 'main') {
+      if (App.scene.sceneKey === 'evalPageMain' ||
+          App.scene.sceneKey === 'main' ||
+          App.scene.sceneKey === 'generalInfo') {
         return true;
       } else {
         Actions.pop();
@@ -62,11 +61,14 @@ class App extends Component {
 
     return (
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
-        <Scene key="root">
-          <Scene key="splashPage" component={SplashPage}
-            hideNavBar={true} type={ActionConst.RESET} initial={isAndroid} />
+        <Scene key="root"
+               titleStyle={styles.title} rightButtonTextStyle={styles.leftBtn}
+               navigationBarStyle={styles.bar}>
           <Scene key="login" component={Login}
-            initial={!isAndroid} hideNavBar={true} type={ActionConst.RESET}/>
+            initial={true} hideNavBar={true} type={ActionConst.RESET} />
+
+          <Scene key="generalInfo" component={GeneralInfo} title="General Info"
+            hideNavBar={false} type={ActionConst.RESET} />
 
           {/* The right button(filter) function will be added later */}
           <Scene key="main" component={Main} title="Bridgeme" rightTitle="right"
@@ -98,5 +100,20 @@ class App extends Component {
    );
   }
 }
+
+const styles = StyleSheet.create({
+  bar: {
+    backgroundColor: '#fafafa',
+    borderBottomColor: '#d6dada',
+  },
+  title: {
+    fontSize: 16,
+    color: '#2e3031',
+  },
+  leftBtn: {
+    fontSize: 16,
+    color: '#557bfc',
+  },
+});
 
 module.exports = App;
