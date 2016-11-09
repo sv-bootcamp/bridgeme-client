@@ -1,21 +1,18 @@
 package com.yoda;
 
+import com.facebook.appevents.AppEventsLogger;
 import android.app.Application;
-
+import java.util.Arrays;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.react.ReactApplication;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import java.util.List;
+import com.facebook.react.shell.MainReactPackage;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
-
-import java.util.Arrays;
-import java.util.List;
-
 
 public class MainApplication extends Application implements ReactApplication {
 
