@@ -35,32 +35,55 @@ class MyPage extends Component {
   }
 
   onRequestSuccess(result) {
-    let currentStatus = this.state.currentStatus;
-    let currentPosition = this.state.currentPosition;
 
-    if (result.work.length > 0) {
-      const work = result.work[0];
+    if (result.msg) {
 
-      if (work.employer) currentStatus = work.employer.name;
-      if (work.position) currentPosition = work.position.name;
-    } else if (result.education.length > 0) {
-      const education = result.education[result.education.length - 1];
+      // When setting mentor mode is done
+      ServerUtil.getRequestSetting();
+    } else if (typeof result.result === 'boolean') {
 
-      if (education.school) currentStatus = education.school.name;
-      if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+      // When getting mentor mode is done
+      this.setState({ trueSwitchIsOn: result.result });
+    } else if (result._id) {
+
+      // When user profile request is done
+      let currentStatus = this.state.currentStatus;
+      let currentPosition = this.state.currentPosition;
+
+      if (result.work.length > 0) {
+        const work = result.work[0];
+
+        if (work.employer) currentStatus = work.employer.name;
+        if (work.position) currentPosition = work.position.name;
+      } else if (result.education.length > 0) {
+        const education = result.education[result.education.length - 1];
+
+        if (education.school) currentStatus = education.school.name;
+        if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+      }
+
+      this.setState({
+        name: result.name,
+        profileImage: result.profile_picture,
+        currentStatus: currentStatus,
+        currentPosition: currentPosition,
+        loaded: true,
+      });
     }
+  }
 
-    this.setState({
-      name: result.name,
-      profileImage: result.profile_picture,
-      currentStatus: currentStatus,
-      currentPosition: currentPosition,
-      loaded: true,
-    });
+  onRequestFail(error) {
+    alert(error);
   }
 
   componentDidMount() {
     ServerUtil.getMyProfile();
+    ServerUtil.getRequestSetting();
+  }
+
+  onValueChange(value) {
+    this.setState({ trueSwitchIsOn: value });
+    ServerUtil.setRequestSetting(value);
   }
 
   render() {
@@ -105,7 +128,7 @@ class MyPage extends Component {
           </View>
           <Switch
             style={styles.switchButton}
-            onValueChange={(value) => this.setState({ trueSwitchIsOn: value })}
+            onValueChange={this.onValueChange.bind(this)}
             value={this.state.trueSwitchIsOn}
           />
         </TouchableOpacity>

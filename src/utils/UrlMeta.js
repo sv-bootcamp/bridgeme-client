@@ -11,6 +11,8 @@ class UrlMeta {
   static API_MENTOR_REQ = 'match/request/';
   static API_MENTOR_RESP = 'match/response/';
   static API_EDIT_PERSONALITY = 'users/editPersonality/';
+  static API_GET_REQUEST_SETTING = 'users/mentorMode/';
+  static API_SET_REQUEST_SETTING = 'users/editMentorMode/';
 }
 
 module.exports = UrlMeta;
