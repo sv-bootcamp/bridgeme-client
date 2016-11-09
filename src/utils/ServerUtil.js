@@ -196,7 +196,6 @@ class ServerUtil {
   }
 
   getException(error) {
-    console.log(error);
     serverUtil.onError(ErrorMeta.ERR_SERVER_FAIL);
   }
 }
