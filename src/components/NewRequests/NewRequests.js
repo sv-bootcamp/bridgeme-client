@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from 'react-native';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
@@ -24,6 +25,7 @@ class NewRequests extends Component {
         rowHasChanged: (r1, r2) => r1 !== r2,
       }),
       loaded: false,
+      isEmpty: false,
     };
   }
 
@@ -47,6 +49,7 @@ class NewRequests extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newRequests),
       loaded: true,
+      isEmpty: newRequests.length === 0,
     });
   }
 
@@ -55,22 +58,44 @@ class NewRequests extends Component {
   }
 
   render() {
-    return (
-      <ListView
-        style={styles.listView}
-        dataSource = {this.state.dataSource}
-        renderRow  = {this.renderRow.bind(this)}
-        enableEmptySections={true}
-      />
-    );
+    if (this.state.isEmpty)
+      return (
+        <View style={styles.container}>
+          <Image source={require('../../resources/chat_onboarding.png')}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Make a connection!</Text>
+            <Text style={{ color: '#a6aeae', fontSize: 14, }}>
+              You did not connect with anyone yet.
+            </Text>
+          </View>
+        </View>
+      );
+    else
+      return (
+        <ListView
+          style={styles.listView}
+          dataSource = {this.state.dataSource}
+          renderRow  = {this.renderRow.bind(this)}
+          enableEmptySections={true}
+        />
+      );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 50,
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
   },
   listView: {
     ...Platform.select({
@@ -81,6 +106,16 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginTop: 62,
+  },
+  title: {
+    color: '#a6aeae',
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 module.exports = NewRequests;
