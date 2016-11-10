@@ -20,7 +20,6 @@ class NewRequests extends Component {
       (error) => this.onRequestFail(error));
 
     this.state = {
-      dataBlob: {},
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
       }),
@@ -39,10 +38,14 @@ class NewRequests extends Component {
   }
 
   onRequestSuccess(result) {
+    const REQUESTED_PENDING = 2;
+    const REQUESTED_ACCEPT = 1;
+
+    let newRequests = result.requested.filter((value) => value.status === REQUESTED_ACCEPT);
+    newRequests = newRequests.map((value) => value.detail[0]);
+
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(result.requested.map(
-        (value, index) => value.detail[0]).slice()
-      ),
+      dataSource: this.state.dataSource.cloneWithRows(newRequests),
       loaded: true,
     });
   }

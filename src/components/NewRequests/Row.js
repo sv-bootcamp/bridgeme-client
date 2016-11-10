@@ -54,6 +54,7 @@ class Row extends Component {
       {
         text: 'Delete',
         backgroundColor: '#fd5b52',
+        onPress: this.rejectRequest.bind(this),
       },
     ];
 
