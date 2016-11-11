@@ -33,7 +33,6 @@ class ChatPage extends Component {
       messages: [],
       channel: props.channel,
       isTyping: false,
-      opponent: null,
     };
   }
 
@@ -48,16 +47,15 @@ class ChatPage extends Component {
 
     this.setState({
       messages: [],
-      channel: nextProps.channel,
       isTyping: false,
-      opponent: null,
     });
     this.initChatPage(nextProps.me, nextProps.opponent);
   }
 
   componentWillUnmount() {
-    this.sb.removeChannelHandler(this.state.channel.url);
-    Actions.refresh({ title: 'Chat' });
+    if (this.state.channel) {
+      this.sb.removeChannelHandler(this.state.channel.url);
+    }
   }
 
   onMessageReceived(channel, userMessage) {
@@ -128,7 +126,6 @@ class ChatPage extends Component {
 
   initChatPage(me, opponent) {
     if (SendBird().getConnectionState() === 'OPEN') {
-
       if (this.state.channel) {
         this.sb.removeChannelHandler(this.state.channel.url);
       }
@@ -164,7 +161,6 @@ class ChatPage extends Component {
                       messages: nMessageList,
                     });
                     this.state.channel.markAsRead();
-
                   });
                 }
               }.bind(this));
@@ -176,9 +172,9 @@ class ChatPage extends Component {
     }
   }
 
-  onServerSuccess(opponent) {
+  onServerSuccess(opponentInfo) {
     this.setState({
-      opponent: opponent,
+      opponentInfo: opponentInfo,
     });
   }
 
@@ -206,7 +202,7 @@ class ChatPage extends Component {
       return (
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>
-            {this.props.opponent.nickname} is typing.
+            {this.state.opponentInfo.name} is typing.
           </Text>
         </View>
       );
@@ -225,7 +221,7 @@ class ChatPage extends Component {
         user={{
           _id: this.props.me.userId,
         }}
-        opponent={this.state.opponent}
+        opponentInfo={this.state.opponentInfo}
         loadEarlier={true}
         renderFooter={this.renderFooter}
       />
