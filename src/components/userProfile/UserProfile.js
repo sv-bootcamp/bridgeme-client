@@ -219,7 +219,7 @@ class UserProfile extends Component {
             tabBarInactiveTextColor={'#a6aeae'}
             tabBarActiveTextColor={'#2e3031'}
             renderTabBar={() => <ScrollableTabBar />}
-            >
+          >
             <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
             <UserCareer tabLabel='CAREER' id={this.props._id}/>
           </ScrollableTabView>
