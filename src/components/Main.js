@@ -15,6 +15,7 @@ import SendBird from 'sendbird';
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import UserList from './UserList/UserList';
+import NewRequests from './NewRequests/NewRequests';
 
 const APP_ID = 'D1A48349-CBE6-41FF-9FF8-BCAA2A068B05';
 
@@ -78,7 +79,7 @@ class Main extends Component {
           tabBarPosition='bottom'
           renderTabBar={() => <TabBar />}
           >
-        <UserList tabLabel="ios-home" style={styles.tabView} />
+        <NewRequests tabLabel="ios-home" style={styles.tabView} />
         <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
           <View style={styles.card}>
             <Text>Tournament</Text>

@@ -53,8 +53,22 @@ class NewRequests extends Component {
     });
   }
 
-  renderRow(rowData) {
-    return <Row dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)}/>;
+  renderRow(rowData, sectionID, rowID) {
+    return <Row dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
+  }
+
+  renderSeparator(sectionID, rowID) {
+    console.log(rowID);
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{
+          height: 1,
+          backgroundColor: '#efeff2',
+          marginLeft: 70,
+        }}
+      />
+    );
   }
 
   render() {
@@ -76,6 +90,7 @@ class NewRequests extends Component {
           style={styles.listView}
           dataSource = {this.state.dataSource}
           renderRow  = {this.renderRow.bind(this)}
+          renderSeparator={this.renderSeparator}
           enableEmptySections={true}
         />
       );

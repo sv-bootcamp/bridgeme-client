@@ -16,11 +16,24 @@ class Row extends Component {
     super(props);
     this.state = {
       goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
+      expanded: false,
+      message: `I really appriciate that if you give some advices of career change…
+      I really appriciate that if you give some advices of career change
+I really appriciate that if you give some advices of career change
+I really appriciate that if you give some advices of career change
+I really appriciate that if you give some advices of career change
+I really appriciate that if you give some advices of career change
+I really appriciate that if you give some advices of career This is the end`,
+      height: 70,
     };
 
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
+  }
+
+  componentWillMount() {
+    console.log(this.props.id);
   }
 
   onRequestSuccess(result) {
@@ -58,6 +71,8 @@ class Row extends Component {
       },
     ];
 
+    console.log(this.state.height);
+
     return (
       <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
         <View style={styles.row}>
@@ -72,10 +87,22 @@ class Row extends Component {
               <Text style={styles.acceptButtonText}>ACCEPT</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.borderContainer}>
-            <Text style={styles.message} ellipsizeMode='tail' numberOfLines={2}>
-              I really appriciate that if you give some advices of career change…
-            </Text>
+          <View style={[styles.borderContainer]}>
+            <View>
+              <Text style={[styles.message]}
+                    ellipsizeMode={'tail'}
+                    numberOfLines={this.state.expanded ? 0 : 2}>
+                {this.state.message}
+              </Text>
+            </View>
+            <View>
+              <Text style={{ color: '#a6aeae', fontSize: 10,}}
+                onPress={()=> {
+                  this.setState({                     expanded: !this.state.expanded, });
+                }}>
+                {this.state.expanded ? 'Read less' : 'Read more'}
+              </Text>
+            </View>
           </View>
         </View>
       </Swipeout>
@@ -85,7 +112,6 @@ class Row extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
   },
@@ -96,7 +122,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   userInformation: {
-    flex: 2,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
@@ -118,10 +143,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   borderContainer: {
-    flex: 1,
     flexDirection: 'column',
-    borderBottomWidth: 1,
-    borderColor: '#efeff2',
     marginLeft: 70,
   },
   acceptButton: {
