@@ -85,7 +85,7 @@ class Main extends Component {
             <Text>Tournament</Text>
           </View>
         </ScrollView>
-        <Activity tabLabel="ios-people" style={styles.tabView} />
+        <Activity tabLabel="ios-people" style={styles.tabView} me={this.props.me}/>
         <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
         <MyPage tabLabel="md-contact"/>
       </ScrollableTabView>

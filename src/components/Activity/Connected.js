@@ -34,14 +34,26 @@ class Connected extends Component {
   }
 
   onRequestSuccess(result) {
+    const REQUESTED_ACCEPT = 1;
+
     this.setState({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     });
 
+    // Collect connected objects by user and mentor
+    let connected = result.accepted;
+    connected = connected.map((value) => value.detail[0]);
+
+    let connectByMentor = result.requested.filter(
+       (value) => value.status === REQUESTED_ACCEPT);
+    connectByMentor = connectByMentor.map((value) => value.detail[0]);
+
+    connected.concat(connectByMentor);
+
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(result.slice()),
+      dataSource: this.state.dataSource.cloneWithRows(connected),
       loaded: true,
       isRefreshing: false,
     });
@@ -54,7 +66,7 @@ class Connected extends Component {
   }
 
   componentDidMount() {
-    ServerUtil.getActivity();
+    ServerUtil.getActivityList();
   }
 
   // Receive props befofe completely changed
@@ -63,7 +75,7 @@ class Connected extends Component {
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
 
-    ServerUtil.getActivity();
+    ServerUtil.getActivityList();
   }
 
   // Render loading page while fetching user profiles
@@ -72,25 +84,26 @@ class Connected extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="small"
+        size='small'
       />
     );
   }
 
   renderRow(rowData) {
-    return <ConnectedRow dataSource={rowData}/>;
+    return <ConnectedRow dataSource={rowData} me={this.props.me}/>;
   }
 
-  // Render User profile
   renderConnected() {
     return (
       <ListView
-        style={styles.lisview}
+        style={styles.listView}
         showsVerticalScrollIndicator={false}
         dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
+        renderRow={this.renderRow.bind(this)}
         enableEmptySections={true}
-        />
+        renderSeparator={(sectionId, rowId) =>
+          <View key={rowId} style={styles.separator}/>}
+      />
     );
   }
 
@@ -108,14 +121,12 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   listView: {
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
+    flex: 1,
+  },
+  separator: {
+    flex: 1,
+    height: 2,
+    backgroundColor: '#efeff2',
   },
   activityIndicator: {
     alignItems: 'center',
