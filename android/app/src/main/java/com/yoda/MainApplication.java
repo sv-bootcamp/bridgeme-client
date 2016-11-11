@@ -13,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.chymtt.reactnativedropdown.DropdownPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -35,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage(),
                     new LinearGradientPackage(),
                     new ImagePickerPackage(),
-                    new FBSDKPackage(mCallbackManager)
+                    new FBSDKPackage(mCallbackManager),
+                    new DropdownPackage()
             );
         }
     };

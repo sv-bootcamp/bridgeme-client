@@ -12,8 +12,11 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ServerUtil from '../utils/ServerUtil';
-import ErrorMeta from '../utils/ErrorMeta';
+import ServerUtil from '../../utils/ServerUtil';
+import ErrorMeta from '../../utils/ErrorMeta';
+import Progress from '../Shared/Progress';
+import { Personalitys } from './SignUpMETA';
+import { Actions, Scene, }  from 'react-native-router-flux';
 
 class Personality extends Component {
   constructor(props) {
@@ -21,22 +24,17 @@ class Personality extends Component {
 
     this.state = {
       values: [],
-      sliderTitle: [
-        ['Extroverts', 'Introverts'],
-        ['Sensors', 'Intuitives'],
-        ['Feelers', 'Thinkers'],
-        ['Judgers', 'Percievers'],
-        ['Speaker', 'Listener'],
-        ['Energetic', 'Quite'],
-        ['Unexacting', 'Perfectionist'],
-        ['Traditional', 'Free Thinking'],
-      ],
+      sliderTitle: Personalitys,
     };
 
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error)
     );
+  }
+
+  onRequestSuccess(result) {
+    Actions.completed({ me: this.props.me });
   }
 
   componentDidMount() {
@@ -71,7 +69,7 @@ class Personality extends Component {
 
   render() {
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (
-        <View key={index}>
+        <View key={index} style ={{ flex: 1 }} >
           <View style={styles.sliderTitle}>
             <Text style={{ color: '#757b7c' }}>{currentValue[0]}</Text>
             <Text style={{ color: '#757b7c' }}>{currentValue[1]}</Text>
@@ -93,32 +91,44 @@ class Personality extends Component {
       )
     );
     return (
-      <ScrollView style={styles.scroll}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Let’s figure out your personality !</Text>
-          <Text style={{ color: '#2e3031' }}>Drag each point to express youself.</Text>
-        </View>
-        {slidersWithTitle}
-        <TouchableOpacity style={{ alignSelf: 'stretch' }} onPress={this.sendRequest.bind(this)}>
-          <LinearGradient
-            start={[0.9, 0.5]} end={[0.0, 0.5]}
-            locations={[0, 0.75]}
-            colors={['#07e4dd', '#44acff']}
-            style={styles.linearGradient}>
-            <Text style={styles.buttonText}>
-              DONE
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </ScrollView>
+      <View style={styles.container}>
+        <Progress level={4} step={4} />
+        <ScrollView>
+          <View style={{ flex: 1 }}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>
+                {'Let’s figure out your\npersonality !'}
+              </Text>
+              <Text style={{ color: '#2e3031', fontSize: 12, }}>
+                Drag each point to express youself.
+              </Text>
+            </View>
+            <View style={styles.body}>
+              {slidersWithTitle}
+              <View style={{ flex: 1, marginTop: 50, }}>
+                <TouchableOpacity onPress={this.sendRequest.bind(this)}>
+                  <LinearGradient
+                    start={[0.9, 0.5]} end={[0.0, 0.5]}
+                    locations={[0, 0.75]}
+                    colors={['#07e4dd', '#44acff']}
+                    style={styles.linearGradient}>
+                    <Text style={styles.buttonText}>
+                      DONE
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scroll: {
+  container: {
     flex: 1,
-    flexDirection: 'column',
     ...Platform.select({
       ios: {
         marginTop: 64,
@@ -128,9 +138,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  scroll: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   slider: {
     flex: 1,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 25,
     ...Platform.select({
       ios: {
@@ -143,17 +157,24 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  body: {
+    flex: 5,
+  },
+  btnContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   linearGradient: {
     height: 45,
     borderRadius: 50,
-    margin: 30,
     width: 230,
     alignSelf: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
+    fontSize: 16,
+    fontFamily: 'SFUIText-Bold',
     textAlign: 'center',
     justifyContent: 'center',
     margin: 10,
@@ -168,12 +189,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   titleContainer: {
+    flex: 1,
     alignItems: 'center',
-    margin: 50,
+    justifyContent: 'center',
   },
   title: {
     color: '#2e3031',
-    fontSize: 25,
+    fontSize: 18,
     textAlign: 'center',
     marginBottom: 10,
   },

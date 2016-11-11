@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import EditForm from './EditForm';
@@ -101,19 +102,20 @@ class GeneralInfo extends Component {
 
     return (
       <View style={styles.container}>
-        <Progress level={5} step={1} />
+        <Progress level={4} step={1} />
         <ScrollView style={styles.scrollView}>
           <MyPic uri={this.state.mypic} readyUploadImage={readyUploadImage} />
           {Forms}
           <View style={styles.nextView}>
-            <TouchableWithoutFeedback onPress={() => this.regist()}>
+            <TouchableOpacity onPress={() => this.regist()}>
               <LinearGradient
-                colors={['#44acff', '#07e4dd']}
-                start={[0.0, 0.0]} end={[1.0, 1.0]}
+                start={[0.9, 0.5]} end={[0.0, 0.5]}
+                locations={[0, 0.75]}
+                colors={['#07e4dd', '#44acff']}
                 style={styles.nextImage}>
                 <Text style={styles.nextTxt}>NEXT</Text>
               </LinearGradient>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -155,8 +157,15 @@ class GeneralInfo extends Component {
     ServerUtil.editGeneral(fieldSet);
   }
 
+  onUploadCallback(result, error) {
+    if (result)
+      Actions.main({ me: this.props.me });
+    if (error)
+      alert(JSON.stringify(error));
+  }
+
   onUploadSuccess(result) {
-    Actions.main({ me: this.props.me });
+    Actions.careerInfo({ me: this.props.me });
   }
 
   onUploadError(error) {
@@ -407,10 +416,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nextTxt: {
+    fontFamily: 'SFUIText-Bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: 'bold',
   },
   flexR: {
     flexDirection: 'row',

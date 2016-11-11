@@ -134,6 +134,8 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-linear-gradient')
     compile project(':react-native-image-picker')
+    compile project(':ReactNativeDropdownAndroid')
+
 }
 
 // Run this once to be able to run the application with BUCK

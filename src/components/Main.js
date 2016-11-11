@@ -77,15 +77,15 @@ class Main extends Component {
 
           tabBarPosition='bottom'
           renderTabBar={() => <TabBar />}
-          >
-        <UserList tabLabel="ios-home" style={styles.tabView} />
-        <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
-          <View style={styles.card}>
-            <Text>Tournament</Text>
-          </View>
-        </ScrollView>
-        <Activity tabLabel="ios-people" style={styles.tabView} />
-        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
+        >
+          <UserList tabLabel="ios-home" style={styles.tabView} />
+          <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
+            <View style={styles.card}>
+              <Text>Tournament</Text>
+            </View>
+          </ScrollView>
+          <Activity tabLabel="ios-people" style={styles.tabView} />
+          <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
         <MyPage tabLabel="md-contact"/>
       </ScrollableTabView>
     );

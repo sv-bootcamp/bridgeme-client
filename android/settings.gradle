@@ -13,3 +13,6 @@ project(':react-native-vector-icons').projectDir = new File(rootProject.projectD
 
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(settingsDir, '../node_modules/react-native-image-picker/android')
+
+include ':ReactNativeDropdownAndroid'
+project(':ReactNativeDropdownAndroid').projectDir = new File(rootProject.projectDir, '/Dropdown')
