@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Dimensions,
   Image,
   Platform,
   StyleSheet,
@@ -38,14 +39,20 @@ class MyPic extends Component {
 
   render() {
     let showPicker = () => this.showPicker();
-    let source = this.state.isDefault ? this.state.source : { uri: this.state.uri };
+    let source = this.state.source;
+    if (!this.state.isDefault && this.state.uri !== undefined) {
+      source = { uri: this.state.uri };
+    }
 
     return (
       <View style={styles.profileImageView}>
-        <TouchableWithoutFeedback onPress={showPicker}>
-          <Image style={styles.profileImage}
-                 source={source} />
-        </TouchableWithoutFeedback>
+        <Image style={styles.profileImage} source={source} />
+        <View style={styles.overay}>
+          <TouchableWithoutFeedback onPress={showPicker}>
+            <Image style={styles.editImage}
+                   source={require('../../resources/icon-edit-pic.png')} />
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
   }
@@ -80,6 +87,7 @@ class MyPic extends Component {
 
 }
 
+const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   profileImageView: {
     alignItems: 'center',
@@ -90,6 +98,22 @@ const styles = StyleSheet.create({
     height: 110,
     width: 110,
     borderRadius: 55,
+  },
+  overay: {
+    height: 110,
+    width: 110,
+    borderRadius: 55,
+    position: 'absolute',
+    top: 0,
+    left: (deviceWidth / 2) - 95,
+    backgroundColor: 'rgba(46, 48, 48, 0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  editImage: {
+    height: 23,
+    width: 25,
   },
 });
 
