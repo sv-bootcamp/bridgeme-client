@@ -25,6 +25,7 @@ import LoadEarlier from './LoadEarlier';
 import Message from './Message';
 import MessageContainer from './MessageContainer';
 import Send from './Send';
+import SendBird from 'sendbird';
 import Time from './Time';
 
 // Min and max heights of ToolbarInput and Composer
@@ -368,7 +369,10 @@ class GiftedChat extends React.Component {
   }
 
   onType(e) {
-    this.channel.startTyping();
+    if (SendBird().getConnectionState() === 'OPEN') {
+      this.channel.startTyping();
+    }
+
     let newComposerHeight = null;
     if (e.nativeEvent && e.nativeEvent.contentSize) {
       newComposerHeight = Math.max(

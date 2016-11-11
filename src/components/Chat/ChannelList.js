@@ -5,6 +5,7 @@ import {
   AsyncStorage,
   Image,
   ListView,
+  NetInfo,
   Platform,
   RefreshControl,
   StyleSheet,
@@ -27,10 +28,10 @@ class ChannelList extends Component {
       loaded: false,
       channelList: [],
     };
+    this.isConnected = false;
     this.sb = SendBird();
     this.ChannelHandler = new this.sb.ChannelHandler();
     this.ChannelHandler.onMessageReceived = (channel, userMessage) => {
-
       ///Todo : using channel & userMessage params, update list seperately.
       this.initChannelList();
     };
@@ -43,20 +44,38 @@ class ChannelList extends Component {
   }
 
   componentDidMount() {
-    this.initChannelList();
     AppState.addEventListener('change', this.onAppStateChange.bind(this));
+    NetInfo.isConnected.addEventListener('change', this.onConnectionStateChange.bind(this));
+  }
+
+  onConnectionStateChange(isConnected) {
+    this.isConnected = isConnected;
+    if (this.isConnected) {
+      this.connectSendBird();
+    } else {
+      SendBird().disconnect();
+    }
   }
 
   onAppStateChange(state) {
     if (state === 'active') {
-      SendBird().connect(this.state.me._id, function (user, error) {
-        if (error) {
-          throw new Error(error);
-        }
-
-        this.initChannelList();
-      }.bind(this));
+      if (this.isConnected) {
+        this.connectSendBird();
+      }
+    } else {
+      SendBird().disconnect();
     }
+  }
+
+  connectSendBird() {
+    SendBird().connect(this.state.me._id, function (user, error) {
+      if (error) {
+        alert('Fail to connect SendBird.');
+        throw new Error(error);
+      }
+
+      this.initChannelList();
+    }.bind(this));
   }
 
   componentWillUnmount() {
@@ -65,30 +84,33 @@ class ChannelList extends Component {
   }
 
   initChannelList() {
-    const channelListQuery = SendBird().GroupChannel.createMyGroupChannelListQuery();
-    channelListQuery.includeEmpty = true;
+    if (SendBird().getConnectionState() === 'OPEN') {
+      const channelListQuery = SendBird().GroupChannel.createMyGroupChannelListQuery();
+      channelListQuery.includeEmpty = true;
 
-    if (channelListQuery.hasNext) {
-      channelListQuery.next(function (channelList, error) {
-        if (error) {
-          throw new Error();
-        } else {
-          this.setState({
-            channelList: channelList,
-            dataSource: this.ds.cloneWithRows(channelList),
-            loaded: true,
-          });
-        }
-      }.bind(this));
+      if (channelListQuery.hasNext) {
+        channelListQuery.next(function (channelList, error) {
+          if (error) {
+            alert(error);
+            throw new Error();
+          } else {
+            this.setState({
+              channelList: channelList,
+              dataSource: this.ds.cloneWithRows(channelList),
+              loaded: true,
+            });
+          }
+        }.bind(this));
+      }
     }
   }
 
   renderRow(rowData) {
     return (
       <Row
-      _id = {this.state.me._id}
-      dataSource={rowData}
-    />
+        myId={this.state.me._id}
+        dataSource={rowData}
+      />
     );
   }
 
@@ -98,55 +120,61 @@ class ChannelList extends Component {
     return (
       <View style={styles.searchBarContainer}>
         <TextInput
-           ref='input'
-           autoCapitalize='none'
-           autoCorrect={false}
-           autoFocus={false}
-           onChange={this.onSearchChange}
-           placeholder='Search people'
-           placeholderTextColor='#c6cbcc'
-           style={styles.searchBarInput}
-           underlineColorAndroid='transparent'
-         />
+          ref='input'
+          autoCapitalize='none'
+          autoCorrect={false}
+          autoFocus={false}
+          onChange={this.onSearchChange}
+          placeholder='Search people'
+          placeholderTextColor='#c6cbcc'
+          style={styles.searchBarInput}
+          underlineColorAndroid='transparent'
+        />
       </View>
     );
   }
 
   renderLoadingView() {
     return (
-      <View style={styles.loadingViewheader}>
-        <Text style={styles.loadingViewheaderText}>Loading...</Text>
-        <ActivityIndicator
-          animating={true}
-          style={[styles.loadingViewActivityIndicator]}
-          size='large'
-        />
+      <View style={styles.ViewContainer}>
+        <View style={styles.loadingViewheader}>
+          <Text style={styles.loadingViewheaderText}>Loading...</Text>
+          <ActivityIndicator
+            animating={true}
+            style={[styles.loadingViewActivityIndicator]}
+            size='large'
+          />
+        </View>
       </View>
     );
   }
 
   renderOnboardingView() {
     return (
-      <View style={styles.onboardingView}>
-        <Image
-          style={styles.onboardingImage}
-          source={require('../../resources/chat_onboarding.png')}
-        />
-        <Text style={styles.onboardingText1} >Make a chat!</Text>
-        <Text style={styles.onboardingText2}>You did not chat with anyone yet.</Text>
+      <View style={styles.ViewContainer}>
+        <View style={styles.onboardingView}>
+
+          <Image
+            style={styles.onboardingImage}
+            source={require('../../resources/chat_onboarding.png')}
+          />
+          <Text style={styles.onboardingText1}>Make a chat!</Text>
+          <Text style={styles.onboardingText2}>You did not chat with anyone yet.</Text>
+        </View>
       </View>
     );
   }
 
   renderListView() {
     return (
-      <ListView
-        style={styles.listView}
-        dataSource = {this.state.dataSource}
-        renderRow  = {this.renderRow.bind(this)}
-        renderHeader = {null}
-        enableEmptySections={true}
-      />
+      <View style={styles.ViewContainer}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+          renderHeader={null}
+          enableEmptySections={true}
+        />
+      </View>
     );
   }
 
@@ -177,12 +205,8 @@ const styles = StyleSheet.create({
   loadingViewActivityIndicator: {
     marginTop: 30,
   },
-  container: {
-    marginTop: 50,
+  ViewContainer: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
-  listView: {
     ...Platform.select({
       ios: {
         marginTop: 64,
@@ -242,7 +266,6 @@ const styles = StyleSheet.create({
   onboardingText1: {
     marginTop: 62,
     fontSize: 20,
-
     color: '#a6aeae',
   },
   onboardingText2: {

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import SendBird from 'sendbird';
 
 export default class Send extends React.Component {
   render() {
@@ -13,8 +14,13 @@ export default class Send extends React.Component {
         <TouchableOpacity
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
-            this.props.onSend({ text: this.props.text.trim() }, true);
-          }}
+              if (SendBird().getConnectionState() === 'OPEN') {
+                this.props.onSend({ text: this.props.text.trim() }, true);
+              } else {
+                alert('Please check Network state.');
+              }
+            }
+          }
         >
           <Text style={[styles.text, this.props.textStyle]}>{this.props.label}</Text>
         </TouchableOpacity>
