@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import Connected from './Connected';
+import NewRequests from './NewRequests';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
@@ -40,8 +41,8 @@ class Activity extends Component {
         tabBarActiveTextColor={'#2e3031'}
         renderTabBar={() => <ScrollableTabBar />}
       >
+        <NewRequests tabLabel='NEW REQUESTS'/>
         <Connected tabLabel='CONNECTED' me={this.props.me}/>
-        <Connected tabLabel='CONNECTED2'/>
       </ScrollableTabView>
     );
   }

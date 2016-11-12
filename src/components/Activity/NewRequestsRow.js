@@ -11,7 +11,7 @@ import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import Swipeout from './Swipeout';
 
-class Row extends Component {
+class NewRequestsRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -164,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Row;
+module.exports = NewRequestsRow;

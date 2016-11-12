@@ -1,7 +1,6 @@
-var React = require('react-native')
-var {StyleSheet} = React
-
-var styles = StyleSheet.create({
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+const styles = StyleSheet.create({
   swipeout: {
     backgroundColor: '#dbddde',
     flex: 1,
@@ -36,11 +35,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#fb3d38',
   },
   colorPrimary: {
-    backgroundColor: '#006fff'
+    backgroundColor: '#006fff',
   },
   colorSecondary: {
-    backgroundColor: '#fd9427'
+    backgroundColor: '#fd9427',
   },
-})
+});
 
-module.exports = styles
+module.exports = styles;

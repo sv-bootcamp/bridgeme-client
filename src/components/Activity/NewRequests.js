@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
-import Row from './Row';
+import NewRequestsRow from './NewRequestsRow';
 
 class NewRequests extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class NewRequests extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    return <Row dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
+    return <NewRequestsRow dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
   }
 
   renderSeparator(sectionID, rowID) {
