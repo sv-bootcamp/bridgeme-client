@@ -15,7 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import ServerUtil from '../../utils/ServerUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import Progress from '../Shared/Progress';
-import { Personalitys } from './SignUpMETA';
+import { Personalites } from './SignUpMETA';
 import { Actions, Scene, }  from 'react-native-router-flux';
 
 class Personality extends Component {
@@ -24,7 +24,7 @@ class Personality extends Component {
 
     this.state = {
       values: [],
-      sliderTitle: Personalitys,
+      sliderTitle: Personalites,
     };
 
     ServerUtil.initCallback(
