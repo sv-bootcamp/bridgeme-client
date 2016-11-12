@@ -22,7 +22,6 @@ class ChatPage extends Component {
 
     this.sb = SendBird();
     this.lastTyping = null;
-    this.onSend = this.onSend.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
 
     this.ChannelHandler = new this.sb.ChannelHandler();
@@ -32,9 +31,8 @@ class ChatPage extends Component {
 
     this.state = {
       messages: [],
-      channel: null,
+      channel: props.channel,
       isTyping: false,
-      opponent: null,
     };
   }
 
@@ -47,13 +45,17 @@ class ChatPage extends Component {
       return;
     }
 
-    this.setState({ loaded: false });
+    this.setState({
+      messages: [],
+      isTyping: false,
+    });
     this.initChatPage(nextProps.me, nextProps.opponent);
   }
 
   componentWillUnmount() {
-    this.sb.removeChannelHandler(this.state.channel.url);
-    Actions.refresh({ title: 'Chat' });
+    if (this.state.channel) {
+      this.sb.removeChannelHandler(this.state.channel.url);
+    }
   }
 
   onMessageReceived(channel, userMessage) {
@@ -65,13 +67,13 @@ class ChatPage extends Component {
 
   onTypingStatusUpdated(channel) {
     if (channel.url === this.state.channel.url) {
-      if (channel.isTyping()) {
+      if (channel.isTyping() && SendBird().getConnectionState() === 'OPEN') {
         this.setState({
           isTyping: true,
         });
-        this.lastTyping = Date.now();//2000 2900
+        this.lastTyping = Date.now();
         setTimeout(()=> {
-          if (this.lastTyping + 1000 < Date.now()) { //3000 4500
+          if (this.lastTyping + 1000 < Date.now()) {
             this.setState({
               isTyping: false,
             });
@@ -123,52 +125,56 @@ class ChatPage extends Component {
   }
 
   initChatPage(me, opponent) {
-    if (this.state.channel) {
-      this.sb.removeChannelHandler(this.state.channel.url);
-    }
+    if (SendBird().getConnectionState() === 'OPEN') {
+      if (this.state.channel) {
+        this.sb.removeChannelHandler(this.state.channel.url);
+      }
 
-    this.setState({
-      messages: [],
-      channel: null,
-    });
+      this.setState({
+        messages: [],
+        channel: null,
+      });
 
-    const userIds = [me.userId, opponent.userId];
+      const userIds = [me.userId, opponent.userId];
 
-    ServerUtil.initCallback(
-      (result) => this.onServerSuccess(result),
-      (error) => this.onServerFail(error));
-    ServerUtil.getOthersProfile(opponent.userId);
+      ServerUtil.initCallback(
+        (result) => this.onServerSuccess(result),
+        (error) => this.onServerFail(error));
+      ServerUtil.getOthersProfile(opponent.userId);
 
-    this.sb.GroupChannel.createChannelWithUserIds(
-      userIds, true, '', '', '', function (channel, error) {
-        if (error) {
-          throw new Error();
-        } else {
-          this.setState({
-            channel: channel,
-          });
-          this.sb.addChannelHandler(this.state.channel.url, this.ChannelHandler);
-          this.state.channel.createPreviousMessageListQuery()
-            .load(200, false, function (messageList, error) {
-              if (error) {
-                throw new Error(error);
-              } else {
-                this.convertSendBirdListToGiftedChatList(messageList, (nMessageList) => {
-                  this.setState({
-                    messages: nMessageList,
+      this.sb.GroupChannel.createChannelWithUserIds(
+        userIds, true, '', '', '', function (channel, error) {
+          if (error) {
+            throw new Error();
+          } else {
+            this.setState({
+              channel: channel,
+            });
+            this.sb.addChannelHandler(this.state.channel.url, this.ChannelHandler);
+            this.state.channel.createPreviousMessageListQuery()
+              .load(200, false, function (messageList, error) {
+                if (error) {
+                  throw new Error(error);
+                } else {
+                  this.convertSendBirdListToGiftedChatList(messageList, (nMessageList) => {
+                    this.setState({
+                      messages: nMessageList,
+                    });
+                    this.state.channel.markAsRead();
                   });
-                  this.state.channel.markAsRead();
-
-                });
-              }
-            }.bind(this));
-        }
-      }.bind(this));
+                }
+              }.bind(this));
+          }
+        }.bind(this));
+    } else {
+      alert('Please check Network status.');
+      Actions.pop();
+    }
   }
 
-  onServerSuccess(opponent) {
+  onServerSuccess(opponentInfo) {
     this.setState({
-      opponent: opponent,
+      opponentInfo: opponentInfo,
     });
   }
 
@@ -179,15 +185,16 @@ class ChatPage extends Component {
   }
 
   onSend(messages = []) {
-    this.state.channel.sendUserMessage(messages[0].text, '', function (message, error) {
-      if (error) {
-        throw new Error();
-      } else {
-        this.setState((previousState) =>
-          ({ messages: GiftedChat.append(previousState.messages, messages), })
-        );
-      }
-    }.bind(this));
+    if (SendBird().getConnectionState() === 'OPEN') {
+      this.setState((previousState) =>
+        ({ messages: GiftedChat.append(previousState.messages, messages) })
+      );
+      this.state.channel.sendUserMessage(messages[0].text, '', function (message, error) {
+        if (error) {
+          throw new Error();
+        }
+      }.bind(this));
+    }
   }
 
   renderFooter() {
@@ -195,7 +202,7 @@ class ChatPage extends Component {
       return (
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>
-            {this.props.opponent.nickname} is typing.
+            {this.state.opponentInfo.name} is typing.
           </Text>
         </View>
       );
@@ -209,12 +216,12 @@ class ChatPage extends Component {
       <GiftedChat
         style={styles.container}
         messages={this.state.messages}
-        onSend={this.onSend}
+        onSend={this.onSend.bind(this)}
         channel={this.state.channel}
         user={{
           _id: this.props.me.userId,
         }}
-        opponent={this.state.opponent}
+        opponentInfo={this.state.opponentInfo}
         loadEarlier={true}
         renderFooter={this.renderFooter}
       />

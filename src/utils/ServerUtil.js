@@ -1,8 +1,6 @@
-import { AsyncStorage } from 'react-native';
 import ErrorMeta from './ErrorMeta';
 import ErrorUtil from './ErrorUtil';
 import UrlMeta from './UrlMeta';
-import LoginMeta from './LoginMeta';
 
 class ServerUtil {
   constructor() {
@@ -42,6 +40,14 @@ class ServerUtil {
     this.requestToServer('GET', UrlMeta.API_ACTIVITY, '');
   }
 
+  getRequestSetting() {
+    this.requestToServer('GET', UrlMeta.API_GET_REQUEST_SETTING, '');
+  }
+
+  signOut() {
+    this.requestToServer('GET', UrlMeta.API_SIGN_OUT, '');
+  }
+
   // Request to mentor
   sendMentoringRequest(mentorId, selection, message) {
     let paramList = [mentorId, selection, message];
@@ -60,46 +66,63 @@ class ServerUtil {
     this.requestToServer('POST', UrlMeta.API_MENTOR_RESP, '', paramList);
   }
 
+  editGeneral(fieldSet) {
+    this.requestToServer('POST', UrlMeta.API_EDIT_GENERAL, '', fieldSet);
+  }
+
+  // Local SignUp
+  createAccount(email, password) {
+    let paramList = [email, password];
+    this.requestToServer('POST', UrlMeta.API_LOCAL_SIGNUP, '', paramList);
+  }
+
+  // Local SignIn
+  signIn(email, password) {
+    let paramList = [email, password];
+    this.requestToServer('POST', UrlMeta.API_LOCAL_SIGNIN, '', paramList);
+  }
+
+  // Send an email address to get secret code
+  reqeustSecretCode(email) {
+    this.requestToServer('POST', UrlMeta.API_SECRET_CODE, '', email);
+  }
+
+  // Reset password
+  resetPassword(email, password, code) {
+    let paramList = [email, password, code];
+    this.requestToServer('POST', UrlMeta.API_RESET_PASS, '', paramList);
+  }
+
   editPersonality(object) {
     let paramList = [object];
     this.requestToServer('POST', UrlMeta.API_EDIT_PERSONALITY, '', paramList);
   }
 
-  // Request to server
-  requestToServer(method, apiType, urlEtc, paramList) {
-    AsyncStorage.multiGet(['loginType', 'token'], (err, stores) => {
-      let type = stores[0][1];
-      let token = stores[1][1];
-
-      if (token === null || token === undefined || token === '') {
-        this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
-        return;
-      }
-
-      if (type == LoginMeta.LOGIN_TYPE_FB || type == LoginMeta.LOGIN_TYPE_LI) {
-        let url = UrlMeta.host + apiType + urlEtc;
-        let formBody;
-        if (method === 'GET') {
-          formBody = this.makeGetFormBody(method, token, apiType, paramList);
-        } else if (method === 'POST') {
-          formBody = this.makePostFormBody(method, token, apiType, paramList);
-        }
-
-        this.fetchData(url, method, formBody);
-      } else {
-        this.onError(ErrorMeta.ERR_NO_LOGIN_TYPE);
-      }
-    });
+  setRequestSetting(bool) {
+    let paramList = [bool ? 'true' : 'false'];
+    this.requestToServer('POST', UrlMeta.API_SET_REQUEST_SETTING, '', paramList);
   }
 
-  makeGetFormBody(httpMethod, token, apiType, paramList) {
-    let formBody = 'access_token=' + token;
+  // Request to server
+  requestToServer(method, apiType, urlEtc, paramList) {
+    let url = UrlMeta.host + apiType + urlEtc;
+    let formBody;
+    if (method === 'GET') {
+      formBody = this.makeGetFormBody(method, apiType, paramList);
+    } else if (method === 'POST') {
+      formBody = this.makePostFormBody(method, apiType, paramList);
+    }
 
+    this.fetchData(url, method, formBody);
+  }
+
+  makeGetFormBody(httpMethod, apiType, paramList) {
+    let formBody = '';
     if (apiType === UrlMeta.API_MENTOR_REQ) {
-      formBody += '&mentor_id=' + paramList[0];
+      formBody += 'mentor_id=' + paramList[0];
       formBody += '&content=' + paramList[1];
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
-      formBody += '&mentor_id=' + paramList[0];
+      formBody += 'mentor_id=' + paramList[0];
       formBody += '&option=' + paramList[1];
     }
 
@@ -110,7 +133,7 @@ class ServerUtil {
     }
   }
 
-  makePostFormBody(httpMethod, token, apiType, paramList) {
+  makePostFormBody(httpMethod, apiType, paramList) {
     let body = {};
 
     if (apiType === UrlMeta.API_MENTOR_REQ) {
@@ -120,8 +143,22 @@ class ServerUtil {
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       body.match_id = paramList[0];
       body.option = paramList[1];
+    } else if (apiType === UrlMeta.API_EDIT_GENERAL) {
+      return JSON.stringify(paramList);
+    } else if (apiType === UrlMeta.API_LOCAL_SIGNUP ||
+               apiType === UrlMeta.API_LOCAL_SIGNIN) {
+      body.email = paramList[0];
+      body.password = paramList[1];
+    } else if (apiType === UrlMeta.API_RESET_PASS) {
+      body.email = paramList[0];
+      body.password = paramList[1];
+      body.secretCode = paramList[2];
+    } else if (apiType === UrlMeta.API_SECRET_CODE) {
+      body.email = paramList;
     } else if (apiType === UrlMeta.API_EDIT_PERSONALITY) {
       body.personality = paramList[0];
+    } else if (apiType === UrlMeta.API_SET_REQUEST_SETTING) {
+      body.mentorMode = paramList[0];
     }
 
     return JSON.stringify(body);
@@ -176,6 +213,7 @@ class ServerUtil {
   }
 
   getException(error) {
+    console.log(error);
     serverUtil.onError(ErrorMeta.ERR_SERVER_FAIL);
   }
 }

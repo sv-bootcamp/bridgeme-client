@@ -15,7 +15,7 @@ export default class Row extends Component {
   constructor(props) {
     super(props);
 
-    if (props.dataSource.members[0].userId == props._id) {
+    if (props.dataSource.members[0].userId == props.myId) {
       this.me = props.dataSource.members[0];
       this.opponent = props.dataSource.members[1];
     } else {
@@ -34,7 +34,7 @@ export default class Row extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.dataSource.members[0].userId == props._id) {
+    if (props.dataSource.members[0].userId == props.myId) {
       this.me = props.dataSource.members[0];
       this.opponent = props.dataSource.members[1];
     } else {
@@ -56,6 +56,7 @@ export default class Row extends Component {
       title: this.state.opponent.nickname,
       me: this.state.me,
       opponent: this.state.opponent,
+      channel: this.state.channel,
     });
   }
 

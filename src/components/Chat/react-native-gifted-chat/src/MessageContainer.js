@@ -31,7 +31,7 @@ export default class MessageContainer extends React.Component {
     this.state = {
       dataSource: dataSource.cloneWithRows(messagesData.blob, messagesData.keys),
       remainSpace: 0,
-      opponent: props.opponent,
+      opponentInfoInfo: props.opponentInfoInfo,
     };
   }
 
@@ -75,7 +75,7 @@ export default class MessageContainer extends React.Component {
     const messagesData = this.prepareMessages(nextProps.messages);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(messagesData.blob, messagesData.keys),
-      opponent: nextProps.opponent,
+      opponentInfoInfo: nextProps.opponentInfoInfo,
     });
   }
 
@@ -182,16 +182,16 @@ export default class MessageContainer extends React.Component {
       <View style={styles.headerContainer}>
         <View style={styles.headerRow}>
           <Image style={styles.photo}
-                 source={{ uri: this.state.opponent ? this.state.opponent.profile_picture : '' }}/>
+                 source={{ uri: this.state.opponentInfoInfo ? this.state.opponentInfoInfo.profile_picture : '' }}/>
           <View style={styles.userInformation}>
               <Text style={styles.name}>
-                {this.state.opponent ? this.state.opponent.name : ''}
+                {this.state.opponentInfoInfo ? this.state.opponentInfo.name : ''}
               </Text>
               <Text style={styles.work}>
-                {this.state.opponent ?
-                  this.state.opponent.work.length != 0 ?
-                    `${this.state.opponent.work[0].position.name} at ` +
-                    `${this.state.opponent.work[0].employer.name}` :
+                {this.state.opponentInfo ?
+                  this.state.opponentInfo.work.length != 0 ?
+                    `${this.state.opponentInfo.work[0].position.name} at ` +
+                    `${this.state.opponentInfo.work[0].employer.name}` :
                     '' :
                   ''
                 }

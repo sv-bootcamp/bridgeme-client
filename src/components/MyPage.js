@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Alert,
+  AsyncStorage,
   Dimensions,
   Image,
   ListView,
@@ -35,33 +36,64 @@ class MyPage extends Component {
   }
 
   onRequestSuccess(result) {
-    let currentStatus = this.state.currentStatus;
-    let currentPosition = this.state.currentPosition;
+    if (result.msg) {
 
-    if (result.work.length > 0) {
-      const work = result.work[0];
+      // When setting mentor mode is done
+      ServerUtil.getRequestSetting();
+    } else if (typeof result.result === 'boolean') {
 
-      if (work.employer) currentStatus = work.employer.name;
-      if (work.position) currentPosition = work.position.name;
-    } else if (result.education.length > 0) {
-      const education = result.education[result.education.length - 1];
+      // When getting mentor mode is done
+      this.setState({ trueSwitchIsOn: result.result });
+    } else if (result._id) {
 
-      if (education.school) currentStatus = education.school.name;
-      if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+      // When user profile request is done
+      let currentStatus = this.state.currentStatus;
+      let currentPosition = this.state.currentPosition;
+
+      if (result.work.length > 0) {
+        const work = result.work[0];
+
+        if (work.employer) currentStatus = work.employer.name;
+        if (work.position) currentPosition = work.position.name;
+      } else if (result.education.length > 0) {
+        const education = result.education[result.education.length - 1];
+
+        if (education.school) currentStatus = education.school.name;
+        if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+      }
+
+      this.setState({
+        name: result.name,
+        profileImage: result.profile_picture,
+        currentStatus: currentStatus,
+        currentPosition: currentPosition,
+        loaded: true,
+      });
     }
+  }
 
-    this.setState({
-      name: result.name,
-      profileImage: result.profile_picture,
-      currentStatus: currentStatus,
-      currentPosition: currentPosition,
-      loaded: true,
-    });
+  onRequestFail(error) {
+    alert(error);
   }
 
   componentDidMount() {
     ServerUtil.getMyProfile();
+    ServerUtil.getRequestSetting();
   }
+
+  onValueChange(value) {
+    this.setState({ trueSwitchIsOn: value });
+    ServerUtil.setRequestSetting(value);
+  }
+
+  signOut = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      Actions.login();
+    } catch (error) {
+      alert('ERROR: Try again');
+    }
+  };
 
   render() {
     const defaultProfileImage = require('../resources/profile-img.png');
@@ -96,7 +128,7 @@ class MyPage extends Component {
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
           <Image source={require('../resources/for-you-icon-line.png')} />
-          <Text style={styles.menuText}>EBookmarks</Text>
+          <Text style={styles.menuText}>Bookmarks</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
           <View style={styles.receiveRequest}>
@@ -105,12 +137,11 @@ class MyPage extends Component {
           </View>
           <Switch
             style={styles.switchButton}
-            onValueChange={(value) => this.setState({ trueSwitchIsOn: value })}
-            onTintColor='#557bfc'
+            onValueChange={this.onValueChange.bind(this)}
             value={this.state.trueSwitchIsOn}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}>
+        <TouchableOpacity style={styles.menu} onPress={this.signOut}>
           <Image source={require('../resources/icon-logout.png')} />
           <Text style={styles.menuText}>Log out</Text>
         </TouchableOpacity>
