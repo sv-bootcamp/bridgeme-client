@@ -144,7 +144,7 @@ export const Personalitys = [
     ['Feelers', 'Thinkers'],
     ['Judgers', 'Percievers'],
     ['Speaker', 'Listener'],
-    ['Energetic', 'Quite'],
+    ['Energetic', 'Quiet'],
     ['Unexacting', 'Perfectionist'],
     ['Traditional', 'Free Thinking'],
 ];
