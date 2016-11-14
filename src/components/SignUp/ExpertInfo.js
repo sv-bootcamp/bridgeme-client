@@ -11,6 +11,7 @@ import {
 import CheckBox from '../../utils/CheckBox';
 import LinearGradient from 'react-native-linear-gradient';
 import Progress from '../Shared/Progress';
+import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 import { Options } from './SignUpMETA';
 
@@ -51,7 +52,7 @@ class ExpertInfo extends Component {
   }
 
   onUploadCallback() {
-    this.onNextBtnPressed();
+    Actions.personality({ me: this.props.me });
   }
 
   onNextBtnPressed() {
@@ -66,9 +67,9 @@ class ExpertInfo extends Component {
     }
 
     let body = { help };
+    UserUtil.editHelp(this.onUploadCallback.bind(this), body);
     console.log(JSON.stringify(body));
 
-    Actions.personality({ me: this.props.me });
   }
 
   render() {
@@ -89,7 +90,7 @@ class ExpertInfo extends Component {
           </ScrollView>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity onPress = {this.onUploadCallback.bind(this)} >
+          <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >
             <LinearGradient style={styles.btnStyle}
               start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}>

@@ -4,13 +4,11 @@ import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import FindPassword from './FindPassword';
 import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 
 class FindPassStep3 extends Component {
   constructor(props) {
     super(props);
-
-    ServerUtil.initCallback(this.onServerSuccess, this.onServerFail);
-
     this.state = {
       password1,
       password2,
@@ -66,25 +64,26 @@ class FindPassStep3 extends Component {
         'Please input your password correctly',
       );
     } else {
-      ServerUtil.resetPassword(this.props.email,
-                               this.state.password1,
-                               this.props.code);
+      UserUtil.resetPassword(this.onResetPasswordCallback.bind(this),
+                            this.props.email, this.state.password1, this.props.code);
     }
   }
 
-  onServerSuccess(result) {
-    Alert.alert(
-      'Forgot password',
-      'Change password successfully!',
-    );
-    Actions.login();
-  }
+  onResetPasswordCallback(result, error) {
+    if (result) {
+      Alert.alert(
+        'Forgot password',
+        'Change password successfully!',
+      );
+      Actions.login();
+    }
 
-  onServerFail(error) {
-    Alert.alert(
-      'Forgot password',
-      error.msg,
-    );
+    if (error) {
+      Alert.alert(
+        'Forgot password',
+        error.msg,
+      );
+    }
   }
 }
 

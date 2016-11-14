@@ -11,11 +11,10 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
-import LoginUtil from '../../utils/LoginUtil';
-import ServerUtil from '../../utils/ServerUtil';
 import styles from './Styles';
+import UserUtil from '../../utils/UserUtil';
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
 
@@ -24,28 +23,33 @@ class Login extends Component {
       password1: '',
       password2: '',
     };
-
-    LoginUtil.initCallback(this.onLoginSuccess, this.onServerFail);
   }
 
-  onLoginSuccess(result) {
-    if (result === undefined) {
-      Actions.login();
-    } else {
-      Actions.generalInfo();
+  onSignUpCallback(result, error) {
+    if (result) {
+      if (result === undefined) {
+        Actions.login();
+      } else {
+        AsyncStorage.setItem('token', result.access_token, () => Actions.generalInfo());
+      }
     }
-  }
 
-  onServerFail(error) {
-    if (error.code !== ErrorMeta.ERR_NONE) {
-      alert(error.msg);
+    if (error) {
+      if (error.code !== ErrorMeta.ERR_NONE) {
+        alert(error.msg);
+      }
     }
   }
 
   render() {
     let onChangeEmail = (text) => { this.state.email = text; };
+
     let onChangePassword1 = (text) => { this.state.password1 = text; };
+
     let onChangePassword2 = (text) => { this.state.password2 = text; };
+
+    let signInWithFacebook = () => UserUtil.signInWithFacebook(this.onSignUpCallback.bind(this));
+
     let createAccount = () => this.createAccount();
 
     return (
@@ -57,7 +61,8 @@ class Login extends Component {
         </View>
 
         {/* Render facebook login button */}
-        <TouchableWithoutFeedback onPress={LoginUtil.signInWithFacebook}>
+        <TouchableWithoutFeedback
+          onPress={signInWithFacebook}>
           <View style={[styles.facebookLoginContainer, { marginTop: 43 }]}>
             <Image style={styles.facebookLoginButton}
                    source={require('../../resources/fb.png')} />
@@ -140,17 +145,7 @@ class Login extends Component {
       return;
     }
 
-    ServerUtil.initCallback(this.onServerSuccess, this.onServerFail);
-    ServerUtil.createAccount(this.state.email, this.state.password1);
-  }
-
-  onServerSuccess(result) {
-    if (result.msg && result.msg.indexOf('already in use') > -1) {
-      alert(result.msg);
-    } else {
-      alert('Your account is created successfuly!');
-      Actions.pop();
-    }
+    UserUtil.localSignUp(this.onSignUpCallback.bind(this), this.state.email, this.state.password1);
   }
 
   focusNextField(refNo) {
@@ -162,4 +157,4 @@ class Login extends Component {
   }
 }
 
-module.exports = Login;
+module.exports = SignUp;

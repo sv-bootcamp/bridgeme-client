@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
   titleContainer: {
     //marginTop: 101,
@@ -100,6 +100,8 @@ const styles = StyleSheet.create({
     width: 251,
     marginLeft: 18,
     marginRight: 18,
+    borderColor: '#efeff2',
+    borderWidth: 1,
   },
   inputContainer2: {
     marginTop: 30,

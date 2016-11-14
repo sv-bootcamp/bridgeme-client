@@ -36,7 +36,10 @@ class EvalPage extends Component {
 
     if (this.props.pageNo === undefined) {
       this.props.pageNo = 0;
-      this.surveyUtil.getQuestionPage(this.props.select);
+      AsyncStorage.getItem('token', (err, result) => {
+        if (result)
+          this.surveyUtil.getQuestionPage(this.props.select, result);
+      });
     } else {
       AsyncStorage.getItem('qestionPage', (err, result) => {
 
@@ -316,11 +319,15 @@ class EvalPage extends Component {
       return;
     }
 
-    let result = {
+    let body = {
       survey_id: this.surveyID,
       questions: this.surveyUtil.buildResult(this.questions),
     };
-    this.surveyUtil.sendResult(result);
+
+    AsyncStorage.getItem('token', (err, result) => {
+      if (result)
+        this.surveyUtil.sendResult(body, result);
+    });
   }
 
   renderLoadingView() {

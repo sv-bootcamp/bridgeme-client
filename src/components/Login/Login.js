@@ -14,19 +14,26 @@ import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import LoginMeta from '../../utils/LoginMeta';
 import LinearGradient from 'react-native-linear-gradient';
-import LoginUtil from '../../utils/LoginUtil';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 import styles from './Styles';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       email: '',
       password: '',
       loaded: false,
+      tokenValid: false,
     };
+
+    AsyncStorage.getItem('token', (err, result) => {
+      console.log(err, result);
+      if (false)
+        UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
+      else
+        this.setState({ loaded: true });
+    });
   }
 
   render() {
@@ -35,6 +42,7 @@ class Login extends Component {
     }
 
     let onChangeEmail = (text) => { this.state.email = text; };
+
     let onChangePassword = (text) => { this.state.password = text; };
 
     return (
@@ -49,14 +57,14 @@ class Login extends Component {
         <TouchableWithoutFeedback onPress={() => this.signInFB()}>
           <View style={styles.facebookLoginContainer}>
             <Image style={styles.facebookLoginButton}
-                   source={require('../../resources/fb.png')} />
+              source={require('../../resources/fb.png')} />
             <Text style={styles.facebookLoginText}>Login with Facebook</Text>
           </View>
         </TouchableWithoutFeedback>
 
         <View style={styles.hrContainer}>
           <View style={styles.hr}></View>
-          <View><Text style={styles.hrText}>or</Text></View>
+          <View><Text style={styles.hrText}>OR</Text></View>
           <View style={styles.hr}></View>
         </View>
 
@@ -120,67 +128,15 @@ class Login extends Component {
     );
   }
 
-  componentDidMount() {
-    let onGetTokenSuccess = (result) => this.onGetTokenSuccess(result);
-    let onGetTokenFail = (error) => this.onGetTokenFail(error);
-
-    LoginUtil.initCallback(onGetTokenSuccess, onGetTokenFail);
-    LoginUtil.hasToken();
-  }
-
-  onGetTokenSuccess(token) {
-    this.onSignInSuccess(token);
-  }
-
-  onGetTokenFail(error) {
-    this.setState({ loaded: !this.state.loaded });
-  }
-
   signInFB() {
-    let onSignInSuccess = (result) => this.onSignInSuccess(result);
-    let onSignInFail = (error) => this.onSignInFail(error);
-
-    LoginUtil.initCallback(onSignInSuccess, onSignInFail);
-    LoginUtil.signInWithFacebook();
-  }
-
-  onSignInSuccess(result) {
-    if (result) {
-      let onGetProfileSuccess = (res) => this.onGetProfileSuccess(res);
-      let onGetProfileFail = (error) => this.onGetProfileFail(error);
-
-      ServerUtil.initCallback(onGetProfileSuccess, onGetProfileFail);
-      ServerUtil.getMyProfile();
-      return;
-    }
-
-    this.setState({ loaded: !this.state.loaded });
-  }
-
-  onSignInFail(error) {
-    Alert.alert(
-      'SignIn',
-      'Sever error(Sign in)! Please contact to developer',
-    );
-  }
-
-  onGetProfileSuccess(profile) {
-    Actions.generalInfo({ me: profile });
-  }
-
-  onGetProfileFail(error) {
-    Alert.alert(
-      'SignIn',
-      'Sever error(Profile)! Please try to sign in again.',
-    );
-    this.onGetTokenFail();
+    UserUtil.signInWithFacebook(this.onLoginCallback.bind(this));
   }
 
   signInLocal() {
     let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFilter.test(this.state.email) === false) {
       Alert.alert(
-        'SignIn',
+        'Login',
         'Please input your correct email.',
       );
       return;
@@ -188,25 +144,53 @@ class Login extends Component {
 
     if (this.state.password === '') {
       Alert.alert(
-        'SignIn',
+        'Login',
         'Please input your password.',
       );
       return;
     }
 
-    let onLocalLoginSuccess = (result) => this.onLocalLoginSuccess(result);
-    let onLocalLoginFail = (error) => this.onSignInFail(error);
-
-    ServerUtil.initCallback(onLocalLoginSuccess, onLocalLoginFail);
-    ServerUtil.signIn(this.state.email, this.state.password);
+    UserUtil.localSignUp(this.onLoginCallback.bind(this), this.state.email, this.state.password);
   }
 
-  onLocalLoginSuccess(result) {
-    let onSignInSuccess = (res) => this.onSignInSuccess(res);
-    AsyncStorage.multiSet(
-       [['token', result.user.password], ['loginType', LoginMeta.LOGIN_TYPE_LOCAL]],
-       () => onSignInSuccess(result)
-    );
+  onLoginCallback(result, error) {
+    if (result) {
+      AsyncStorage.setItem('token', result.access_token,
+      () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this)));
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  onTokenValidCheck(profile, error) {
+    if (profile) {
+      if (profile.name) {
+        Actions.generalInfo({ me: profile });//Actions.main({ me: profile });
+      } else {
+        Actions.generalInfo({ me: profile });
+      }
+    }
+
+    if (error) {
+      this.setState({ loaded: true });
+    }
+  }
+
+  onGetProfileCallback(profile, error) {
+    console.log(profile, error);
+    if (profile) {
+      Actions.generalInfo({ me: profile });
+    }
+
+    if (error) {
+      Alert.alert(
+        'Login',
+        'Sever error(Profile)! Please try to sign in again.',
+      );
+      this.setState({ loaded: true });
+    }
   }
 
   focusNextField(refNo) {

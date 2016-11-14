@@ -19,13 +19,11 @@ class OnBoardingPage extends Component {
   }
 
   onPressLogInButton() {
-
     ///Todo : Make to go create page.
     Actions.login();
   }
 
   onPressGetStartedButton() {
-
     ///Todo : Make to go login page.
     Actions.login();
   }
@@ -34,8 +32,8 @@ class OnBoardingPage extends Component {
     return (
       <View style={styles.footer}>
         <LinearGradient style={styles.getStartedBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
-                        locations={[0, 0.75]}
-                        colors={['#07e4dd', '#44acff']}>
+          locations={[0, 0.75]}
+          colors={['#07e4dd', '#44acff']}>
           <TouchableWithoutFeedback onPress={this.onPressGetStartedButton}>
             <View style={styles.buttonContainer}>
               <Text style={styles.buttonText}>GET STARTED</Text>
@@ -45,7 +43,7 @@ class OnBoardingPage extends Component {
         <Text style={styles.footerText}>Do you have an account already?
           <Text style={styles.logInText}onPress={this.onPressLogInButton}>  Log in</Text>
         </Text>
-
+        
       </View>
     );
   }

@@ -24,6 +24,7 @@ class Main extends Component {
     new SendBird({
       appId: APP_ID,
     });
+    console.log(props);
   }
 
   componentDidMount() {

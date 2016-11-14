@@ -9,16 +9,11 @@ import {
   View,
 } from 'react-native';
 import Row from './Row';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
+import MatchUtil from '../../utils/MatchUtil';
 
 class Activity extends Component {
   constructor(props) {
     super(props);
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
 
     this.state = {
         dataBlob: {},
@@ -33,12 +28,18 @@ class Activity extends Component {
 
   // Refresh data
   onRefresh() {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
     this.setState({ isRefreshing: true });
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
+  }
+
+  onRequestCallback(result, error) {
+    if (result) {
+      this.onRequestSuccess(result);
+    }
+
+    if (error) {
+      alert(JSON.stringify(error));
+    }
   }
 
   onRequestSuccess(result) {
@@ -103,14 +104,8 @@ class Activity extends Component {
     });
   }
 
-  onRequestFail(error) {
-    if (error.code !== ErrorMeta.ERR_NONE) {
-      alert(error.msg);
-    }
-  }
-
   componentDidMount() {
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
   renderRow(rowData) {
