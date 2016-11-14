@@ -84,7 +84,7 @@ class NewRequests extends Component {
           </View>
         </View>
       );
-    else
+    else {
       return (
         <ListView
           style={styles.listView}
@@ -94,6 +94,7 @@ class NewRequests extends Component {
           enableEmptySections={true}
         />
       );
+    }
   }
 }
 
