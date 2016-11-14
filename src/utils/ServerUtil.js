@@ -49,8 +49,8 @@ class ServerUtil {
   }
 
   // Request to mentor
-  sendMentoringRequest(mentorId, content) {
-    let paramList = [mentorId, content];
+  sendMentoringRequest(mentorId, selection, message) {
+    let paramList = [mentorId, selection, message];
     this.requestToServer('POST', UrlMeta.API_MENTOR_REQ, '', paramList);
   }
 
@@ -138,7 +138,8 @@ class ServerUtil {
 
     if (apiType === UrlMeta.API_MENTOR_REQ) {
       body.mentor_id = paramList[0];
-      body.content = paramList[1];
+      body.subjects = paramList[1];
+      body.contents = paramList[2];
     } else if (apiType === UrlMeta.API_MENTOR_RESP) {
       body.match_id = paramList[0];
       body.option = paramList[1];

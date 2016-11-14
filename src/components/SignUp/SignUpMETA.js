@@ -138,13 +138,13 @@ export const Options = [
     'Soft skills (e.g., Communication..)',
 ];
 
-export const Personalitys = [
+export const Personalites = [
     ['Extroverts', 'Introverts'],
-    ['Sensors', 'Intuitives'],
+    ['Rational', 'Intuitive'],
     ['Feelers', 'Thinkers'],
-    ['Judgers', 'Percievers'],
+    ['Judgers', 'Perceivers'],
     ['Speaker', 'Listener'],
-    ['Energetic', 'Quite'],
+    ['Energetic', 'Quiet'],
     ['Unexacting', 'Perfectionist'],
-    ['Traditional', 'Free Thinking'],
+    ['Conservative', 'Progressive'],
 ];

@@ -77,7 +77,7 @@ class Main extends Component {
 
           tabBarPosition='bottom'
           renderTabBar={() => <TabBar />}
-        >
+          >
           <UserList tabLabel="ios-home" style={styles.tabView} />
           <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
             <View style={styles.card}>

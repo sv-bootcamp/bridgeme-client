@@ -63,11 +63,7 @@ class RequestPage extends Component {
   }
 
   sendMessage() {
-
-    // TODO: This will be changed with request to server
-    Actions.requestSent();
-
-    // ServerUtil.sendMentoringRequest(this.props.id, 'Mentor request');
+    ServerUtil.sendMentoringRequest(this.props.id, this.state.selection, this.state.message);
   }
 
   onRequestSuccess(result) {
@@ -94,19 +90,31 @@ class RequestPage extends Component {
               <MenuTrigger>
                 <Text>{this.state.selection}</Text>
               </MenuTrigger>
-            <MenuOptions optionsContainerStyle={styles.dropdownOptions}
-                        renderOptionsContainer={(options) =>
-                         <ScrollView>{options}</ScrollView>}>
-              <MenuOption value="One">
-               <Text>Get a new job</Text>
-              </MenuOption>
-              <MenuOption value="Two">
-               <Text>Option Two</Text>
-              </MenuOption>
-              <MenuOption value="Three">
-               <Text>Option Three</Text>
-              </MenuOption>
-            </MenuOptions>
+              <MenuOptions optionsContainerStyle={styles.dropdownOptions}
+                renderOptionsContainer={(options) =>
+                  <ScrollView>{options}</ScrollView>}>
+                <MenuOption value='Study abroad'>
+                  <Text>Study abroad</Text>
+                </MenuOption>
+                <MenuOption value='Get a new job'>
+                  <Text>Get a new job</Text>
+                </MenuOption>
+                <MenuOption value='Portfolio & resume'>
+                  <Text>Portfolio & resume</Text>
+                </MenuOption>
+                <MenuOption value='Start up'>
+                  <Text>Start up</Text>
+                </MenuOption>
+                <MenuOption value='Career change'>
+                  <Text>Career change</Text>
+                </MenuOption>
+                <MenuOption value='Networking'>
+                  <Text>Networking</Text>
+                </MenuOption>
+                <MenuOption value='Soft skills'>
+                  <Text>Soft skills</Text>
+                </MenuOption>
+              </MenuOptions>
             </Menu>
           </View>
         </MenuContext>
@@ -220,11 +228,11 @@ const styles = StyleSheet.create({
   },
   dropdownContent: {
     marginBottom: 30,
+    justifyContent: 'center',
     alignSelf: 'center',
     borderColor: '#efeff2',
   },
   dropdown: {
-    justifyContent: 'center',
     width: WIDTH - (WIDTH / 6),
     height: 40,
     borderColor: '#efeff2',
@@ -236,7 +244,8 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
     borderWidth: 2,
     width: WIDTH - (WIDTH / 6),
-    height: 100,
+    left: 30,
+    height: 200,
   },
 });
 
