@@ -18,15 +18,14 @@ class Activity extends Component {
   constructor(props) {
     super(props);
 
+    // TODO: isRefreshing is for refresh control will be added shortly
     this.state = {
-        loaded: false,
         isRefreshing: false,
       };
   }
 
   componentDidMount() {
     this.setState({
-      loaded: true,
       isRefreshing: false,
     });
   }
