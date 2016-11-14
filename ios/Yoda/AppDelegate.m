@@ -8,10 +8,11 @@
  */
 
 #import "AppDelegate.h"
-
+#import "Firebase.h"
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 
 @implementation AppDelegate
 
@@ -37,6 +38,7 @@
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  
   return YES;
 }
 
