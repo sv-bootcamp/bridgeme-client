@@ -35,10 +35,9 @@ class SignUp extends Component {
     }
 
     if (error) {
-      if (error.code !== ErrorMeta.ERR_NONE) {
-        alert(error.msg);
-      }
+      alert(JSON.stringify(error));
     }
+
   }
 
   render() {

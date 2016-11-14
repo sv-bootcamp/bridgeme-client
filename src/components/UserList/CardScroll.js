@@ -131,7 +131,7 @@ export default class CardScroll extends Component {
      this.props.renderScrollComponent(props),
      {
         horizontal: true,
-        pagingEnabled: true,
+        pagingEnabled: false,
         maximumZoomScale: 3.0,
         directionalLockEnabled: true,
         showsVerticalScrollIndicator: false,

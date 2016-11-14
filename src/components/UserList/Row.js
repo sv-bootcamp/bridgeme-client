@@ -19,7 +19,7 @@ class Row extends Component {
 
     // Current location and skills will be changed with real data later.
     this.state = {
-      profileImage: '../../resources/pattern.png',
+      profileImage: '',
       name: '',
       job: '',
       position: 'Employer',

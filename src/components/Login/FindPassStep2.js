@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
 import FindPassword from './FindPassword';
 
 class FindPassStep2 extends Component {

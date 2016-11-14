@@ -11,8 +11,6 @@ import {
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
-import LoginMeta from '../../utils/LoginMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import UserUtil from '../../utils/UserUtil';
 import styles from './Styles';

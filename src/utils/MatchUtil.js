@@ -6,25 +6,26 @@ import apiUtil from './ApiUtil';
 
 class MatchUtil {
   // Request to mentor
-  sendMentoringRequest(callback, mentorId, content) {
+  sendMentoringRequest(callback, mentorId, subjects, content) {
     let body = {};
-    body.mentorId = mentorId;
-    body.content = content;
+    body.mentor_id = mentorId;
+    body.subjects = subjects;
+    body.contents = content;
     apiUtil.requestPostWithToken(callback, 'API_MENTOR_REQ', body);
   }
 
   // Reject request
-  rejectRequest(callback, mentorId) {
+  rejectRequest(callback, matchId) {
     let body = {};
-    body.mentorId = mentorId;
+    body.match_id = matchId;
     body.option = 0;
     apiUtil.requestPostWithToken(callback, 'API_MENTOR_RESP', body);
   }
 
   // Accept request
-  acceptRequest(callback, mentorId) {
+  acceptRequest(callback, matchId) {
     let body = {};
-    body.mentorId = mentorId;
+    body.match_id = matchId;
     body.option = 1;
     apiUtil.requestPostWithToken(callback, 'API_MENTOR_RESP', body);
   }
