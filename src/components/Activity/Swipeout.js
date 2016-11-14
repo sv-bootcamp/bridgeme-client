@@ -1,4 +1,4 @@
-var React = require('react')
+var React = require('react');
 var ReactNative = require('react-native');
 var {PanResponder, TouchableHighlight, StyleSheet, Text, View} = ReactNative;
 var tweenState = require('react-tween-state');

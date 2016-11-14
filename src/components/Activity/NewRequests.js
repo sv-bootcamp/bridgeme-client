@@ -54,11 +54,11 @@ class NewRequests extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    return <NewRequestsRow dataSource={rowData} onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
+    return <NewRequestsRow dataSource={rowData}
+      onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
   }
 
   renderSeparator(sectionID, rowID) {
-    console.log(rowID);
     return (
       <View
         key={`${sectionID}-${rowID}`}

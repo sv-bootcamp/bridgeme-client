@@ -17,7 +17,7 @@ import ChatPage from '../Chat/ChatPage';
 class ConnectedRow extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.dataSource);
+
     this.state = {
       profileImage: '',
       name: '',
@@ -81,7 +81,6 @@ class ConnectedRow extends Component {
   }
 
   onChatButtonPress() {
-    // Alert.alert('onChatPress');
     Actions.chatPage({
       title: this.props.dataSource.name,
       me: { userId: this.props.me._id },

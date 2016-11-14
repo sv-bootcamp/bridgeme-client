@@ -14,6 +14,8 @@ import Swipeout from './Swipeout';
 class NewRequestsRow extends Component {
   constructor(props) {
     super(props);
+
+    // TODO: The message part is mock data that will be changed
     this.state = {
       goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
       expanded: false,
@@ -30,10 +32,6 @@ I really appriciate that if you give some advices of career This is the end`,
     ServerUtil.initCallback(
       (result) => this.onRequestSuccess(result),
       (error) => this.onRequestFail(error));
-  }
-
-  componentWillMount() {
-    console.log(this.props.id);
   }
 
   onRequestSuccess(result) {
@@ -70,8 +68,6 @@ I really appriciate that if you give some advices of career This is the end`,
         onPress: this.rejectRequest.bind(this),
       },
     ];
-
-    console.log(this.state.height);
 
     return (
       <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
