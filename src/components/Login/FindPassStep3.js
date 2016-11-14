@@ -8,8 +8,8 @@ class FindPassStep3 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password1,
-      password2,
+      password1: undefined,
+      password2: undefined,
     };
   }
 
@@ -56,7 +56,7 @@ class FindPassStep3 extends Component {
         'Forgot password',
         'Please input your password for comparison.',
       );
-    } else if (this.state.password1 != this.state.password2) {
+    } else if (this.state.password1 !== this.state.password2) {
       Alert.alert(
         'Forgot password',
         'Please input your password correctly',

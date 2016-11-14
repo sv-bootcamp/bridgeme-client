@@ -7,7 +7,7 @@ export const ServerMeta = {
   CONTENT_TYPE_JSON: 'application/json',
 };
 export const UrlMeta = {
-  HOST: 'http://192.168.0.87:8000/',
+  HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
   API_LOGIN: 'users/signIn/',
   API_MENTOR:  'users/mentorlist/',
   API_ALL: 'users/all/',
