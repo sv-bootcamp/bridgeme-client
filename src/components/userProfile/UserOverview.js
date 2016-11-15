@@ -21,12 +21,11 @@ class UserOverview extends Component {
 
     this.state = {
       id: '',
+      about: 'No data',
+      experts: [],
+      personality: [],
+      score: [],
       loaded: false,
-      dataBlob: {},
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
     };
   }
 
@@ -72,35 +71,45 @@ class UserOverview extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
       />
     );
   }
 
-  renderSectionHeader(sectionData, sectionID) {
+  renderAbout() {
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{sectionID}</Text>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>About</Text>
+        <Text>{this.state.about}</Text>
       </View>
     );
   }
 
-  renderRow(rowData) {
-    return <OverviewRow dataSource={rowData}/>;
+  renderMyExpertise() {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>My expertise</Text>
+      </View>
+    );
+  }
+
+  renderPersonality() {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>Personality</Text>
+        <Text>{this.state.personality}</Text>
+      </View>
+    );
   }
 
   // Render User profile
   renderOverview() {
     return (
-      <ListView
-        style={styles.lisview}
-        showsVerticalScrollIndicator={false}
-        dataSource={this.state.dataSource}
-        scrollEnabled={false}
-        renderRow={this.renderRow}
-        enableEmptySections={true}
-        renderSectionHeader = {this.renderSectionHeader}
-        />
+      <View>
+        {this.renderAbout()}
+        {this.renderMyExpertise()}
+        {this.renderPersonality()}
+      </View>
     );
   }
 
@@ -117,10 +126,6 @@ class UserOverview extends Component {
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-  lisview: {
-    marginLeft: WIDTH / 10,
-    marginTop: HEIGHT / 30,
-  },
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -129,6 +134,10 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  sectionContainer: {
+    marginTop: 20,
+    marginLeft: 30,
   },
   sectionName: {
     fontFamily: 'SFUIText-Bold',

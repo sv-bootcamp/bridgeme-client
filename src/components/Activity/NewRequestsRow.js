@@ -59,62 +59,63 @@ class NewRequestsRow extends Component {
 
     if (this.props.dataSource.contents) {
       message = (
-        <View>
-          <Text style={[styles.message]}
-            ellipsizeMode={'tail'}
-            numberOfLines={this.state.expanded ? 0 : 2}>
-            {this.props.dataSource.contents}
-          </Text>
-        </View>);
-    }
+            <View>
+              <Text style={[styles.message]}
+                    ellipsizeMode={'tail'}
+                    numberOfLines={this.state.expanded ? 0 : 2}>
+                {this.props.dataSource.contents}
+              </Text>
+            </View>);
 
-    if (this.props.dataSource.contents.length > 80) {
-      expand = (
-        <View>
-          <Text style={styles.expandText}
-            onPress={()=> {
-              this.setState({ expanded: !this.state.expanded });
-            }}>
+      if (this.props.dataSource.contents.length > 80) {
+        expand = (
+          <View>
+            <Text style={styles.expandText}
+                  onPress={()=> {
+                    this.setState({ expanded: !this.state.expanded });
+                  }}>
 
-            {this.state.expanded ? 'Read less' : 'Read more'}
-          </Text>
-        </View>
-      );
+              {this.state.expanded ? 'Read less' : 'Read more'}
+            </Text>
+          </View>
+        );
+      }
     }
 
     return (
-    <View>
-      <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
-        <View style={styles.row}>
-          <View style={styles.userInformation}>
-            <Image style={styles.photo}
-              source={{ uri: this.props.dataSource.profile_picture }}/>
-            <View style={styles.horizontalSpaceBetween}>
-              <View style={styles.userNameWithTime}>
-                <Text style={styles.name}>{this.props.dataSource.name}</Text>
-                <Text style={styles.fromNow}>
-                  {moment(this.props.dataSource.request_date).fromNow()}
-                </Text>
+      <View>
+        <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
+          <View style={styles.row}>
+            <View style={styles.userInformation}>
+              <Image style={styles.photo}
+                     source={{ uri: this.props.dataSource.profile_picture }}/>
+              <View style={styles.horizontalSpaceBetween}>
+                <View style={styles.userNameWithTime}>
+                  <Text style={styles.name}>{this.props.dataSource.name}</Text>
+                  <Text style={styles.fromNow}>
+                    {moment(this.props.dataSource.request_date).fromNow()}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.acceptButton}
+                  onPress={this.acceptRequest.bind(this)}>
+                  <Text style={styles.acceptButtonText}>ACCEPT</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.acceptButton} onPress={this.acceptRequest.bind(this)}>
-                <Text style={styles.acceptButtonText}>ACCEPT</Text>
-              </TouchableOpacity>
             </View>
-          </View>
-          <View>
-            <View style={styles.borderContainer}>
-              {message}
-              {expand}
+            <View>
+              <View style={styles.borderContainer}>
+                {message}
+                {expand}
+              </View>
             </View>
-          </View>
 
-        </View>
-      </Swipeout>
-    </View>
+          </View>
+        </Swipeout>
+      </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'column',
