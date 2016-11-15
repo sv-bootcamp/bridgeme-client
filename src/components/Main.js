@@ -76,6 +76,7 @@ class Main extends Component {
           }}
 
           tabBarPosition='bottom'
+          locked={true}
           renderTabBar={() => <TabBar />}
           >
           <UserList tabLabel="ios-home" style={styles.tabView} />

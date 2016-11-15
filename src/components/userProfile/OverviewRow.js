@@ -11,7 +11,7 @@ class OverviewRow extends Component {
 
     this.state = {
       about: '',
-      keyword: '',
+      expertise: '',
       personality: '',
       loaded: false,
     };
@@ -22,7 +22,7 @@ class OverviewRow extends Component {
     //TODO: will be updated with real data
     this.setState({
       about: 'Always happy to talk',
-      keyword: '# motivation # prefered_skill',
+      expertise: '# motivation # prefered_skill',
       personality: 'Listener active',
       loaded: true,
     });
@@ -34,24 +34,28 @@ class OverviewRow extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
         />
+    );
+  }
+
+  renderRow() {
+    return (
+      <View style={styles.container}>
+        <Text style ={styles.about}>{this.state.about}</Text>
+        <Text style ={styles.expertise}>{this.state.expertise}</Text>
+        <Text style ={styles.personality}>{this.state.personality}</Text>
+        <View style={styles.seperator}></View>
+      </View>
     );
   }
 
   render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
-    } else {
-      return (
-        <View style={styles.container}>
-          <Text style ={styles.name}>{this.state.about}</Text>
-          <Text style ={styles.period}>{this.state.keyword}</Text>
-          <Text style ={styles.period}>{this.state.personality}</Text>
-          <View style={styles.seperator}></View>
-        </View>
-      );
     }
+
+    return this.renderRow();
   }
 }
 
@@ -60,7 +64,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  name: {
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  about: {
     fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginBottom: 5,
@@ -70,7 +79,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e3031',
   },
-  period: {
+  expertise: {
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 12,
+    marginBottom: 5,
+    color: '#a6aeae',
+  },
+  personality: {
     fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     marginBottom: 5,
