@@ -99,7 +99,8 @@ class NewRequestsRow extends Component {
                 <View style={styles.userNameWithTime}>
                   <Text style={styles.name}>{this.props.dataSource.name}</Text>
                   <Text style={styles.fromNow}>
-                    {moment(this.props.dataSource.request_date).fromNow()}</Text>
+                    {moment(this.props.dataSource.request_date).fromNow()}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   style={styles.acceptButton}
