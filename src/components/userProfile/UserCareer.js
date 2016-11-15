@@ -14,7 +14,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 
 class UserCareer extends Component {
   constructor(props) {
@@ -30,49 +30,40 @@ class UserCareer extends Component {
       }),
     };
 
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
   }
 
-  onRequestSuccess(result) {
-    let sectionIDs = ['Education', 'Experience'];
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      let sectionIDs = ['Education', 'Experience'];
 
-    this.setState({
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
-      dataBlob: {},
-    });
+      this.setState({
+        dataSource: new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2,
+          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+        }),
+        dataBlob: {},
+      });
 
-    this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
-    this.state.dataBlob[sectionIDs[1]] = result.work.slice();
+      this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
+      this.state.dataBlob[sectionIDs[1]] = result.work.slice();
 
-    this.setState({
-      id: result._id,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
-      loaded: true,
-    });
-  }
-
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
+      this.setState({
+        id: result._id,
+        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
+        loaded: true,
+      });
     }
   }
 
   componentDidMount() {
-    ServerUtil.getOthersProfile(this.props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
   }
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
-    ServerUtil.getOthersProfile(props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
   }
 
   // Render loading page while fetching user profiles

@@ -12,17 +12,12 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
+import MatchUtil from '../../utils/MatchUtil';
 import ConnectedRow from './ConnectedRow';
 
 class Connected extends Component {
   constructor(props) {
     super(props);
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
 
     this.state = {
       dataSource: new ListView.DataSource({
@@ -32,6 +27,14 @@ class Connected extends Component {
       isRefreshing: false,
       isEmpty: false,
     };
+  }
+
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      this.nRequestSuccess(result);
+    }
   }
 
   onRequestSuccess(result) {
@@ -61,23 +64,13 @@ class Connected extends Component {
     });
   }
 
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
-    }
-  }
-
   componentDidMount() {
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
   // Receive props befofe completely changed
   componentWillReceiveProps(props) {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
   // Render loading page while fetching user profiles

@@ -21,15 +21,11 @@ import Menu, {
   MenuTrigger
 } from 'react-native-menu';
 import LinearGradient from 'react-native-linear-gradient';
-import ErrorMeta from '../../utils/ErrorMeta';
-import ServerUtil from '../../utils/ServerUtil';
+import MatchUtil from '../../utils/MatchUtil';
 
 class RequestPage extends Component {
   constructor(props) {
     super(props);
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
 
     this.state = {
       message: '',
@@ -63,16 +59,16 @@ class RequestPage extends Component {
   }
 
   sendMessage() {
-    ServerUtil.sendMentoringRequest(this.props.id, this.state.selection, this.state.message);
+    // TODO: This will be changed with request to server
+    MatchUtil.sendMentoringRequest(this.onRequestCallback.bind(this),
+      this.props.id, this.state.selection, this.state.message);
   }
 
-  onRequestSuccess(result) {
-    Actions.requestSent();
-  }
-
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.requestSent();
     }
   }
 

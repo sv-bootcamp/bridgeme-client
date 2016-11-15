@@ -18,7 +18,7 @@ import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import MyPic from './MyPic';
 import Progress from '../Shared/Progress';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 import WorkForm from './WorkForm';
 import {
   Actions,
@@ -26,7 +26,6 @@ import {
 } from 'react-native-router-flux';
 
 class GeneralInfo extends Component {
-
   // List data for rendering each section.
   titles = [
     { name: 'Name', isArray: false, },
@@ -40,10 +39,6 @@ class GeneralInfo extends Component {
 
   constructor(props) {
     super(props);
-
-    let onSuccess = (result) => this.onSuccess(result);
-    let onError = (error) => this.onError(error);
-    ServerUtil.initCallback(onSuccess, onError);
 
     let eduDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let workDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -66,29 +61,49 @@ class GeneralInfo extends Component {
 
   // After rendering, request user profile to server
   componentDidMount() {
-    ServerUtil.getMyProfile();
+    if (this.props.me) {
+      let result = this.props.me;
+      result.education.reverse();
+      this.setState({
+        mypic: result.profile_picture,
+        name: result.name,
+        gender: result.gender,
+        email: result.email,
+        languages: result.languages,
+        location: result.location,
+        about: result.about,
+        education: result.education,
+        experience: result.work,
+        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
+        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+      });
+    } else {
+      UserUtil.getMyProfile(this.onGetMyProfileCallback.bind(this));
+    }
   }
 
-  onSuccess(result) {
-    result.education.reverse();
-    this.setState({
-      mypic: result.profile_picture,
-      name: result.name,
-      gender: result.gender,
-      email: result.email,
-      languages: result.languages,
-      location: result.location,
-      about: result.about,
-      education: result.education,
-      experience: result.work,
-      eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-      workDataSource: this.state.workDataSource.cloneWithRows(result.work),
-    });
-  }
+  onGetMyProfileCallback(result, error) {
+    if (result) {
+      result.education.reverse();
+      this.setState({
+        mypic: result.profile_picture,
+        name: result.name,
+        gender: result.gender,
+        email: result.email,
+        languages: result.languages,
+        location: result.location,
+        about: result.about,
+        education: result.education,
+        experience: result.work,
+        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
+        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+      });
+    }
 
-  onError(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
+    if (error) {
+      if (error.code != ErrorMeta.ERR_NONE) {
+        Alert.alert(error.msg);
+      }
     }
   }
 
@@ -151,25 +166,15 @@ class GeneralInfo extends Component {
       image: image,
     };
 
-    let onUploadSuccess = (result) => this.onUploadSuccess(result);
-    let onUploadError = (error) => this.onUploadError(error);
-    ServerUtil.initCallback(onUploadSuccess, onUploadError);
-    ServerUtil.editGeneral(fieldSet);
+    UserUtil.editGeneral(this.onUploadCallback.bind(this), fieldSet);
   }
 
   onUploadCallback(result, error) {
-    if (result)
-      Actions.main({ me: this.props.me });
-    if (error)
+    if (error) {
       alert(JSON.stringify(error));
-  }
-
-  onUploadSuccess(result) {
-    Actions.careerInfo({ me: this.props.me });
-  }
-
-  onUploadError(error) {
-    alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.careerInfo({ me: this.props.me });
+    }
   }
 
   // Get Forms(name, email, languages, location, about, education, experience)

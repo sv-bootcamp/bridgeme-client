@@ -7,8 +7,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
+import MatchUtil from '../../utils/MatchUtil';
 import Swipeout from './Swipeout';
 import moment from 'moment';
 
@@ -19,36 +18,31 @@ class NewRequestsRow extends Component {
       goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
       expanded: false,
     };
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
   }
 
-  onRequestSuccess(result) {
-
-    // Check if request is from 'getActivityList'
-    // If not, call 'getActivityList' to refresh parent's listview
-    if (result.pending) {
+  onGetActivityCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       this.props.onSelect(result);
-    } else {
-      ServerUtil.getActivityList();
     }
   }
 
-  onRequestFail(error) {
-    if (error.code !== ErrorMeta.ERR_NONE) {
-      alert(error.msg);
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      MatchUtil.getActivityList(this.onGetActivityCallback.bind(this));
     }
   }
 
   acceptRequest() {
-    ServerUtil.acceptRequest(this.props.dataSource.id);
+    MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource.id);
     Actions.evalPageMain({ select: 'mentor' });
   }
 
   rejectRequest() {
-    ServerUtil.rejectRequest(this.props.dataSource.id);
+    MatchUtil.rejectRequest(this.onRequestCallback.bind(this), this.props.dataSource.id);
   }
 
   render() {
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
   expandText: {
     color: '#a6aeae',
     fontSize: 10,
-    marginBottom: 15
+    marginBottom: 15,
   },
   message: {
     fontSize: 12,

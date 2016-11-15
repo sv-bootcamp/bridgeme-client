@@ -12,8 +12,6 @@ import {
 import Connected from './Connected';
 import NewRequests from './NewRequests';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
   constructor(props) {

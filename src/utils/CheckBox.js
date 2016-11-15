@@ -23,7 +23,6 @@ class CheckBox extends Component {
       return (<Icon name={'md-checkmark'} color={'#44acff'} size={20} />);
     else
       return;
-
   }
 
   render() {
@@ -56,7 +55,6 @@ class CheckBox extends Component {
       this.props.freeForm,
       this.props.checked);
   }
-
 }
 
 CheckBox.defaultProps = {

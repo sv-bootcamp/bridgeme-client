@@ -13,30 +13,31 @@ class SurveyUtil {
     this.onError = error;
   }
 
-  getQuestionPage(select) {
+  getQuestionPage(select, jwt = null) {
     let url = this.HOST + this.API_GET_SURVEY + select;
-    console.log(url);
     let reqSet = {
       method: this.GET,
       headers: {
         'Content-Type': this.CONTENT_TYPE_URLENCODED,
       },
     };
+
+    if (jwt)
+      reqSet.headers.access_token = jwt;
+
     fetch(url, reqSet)
     .then((resp) => {
-            console.log(resp);
-            if (resp.ok) {
-              return resp.json();
-            } else {
-              throw Error(resp.statusText);
-            }
-          })
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          throw Error(resp.statusText);
+        }
+    })
     .then((res) => this.onSuccess(res))
     .catch((err) => this.onError(err));
   }
 
   buildResult(questions) {
-
     let result = JSON.parse(JSON.stringify(questions));
     let questionSize = result.length;
 
@@ -77,7 +78,7 @@ class SurveyUtil {
     return result;
   }
 
-  sendResult(result) {
+  sendResult(result, jwt = null) {
     let body = {};
     body = result;
 
@@ -90,11 +91,11 @@ class SurveyUtil {
       };
 
     reqSet.body = JSON.stringify(result);
-    console.log(url);
-    console.log(reqSet);
+
+    if (jwt) reqSet.headers.access_token = jwt;
+
     fetch(url, reqSet)
       .then((response) => {
-        console.log(response);
         if (response.status === 200 || response.status === 201) {
           return response.json();
         } else {

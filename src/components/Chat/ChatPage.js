@@ -14,7 +14,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { GiftedChat }  from './react-native-gifted-chat';
 import SendBird from 'sendbird';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 
 class ChatPage extends Component {
   constructor(props) {
@@ -137,10 +137,7 @@ class ChatPage extends Component {
 
       const userIds = [me.userId, opponent.userId];
 
-      ServerUtil.initCallback(
-        (result) => this.onServerSuccess(result),
-        (error) => this.onServerFail(error));
-      ServerUtil.getOthersProfile(opponent.userId);
+      UserUtil.getOthersProfile(this.onServerCallback.bind(this), opponent.userId);
 
       this.sb.GroupChannel.createChannelWithUserIds(
         userIds, true, '', '', '', function (channel, error) {
@@ -172,15 +169,13 @@ class ChatPage extends Component {
     }
   }
 
-  onServerSuccess(opponentInfo) {
-    this.setState({
-      opponentInfo: opponentInfo,
-    });
-  }
-
-  onServerFail(error) {
-    if (error.code !== ErrorMeta.ERR_NONE) {
-      alert(error.msg);
+  onServerCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      this.setState({
+        opponentInfo: result,
+      });
     }
   }
 

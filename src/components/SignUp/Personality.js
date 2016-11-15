@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 import ErrorMeta from '../../utils/ErrorMeta';
 import Progress from '../Shared/Progress';
 import { Personalites } from './SignUpMETA';
@@ -26,15 +26,14 @@ class Personality extends Component {
       values: [],
       sliderTitle: Personalites,
     };
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error)
-    );
   }
 
-  onRequestSuccess(result) {
-    Actions.completed({ me: this.props.me });
+  onUploadCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.completed({ me: this.props.me });
+    }
   }
 
   componentDidMount() {
@@ -46,11 +45,12 @@ class Personality extends Component {
   sendRequest() {
     const personality = [];
 
-    for (let [index, value] of this.state.values.entries()) {
+    for (let i = 0; i < this.state.values.length; i++) {
+      const value = this.state.values[i];
 
       // If user set default value(0), add both of personalities
-      if (value === 0) {
-        for (let title of this.state.sliderTitle[index]) {
+      if (this.state.values[i] === 0) {
+        for (let title of this.state.sliderTitle[i]) {
           personality.push({
             option: title,
             score: value,
@@ -58,13 +58,13 @@ class Personality extends Component {
         }
       } else {
         personality.push({
-          option: this.state.sliderTitle[index][value > 0 ? 1 : 0],
+          option: this.state.sliderTitle[i][value > 0 ? 1 : 0],
           score: Math.abs(value),
         });
       }
     }
 
-    ServerUtil.editPersonality(personality);
+    UserUtil.editPersonality(this.onUploadCallback.bind(this), personality);
   }
 
   render() {

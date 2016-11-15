@@ -14,7 +14,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../utils/ServerUtil';
+import UserUtil from '../utils/UserUtil';
 
 class MyPage extends Component {
   constructor(props) {
@@ -30,60 +30,56 @@ class MyPage extends Component {
       currentPosition: '',
     };
 
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
   }
 
-  onRequestSuccess(result) {
-    if (result.msg) {
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      if (result.msg) {
+        // When setting mentor mode is done
+        UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
+      } else if (typeof result.result === 'boolean') {
 
-      // When setting mentor mode is done
-      ServerUtil.getRequestSetting();
-    } else if (typeof result.result === 'boolean') {
+        // When getting mentor mode is done
+        this.setState({ trueSwitchIsOn: result.result });
+      } else if (result._id) {
 
-      // When getting mentor mode is done
-      this.setState({ trueSwitchIsOn: result.result });
-    } else if (result._id) {
+        // When user profile request is done
+        let currentStatus = this.state.currentStatus;
+        let currentPosition = this.state.currentPosition;
 
-      // When user profile request is done
-      let currentStatus = this.state.currentStatus;
-      let currentPosition = this.state.currentPosition;
+        if (result.work.length > 0) {
+          const work = result.work[0];
 
-      if (result.work.length > 0) {
-        const work = result.work[0];
+          if (work.employer) currentStatus = work.employer.name;
+          if (work.position) currentPosition = work.position.name;
+        } else if (result.education.length > 0) {
+          const education = result.education[result.education.length - 1];
 
-        if (work.employer) currentStatus = work.employer.name;
-        if (work.position) currentPosition = work.position.name;
-      } else if (result.education.length > 0) {
-        const education = result.education[result.education.length - 1];
+          if (education.school) currentStatus = education.school.name;
+          if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+        }
 
-        if (education.school) currentStatus = education.school.name;
-        if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
+        this.setState({
+          name: result.name,
+          profileImage: result.profile_picture,
+          currentStatus: currentStatus,
+          currentPosition: currentPosition,
+          loaded: true,
+        });
       }
-
-      this.setState({
-        name: result.name,
-        profileImage: result.profile_picture,
-        currentStatus: currentStatus,
-        currentPosition: currentPosition,
-        loaded: true,
-      });
     }
   }
 
-  onRequestFail(error) {
-    alert(error);
-  }
-
   componentDidMount() {
-    ServerUtil.getMyProfile();
-    ServerUtil.getRequestSetting();
+    UserUtil.getMyProfile(this.onRequestCallback.bind(this));
+    UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
   }
 
   onValueChange(value) {
     this.setState({ trueSwitchIsOn: value });
-    ServerUtil.setRequestSetting(value);
+    UserUtil.setRequestSetting(this.onRequestCallback.bind(this), value);
   }
 
   signOut = async () => {

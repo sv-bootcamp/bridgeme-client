@@ -25,7 +25,6 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
-import SplashPage from './SplashPage';
 import {
   ActionConst,
   Actions,
@@ -80,16 +79,19 @@ class App extends Component {
       <Router createReducer={reducerCreate} backAndroidHandler={backAndroidHandler}>
         <Scene key="root" titleStyle={styles.title} rightButtonTextStyle={styles.rightBtn}
           navigationBarStyle={styles.bar} leftButtonIconStyle = {styles.leftBtn}>
-          <Scene key="onBoarding" component={OnBoarding}
+          <Scene key="onBoarding" component={OnBoarding} initial={true}
             initial={true} hideNavBar={true} type={ActionConst.RESET}/>
-          <Scene key="login" component={Login} initial={true}
+          <Scene key="login" component={Login}
             hideNavBar={true} type={ActionConst.RESET}/>
-          <Scene key="signUp" component={SignUp}/>
-          <Scene key="findPassStep1" component={FindPassStep1}
+          <Scene key="signUp" component={SignUp} hideNavBar={true}/>
+          <Scene key="findPassStep1" component={FindPassStep1} navigationBarStyle={styles.bar}
+            backButtonImage={require('../resources/icon-arrow-left-grey.png')}
             hideNavBar={false} title="Forgot Password"/>
-          <Scene key="findPassStep2" component={FindPassStep2}
+          <Scene key="findPassStep2" component={FindPassStep2} navigationBarStyle={styles.bar}
+            backButtonImage={require('../resources/icon-arrow-left-grey.png')}
             title="Forgot Password"/>
-          <Scene key="findPassStep3" component={FindPassStep3} title="Forgot Password"/>
+          <Scene key="findPassStep3" component={FindPassStep3} navigationBarStyle={styles.bar}
+            backButtonImage={require('../resources/icon-arrow-left-grey.png')} title="Forgot Password"/>
           <Scene key="generalInfo" component={GeneralInfo} title="General Info"
             hideNavBar={false} type={ActionConst.RESET}/>
           <Scene key="careerInfo" component={CareerInfo} title="Career Info"
