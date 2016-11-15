@@ -1,6 +1,6 @@
 export const LoginMeta = {
+  LOGIN_TYPE_LOCAL: '0',
   LOGIN_TYPE_FB: '1',
-  LOGIN_TYPE_LOCAL: '2',
 };
 
 export const ServerMeta = {
@@ -32,7 +32,7 @@ export const UrlMeta = {
   API_GET_REQUEST_SETTING: 'users/mentorMode/',
   API_SET_REQUEST_SETTING: 'users/editMentorMode/',
   API_SIGN_OUT: 'users/signOut/',
-  API_TOKEN: 'users/all/',
+  API_TOKEN: 'users/accessToken/',
 };
 
 export const ErrorMeta = {

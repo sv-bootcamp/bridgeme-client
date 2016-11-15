@@ -27,12 +27,12 @@ class SurveyUtil {
 
     fetch(url, reqSet)
     .then((resp) => {
-            if (resp.ok) {
-              return resp.json();
-            } else {
-              throw Error(resp.statusText);
-            }
-          })
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          throw Error(resp.statusText);
+        }
+    })
     .then((res) => this.onSuccess(res))
     .catch((err) => this.onError(err));
   }
