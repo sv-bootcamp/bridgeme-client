@@ -66,7 +66,6 @@ class ExpertInfo extends Component {
     }
 
     let body = { help };
-    console.log(JSON.stringify(body));
 
     Actions.personality({ me: this.props.me });
   }

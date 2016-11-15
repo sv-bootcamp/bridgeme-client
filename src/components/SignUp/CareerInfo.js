@@ -155,7 +155,6 @@ class CareerInfo extends Component {
     ];
 
     let body = { job };
-    console.log(JSON.stringify(body));
 
     Actions.expertInfo({ me: this.props.me });
   }
