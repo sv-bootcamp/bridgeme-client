@@ -4,7 +4,7 @@ import {
  StyleSheet,
  Text,
  TextInput,
- TouchableWithoutFeedback,
+ TouchableOpacity,
  View,
 } from 'react-native';
 
@@ -44,13 +44,13 @@ class FindPassStep extends Component {
 
   renderButton() {
     return (
-      <TouchableWithoutFeedback onPress={this.props.onPress}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>{this.props.buttonText}</Text>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   }
 

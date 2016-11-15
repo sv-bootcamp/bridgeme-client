@@ -7,7 +7,7 @@ import {
  Text,
  TextInput,
  TouchableWithoutFeedback,
- TouchableHighlight,
+ TouchableOpacity,
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -86,14 +86,14 @@ class Login extends Component {
             underlineColorAndroid="#efeff2" />
         </View>
 
-        <TouchableWithoutFeedback onPress={() => this.signInLocal()}>
+        <TouchableOpacity onPress={() => this.signInLocal()}>
           <LinearGradient
             colors={['#44acff', '#07e4dd']}
             start={[0.0, 0.0]} end={[1.0, 1.0]}
             style={styles.loginBtn}>
             <Text style={styles.loginBtnText}>LOG IN</Text>
           </LinearGradient>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
         <TouchableWithoutFeedback onPress={() => Actions.findPassStep1()}>
           <View style={styles.subTextContainer}>
@@ -165,7 +165,7 @@ class Login extends Component {
   onTokenValidCheck(profile, error) {
     if (profile) {
       if (profile.name) {
-        Actions.generalInfo({ me: profile });//Actions.main({ me: profile });
+        Actions.main({ me: profile });
       } else {
         Actions.generalInfo({ me: profile });
       }

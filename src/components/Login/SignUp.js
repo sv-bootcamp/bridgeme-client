@@ -5,7 +5,7 @@ import {
  Text,
  TextInput,
  TouchableWithoutFeedback,
- TouchableHighlight,
+ TouchableOpacity,
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -64,7 +64,7 @@ class SignUp extends Component {
           onPress={signInWithFacebook}>
           <View style={[styles.facebookLoginContainer, { marginTop: 43 }]}>
             <Image style={styles.facebookLoginButton}
-                   source={require('../../resources/fb.png')} />
+              source={require('../../resources/fb.png')} />
             <Text style={styles.facebookLoginText}>Login with Facebook</Text>
           </View>
         </TouchableWithoutFeedback>
@@ -102,14 +102,14 @@ class SignUp extends Component {
             underlineColorAndroid="#efeff2"
             onChangeText={onChangePassword2} />
         </View>
-        <TouchableWithoutFeedback onPress={createAccount}>
+        <TouchableOpacity onPress={createAccount}>
           <LinearGradient
             colors={['#44acff', '#07e4dd']}
             start={[0.0, 0.0]} end={[1.0, 1.0]}
             style={styles.loginBtn}>
             <Text style={styles.loginBtnText}>CREATE ACCOUNT</Text>
           </LinearGradient>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
         <View style={[styles.bottomContainer, { marginTop: 80 }]}>
           <Text style={styles.bottomTextLeft}>Do you have an account? </Text>
           <TouchableWithoutFeedback onPress={() => Actions.pop()}>
