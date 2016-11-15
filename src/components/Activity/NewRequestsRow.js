@@ -72,19 +72,22 @@ class NewRequestsRow extends Component {
                 {this.props.dataSource.contents}
               </Text>
             </View>);
+
+      if (this.props.dataSource.contents.length > 80) {
+        expand = (
+          <View>
+            <Text style={styles.expandText}
+                  onPress={()=> {
+                    this.setState({ expanded: !this.state.expanded });
+                  }}>
+
+              {this.state.expanded ? 'Read less' : 'Read more'}
+            </Text>
+          </View>
+        );
+      }
     }
-    if (this.props.dataSource.contents.length > 80) {
-      expand = (
-        <View>
-          <Text style={styles.expandText}
-                onPress={()=> {
-                  this.setState({expanded: !this.state.expanded,});
-                }}>
-            {this.state.expanded ? 'Read less' : 'Read more'}
-          </Text>
-        </View>
-      );
-    }
+
     return (
       <View>
         <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
@@ -95,9 +98,13 @@ class NewRequestsRow extends Component {
               <View style={styles.horizontalSpaceBetween}>
                 <View style={styles.userNameWithTime}>
                   <Text style={styles.name}>{this.props.dataSource.name}</Text>
-                  <Text style={styles.fromNow}>{moment(this.props.dataSource.request_date).fromNow()}</Text>
+                  <Text style={styles.fromNow}>
+                    {moment(this.props.dataSource.request_date).fromNow()}
+                  </Text>
                 </View>
-                <TouchableOpacity style={styles.acceptButton} onPress={this.acceptRequest.bind(this)}>
+                <TouchableOpacity
+                  style={styles.acceptButton}
+                  onPress={this.acceptRequest.bind(this)}>
                   <Text style={styles.acceptButtonText}>ACCEPT</Text>
                 </TouchableOpacity>
               </View>
