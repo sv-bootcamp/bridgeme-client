@@ -22,7 +22,8 @@ class SurveyUtil {
       },
     };
 
-    if (jwt) reqSet.headers.access_token = jwt;
+    if (jwt)
+      reqSet.headers.access_token = jwt;
 
     fetch(url, reqSet)
     .then((resp) => {

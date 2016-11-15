@@ -19,11 +19,13 @@ class OnBoardingPage extends Component {
   }
 
   onPressLogInButton() {
+
     ///Todo : Make to go create page.
     Actions.login();
   }
 
   onPressGetStartedButton() {
+
     ///Todo : Make to go login page.
     Actions.login();
   }
@@ -82,10 +84,9 @@ class OnBoardingPage extends Component {
     return (
       <View style={styles.onboardingView}>
         <Swiper loop={false}
-                height={SWIPER_HEIGHT}
-                dot={this.renderDot()}
-                activeDot={this.renderActiveDot()}
-        >
+          height={SWIPER_HEIGHT}
+          dot={this.renderDot()}
+          activeDot={this.renderActiveDot()}>
           <View>
             <Image style={styles.image} source={require('../../resources/onboarding1.png')}/>
           </View>

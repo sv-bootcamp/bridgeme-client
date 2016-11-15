@@ -73,8 +73,10 @@ class ApiUtil {
       }
     }
 
-    if (jwt) reqSet.headers.access_token = jwt;
-    console.log(url, reqSet);
+    if (jwt) {
+      reqSet.headers.access_token = jwt;
+    }
+
     fetch(url, reqSet)
     .then(this.getResponse)
     .then((res) => callback(res, null))
