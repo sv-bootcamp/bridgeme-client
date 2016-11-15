@@ -170,10 +170,11 @@ class GeneralInfo extends Component {
   }
 
   onUploadCallback(result, error) {
-    if (result)
-      Actions.careerInfo({ me: this.props.me });
-    if (error)
+    if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.careerInfo({ me: this.props.me });
+    }
   }
 
   // Get Forms(name, email, languages, location, about, education, experience)

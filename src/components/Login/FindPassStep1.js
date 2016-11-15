@@ -45,13 +45,6 @@ class FindPassStep1 extends Component {
   }
 
   onRequestSecretCodeCallback(result, error) {
-    if (result) {
-      Actions.findPassStep2({
-        secretCode: result.secretCode,
-        email: this.state.email,
-      });
-    }
-
     if (error) {
       if (error.code != ErrorMeta.ERR_NONE) {
         Alert.alert(
@@ -59,6 +52,11 @@ class FindPassStep1 extends Component {
           'Please check email address that you inputted.',
         );
       }
+    } else if (result) {
+      Actions.findPassStep2({
+        secretCode: result.secretCode,
+        email: this.state.email,
+      });
     }
   }
 }

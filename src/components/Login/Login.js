@@ -152,43 +152,37 @@ class Login extends Component {
   }
 
   onLoginCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    }else if (result) {
       AsyncStorage.setItem('token', result.access_token,
       () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this)));
-    }
-
-    if (error) {
-      console.log(error);
     }
   }
 
   onTokenValidCheck(profile, error) {
-    if (profile) {
+    if (error) {
+      this.setState({ loaded: true });
+    } else if (profile) {
       if (profile.name) {
         Actions.main({ me: profile });
       } else {
         Actions.generalInfo({ me: profile });
       }
     }
-
-    if (error) {
-      this.setState({ loaded: true });
-    }
   }
 
   onGetProfileCallback(profile, error) {
-    console.log(profile, error);
-    if (profile) {
-      Actions.generalInfo({ me: profile });
-    }
-
     if (error) {
       Alert.alert(
         'Login',
         'Sever error(Profile)! Please try to sign in again.',
       );
       this.setState({ loaded: true });
+    } else if (profile) {
+      Actions.generalInfo({ me: profile });
     }
+
   }
 
   focusNextField(refNo) {

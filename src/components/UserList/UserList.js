@@ -34,7 +34,9 @@ class UserList extends Component {
   }
 
   onServerCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       // Refresh dataSource
       this.setState({
         dataSource: new ListView.DataSource({
@@ -48,11 +50,6 @@ class UserList extends Component {
         isRefreshing: false,
       });
     }
-
-    if (error) {
-      alert(JSON.stringify(error));
-    }
-
   }
 
   componentDidMount() {

@@ -68,19 +68,17 @@ class FindPassStep3 extends Component {
   }
 
   onResetPasswordCallback(result, error) {
-    if (result) {
-      Alert.alert(
-        'Forgot password',
-        'Change password successfully!',
-      );
-      Actions.login();
-    }
-
     if (error) {
       Alert.alert(
         'Forgot password',
         error.msg,
       );
+    } else if (result) {
+      Alert.alert(
+        'Forgot password',
+        'Change password successfully!',
+      );
+      Actions.login();
     }
   }
 }

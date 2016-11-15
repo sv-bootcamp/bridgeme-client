@@ -51,8 +51,12 @@ class ExpertInfo extends Component {
     );
   }
 
-  onUploadCallback() {
-    Actions.personality({ me: this.props.me });
+  onUploadCallback(result, error) {
+    if (error) {
+      alert(error.msg);
+    } else if (result) {
+      Actions.personality({ me: this.props.me });
+    }
   }
 
   onNextBtnPressed() {
@@ -68,8 +72,6 @@ class ExpertInfo extends Component {
 
     let body = { help };
     UserUtil.editHelp(this.onUploadCallback.bind(this), body);
-    console.log(JSON.stringify(body));
-
   }
 
   render() {

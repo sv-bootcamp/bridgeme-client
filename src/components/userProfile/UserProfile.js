@@ -40,10 +40,10 @@ class UserProfile extends Component {
   }
 
   onReqestCallback(result, error) {
-    if (result)
-      this.onRequestSuccess(result);
     if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      this.onRequestSuccess(result);
     }
   }
 

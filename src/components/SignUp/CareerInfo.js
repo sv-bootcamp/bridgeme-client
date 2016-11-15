@@ -156,12 +156,10 @@ class CareerInfo extends Component {
   }
 
   onUploadCallback(result, error) {
-    if (result) {
-      Actions.expertInfo({ me: this.props.me });
-    }
-
     if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.expertInfo({ me: this.props.me });
     }
   }
 

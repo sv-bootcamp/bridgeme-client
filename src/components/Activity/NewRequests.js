@@ -29,7 +29,9 @@ class NewRequests extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       const REQUESTED_PENDING = 2;
       const REQUESTED_ACCEPT = 1;
 
@@ -41,10 +43,6 @@ class NewRequests extends Component {
         loaded: true,
         isEmpty: newRequests.length === 0,
       });
-    }
-
-    if (error) {
-      alert(JSON.stringify(error));
     }
   }
 

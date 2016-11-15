@@ -33,7 +33,9 @@ class UserCareer extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       let sectionIDs = ['Education', 'Experience'];
 
       this.setState({
@@ -52,10 +54,6 @@ class UserCareer extends Component {
         dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
       });
-    }
-
-    if (error) {
-      alert(JSON.stringify(error));
     }
   }
 

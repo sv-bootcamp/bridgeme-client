@@ -65,10 +65,11 @@ class RequestPage extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result)
-      Actions.requestSent();
-    if (error)
+    if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.requestSent();
+    }
   }
 
   renderRequestPage() {

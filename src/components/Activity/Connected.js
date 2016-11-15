@@ -29,12 +29,10 @@ class Connected extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result) {
-      this.nRequestSuccess(result);
-    }
-
     if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      this.nRequestSuccess(result);
     }
   }
 

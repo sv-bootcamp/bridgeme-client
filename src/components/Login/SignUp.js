@@ -26,18 +26,15 @@ class SignUp extends Component {
   }
 
   onSignUpCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       if (result === undefined) {
         Actions.login();
       } else {
         AsyncStorage.setItem('token', result.access_token, () => Actions.generalInfo());
       }
     }
-
-    if (error) {
-      alert(JSON.stringify(error));
-    }
-
   }
 
   render() {

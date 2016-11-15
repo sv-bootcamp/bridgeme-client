@@ -41,12 +41,10 @@ I really appriciate that if you give some advices of career This is the end`,
   }
 
   onRequestCallback(result, error) {
-    if (result) {
-      MatchUtil.getActivityList(this.onGetActivityCallback.bind(this));
-    }
-
     if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      MatchUtil.getActivityList(this.onGetActivityCallback.bind(this));
     }
   }
 

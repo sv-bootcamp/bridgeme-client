@@ -31,7 +31,9 @@ class UserOverview extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       let sectionIDs = ['About', 'I am expertised in', 'Personality'];
 
       this.setState({
@@ -52,10 +54,6 @@ class UserOverview extends Component {
         dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
       });
-    }
-
-    if (error) {
-      alert(JSON.stringify(error));
     }
   }
 

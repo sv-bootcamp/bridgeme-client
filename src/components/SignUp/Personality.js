@@ -29,10 +29,11 @@ class Personality extends Component {
   }
 
   onUploadCallback(result, error) {
-    if (result)
-      Actions.completed({ me: this.props.me });
-    if (error)
+    if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.completed({ me: this.props.me });
+    }
   }
 
   componentDidMount() {
@@ -65,7 +66,6 @@ class Personality extends Component {
 
     UserUtil.editPersonality(this.onUploadCallback.bind(this), personality);
   }
-
 
   render() {
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (

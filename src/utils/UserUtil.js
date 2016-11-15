@@ -9,6 +9,7 @@ import {
 import apiUtil from './ApiUtil';
 
 class UserUtil {
+
   // Sign In with Facebook.
   signInWithFacebook(callback) {
     LoginManager.logInWithReadPermissions(

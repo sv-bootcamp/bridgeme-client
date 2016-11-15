@@ -170,14 +170,12 @@ class ChatPage extends Component {
   }
 
   onServerCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       this.setState({
         opponentInfo: result,
       });
-    }
-
-    if (error) {
-      alert(JSON.stringify(error));
     }
   }
 

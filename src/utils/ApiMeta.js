@@ -2,10 +2,12 @@ export const LoginMeta = {
   LOGIN_TYPE_FB: '1',
   LOGIN_TYPE_LOCAL: '2',
 };
+
 export const ServerMeta = {
   CONTENT_TYPE_URL: 'application/x-www-form-urlencoded',
   CONTENT_TYPE_JSON: 'application/json',
 };
+
 export const UrlMeta = {
   HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
   API_LOGIN: 'users/signIn/',
@@ -32,6 +34,7 @@ export const UrlMeta = {
   API_SIGN_OUT: 'users/signOut/',
   API_TOKEN: 'users/all/',
 };
+
 export const ErrorMeta = {
   ERR_NONE: 'Undefined Error',
   ERR_TOKEN_INVALID: 'Token has been expired. Try again',

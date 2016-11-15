@@ -33,7 +33,9 @@ class MyPage extends Component {
   }
 
   onRequestCallback(result, error) {
-    if (result) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
       if (result.msg) {
         // When setting mentor mode is done
         UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
@@ -67,9 +69,6 @@ class MyPage extends Component {
           loaded: true,
         });
       }
-    }
-    if (error) {
-      alert(JSON.stringify(error));
     }
   }
 
