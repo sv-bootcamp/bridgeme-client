@@ -26,8 +26,7 @@ class Login extends Component {
     };
 
     AsyncStorage.getItem('token', (err, result) => {
-      console.log(err, result);
-      if (false)
+      if (result)
         UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
       else
         this.setState({ loaded: true });
