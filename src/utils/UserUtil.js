@@ -27,7 +27,7 @@ class UserUtil {
               apiUtil.requestPost(callback, 'API_LOGIN', body);
             })
             .catch((error) => {
-              //console.log(error);
+              alert(ErrorMeta.ERR_FB_LOGIN);
             });
           }
         },
