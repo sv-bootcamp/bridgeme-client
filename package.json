@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "install": "^0.8.1",
+    "moment": "^2.16.0",
     "npm": "^3.10.7",
     "react": "15.3.1",
     "react-native": "0.35.0-rc.0",
@@ -23,7 +24,7 @@
     "react-native-linear-gradient": "^1.5.13",
     "react-native-menu": "^0.20.2",
     "react-native-router-flux": "^3.35.0",
-    "react-native-scrollable-tab-view": "^0.5.5",
+    "react-native-scrollable-tab-view": "^0.6.0",
     "react-native-swiper": "^1.5.3",
     "react-native-vector-icons": "^2.1.0",
     "react-tween-state": "^0.1.5",

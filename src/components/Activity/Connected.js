@@ -25,6 +25,7 @@ class Connected extends Component {
       }),
       loaded: false,
       isRefreshing: false,
+      isEmpty: false,
     };
   }
 
@@ -59,6 +60,7 @@ class Connected extends Component {
       dataSource: this.state.dataSource.cloneWithRows(connected),
       loaded: true,
       isRefreshing: false,
+      isEmpty: connected.length === 0,
     });
   }
 
@@ -87,17 +89,31 @@ class Connected extends Component {
   }
 
   renderConnected() {
-    return (
-      <ListView
-        style={styles.listView}
-        showsVerticalScrollIndicator={false}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)}
-        enableEmptySections={true}
-        renderSeparator={(sectionId, rowId) =>
-          <View key={rowId} style={styles.separator}/>}
-      />
-    );
+    if (this.state.isEmpty)
+      return (
+        <View style={styles.container}>
+          <Image source={require('../../resources/chat_onboarding.png')}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Make a connection!</Text>
+            <Text style={{ color: '#a6aeae', fontSize: 14, }}>
+              You did not connect with anyone yet.
+            </Text>
+          </View>
+        </View>
+      );
+    else {
+      return (
+        <ListView
+          style={styles.listView}
+          showsVerticalScrollIndicator={false}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+          enableEmptySections={true}
+          renderSeparator={(sectionId, rowId) =>
+            <View key={rowId} style={styles.separator}/>}
+        />
+      );
+    }
   }
 
   render() {
@@ -134,6 +150,30 @@ const styles = StyleSheet.create({
     fontFamily: 'SFUIText-Bold',
     fontSize: 12,
     color: '#a6aeae',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 50,
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginTop: 62,
+  },
+  title: {
+    color: '#a6aeae',
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 

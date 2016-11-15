@@ -211,7 +211,8 @@ class UserProfile extends Component {
             tabBarTextStyle={styles.tabBarText}
             tabBarInactiveTextColor={'#a6aeae'}
             tabBarActiveTextColor={'#2e3031'}
-            renderTabBar={() => <ScrollableTabBar />}
+            tabBarUnderlineStyle={styles.tabBarUnderline}
+            renderTabBar={() => <ScrollableTabBar/>}
           >
             <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
             <UserCareer tabLabel='CAREER' id={this.props._id}/>
@@ -318,7 +319,15 @@ const styles = StyleSheet.create({
   },
   tabBarText: {
     fontSize: 12,
+    fontFamily: 'SFUIText-Bold',
     fontWeight: 'bold',
+  },
+  tabBarUnderline: {
+    backgroundColor: '#44acff',
+    borderBottomColor: '#44acff',
+    height: 2,
+    width: WIDTH / 12.5,
+    marginLeft: WIDTH / 12,
   },
 });
 

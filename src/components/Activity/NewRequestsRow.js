@@ -9,34 +9,22 @@ import {
 import { Actions } from 'react-native-router-flux';
 import MatchUtil from '../../utils/MatchUtil';
 import Swipeout from './Swipeout';
+import moment from 'moment';
 
 class NewRequestsRow extends Component {
   constructor(props) {
     super(props);
-
-    // TODO: The message part is mock data that will be changed
     this.state = {
       goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
       expanded: false,
-      message: `I really appriciate that if you give some advices of career change…
-      I really appriciate that if you give some advices of career change
-I really appriciate that if you give some advices of career change
-I really appriciate that if you give some advices of career change
-I really appriciate that if you give some advices of career change
-I really appriciate that if you give some advices of career change
-I really appriciate that if you give some advices of career This is the end`,
-      height: 70,
     };
-
   }
 
   onGetActivityCallback(result, error) {
-    if (result) {
-      this.props.onSelect(result);
-    }
-
     if (error) {
       alert(JSON.stringify(error));
+    } else if (result) {
+      this.props.onSelect(result);
     }
   }
 
@@ -66,40 +54,63 @@ I really appriciate that if you give some advices of career This is the end`,
       },
     ];
 
+    let message = null;
+    let expand = null;
+
+    if (this.props.dataSource.contents) {
+      message = (
+        <View>
+          <Text style={[styles.message]}
+            ellipsizeMode={'tail'}
+            numberOfLines={this.state.expanded ? 0 : 2}>
+            {this.props.dataSource.contents}
+          </Text>
+        </View>);
+    }
+
+    if (this.props.dataSource.contents.length > 80) {
+      expand = (
+        <View>
+          <Text style={styles.expandText}
+            onPress={()=> {
+              this.setState({ expanded: !this.state.expanded });
+            }}>
+
+            {this.state.expanded ? 'Read less' : 'Read more'}
+          </Text>
+        </View>
+      );
+    }
+
     return (
+    <View>
       <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
         <View style={styles.row}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={styles.userInformation}>
             <Image style={styles.photo}
               source={{ uri: this.props.dataSource.profile_picture }}/>
-            <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.props.dataSource.name}</Text>
-              <Text style={styles.fromNow}>1 hour ago</Text>
+            <View style={styles.horizontalSpaceBetween}>
+              <View style={styles.userNameWithTime}>
+                <Text style={styles.name}>{this.props.dataSource.name}</Text>
+                <Text style={styles.fromNow}>
+                  {moment(this.props.dataSource.request_date).fromNow()}
+                </Text>
+              </View>
+              <TouchableOpacity style={styles.acceptButton} onPress={this.acceptRequest.bind(this)}>
+                <Text style={styles.acceptButtonText}>ACCEPT</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.acceptButton} onPress={this.acceptRequest.bind(this)}>
-              <Text style={styles.acceptButtonText}>ACCEPT</Text>
-            </TouchableOpacity>
           </View>
-          <View style={[styles.borderContainer]}>
-            <View>
-              <Text style={[styles.message]}
-                ellipsizeMode={'tail'}
-                numberOfLines={this.state.expanded ? 0 : 2}>
-                {this.state.message}
-              </Text>
+          <View>
+            <View style={styles.borderContainer}>
+              {message}
+              {expand}
             </View>
-            <View>
-              <Text style={{ color: '#a6aeae', fontSize: 10 }}
-                onPress={()=> {
-                  this.setState({ expanded: !this.state.expanded, });
-                }}>
+          </View>
 
-                {this.state.expanded ? 'Read less' : 'Read more'}
-              </Text>
-            </View>
-          </View>
         </View>
       </Swipeout>
+    </View>
     );
   }
 }
@@ -116,25 +127,41 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   userInformation: {
+    flexDirection: 'row',
+  },
+  userNameWithTime: {
+    width: 200,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: 20,
   },
+  horizontalSpaceBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   name: {
-    fontSize: 12,
+    width: 150,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#2e3031',
+    marginRight: 80,
   },
   fromNow: {
     fontSize: 10,
     color: '#a6aeae',
     marginBottom: 17,
   },
+  expandText: {
+    color: '#a6aeae',
+    fontSize: 10,
+    marginBottom: 15,
+  },
   message: {
     fontSize: 12,
     color: '#2e3031',
     marginBottom: 15,
+    marginRight: 35,
   },
   borderContainer: {
     flexDirection: 'column',

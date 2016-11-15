@@ -33,10 +33,14 @@ class NewRequests extends Component {
       alert(JSON.stringify(error));
     } else if (result) {
       const REQUESTED_PENDING = 2;
-      const REQUESTED_ACCEPT = 1;
 
-      let newRequests = result.requested.filter((value) => value.status === REQUESTED_ACCEPT);
-      newRequests = newRequests.map((value) => value.detail[0]);
+      let newRequests = result.requested.filter((value) => value.status === REQUESTED_PENDING);
+      newRequests = newRequests.map((value) => {
+        value.detail[0]._id = value._id;
+        value.detail[0].contents = value.contents;
+        value.detail[0].request_date = value.request_date;
+        return value.detail[0];
+      });
 
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(newRequests),
@@ -77,16 +81,16 @@ class NewRequests extends Component {
           </View>
         </View>
       );
-    else
+    else {
       return (
         <ListView
-          style={styles.listView}
           dataSource = {this.state.dataSource}
           renderRow  = {this.renderRow.bind(this)}
           renderSeparator={this.renderSeparator}
           enableEmptySections={true}
         />
       );
+    }
   }
 }
 
@@ -96,24 +100,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: 50,
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
-  },
-  listView: {
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
   },
   titleContainer: {
     alignItems: 'center',
