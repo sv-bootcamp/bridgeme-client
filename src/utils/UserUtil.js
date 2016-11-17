@@ -38,12 +38,18 @@ class UserUtil {
     );
   }
 
-  // Get user lists except me
+  localSignIn(callback, email, password) {
+    let body = {};
+    body.email = email;
+    body.password = password;
+    apiUtil.requestPost(callback, 'API_LOCAL_SIGNIN', body);
+  }
+
   localSignUp(callback, email, password) {
     let body = {};
     body.email = email;
     body.password = password;
-    apiUtil.requestPostWithToken(callback, 'API_LOCAL_SIGNUP', body);
+    apiUtil.requestPost(callback, 'API_LOCAL_SIGNUP', body);
   }
 
   // Get user lists except me
@@ -75,7 +81,7 @@ class UserUtil {
   reqeustSecretCode(callback, email) {
     let body = {};
     body.email = email;
-    apiUtil.requestPostWithToken(callback, 'API_SECRET_CODE', body);
+    apiUtil.requestPost(callback, 'API_SECRET_CODE', body);
   }
 
   // Reset password
@@ -84,7 +90,7 @@ class UserUtil {
     body.email = email;
     body.password = password;
     body.secretCode = secretCode;
-    apiUtil.requestPostWithToken(callback, 'API_RESET_PASS', body);
+    apiUtil.requestPost(callback, 'API_RESET_PASS', body);
   }
 
   editGeneral(callback, general) {

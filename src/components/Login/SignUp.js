@@ -25,27 +25,11 @@ class SignUp extends Component {
     };
   }
 
-  onSignUpCallback(result, error) {
-    if (error) {
-      alert(JSON.stringify(error));
-    } else if (result) {
-      if (result === undefined) {
-        Actions.login();
-      } else {
-        AsyncStorage.setItem('token', result.access_token, () => Actions.generalInfo());
-      }
-    }
-  }
-
   render() {
-    let onChangeEmail = (text) => { this.state.email = text; };
-
-    let onChangePassword1 = (text) => { this.state.password1 = text; };
-
-    let onChangePassword2 = (text) => { this.state.password2 = text; };
-
-    let signInWithFacebook = () => UserUtil.signInWithFacebook(this.onSignUpCallback.bind(this));
-
+    let onInputEmail = (text) => this.state.email = text;
+    let onInputPassword1 = (text) => this.state.password1 = text;
+    let onInputPassword2 = (text) => this.state.password2 = text;
+    let focusNextField = (refNo) => this.refs[refNo].focus();
     let createAccount = () => this.createAccount();
 
     return (
@@ -53,12 +37,13 @@ class SignUp extends Component {
       //  Render the screen on View.
       <View style={styles.container}>
         <View style={styles.mainLogo}>
-          <Image source={require('../../resources/splash_icon_1x.png')} />
+          <Image source={require('../../resources/page-1-copy-2.png')} />
+          <Text style={styles.mainLogoText}>Bridge Me</Text>
         </View>
 
         {/* Render facebook login button */}
         <TouchableWithoutFeedback
-          onPress={signInWithFacebook}>
+          onPress={() => this.signInFB()}>
           <View style={[styles.facebookLoginContainer, { marginTop: 43 }]}>
             <Image style={styles.facebookLoginButton}
               source={require('../../resources/fb.png')} />
@@ -79,7 +64,7 @@ class SignUp extends Component {
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
             onChangeText={onChangeEmail}
-            onSubmitEditing={() => this.focusNextField('2')} />
+            onSubmitEditing={() => focusNextField('2')} />
           <TextInput
             style={styles.input}
             ref="2"
@@ -89,7 +74,7 @@ class SignUp extends Component {
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
             onChangeText={onChangePassword1}
-            onSubmitEditing={() => this.focusNextField('3')} />
+            onSubmitEditing={() => focusNextField('3')} />
           <TextInput
             style={styles.input}
             ref="3"
@@ -119,6 +104,18 @@ class SignUp extends Component {
     );
   }
 
+  signInFB() {
+    UserUtil.signInWithFacebook(this.onLoginCallback.bind(this));
+  }
+
+  onLoginCallback(result, error) {
+    if (error) {
+      this.alert('Sever error(Profile)! Please sign in again.');
+    } else if (result) {
+      AsyncStorage.setItem('token', result.access_token, () => Actions.generalInfo());
+    }
+  }
+
   createAccount() {
     let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFilter.test(this.state.email) === false) {
@@ -141,11 +138,19 @@ class SignUp extends Component {
       return;
     }
 
-    UserUtil.localSignUp(this.onSignUpCallback.bind(this), this.state.email, this.state.password1);
+    UserUtil.localSignUp(
+      this.onSignUpCallback.bind(this),
+      this.state.email,
+      this.state.password1
+    );
   }
 
-  focusNextField(refNo) {
-    this.refs[refNo].focus();
+  onSignUpCallback(result, error) {
+    if (error) {
+      this.alert('Sever error(Profile)! Please sign up again.');
+    } else if (result) {
+      Actions.login();
+    }
   }
 
   alert(msg) {

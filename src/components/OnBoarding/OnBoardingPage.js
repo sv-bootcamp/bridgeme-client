@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Dimensions,
   Image,
-  Platform,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -33,7 +31,9 @@ class OnBoardingPage extends Component {
   renderFooter() {
     return (
       <View style={styles.footer}>
-        <LinearGradient style={styles.getStartedBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+        <LinearGradient style={styles.getStartedBtnStyle}
+          start={[0.9, 0.5]}
+          end={[0.0, 0.5]}
           locations={[0, 0.75]}
           colors={['#07e4dd', '#44acff']}>
           <TouchableWithoutFeedback onPress={this.onPressGetStartedButton}>
@@ -43,9 +43,9 @@ class OnBoardingPage extends Component {
           </TouchableWithoutFeedback>
         </LinearGradient>
         <Text style={styles.footerText}>Do you have an account already?
-          <Text style={styles.logInText}onPress={this.onPressLogInButton}>  Log in</Text>
+          <Text style={styles.logInText} onPress={this.onPressLogInButton}>  Log in</Text>
         </Text>
-        
+
       </View>
     );
   }

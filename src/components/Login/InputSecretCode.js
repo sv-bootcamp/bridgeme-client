@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FindPassword from './FindPassword';
 
-class FindPassStep2 extends Component {
+class InputSecretCode extends Component {
   constructor(props) {
     super(props);
 
@@ -33,7 +33,7 @@ class FindPassStep2 extends Component {
 
   checkSecretCode() {
     if (this.state.code == this.props.secretCode) {
-      Actions.findPassStep3({
+      Actions.resetPassword({
         code: this.state.code,
         email: this.props.email,
       });
@@ -47,4 +47,4 @@ class FindPassStep2 extends Component {
   }
 }
 
-module.exports = FindPassStep2;
+module.exports = InputSecretCode;

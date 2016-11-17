@@ -5,7 +5,7 @@ import ErrorMeta from '../../utils/ErrorMeta';
 import FindPassword from './FindPassword';
 import UserUtil from '../../utils/UserUtil';
 
-class FindPassStep1 extends Component {
+class InputEmailAddr extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +46,7 @@ class FindPassStep1 extends Component {
 
   onRequestSecretCodeCallback(result, error) {
     if (error) {
+      console.log(error);
       if (error.code != ErrorMeta.ERR_NONE) {
         Alert.alert(
           'Forgot password',
@@ -53,7 +54,7 @@ class FindPassStep1 extends Component {
         );
       }
     } else if (result) {
-      Actions.findPassStep2({
+      Actions.inputSecretCode({
         secretCode: result.secretCode,
         email: this.state.email,
       });
@@ -61,4 +62,4 @@ class FindPassStep1 extends Component {
   }
 }
 
-module.exports = FindPassStep1;
+module.exports = InputEmailAddr;

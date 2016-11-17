@@ -25,12 +25,29 @@ class Login extends Component {
       tokenValid: false,
     };
 
+    this.hasToken();
+  }
+
+  hasToken() {
     AsyncStorage.getItem('token', (err, result) => {
-      if (result)
-        UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
-      else
+      if (err) {
         this.setState({ loaded: true });
+      } else if (err) {
+        UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
+      }
     });
+  }
+
+  onTokenValidCheck(profile, error) {
+    if (error) {
+      this.setState({ loaded: true });
+    } else if (profile) {
+      if (profile.name) {
+        Actions.main({ me: profile });
+      } else {
+        Actions.generalInfo({ me: profile });
+      }
+    }
   }
 
   render() {
@@ -38,16 +55,17 @@ class Login extends Component {
       return this.renderLoadingView();
     }
 
-    let onChangeEmail = (text) => { this.state.email = text; };
-
-    let onChangePassword = (text) => { this.state.password = text; };
+    let onChangeEmail = (text) => this.state.email = text;
+    let onChangePassword = (text) => this.state.password = text;
+    let focusNextField = (refNo) => this.refs[refNo].focus();
 
     return (
 
       //  Render the screen on View.
       <View style={styles.container}>
         <View style={styles.mainLogo}>
-          <Image source={require('../../resources/splash_icon_1x.png')} />
+          <Image source={require('../../resources/page-1-copy-2.png')} />
+          <Text style={styles.mainLogoText}>Bridge Me</Text>
         </View>
 
         {/* Render facebook login button */}
@@ -74,15 +92,15 @@ class Login extends Component {
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
             onChangeText={onChangeEmail}
-            onSubmitEditing={() => this.focusNextField('2')} />
+            onSubmitEditing={() => focusNextField('2')} />
           <TextInput
             style={styles.input}
             ref="2"
             placeholder="Password"
             secureTextEntry={true}
             placeholderTextColor="#d8d8d8"
-            onChangeText={onChangePassword}
-            underlineColorAndroid="#efeff2" />
+            underlineColorAndroid="#efeff2"
+            onChangeText={onChangePassword} />
         </View>
 
         <TouchableOpacity onPress={() => this.signInLocal()}>
@@ -94,7 +112,7 @@ class Login extends Component {
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableWithoutFeedback onPress={() => Actions.findPassStep1()}>
+        <TouchableWithoutFeedback onPress={() => Actions.inputEmailAddr()}>
           <View style={styles.subTextContainer}>
             <Text style={styles.subText}>Forgot password?</Text>
           </View>
@@ -115,12 +133,8 @@ class Login extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator
-          animating={!this.state.loaded}
-          style={[styles.activityIndicator]}
-          size="large"
-          />
-        <Text style={styles.headerText}>Loading...</Text>
+        <ActivityIndicator animating={!this.state.loaded} size="large" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -132,60 +146,44 @@ class Login extends Component {
   signInLocal() {
     let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFilter.test(this.state.email) === false) {
-      Alert.alert(
-        'Login',
-        'Please input your correct email.',
-      );
+      this.alert('Please input your correct email.');
       return;
     }
 
     if (this.state.password === '') {
-      Alert.alert(
-        'Login',
-        'Please input your password.',
-      );
+      this.alert('Please input your password.');
       return;
     }
 
-    UserUtil.localSignUp(this.onLoginCallback.bind(this), this.state.email, this.state.password);
+    UserUtil.localSignIn(
+      this.onLoginCallback.bind(this),
+      this.state.email,
+      this.state.password
+    );
   }
 
   onLoginCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
-    }else if (result) {
-      AsyncStorage.setItem('token', result.access_token,
-      () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this)));
-    }
-  }
-
-  onTokenValidCheck(profile, error) {
-    if (error) {
-      this.setState({ loaded: true });
-    } else if (profile) {
-      if (profile.name) {
-        Actions.main({ me: profile });
-      } else {
-        Actions.generalInfo({ me: profile });
-      }
+      this.alert('Please check your account information and sign in again!');
+    } else if (result) {
+      AsyncStorage.setItem(
+        'token',
+        result.access_token,
+        () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this))
+      );
     }
   }
 
   onGetProfileCallback(profile, error) {
     if (error) {
-      Alert.alert(
-        'Login',
-        'Sever error(Profile)! Please try to sign in again.',
-      );
-      this.setState({ loaded: true });
+      this.alert('Sever error(Profile)! Please sign in again.');
     } else if (profile) {
       Actions.generalInfo({ me: profile });
     }
-
   }
 
-  focusNextField(refNo) {
-    this.refs[refNo].focus();
+  alert(msg) {
+    Alert.alert('Login', msg);
   }
 }
 
