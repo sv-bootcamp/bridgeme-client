@@ -25,27 +25,21 @@ class ApiUtil {
   }
 
   requestGetWithToken(callback, api, body = null, contentType = ServerMeta.CONTENT_TYPE_URL)  {
-    AsyncStorage.getItem('token', (err, result) => {
-      if (err) return;
-      if (result)
-       this.request(callback, api, 'GET', body, contentType, result);
-    });
+    this.requestWithToken(callback, api, 'GET', body, contentType);
   }
 
   requestGetWithTokenUrl(callback, api, etcUrl, body = null,
     contentType = ServerMeta.CONTENT_TYPE_URL) {
-    AsyncStorage.getItem('token', (err, result) => {
-      if (err) return;
-      if (result)
-       this.request(callback, api, 'GET', body, contentType, result, etcUrl);
-    });
+    this.requestWithToken(callback, api, 'GET', body, contentType, etcUrl);
   }
 
   requestPostWithToken(callback, api, body, contentType = ServerMeta.CONTENT_TYPE_JSON)  {
+    this.requestWithToken(callback, api, 'POST', body, contentType);
+  }
+
+  requestWithToken(callback, api, method, body, contentType, etcUrl) {
     AsyncStorage.getItem('token', (err, result) => {
-      if (err) return;
-      if (result)
-       this.request(callback, api, 'POST', body, contentType, result);
+      this.request(callback, api, method, body, contentType, result, etcUrl);
     });
   }
 

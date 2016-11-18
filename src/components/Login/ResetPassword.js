@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import FindPassword from './FindPassword';
 import UserUtil from '../../utils/UserUtil';
 
-class FindPassStep3 extends Component {
+class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,4 +83,4 @@ class FindPassStep3 extends Component {
   }
 }
 
-module.exports = FindPassStep3;
+module.exports = ResetPassword;

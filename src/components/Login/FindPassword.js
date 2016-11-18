@@ -86,9 +86,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  titleContainer: {
-    //marginTop: 101,
-  },
   title: {
     color: '#2e3031',
     fontSize: 16,

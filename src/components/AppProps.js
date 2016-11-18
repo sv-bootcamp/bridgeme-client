@@ -12,9 +12,9 @@ import ChatPage from './Chat/ChatPage';
 import Completed from './SignUp/Completed';
 import ExpertInfo from './SignUp/ExpertInfo';
 import OnBoarding from './OnBoarding/OnBoardingPage';
-import FindPassStep1 from './Login/FindPassStep1';
-import FindPassStep2 from './Login/FindPassStep2';
-import FindPassStep3 from './Login/FindPassStep3';
+import InputEmailAddr from './Login/InputEmailAddr';
+import InputSecretCode from './Login/InputSecretCode';
+import ResetPassword from './Login/ResetPassword';
 import GeneralInfo from './SignUp/GeneralInfo';
 import Login from './Login/Login';
 import Main from './Main';
@@ -25,11 +25,10 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
-// import SplashPage from './SplashPage';
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
   },
   title: {
@@ -77,22 +76,28 @@ const AppProps = {
       hideNavBar: true,
     },
     {
-      key: 'findPassStep1',
-      component: FindPassStep1,
+      key: 'inputEmailAddr',
+      component: InputEmailAddr,
       hideNavBar: false,
       title: 'Forgot Password',
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
     },
     {
-      key: 'findPassStep2',
-      component: FindPassStep2,
+      key: 'inputSecretCode',
+      component: InputSecretCode,
       hideNavBar: false,
       title: 'Forgot Password',
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
     },
     {
-      key: 'findPassStep3',
-      component: FindPassStep3,
+      key: 'resetPassword',
+      component: ResetPassword,
       hideNavBar: false,
       title: 'Forgot Password',
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
     },
     {
       key: 'generalInfo',
