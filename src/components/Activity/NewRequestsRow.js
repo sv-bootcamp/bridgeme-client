@@ -37,12 +37,11 @@ class NewRequestsRow extends Component {
   }
 
   acceptRequest() {
-    MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource.id);
-    Actions.evalPageMain({ select: 'mentor' });
+    MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
   }
 
   rejectRequest() {
-    MatchUtil.rejectRequest(this.onRequestCallback.bind(this), this.props.dataSource.id);
+    MatchUtil.rejectRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
   }
 
   render() {
