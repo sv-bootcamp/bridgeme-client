@@ -32,7 +32,7 @@ class Login extends Component {
     AsyncStorage.getItem('token', (err, result) => {
       if (err) {
         this.setState({ loaded: true });
-      } else if (err) {
+      } else if (result) {
         UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
       }
     });
