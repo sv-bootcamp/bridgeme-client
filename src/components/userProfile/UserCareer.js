@@ -12,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
 import UserUtil from '../../utils/UserUtil';
 

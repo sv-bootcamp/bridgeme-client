@@ -2,12 +2,9 @@ import {
   AsyncStorage,
   Alert,
  } from 'react-native';
-import ErrorUtil from './ErrorUtil';
 import {
   UrlMeta,
   ServerMeta,
-  LoginMeta,
-  ErrorMeta,
 } from './ApiMeta';
 
 class ApiUtil {

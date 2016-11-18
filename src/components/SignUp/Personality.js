@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import UserUtil from '../../utils/UserUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
 import Progress from '../Shared/Progress';
 import { Personalites } from './SignUpMETA';
 import { Actions, Scene, }  from 'react-native-router-flux';

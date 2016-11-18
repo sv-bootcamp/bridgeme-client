@@ -33,7 +33,7 @@ class Connected extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      this.nRequestSuccess(result);
+      this.onRequestSuccess(result);
     }
   }
 

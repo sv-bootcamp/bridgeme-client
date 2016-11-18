@@ -52,7 +52,7 @@ class NewRequests extends Component {
 
   renderRow(rowData, sectionID, rowID) {
     return <NewRequestsRow dataSource={rowData}
-      onSelect={this.onRequestSuccess.bind(this)} id={rowID}/>;
+      onSelect={this.onRequestCallback.bind(this)} id={rowID}/>;
   }
 
   renderSeparator(sectionID, rowID) {

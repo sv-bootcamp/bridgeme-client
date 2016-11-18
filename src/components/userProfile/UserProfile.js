@@ -116,12 +116,21 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    if (this.props.myProfile) {
+      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+    } else {
+      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    }
+
   }
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
-    UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    if (this.props.myProfile) {
+      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+    } else {
+      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    }
   }
 
   sendRequest() {
@@ -214,8 +223,8 @@ class UserProfile extends Component {
             tabBarUnderlineStyle={styles.tabBarUnderline}
             renderTabBar={() => <ScrollableTabBar/>}
           >
-            <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
-            <UserCareer tabLabel='CAREER' id={this.props._id}/>
+            <UserOverview tabLabel='OVERVIEW' id={this.state.id}/>
+            <UserCareer tabLabel='CAREER' id={this.state.id}/>
           </ScrollableTabView>
           <View style={styles.btn}>
             {connectButton}

@@ -10,7 +10,6 @@ import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
 import Completed from './SignUp/Completed';
-import EvalPage from './Eval/EvalPage';
 import ExpertInfo from './SignUp/ExpertInfo';
 import OnBoarding from './OnBoarding/OnBoardingPage';
 import InputEmailAddr from './Login/InputEmailAddr';
@@ -199,21 +198,6 @@ const AppProps = {
     {
       key: 'channelList',
       component: ChannelList,
-    },
-    {
-      key: 'evalPageMain',
-      component: EvalPage,
-      hideBackImage: true,
-      panHandlers: null,
-      onBack: () => false,
-      title: 'Survey',
-      hideNavBar: false,
-    },
-    {
-      key: 'evalPage',
-      component: EvalPage,
-      title: 'Survey',
-      hideNavBar: false,
     },
   ],
 };

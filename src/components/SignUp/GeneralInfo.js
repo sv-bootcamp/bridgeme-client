@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import EditForm from './EditForm';
 import EduForm from './EduForm';
-import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import MyPic from './MyPic';
 import Progress from '../Shared/Progress';
@@ -101,7 +100,7 @@ class GeneralInfo extends Component {
     }
 
     if (error) {
-      if (error.code != ErrorMeta.ERR_NONE) {
+      if (error.msg) {
         Alert.alert(error.msg);
       }
     }
