@@ -52,7 +52,7 @@ class InputEmailAddr extends Component {
         );
       }
     } else if (result) {
-      Actions.findPassStep2({
+      Actions.inputSecretCode({
         secretCode: result.secretCode,
         email: this.state.email,
       });
