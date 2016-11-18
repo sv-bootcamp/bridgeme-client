@@ -10,7 +10,6 @@ import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
 import Completed from './SignUp/Completed';
-import EvalPage from './Eval/EvalPage';
 import ExpertInfo from './SignUp/ExpertInfo';
 import OnBoarding from './OnBoarding/OnBoardingPage';
 import FindPassStep1 from './Login/FindPassStep1';
@@ -26,7 +25,7 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
-import SplashPage from './SplashPage';
+// import SplashPage from './SplashPage';
 
 const styles = StyleSheet.create({
   bar: {
@@ -194,21 +193,6 @@ const AppProps = {
     {
       key: 'channelList',
       component: ChannelList,
-    },
-    {
-      key: 'evalPageMain',
-      component: EvalPage,
-      hideBackImage: true,
-      panHandlers: null,
-      onBack: () => false,
-      title: 'Survey',
-      hideNavBar: false,
-    },
-    {
-      key: 'evalPage',
-      component: EvalPage,
-      title: 'Survey',
-      hideNavBar: false,
     },
   ],
 };
