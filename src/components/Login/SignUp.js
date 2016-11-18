@@ -9,7 +9,6 @@ import {
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './Styles';
 import UserUtil from '../../utils/UserUtil';

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
 import FindPassword from './FindPassword';
 import UserUtil from '../../utils/UserUtil';
 
@@ -46,7 +45,7 @@ class FindPassStep1 extends Component {
 
   onRequestSecretCodeCallback(result, error) {
     if (error) {
-      if (error.code != ErrorMeta.ERR_NONE) {
+      if (error.msg) {
         Alert.alert(
           'Forgot password',
           'Please check email address that you inputted.',
