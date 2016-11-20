@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     color: '#003d6e',
     fontSize: 18,
     marginTop: 16,
-    letterSpacing: 9,
   },
   facebookLoginContainer: {
     flexDirection: 'row',

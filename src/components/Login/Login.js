@@ -34,6 +34,8 @@ class Login extends Component {
         this.setState({ loaded: true });
       } else if (result) {
         UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
+      } else {
+        this.setState({ loaded: true });
       }
     });
   }

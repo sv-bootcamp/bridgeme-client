@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -36,6 +37,7 @@
 		AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE161D6FFEB90083C256 /* Bolts.framework */; };
 		AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB23E201D75476D00C97A58 /* LaunchScreen.xib */; };
 		CAD4F49CCA74414DB6CE0F54 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39817FD5C2A845CD8964A8D1 /* Foundation.ttf */; };
+		D22304981DDEE0AE0098E0A8 /* ProductSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */; };
 		D2BCC2211DD5E8D300B27069 /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2BCC21E1DD5E8BF00B27069 /* SF-UI-Text-Bold.otf */; };
 		D2BCC2221DD5E8D500B27069 /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2BCC21F1DD5E8BF00B27069 /* SF-UI-Text-Regular.otf */; };
 		D2BCC2231DD5E8D700B27069 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2BCC2201DD5E8BF00B27069 /* SF-UI-Text-Semibold.otf */; };
@@ -210,6 +212,7 @@
 		B6EC3E37F8A04FAB84EFA14B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		BA618E5CA3F34A9D8CD1096F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
+		D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProductSans-Bold.ttf"; sourceTree = "<group>"; };
 		D2BCC21E1DD5E8BF00B27069 /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
 		D2BCC21F1DD5E8BF00B27069 /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
 		D2BCC2201DD5E8BF00B27069 /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
@@ -389,6 +392,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */,
 				AA20BCD31DA4B63F00BFA62C /* opensans.ttf */,
 				D2BCC21E1DD5E8BF00B27069 /* SF-UI-Text-Bold.otf */,
 				D2BCC21F1DD5E8BF00B27069 /* SF-UI-Text-Regular.otf */,
@@ -760,6 +764,7 @@
 				AA20BCC71DA4B47900BFA62C /* Info.plist in Resources */,
 				AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				D22304981DDEE0AE0098E0A8 /* ProductSans-Bold.ttf in Resources */,
 				D2BCC2211DD5E8D300B27069 /* SF-UI-Text-Bold.otf in Resources */,
 				D2BCC2221DD5E8D500B27069 /* SF-UI-Text-Regular.otf in Resources */,
 				D2BCC2231DD5E8D700B27069 /* SF-UI-Text-Semibold.otf in Resources */,
