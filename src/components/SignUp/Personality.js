@@ -31,7 +31,11 @@ class Personality extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      Actions.completed({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.completed({me: this.props.me});
+      }
     }
   }
 

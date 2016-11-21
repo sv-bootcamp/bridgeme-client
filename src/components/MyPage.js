@@ -91,6 +91,10 @@ class MyPage extends Component {
     }
   };
 
+  onEditButtonPress() {
+    Actions.editProfile({ me: this.props.me });
+  }
+
   render() {
     const defaultProfileImage = require('../resources/profile-img.png');
     const facebookProfileImage = { uri: this.state.profileImage };
@@ -118,7 +122,7 @@ class MyPage extends Component {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.menu}>
+        <TouchableOpacity style={styles.menu} onPress={this.onEditButtonPress.bind(this)}>
           <Image source={require('../resources/page-1.png')} />
           <Text style={styles.menuText}>Edit my profile</Text>
         </TouchableOpacity>

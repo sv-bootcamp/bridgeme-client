@@ -159,7 +159,11 @@ class CareerInfo extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      Actions.expertInfo({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.expertInfo({me: this.props.me});
+      }
     }
   }
 
@@ -196,7 +200,7 @@ class CareerInfo extends Component {
             colors={['#07e4dd', '#44acff']}>
             <View  opacity={opacity}>
               <Text style={styles.buttonText}>
-                NEXT
+                {this.props.fromEdit?'DONE':'NEXT'}
               </Text>
             </View>
           </LinearGradient>

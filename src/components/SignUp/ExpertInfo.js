@@ -55,7 +55,11 @@ class ExpertInfo extends Component {
     if (error) {
       alert(error.msg);
     } else if (result) {
-      Actions.personality({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.personality({ me: this.props.me });
+      }
     }
   }
 
@@ -96,7 +100,7 @@ class ExpertInfo extends Component {
             <LinearGradient style={styles.btnStyle}
               start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}>
-              <Text style={styles.buttonText}>NEXT</Text>
+              <Text style={styles.buttonText}>{this.props.fromEdit?'DONE':'NEXT'}</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>

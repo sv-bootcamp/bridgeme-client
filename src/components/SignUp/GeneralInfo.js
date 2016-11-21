@@ -127,7 +127,7 @@ class GeneralInfo extends Component {
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}
                 style={styles.nextImage}>
-                <Text style={styles.nextTxt}>NEXT</Text>
+                <Text style={styles.nextTxt}>{this.props.fromEdit?'DONE':'NEXT'}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
@@ -172,7 +172,11 @@ class GeneralInfo extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      Actions.careerInfo({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.careerInfo({me: this.props.me});
+      }
     }
   }
 
