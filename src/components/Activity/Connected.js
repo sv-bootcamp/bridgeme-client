@@ -54,7 +54,7 @@ class Connected extends Component {
        (value) => value.status === REQUESTED_ACCEPT);
     connectByMentor = connectByMentor.map((value) => value.detail[0]);
 
-    connected.concat(connectByMentor);
+    connected = connected.concat(connectByMentor);
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(connected),
