@@ -34,7 +34,7 @@ class FindPassStep extends Component {
             placeholder={this.props.inputHint}
             onChangeText={onChangeText}
             placeholderTextColor="#d8d8d8"
-            underlineColorAndroid="#efeff2"
+            underlineColorAndroid="rgba(255, 255, 255, 0)"
             onSubmitEditing={() => this.focusNextField('2')} />
         </View>
         {this.props.isFinal ? this.renderInput() : this.renderButton()}
@@ -68,7 +68,7 @@ class FindPassStep extends Component {
           placeholder={this.props.inputHint2}
           onChangeText={onChangeText}
           placeholderTextColor="#d8d8d8"
-          underlineColorAndroid="#efeff2" />
+          underlineColorAndroid="rgba(255, 255, 255, 0)" />
       </View>
     );
   }
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputContainer: {
-    marginTop: 161,
+    marginTop: 50,
   },
   input: {
     width: 251,
