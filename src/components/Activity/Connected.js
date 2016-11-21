@@ -12,17 +12,12 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
+import MatchUtil from '../../utils/MatchUtil';
 import ConnectedRow from './ConnectedRow';
 
 class Connected extends Component {
   constructor(props) {
     super(props);
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
 
     this.state = {
       dataSource: new ListView.DataSource({
@@ -30,7 +25,16 @@ class Connected extends Component {
       }),
       loaded: false,
       isRefreshing: false,
+      isEmpty: false,
     };
+  }
+
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      this.onRequestSuccess(result);
+    }
   }
 
   onRequestSuccess(result) {
@@ -50,32 +54,23 @@ class Connected extends Component {
        (value) => value.status === REQUESTED_ACCEPT);
     connectByMentor = connectByMentor.map((value) => value.detail[0]);
 
-    connected.concat(connectByMentor);
+    connected = connected.concat(connectByMentor);
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(connected),
       loaded: true,
       isRefreshing: false,
+      isEmpty: connected.length === 0,
     });
   }
 
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
-    }
-  }
-
   componentDidMount() {
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
   // Receive props befofe completely changed
   componentWillReceiveProps(props) {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
-    ServerUtil.getActivityList();
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
   // Render loading page while fetching user profiles
@@ -94,17 +89,31 @@ class Connected extends Component {
   }
 
   renderConnected() {
-    return (
-      <ListView
-        style={styles.listView}
-        showsVerticalScrollIndicator={false}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)}
-        enableEmptySections={true}
-        renderSeparator={(sectionId, rowId) =>
-          <View key={rowId} style={styles.separator}/>}
-      />
-    );
+    if (this.state.isEmpty)
+      return (
+        <View style={styles.container}>
+          <Image source={require('../../resources/chat_onboarding.png')}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Make a connection!</Text>
+            <Text style={{ color: '#a6aeae', fontSize: 14, }}>
+              You did not connect with anyone yet.
+            </Text>
+          </View>
+        </View>
+      );
+    else {
+      return (
+        <ListView
+          style={styles.listView}
+          showsVerticalScrollIndicator={false}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+          enableEmptySections={true}
+          renderSeparator={(sectionId, rowId) =>
+            <View key={rowId} style={styles.separator}/>}
+        />
+      );
+    }
   }
 
   render() {
@@ -141,6 +150,30 @@ const styles = StyleSheet.create({
     fontFamily: 'SFUIText-Bold',
     fontSize: 12,
     color: '#a6aeae',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 50,
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginTop: 62,
+  },
+  title: {
+    color: '#a6aeae',
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 

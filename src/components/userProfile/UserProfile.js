@@ -14,12 +14,11 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
 import ExperienceRow from './ExperienceRow';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
+import UserUtil from '../../utils/UserUtil';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -38,10 +37,14 @@ class UserProfile extends Component {
       evalLoaded: false,
       connectPressed: false,
     };
+  }
 
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
+  onReqestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      this.onRequestSuccess(result);
+    }
   }
 
   onRequestSuccess(result) {
@@ -112,23 +115,22 @@ class UserProfile extends Component {
     }
   }
 
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
-    }
-  }
-
   componentDidMount() {
-    ServerUtil.getOthersProfile(this.props._id);
+    if (this.props.myProfile) {
+      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+    } else {
+      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    }
+
   }
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
-    ServerUtil.getOthersProfile(props._id);
+    if (this.props.myProfile) {
+      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+    } else {
+      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    }
   }
 
   sendRequest() {
@@ -218,10 +220,11 @@ class UserProfile extends Component {
             tabBarTextStyle={styles.tabBarText}
             tabBarInactiveTextColor={'#a6aeae'}
             tabBarActiveTextColor={'#2e3031'}
-            renderTabBar={() => <ScrollableTabBar />}
+            tabBarUnderlineStyle={styles.tabBarUnderline}
+            renderTabBar={() => <ScrollableTabBar/>}
           >
-            <UserOverview tabLabel='OVERVIEW' id={this.props._id}/>
-            <UserCareer tabLabel='CAREER' id={this.props._id}/>
+            <UserOverview tabLabel='OVERVIEW' id={this.state.id}/>
+            <UserCareer tabLabel='CAREER' id={this.state.id}/>
           </ScrollableTabView>
           <View style={styles.btn}>
             {connectButton}
@@ -325,7 +328,15 @@ const styles = StyleSheet.create({
   },
   tabBarText: {
     fontSize: 12,
+    fontFamily: 'SFUIText-Bold',
     fontWeight: 'bold',
+  },
+  tabBarUnderline: {
+    backgroundColor: '#44acff',
+    borderBottomColor: '#44acff',
+    height: 2,
+    width: WIDTH / 12.5,
+    marginLeft: WIDTH / 12,
   },
 });
 

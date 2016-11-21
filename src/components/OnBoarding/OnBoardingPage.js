@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Dimensions,
   Image,
-  Platform,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -33,9 +31,11 @@ class OnBoardingPage extends Component {
   renderFooter() {
     return (
       <View style={styles.footer}>
-        <LinearGradient style={styles.getStartedBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
-                        locations={[0, 0.75]}
-                        colors={['#07e4dd', '#44acff']}>
+        <LinearGradient style={styles.getStartedBtnStyle}
+          start={[0.9, 0.5]}
+          end={[0.0, 0.5]}
+          locations={[0, 0.75]}
+          colors={['#07e4dd', '#44acff']}>
           <TouchableWithoutFeedback onPress={this.onPressGetStartedButton}>
             <View style={styles.buttonContainer}>
               <Text style={styles.buttonText}>GET STARTED</Text>
@@ -43,7 +43,7 @@ class OnBoardingPage extends Component {
           </TouchableWithoutFeedback>
         </LinearGradient>
         <Text style={styles.footerText}>Do you have an account already?
-          <Text style={styles.logInText}onPress={this.onPressLogInButton}>  Log in</Text>
+          <Text style={styles.logInText} onPress={this.onPressLogInButton}>  Log in</Text>
         </Text>
 
       </View>
@@ -84,10 +84,9 @@ class OnBoardingPage extends Component {
     return (
       <View style={styles.onboardingView}>
         <Swiper loop={false}
-                height={SWIPER_HEIGHT}
-                dot={this.renderDot()}
-                activeDot={this.renderActiveDot()}
-        >
+          height={SWIPER_HEIGHT}
+          dot={this.renderDot()}
+          activeDot={this.renderActiveDot()}>
           <View>
             <Image style={styles.image} source={require('../../resources/onboarding1.png')}/>
           </View>

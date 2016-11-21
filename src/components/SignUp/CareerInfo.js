@@ -21,6 +21,7 @@ import {
 import Dropdown from 'react-native-dropdown-android';
 import LinearGradient from 'react-native-linear-gradient';
 import Progress from '../Shared/Progress';
+import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 import { CareerData } from './SignUpMETA';
 
@@ -45,6 +46,20 @@ class CareerInfo extends Component {
       this.state.checked.push(false);
       this.state.selected.push('');
     }
+
+    if (Platform.OS === 'android') {
+      this.state.option[1] = CareerData.role[0].list;
+      this.state.selected[0] = CareerData.area[0];
+      this.state.selected[1] = CareerData.role[0].list[0];
+      this.state.selected[2] = CareerData.years[0];
+      this.state.selected[3] = CareerData.education_background[0];
+
+      this.state.checked[0] = true;
+      this.state.checked[1] = true;
+      this.state.checked[2] = true;
+      this.state.checked[3] = true;
+    }
+
   }
 
   componentDidMount() {
@@ -140,8 +155,12 @@ class CareerInfo extends Component {
       );
   }
 
-  onUploadCallback() {
-    this.onNextBtnPressed();
+  onUploadCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.expertInfo({ me: this.props.me });
+    }
   }
 
   onNextBtnPressed() {
@@ -155,9 +174,8 @@ class CareerInfo extends Component {
     ];
 
     let body = { job };
-    console.log(JSON.stringify(body));
+    UserUtil.editJob(this.onUploadCallback.bind(this), body);
 
-    Actions.expertInfo({ me: this.props.me });
   }
 
   renderNextBtn() {
@@ -172,7 +190,7 @@ class CareerInfo extends Component {
 
     return (
         <TouchableOpacity disabled ={disabled}
-          onPress = {this.onUploadCallback.bind(this)}>
+          onPress = {this.onNextBtnPressed.bind(this)}>
           <LinearGradient style={styles.btnStyle}
             start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
             colors={['#07e4dd', '#44acff']}>

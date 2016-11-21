@@ -10,17 +10,12 @@ import {
 } from 'react-native';
 import Row from './Row';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
-import ServerUtil from '../../utils/ServerUtil';
 import CardScroll from './CardScroll';
+import UserUtil from '../../utils/UserUtil';
 
 class UserList extends Component {
   constructor(props) {
     super(props);
-
-    ServerUtil.initCallback(
-      (result) => this.onServerSuccess(result),
-      (error) => this.onServerFail(error));
 
     // Method 'rowHasChanged' must be implemented to use listview.
     this.state = {
@@ -34,42 +29,31 @@ class UserList extends Component {
 
   // Refresh data
   onRefresh() {
-    ServerUtil.initCallback(
-      (result) => this.onServerSuccess(result),
-      (error) => this.onServerFail(error));
-
     this.setState({ isRefreshing: true });
-    ServerUtil.getMentorList();
+    UserUtil.getMentorList(this.onServerCallback.bind(this));
   }
 
-  onServerSuccess(result) {
+  onServerCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      // Refresh dataSource
+      this.setState({
+        dataSource: new ListView.DataSource({
+          rowHasChanged: (row1, row2) => row1 !== row2,
+        }),
+      });
 
-    // Refresh dataSource
-    this.setState({
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-    });
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(result.slice()),
-      loaded: true,
-      isRefreshing: false,
-    });
-  }
-
-  onServerFail(error) {
-
-    // Check whether session expires
-    if (error.code === 2) {
-      Actions.login({ session: true });
-    } else if (error.code !== ErrorMeta.ERR_NONE) {
-      alert(error.msg);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(result.slice()),
+        loaded: true,
+        isRefreshing: false,
+      });
     }
   }
 
   componentDidMount() {
-    ServerUtil.getMentorList();
+    UserUtil.getMentorList(this.onServerCallback.bind(this));
   }
 
   renderRow(rowData) {

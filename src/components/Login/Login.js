@@ -7,26 +7,48 @@ import {
  Text,
  TextInput,
  TouchableWithoutFeedback,
- TouchableHighlight,
+ TouchableOpacity,
  View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ErrorMeta from '../../utils/ErrorMeta';
-import LoginMeta from '../../utils/LoginMeta';
 import LinearGradient from 'react-native-linear-gradient';
-import LoginUtil from '../../utils/LoginUtil';
-import ServerUtil from '../../utils/ServerUtil';
+import UserUtil from '../../utils/UserUtil';
 import styles from './Styles';
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       email: '',
       password: '',
       loaded: false,
+      tokenValid: false,
     };
+    this.hasToken();
+  }
+
+  hasToken() {
+    AsyncStorage.getItem('token', (err, result) => {
+      if (err) {
+        this.setState({ loaded: true });
+      } else if (result) {
+        UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
+      } else {
+        this.setState({ loaded: true });
+      }
+    });
+  }
+
+  onTokenValidCheck(profile, error) {
+    if (error) {
+      this.setState({ loaded: true });
+    } else if (profile) {
+      if (profile.name) {
+        Actions.main({ me: profile });
+      } else {
+        Actions.generalInfo({ me: profile });
+      }
+    }
   }
 
   render() {
@@ -34,29 +56,31 @@ class Login extends Component {
       return this.renderLoadingView();
     }
 
-    let onChangeEmail = (text) => { this.state.email = text; };
-    let onChangePassword = (text) => { this.state.password = text; };
+    let onChangeEmail = (text) => this.state.email = text;
+    let onChangePassword = (text) => this.state.password = text;
+    let focusNextField = (refNo) => this.refs[refNo].focus();
 
     return (
 
       //  Render the screen on View.
       <View style={styles.container}>
         <View style={styles.mainLogo}>
-          <Image source={require('../../resources/splash_icon_1x.png')} />
+          <Image source={require('../../resources/page-1-copy-2.png')} />
+          <Text style={styles.mainLogoText}>Bridge Me</Text>
         </View>
 
         {/* Render facebook login button */}
         <TouchableWithoutFeedback onPress={() => this.signInFB()}>
           <View style={styles.facebookLoginContainer}>
             <Image style={styles.facebookLoginButton}
-                   source={require('../../resources/fb.png')} />
+              source={require('../../resources/fb.png')} />
             <Text style={styles.facebookLoginText}>Login with Facebook</Text>
           </View>
         </TouchableWithoutFeedback>
 
         <View style={styles.hrContainer}>
           <View style={styles.hr}></View>
-          <View><Text style={styles.hrText}>or</Text></View>
+          <View><Text style={styles.hrText}>OR</Text></View>
           <View style={styles.hr}></View>
         </View>
 
@@ -69,27 +93,27 @@ class Login extends Component {
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
             onChangeText={onChangeEmail}
-            onSubmitEditing={() => this.focusNextField('2')} />
+            onSubmitEditing={() => focusNextField('2')} />
           <TextInput
             style={styles.input}
             ref="2"
             placeholder="Password"
             secureTextEntry={true}
             placeholderTextColor="#d8d8d8"
-            onChangeText={onChangePassword}
-            underlineColorAndroid="#efeff2" />
+            underlineColorAndroid="#efeff2"
+            onChangeText={onChangePassword} />
         </View>
 
-        <TouchableWithoutFeedback onPress={() => this.signInLocal()}>
+        <TouchableOpacity onPress={() => this.signInLocal()}>
           <LinearGradient
             colors={['#44acff', '#07e4dd']}
             start={[0.0, 0.0]} end={[1.0, 1.0]}
             style={styles.loginBtn}>
             <Text style={styles.loginBtnText}>LOG IN</Text>
           </LinearGradient>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback onPress={() => Actions.findPassStep1()}>
+        <TouchableWithoutFeedback onPress={() => Actions.inputEmailAddr()}>
           <View style={styles.subTextContainer}>
             <Text style={styles.subText}>Forgot password?</Text>
           </View>
@@ -110,107 +134,57 @@ class Login extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator
-          animating={!this.state.loaded}
-          style={[styles.activityIndicator]}
-          size="large"
-          />
-        <Text style={styles.headerText}>Loading...</Text>
+        <ActivityIndicator animating={!this.state.loaded} size="large" />
+        <Text>Loading...</Text>
       </View>
     );
   }
 
-  componentDidMount() {
-    let onGetTokenSuccess = (result) => this.onGetTokenSuccess(result);
-    let onGetTokenFail = (error) => this.onGetTokenFail(error);
-
-    LoginUtil.initCallback(onGetTokenSuccess, onGetTokenFail);
-    LoginUtil.hasToken();
-  }
-
-  onGetTokenSuccess(token) {
-    this.onSignInSuccess(token);
-  }
-
-  onGetTokenFail(error) {
-    this.setState({ loaded: !this.state.loaded });
-  }
-
   signInFB() {
-    let onSignInSuccess = (result) => this.onSignInSuccess(result);
-    let onSignInFail = (error) => this.onSignInFail(error);
-
-    LoginUtil.initCallback(onSignInSuccess, onSignInFail);
-    LoginUtil.signInWithFacebook();
-  }
-
-  onSignInSuccess(result) {
-    if (result) {
-      let onGetProfileSuccess = (res) => this.onGetProfileSuccess(res);
-      let onGetProfileFail = (error) => this.onGetProfileFail(error);
-
-      ServerUtil.initCallback(onGetProfileSuccess, onGetProfileFail);
-      ServerUtil.getMyProfile();
-      return;
-    }
-
-    this.setState({ loaded: !this.state.loaded });
-  }
-
-  onSignInFail(error) {
-    Alert.alert(
-      'SignIn',
-      'Sever error(Sign in)! Please contact to developer',
-    );
-  }
-
-  onGetProfileSuccess(profile) {
-    Actions.generalInfo({ me: profile });
-  }
-
-  onGetProfileFail(error) {
-    Alert.alert(
-      'SignIn',
-      'Sever error(Profile)! Please try to sign in again.',
-    );
-    this.onGetTokenFail();
+    UserUtil.signInWithFacebook(this.onLoginCallback.bind(this));
   }
 
   signInLocal() {
     let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFilter.test(this.state.email) === false) {
-      Alert.alert(
-        'SignIn',
-        'Please input your correct email.',
-      );
+      this.alert('Please input your correct email.');
       return;
     }
 
     if (this.state.password === '') {
-      Alert.alert(
-        'SignIn',
-        'Please input your password.',
-      );
+      this.alert('Please input your password.');
       return;
     }
 
-    let onLocalLoginSuccess = (result) => this.onLocalLoginSuccess(result);
-    let onLocalLoginFail = (error) => this.onSignInFail(error);
-
-    ServerUtil.initCallback(onLocalLoginSuccess, onLocalLoginFail);
-    ServerUtil.signIn(this.state.email, this.state.password);
-  }
-
-  onLocalLoginSuccess(result) {
-    let onSignInSuccess = (res) => this.onSignInSuccess(res);
-    AsyncStorage.multiSet(
-       [['token', result.user.password], ['loginType', LoginMeta.LOGIN_TYPE_LOCAL]],
-       () => onSignInSuccess(result)
+    UserUtil.localSignIn(
+      this.onLoginCallback.bind(this),
+      this.state.email,
+      this.state.password
     );
   }
 
-  focusNextField(refNo) {
-    this.refs[refNo].focus();
+  onLoginCallback(result, error) {
+    if (error) {
+      this.alert('Please check your account information and sign in again!');
+    } else if (result) {
+      AsyncStorage.setItem(
+        'token',
+        result.access_token,
+        () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this))
+      );
+    }
+  }
+
+  onGetProfileCallback(profile, error) {
+    if (error) {
+      this.alert('Sever error(Profile)! Please sign in again.');
+    } else if (profile) {
+      Actions.generalInfo({ me: profile });
+    }
+  }
+
+  alert(msg) {
+    Alert.alert('Login', msg);
   }
 }
 

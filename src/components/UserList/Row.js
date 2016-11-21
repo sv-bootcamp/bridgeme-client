@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     top: 20,
   },
   photo: {
-    height: 182,
+    height: CARD_HEIGHT / 2.73,
     width: CARD_WIDTH,
     borderRadius: 2,
   },
@@ -203,11 +203,11 @@ const styles = StyleSheet.create({
   connectBtnStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 170,
-    height: 45,
+    width: CARD_WIDTH / 1.78,
+    height: CARD_HEIGHT / 11,
     left: CARD_WIDTH / 2 - 85,
-    marginBottom: 25,
-    borderRadius: 121,
+    marginBottom: CARD_HEIGHT / 20,
+    borderRadius: CARD_HEIGHT / 4.12,
   },
   buttonContainer: {
     backgroundColor: 'transparent',

@@ -12,9 +12,8 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
 import OverviewRow from './OverviewRow';
+import UserUtil from '../../utils/UserUtil';
 
 class UserOverview extends Component {
   constructor(props) {
@@ -22,59 +21,48 @@ class UserOverview extends Component {
 
     this.state = {
       id: '',
+      about: 'No data',
+      experts: [],
+      personality: [],
+      score: [],
       loaded: false,
-      dataBlob: {},
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
     };
-
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
   }
 
-  onRequestSuccess(result) {
-    let sectionIDs = ['About', 'I am expertised in', 'Personality'];
+  onRequestCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      let sectionIDs = ['About', 'I am expertised in', 'Personality'];
 
-    this.setState({
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
-      dataBlob: {},
-    });
+      this.setState({
+        dataSource: new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2,
+          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+        }),
+        dataBlob: {},
+      });
 
-    // TODO: change with real data
-    this.state.dataBlob[sectionIDs[0]] = '1';
-    this.state.dataBlob[sectionIDs[1]] = '2';
-    this.state.dataBlob[sectionIDs[2]] = '3';
+      // TODO: change with real data
+      this.state.dataBlob[sectionIDs[0]] = '1';
+      this.state.dataBlob[sectionIDs[1]] = '2';
+      this.state.dataBlob[sectionIDs[2]] = '3';
 
-    this.setState({
-      id: result._id,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
-      loaded: true,
-    });
-  }
-
-  onRequestFail(error) {
-    if (error.code != ErrorMeta.ERR_NONE) {
-      Alert.alert(error.msg);
+      this.setState({
+        id: result._id,
+        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
+        loaded: true,
+      });
     }
   }
 
   componentDidMount() {
-    ServerUtil.getOthersProfile(this.props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
   }
 
   // Receive props befofe completely changed
   componentWillReceiveProps(props) {
-    ServerUtil.initCallback(
-      (result) => this.onRequestSuccess(result),
-      (error) => this.onRequestFail(error));
-
-    ServerUtil.getOthersProfile(props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
   }
 
   // Render loading page while fetching user profiles
@@ -83,35 +71,45 @@ class UserOverview extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
       />
     );
   }
 
-  renderSectionHeader(sectionData, sectionID) {
+  renderAbout() {
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{sectionID}</Text>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>About</Text>
+        <Text>{this.state.about}</Text>
       </View>
     );
   }
 
-  renderRow(rowData) {
-    return <OverviewRow dataSource={rowData}/>;
+  renderMyExpertise() {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>My expertise</Text>
+      </View>
+    );
+  }
+
+  renderPersonality() {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>Personality</Text>
+        <Text>{this.state.personality}</Text>
+      </View>
+    );
   }
 
   // Render User profile
   renderOverview() {
     return (
-      <ListView
-        style={styles.lisview}
-        showsVerticalScrollIndicator={false}
-        dataSource={this.state.dataSource}
-        scrollEnabled={false}
-        renderRow={this.renderRow}
-        enableEmptySections={true}
-        renderSectionHeader = {this.renderSectionHeader}
-        />
+      <View>
+        {this.renderAbout()}
+        {this.renderMyExpertise()}
+        {this.renderPersonality()}
+      </View>
     );
   }
 
@@ -128,10 +126,6 @@ class UserOverview extends Component {
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-  lisview: {
-    marginLeft: WIDTH / 10,
-    marginTop: HEIGHT / 30,
-  },
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -140,6 +134,10 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  sectionContainer: {
+    marginTop: 20,
+    marginLeft: 30,
   },
   sectionName: {
     fontFamily: 'SFUIText-Bold',

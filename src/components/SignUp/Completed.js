@@ -27,7 +27,8 @@ class Completed extends Component {
     return (
       <View style={styles.container}>
         <View style ={styles.body}>
-          <Image style={{ width: 130, height: 130 }} source={require('../../resources/img-completed.png')}/>
+          <Image style={{ width: 130, height: 130 }}
+            source={require('../../resources/img-completed.png')}/>
           <Text style={styles.infoText}>{this.state.msg}</Text>
         </View>
         <View style={styles.btnContainer}>

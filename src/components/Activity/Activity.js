@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Dimensions,
   ListView,
   Platform,
   RefreshControl,
@@ -11,8 +12,6 @@ import {
 import Connected from './Connected';
 import NewRequests from './NewRequests';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-import ServerUtil from '../../utils/ServerUtil';
-import ErrorMeta from '../../utils/ErrorMeta';
 
 class Activity extends Component {
   constructor(props) {
@@ -38,6 +37,7 @@ class Activity extends Component {
         tabBarTextStyle={styles.tabBarText}
         tabBarInactiveTextColor={'#a6aeae'}
         tabBarActiveTextColor={'#2e3031'}
+        tabBarUnderlineStyle={styles.tabBarUnderline}
         renderTabBar={() => <ScrollableTabBar />}
       >
         <NewRequests tabLabel='NEW REQUESTS'/>
@@ -47,6 +47,7 @@ class Activity extends Component {
   }
 }
 
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     ...Platform.select({
@@ -77,6 +78,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: 'black',
+  },
+  tabBarUnderline: {
+    backgroundColor: '#44acff',
+    borderBottomColor: '#44acff',
+    height: 2,
+    width: WIDTH / 12.5,
+    marginLeft: WIDTH / 8,
   },
 });
 

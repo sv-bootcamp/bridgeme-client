@@ -3,8 +3,6 @@ import {
 } from 'react-native';
 import {
   AccessToken,
-  GraphRequest,
-  GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk';
 import ErrorMeta from './ErrorMeta';

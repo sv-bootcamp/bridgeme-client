@@ -11,9 +11,10 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import java.util.List;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.chymtt.reactnativedropdown.DropdownPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.chymtt.reactnativedropdown.DropdownPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,11 +34,12 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-                    new LinearGradientPackage(),
-                    new ImagePickerPackage(),
-                    new FBSDKPackage(mCallbackManager),
-                    new DropdownPackage()
+                new MainReactPackage(),
+                new VectorIconsPackage(),
+                new LinearGradientPackage(),
+                new ImagePickerPackage(),
+                new FBSDKPackage(mCallbackManager),
+                new DropdownPackage()
             );
         }
     };
