@@ -28,6 +28,10 @@ class NewRequests extends Component {
     MatchUtil.getActivityList(this.onRequestCallback.bind(this));
   }
 
+  componentWillReceiveProps(props) {
+    MatchUtil.getActivityList(this.onRequestCallback.bind(this));
+  }
+
   onRequestCallback(result, error) {
     if (error) {
       alert(JSON.stringify(error));
