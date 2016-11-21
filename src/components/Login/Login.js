@@ -24,7 +24,6 @@ class Login extends Component {
       loaded: false,
       tokenValid: false,
     };
-
     this.hasToken();
   }
 

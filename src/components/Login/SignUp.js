@@ -62,7 +62,7 @@ class SignUp extends Component {
             placeholder="Email"
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
-            onChangeText={onChangeEmail}
+            onChangeText={onInputEmail}
             onSubmitEditing={() => focusNextField('2')} />
           <TextInput
             style={styles.input}
@@ -72,7 +72,7 @@ class SignUp extends Component {
             returnKeyType="next"
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
-            onChangeText={onChangePassword1}
+            onChangeText={onInputPassword1}
             onSubmitEditing={() => focusNextField('3')} />
           <TextInput
             style={styles.input}
@@ -81,7 +81,7 @@ class SignUp extends Component {
             secureTextEntry={true}
             placeholderTextColor="#d8d8d8"
             underlineColorAndroid="#efeff2"
-            onChangeText={onChangePassword2} />
+            onChangeText={onInputPassword2} />
         </View>
         <TouchableOpacity onPress={createAccount}>
           <LinearGradient
