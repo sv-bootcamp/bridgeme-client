@@ -69,6 +69,9 @@ class CareerInfo extends Component {
         updatePosition(this.refs['OPTION' + idx]);
       }
     }
+
+    if(this.props.fromEdit)
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
   }
 
   getOptionList(index) {
@@ -200,7 +203,7 @@ class CareerInfo extends Component {
             colors={['#07e4dd', '#44acff']}>
             <View  opacity={opacity}>
               <Text style={styles.buttonText}>
-                {this.props.fromEdit?'DONE':'NEXT'}
+                NEXT
               </Text>
             </View>
           </LinearGradient>
@@ -209,6 +212,10 @@ class CareerInfo extends Component {
   }
 
   render() {
+    let submitButton = null;
+
+    if(!this.props.fromEdit)
+      submitButton = this.renderNextBtn();
     return (
       <View style ={styles.container}>
         <Progress level={4} step={2} />
@@ -221,7 +228,7 @@ class CareerInfo extends Component {
             {this.getQuestionSet()}
           </View>
           <View style={styles.btnContainer}>
-            {this.renderNextBtn()}
+            {submitButton}
           </View>
         </ScrollView>
       </View>

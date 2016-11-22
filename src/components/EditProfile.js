@@ -14,42 +14,32 @@ class EditProfile extends Component {
   }
 
   render() {
+    const fromEditProps = {
+      me: this.props.me,
+      backButtonImage: leftButtonGrey,
+      type: ActionConst.PUSH,
+      fromEdit: true,
+      rightButtonTextStyle: {
+        color: '#44acff',
+      },
+    };
+
     return (
       <View style={[styles.container]}>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => {
-                            Actions.generalInfo({
-                              me: this.props.me,
-                              type: ActionConst.PUSH,
-                              backButtonImage: leftButtonGrey,
-                              fromEdit: true })
-                          }}>
+                          onPress={() => Actions.generalInfo(fromEditProps)}>
           <Text style={styles.menuText}>General information</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => {
-                            Actions.careerInfo({
-                              type: ActionConst.PUSH,
-                              backButtonImage: leftButtonGrey,
-                              me: this.props.me,
-                              fromEdit: true })
-                          }}>
+                          onPress={() => Actions.careerInfo(fromEditProps)}>
           <Text style={styles.menuText}>Career background</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => {
-                            Actions.expertInfo({
-                              me: this.props.me,
-                              fromEdit: true })
-                          }}>
+                          onPress={() => Actions.expertInfo(fromEditProps)}>
           <Text style={styles.menuText}>My expertise</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => {
-                            Actions.personality({
-                              me: this.props.me,
-                              fromEdit: true })
-                          }}>
+                          onPress={() => Actions.personality(fromEditProps)}>
           <Text style={styles.menuText}>My personality</Text>
         </TouchableOpacity>
       </View>
