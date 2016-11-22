@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   menu: {
     flex: 1,
     backgroundColor: 'white',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderColor: '#efeff2',
   },
   menuText: {

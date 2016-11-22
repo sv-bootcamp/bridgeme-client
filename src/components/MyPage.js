@@ -122,7 +122,7 @@ class MyPage extends Component {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.menu} onPress={this.onEditButtonPress.bind(this)}>
+        <TouchableOpacity style={[styles.menu, { borderTopWidth: 1 }]} onPress={this.onEditButtonPress.bind(this)}>
           <Image source={require('../resources/page-1.png')} />
           <Text style={styles.menuText}>Edit my profile</Text>
         </TouchableOpacity>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderColor: '#efeff2',
     paddingLeft: 20,
   },
