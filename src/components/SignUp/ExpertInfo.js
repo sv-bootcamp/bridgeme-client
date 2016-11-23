@@ -30,6 +30,10 @@ class ExpertInfo extends Component {
     }
   }
 
+  componentDidMount() {
+    if(this.props.fromEdit)
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
+  }
   // Update checkbox state
   updateCheckBox(answerIdx, optionIdx, isFreeForm, isChecked) {
     this.state.checked[optionIdx] = !this.state.checked[optionIdx];
@@ -55,7 +59,11 @@ class ExpertInfo extends Component {
     if (error) {
       alert(error.msg);
     } else if (result) {
-      Actions.personality({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.personality({ me: this.props.me });
+      }
     }
   }
 
@@ -75,6 +83,21 @@ class ExpertInfo extends Component {
   }
 
   render() {
+
+    let submitButton = null;
+
+    if(!this.props.fromEdit)
+      submitButton = (
+        <View style={styles.btnContainer}>
+          <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >
+            <LinearGradient style={styles.btnStyle}
+                            start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
+                            colors={['#07e4dd', '#44acff']}>
+              <Text style={styles.buttonText}>NEXT</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>);
+
     return (
       <View style={styles.container}>
         <Progress level={4} step={3} />
@@ -91,16 +114,7 @@ class ExpertInfo extends Component {
             {this.getOptionSet()}
           </ScrollView>
         </View>
-        <View style={styles.btnContainer}>
-          <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >
-            <LinearGradient style={styles.btnStyle}
-              start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
-              colors={['#07e4dd', '#44acff']}>
-              <Text style={styles.buttonText}>NEXT</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-
+        {submitButton}
       </View>
     );
   }
