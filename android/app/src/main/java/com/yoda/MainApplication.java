@@ -1,5 +1,6 @@
 package com.yoda;
 
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.appevents.AppEventsLogger;
 import android.app.Application;
 import java.util.Arrays;
@@ -39,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
                 new LinearGradientPackage(),
                 new ImagePickerPackage(),
                 new FBSDKPackage(mCallbackManager),
-                new DropdownPackage()
+                new DropdownPackage(),
+                new FIRMessagingPackage()
             );
         }
     };

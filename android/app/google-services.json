@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "327219256828",
+    "firebase_url": "https://bridgeme-83475.firebaseio.com",
+    "project_id": "bridgeme-83475",
+    "storage_bucket": "bridgeme-83475.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327219256828:android:16c7027ab8aacc2a",
+        "android_client_info": {
+          "package_name": "com.yoda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327219256828-agn1g6v3q0j3rhetggah086ik40pdtqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8is6y9Emkk9AN0Pi8pwXz26qWk7Eoe6s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
