@@ -9,7 +9,8 @@ export const ServerMeta = {
 };
 
 export const UrlMeta = {
-  HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
+  //HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
+  HOST: 'http://192.168.0.53:80/',
   API_LOGIN: 'users/signIn/',
   API_MENTOR:  'users/mentorlist/',
   API_ALL: 'users/all/',
@@ -22,8 +23,8 @@ export const UrlMeta = {
   API_GET_SURVEY_MENTOR: 'survey/request/mentor',
   API_SEND_RESULT: 'survey/answer/',
   API_EDIT_GENERAL: 'users/editGeneral/',
-  API_EDIT_JOB: 'users/editJob/',
-  API_EDIT_HELP: 'users/editHelp/',
+  API_EDIT_CAREER: 'users/editCareer/',
+  API_EDIT_EXPERTISE: 'users/editExpertise/',
   API_EDIT_PERSONALITY: 'users/editPersonality/',
   API_LOCAL_SIGNUP: 'users/localSignUp/',
   API_LOCAL_SIGNIN: 'users/localSignIn/',
