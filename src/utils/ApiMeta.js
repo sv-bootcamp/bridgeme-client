@@ -23,7 +23,7 @@ export const UrlMeta = {
   API_SEND_RESULT: 'survey/answer/',
   API_EDIT_GENERAL: 'users/editGeneral/',
   API_EDIT_CAREER: 'users/editCareer/',
-  API_EDIT_EXPERTISE: 'users/editEcpertise/',
+  API_EDIT_EXPERTISE: 'users/editExpertise/',
   API_EDIT_PERSONALITY: 'users/editPersonality/',
   API_LOCAL_SIGNUP: 'users/localSignUp/',
   API_LOCAL_SIGNIN: 'users/localSignIn/',
