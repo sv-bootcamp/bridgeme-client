@@ -68,18 +68,18 @@ class ExpertInfo extends Component {
   }
 
   onNextBtnPressed() {
-    let help = [];
+    let expertise = [];
     for (i = 0; i < this.state.checked.length; i++) {
       if (this.state.checked[i]) {
-        help.push({
+        expertise.push({
           select: this.state.options[i],
           index: i,
         });
       }
     }
 
-    let body = { help };
-    UserUtil.editHelp(this.onUploadCallback.bind(this), body);
+    let body = { expertise };
+    UserUtil.editExpertise(this.onUploadCallback.bind(this), body);
   }
 
   render() {

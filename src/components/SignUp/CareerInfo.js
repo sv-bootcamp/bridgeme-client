@@ -171,7 +171,7 @@ class CareerInfo extends Component {
   }
 
   onNextBtnPressed() {
-    let job = [
+    let career = [
     {
       area: this.state.selected[0],
       role: this.state.selected[1],
@@ -180,8 +180,8 @@ class CareerInfo extends Component {
     },
     ];
 
-    let body = { job };
-    UserUtil.editJob(this.onUploadCallback.bind(this), body);
+    let body = { career };
+    UserUtil.editCareer(this.onUploadCallback.bind(this), body);
 
   }
 
