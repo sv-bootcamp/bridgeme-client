@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import {
   Actions,
   Router,
@@ -6,6 +7,7 @@ import {
   Scene,
 } from 'react-native-router-flux';
 import AppProps from './AppProps';
+import FCM from 'react-native-fcm';
 
 // Define reducer to manage scenes
 const reducerCreate = params=> {
@@ -39,6 +41,16 @@ class App extends Component {
         </Scene>
       </Router>
     );
+  }
+
+  componentDidMount() {
+    if (Platform.os === 'ios') {
+      FCM.requestPermissions();
+    }
+
+    FCM.getInitialNotification().then(notif => {
+      console.log(notif)
+    });
   }
 
   backAndroidHandler() {

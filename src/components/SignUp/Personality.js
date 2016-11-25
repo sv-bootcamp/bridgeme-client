@@ -31,7 +31,11 @@ class Personality extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      Actions.completed({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.completed({me: this.props.me});
+      }
     }
   }
 
@@ -39,6 +43,9 @@ class Personality extends Component {
     let values = new Array(this.state.sliderTitle.length);
     values.fill(0, 0, values.length);
     this.setState({ values: values });
+
+    if(this.props.fromEdit)
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.sendRequest.bind(this) });
   }
 
   sendRequest() {
@@ -89,6 +96,25 @@ class Personality extends Component {
         </View>
       )
     );
+
+    let submitButton = null;
+
+    if(!this.props.fromEdit)
+      submitButton = (
+        <View style={{ flex: 1, marginTop: 50, }}>
+          <TouchableOpacity onPress={this.sendRequest.bind(this)}>
+            <LinearGradient
+              start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}
+              style={styles.linearGradient}>
+              <Text style={styles.buttonText}>
+                NEXT
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>);
+
     return (
       <View style={styles.container}>
         <Progress level={4} step={4} />
@@ -104,19 +130,7 @@ class Personality extends Component {
             </View>
             <View style={styles.body}>
               {slidersWithTitle}
-              <View style={{ flex: 1, marginTop: 50, }}>
-                <TouchableOpacity onPress={this.sendRequest.bind(this)}>
-                  <LinearGradient
-                    start={[0.9, 0.5]} end={[0.0, 0.5]}
-                    locations={[0, 0.75]}
-                    colors={['#07e4dd', '#44acff']}
-                    style={styles.linearGradient}>
-                    <Text style={styles.buttonText}>
-                      DONE
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
+              {submitButton}
             </View>
           </View>
         </ScrollView>

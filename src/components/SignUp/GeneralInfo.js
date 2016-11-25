@@ -79,6 +79,9 @@ class GeneralInfo extends Component {
     } else {
       UserUtil.getMyProfile(this.onGetMyProfileCallback.bind(this));
     }
+
+    if(this.props.fromEdit)
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.regist.bind(this) });
   }
 
   onGetMyProfileCallback(result, error) {
@@ -113,6 +116,21 @@ class GeneralInfo extends Component {
     };
 
     let Forms = this.getForms();
+    let submitButton = null;
+
+    if(!this.props.fromEdit)
+      submitButton = (
+        <View style={styles.nextView}>
+          <TouchableOpacity onPress={() => this.regist()}>
+            <LinearGradient
+              start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}
+              style={styles.nextImage}>
+              <Text style={styles.nextTxt}>NEXT</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>);
 
     return (
       <View style={styles.container}>
@@ -120,17 +138,7 @@ class GeneralInfo extends Component {
         <ScrollView style={styles.scrollView}>
           <MyPic uri={this.state.mypic} readyUploadImage={readyUploadImage} />
           {Forms}
-          <View style={styles.nextView}>
-            <TouchableOpacity onPress={() => this.regist()}>
-              <LinearGradient
-                start={[0.9, 0.5]} end={[0.0, 0.5]}
-                locations={[0, 0.75]}
-                colors={['#07e4dd', '#44acff']}
-                style={styles.nextImage}>
-                <Text style={styles.nextTxt}>NEXT</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+          {submitButton}
         </ScrollView>
       </View>
     );
@@ -172,7 +180,11 @@ class GeneralInfo extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      Actions.careerInfo({ me: this.props.me });
+      if (this.props.fromEdit) {
+        Actions.pop();
+      } else {
+        Actions.careerInfo({me: this.props.me});
+      }
     }
   }
 

@@ -1,6 +1,4 @@
 PODS:
-  - Firebase (3.9.0):
-    - Firebase/Core (= 3.9.0)
   - Firebase/Analytics (3.9.0):
     - Firebase/Core
   - Firebase/Core (3.9.0):
@@ -35,9 +33,7 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.0)
 
 DEPENDENCIES:
-  - Firebase
   - Firebase/Analytics
-  - Firebase/Core
   - Firebase/Messaging
 
 SPEC CHECKSUMS:
@@ -50,6 +46,6 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
 
-PODFILE CHECKSUM: e4f898e4b41084b6257097c5bf77633c46f74808
+PODFILE CHECKSUM: 0e36e380e2cd9ed7484e3cec1393e8329b8c7eb5
 
 COCOAPODS: 1.1.1
