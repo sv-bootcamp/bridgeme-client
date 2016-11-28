@@ -107,12 +107,12 @@ class UserUtil {
     apiUtil.requestPostWithToken(callback, 'API_EDIT_GENERAL', general);
   }
 
-  editJob(callback, job) {
-    apiUtil.requestPostWithToken(callback, 'API_EDIT_JOB', job);
+  editCareer(callback, career) {
+    apiUtil.requestPostWithToken(callback, 'API_EDIT_CAREER', career);
   }
 
-  editHelp(callback, help) {
-    apiUtil.requestPostWithToken(callback, 'API_EDIT_HELP', help);
+  editExpertise(callback, expertise) {
+    apiUtil.requestPostWithToken(callback, 'API_EDIT_EXPERTISE', expertise);
   }
 
   editPersonality(callback, personality) {
