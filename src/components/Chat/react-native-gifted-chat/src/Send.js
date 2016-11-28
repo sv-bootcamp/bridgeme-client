@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import SendBird from 'sendbird';
+import MatchUtil from '../../../../utils/MatchUtil';
 
 export default class Send extends React.Component {
   render() {
@@ -15,6 +16,9 @@ export default class Send extends React.Component {
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
               if (SendBird().getConnectionState() === 'OPEN') {
+                MatchUtil.sendChattingMessage(this.onUploadCallback.bind(this),
+                  this.props.opponentInfo._id,
+                  this.props.text.trim());
                 this.props.onSend({ text: this.props.text.trim() }, true);
               } else {
                 alert('Please check Network state.');
@@ -28,6 +32,14 @@ export default class Send extends React.Component {
     }
 
     return <View/>;
+  }
+  
+  onUploadCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.pop();
+    }
   }
 }
 

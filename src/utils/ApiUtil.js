@@ -69,14 +69,17 @@ class ApiUtil {
     }
 
     fetch(url, reqSet)
-    .then(this.getResponse)
-    .then((res) => callback(res, null))
+    .then((response) => this.getResponse(response, callback))
     .catch((error) => callback(null, error));
   }
 
-  getResponse(response) {
+  getResponse(response, callback) {
     if (response.status === 200 || response.status === 201) {
-      return response.json();
+      return response.json()
+        .then((res) => {
+          res.status = response.status;
+          callback(res, null);
+        });
     } else {
       throw new Error(response.status);
     }
