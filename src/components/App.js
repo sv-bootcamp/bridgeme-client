@@ -49,7 +49,7 @@ class App extends Component {
     }
 
     FCM.getInitialNotification().then(notif => {
-      console.log(notif)
+      console.log(notif);
     });
   }
 

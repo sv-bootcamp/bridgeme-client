@@ -70,7 +70,7 @@ class CareerInfo extends Component {
       }
     }
 
-    if(this.props.fromEdit)
+    if (this.props.fromEdit)
       Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
   }
 
@@ -160,12 +160,13 @@ class CareerInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
+      console.log(error);
       alert(JSON.stringify(error));
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();
       } else {
-        Actions.expertInfo({me: this.props.me});
+        Actions.expertInfo({ me: this.props.me });
       }
     }
   }
@@ -214,7 +215,7 @@ class CareerInfo extends Component {
   render() {
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = this.renderNextBtn();
     return (
       <View style ={styles.container}>

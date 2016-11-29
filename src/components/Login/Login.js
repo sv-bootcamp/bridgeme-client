@@ -40,12 +40,13 @@ class Login extends Component {
   }
 
   onTokenValidCheck(profile, error) {
+    this.setState({ loaded: true });
     if (error) {
       this.setState({ loaded: true });
-    } else if (profile) {
-      if (profile.name) {
-        Actions.main({ me: profile });
-      } else {
+    } else if (false) {
+      if (profile.status === 200) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.status === 201) {
         Actions.generalInfo({ me: profile });
       }
     }

@@ -3,9 +3,11 @@ import {
   Alert,
  } from 'react-native';
 import {
+  ErrorMeta,
   UrlMeta,
   ServerMeta,
 } from './ApiMeta';
+import { Actions } from 'react-native-router-flux';
 
 class ApiUtil {
 
@@ -65,21 +67,79 @@ class ApiUtil {
     }
 
     if (jwt) {
+      if (api === 'API_EDIT_CAREER') jwt = jwt + 'a';
       reqSet.headers.access_token = jwt;
     }
 
-    fetch(url, reqSet)
-    .then(this.getResponse)
-    .then((res) => callback(res, null))
-    .catch((error) => callback(null, error));
+    this.url = url;
+    this.reqSet = reqSet;
+    this.callback = callback;
+
+    this.fetchData();
+
+  }
+
+  fetchData() {
+    fetch(this.url, this.reqSet)
+    .then(this.getResponse.bind(this))
+    .then((res) => this.callback(res, null))
+    .catch((error) => this.callback(null, error));
   }
 
   getResponse(response) {
-    if (response.status === 200 || response.status === 201) {
-      return response.json();
+    if (response.status === 200 || response.status === 201 || response.status === 401) {
+      return response.json()
+        .then((res) => {
+          res.status = response.status;
+          this.tokenCheck(res);
+          return res;
+        });
     } else {
-      throw new Error(response.status);
+      throw new Error(response);
     }
+  }
+
+  tokenCheck(response) {
+    if (response.status !== 401)
+      return response;
+    if (response.err_point === ErrorMeta.ERR_TOKEN_EXPIRED) {
+      this.requestUpdateToken();
+    } else {
+      (async () => {
+        try {
+          await AsyncStorage.removeItem('token');
+          Actions.login();
+        } catch (error) {
+          Alert.alert('ERROR: Try again');
+        }
+      })();
+    }
+  }
+
+  requestUpdateToken() {
+    let reqSet = {
+      method: 'PUT',
+      headers: {
+        access_token: this.reqSet.headers.access_token,
+      },
+    };
+    fetch(UrlMeta.HOST + UrlMeta.API_TOKEN, reqSet)
+    .then((response)=> {
+      if (response.status === 200 || response.status === 201) {
+        return response.json();
+      } else {
+        throw new Error(response);
+      }
+    })
+    .then((response)=> {
+      if (response.access_token) {
+        AsyncStorage.setItem('token', response.access_token);
+        this.reqSet.headers.access_token = response.access_token;
+      }
+
+      this.fetchData();
+    })
+    .catch((error) => Alert.alert(error));
   }
 
 }

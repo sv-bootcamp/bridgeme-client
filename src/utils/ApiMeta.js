@@ -9,7 +9,7 @@ export const ServerMeta = {
 };
 
 export const UrlMeta = {
-  HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
+  HOST: 'http://127.0.0.1:80/',
   API_LOGIN: 'users/signIn/',
   API_MENTOR:  'users/mentorlist/',
   API_ALL: 'users/all/',
@@ -20,6 +20,11 @@ export const UrlMeta = {
   API_MENTOR_RESP: 'match/response/',
   API_GET_SURVEY_MENTEE: 'survey/request/mentee',
   API_GET_SURVEY_MENTOR: 'survey/request/mentor',
+  API_GET_CAREER: 'survey/request/mentor',
+  API_GET_GENERAL: 'users/General/',
+  API_GET_CAREER: 'users/Career/',
+  API_GET_EXPERTISE: 'users/Expertise/',
+  API_GET_PERSONALITY: 'users/Personality/',
   API_SEND_RESULT: 'survey/answer/',
   API_EDIT_GENERAL: 'users/editGeneral/',
   API_EDIT_CAREER: 'users/editCareer/',
@@ -38,6 +43,7 @@ export const UrlMeta = {
 export const ErrorMeta = {
   ERR_NONE: 'Undefined Error',
   ERR_TOKEN_INVALID: 'Token has been expired. Try again',
+  ERR_TOKEN_EXPIRED: 'jwt expired',
   ERR_SERVER_FAIL: 'Login again',
   ERR_NO_LOGIN_TYPE: 'Server error. Try again',
   ERR_FB_LOGIN: 'Login error from facebook',
