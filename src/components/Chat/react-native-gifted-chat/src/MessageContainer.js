@@ -31,7 +31,7 @@ export default class MessageContainer extends React.Component {
     this.state = {
       dataSource: dataSource.cloneWithRows(messagesData.blob, messagesData.keys),
       remainSpace: 0,
-      opponentInfoInfo: props.opponentInfoInfo,
+      opponentInfo: props.opponentInfo,
     };
   }
 
@@ -75,8 +75,28 @@ export default class MessageContainer extends React.Component {
     const messagesData = this.prepareMessages(nextProps.messages);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(messagesData.blob, messagesData.keys),
-      opponentInfoInfo: nextProps.opponentInfoInfo,
+      opponentInfo: nextProps.opponentInfo,
     });
+  }
+
+  getExperienceInfo(user) {
+    let experienceInfo = '';
+    if (user) {
+      if (this.state.opponentInfo.experience.length > 0) {
+        if (this.state.opponentInfo.experience[0].position && this.state.opponentInfo.experience[0].employer) {
+          experienceInfo = `${this.state.opponentInfo.experience[0].position.name} at ` +
+            `${this.state.opponentInfo.experience[0].employer.name}`;
+        } else {
+          if (this.state.opponentInfo.experience[0].position) {
+            experienceInfo = this.state.opponentInfo.experience[0].position.name;
+          } else if (this.state.opponentInfo.experience[0].employer) {
+            experienceInfo = this.state.opponentInfo.experience[0].employer.name;
+          }
+        }
+      }
+    }
+
+    return experienceInfo;
   }
 
   renderFooter() {
@@ -162,7 +182,7 @@ export default class MessageContainer extends React.Component {
   }
 
   renderIfRemainSpaceisBiggerThanHeaderSize() {
-    if (this.state.remainSpace > 110) {
+    if (this.state.remainSpace > 0) {
       return this.renderHeader();
     }
 
@@ -170,7 +190,7 @@ export default class MessageContainer extends React.Component {
   }
 
   renderIfRemainSpaceisSmallerThanHeaderSize() {
-    if (this.state.remainSpace <= 110) {
+    if (this.state.remainSpace < 0) {
       return this.renderHeader();
     }
 
@@ -182,23 +202,20 @@ export default class MessageContainer extends React.Component {
       <View style={styles.headerContainer}>
         <View style={styles.headerRow}>
           <Image style={styles.photo}
-                 source={{ uri: this.state.opponentInfoInfo ? this.state.opponentInfoInfo.profile_picture : '' }}/>
+                 source={
+                   { uri: this.state.opponentInfo ? this.state.opponentInfo.profile_picture : '' }
+                 }
+          />
           <View style={styles.userInformation}>
-              <Text style={styles.name}>
-                {this.state.opponentInfoInfo ? this.state.opponentInfo.name : ''}
-              </Text>
-              <Text style={styles.work}>
-                {this.state.opponentInfo ?
-                  this.state.opponentInfo.work.length != 0 ?
-                    `${this.state.opponentInfo.work[0].position.name} at ` +
-                    `${this.state.opponentInfo.work[0].employer.name}` :
-                    '' :
-                  ''
-                }
-              </Text>
-              <Text style={styles.connectMessage}>
-                You are connected now.
-              </Text>
+            <Text style={styles.name}>
+              {this.state.opponentInfo ? this.state.opponentInfo.name : ''}
+            </Text>
+            <Text style={styles.experience}>
+              {this.getExperienceInfo(this.state.opponentInfo)}
+            </Text>
+            <Text style={styles.connectMessage}>
+              You are connected now.
+            </Text>
           </View>
         </View>
       </View>
@@ -241,7 +258,7 @@ const styles = StyleSheet.create({
     color: '#aaa',
   },
   headerContainer: {
-    height: 110,
+    height: 100,
   },
   headerRow: {
     height: 100,
@@ -271,7 +288,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
 
   },
-  work: {
+  experience: {
     lineHeight: 12,
     fontSize: 12,
     paddingTop: 8,

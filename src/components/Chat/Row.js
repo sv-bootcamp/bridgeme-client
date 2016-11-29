@@ -75,14 +75,12 @@ export default class Row extends Component {
   }
 
   getTimestamp() {
-    const createdAt = this.state.lastMessageInfo.createdAt;
-    return this.state.lastMessageInfo ?
-      (
-        moment(Date.now()).startOf('day').isSame(moment(createdAt).startOf('day')) ?
+    if (this.state.lastMessageInfo) {
+      const createdAt = this.state.lastMessageInfo.createdAt;
+      return moment(Date.now()).startOf('day').isSame(moment(createdAt).startOf('day')) ?
         moment(createdAt).format('LT') :
-        moment(createdAt).format('MMM DD')
-      )
-      : '';
+        moment(createdAt).format('MMM DD');
+    }
   }
 
   render() {
