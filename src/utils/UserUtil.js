@@ -20,9 +20,10 @@ class UserUtil {
           if (result.isCancelled) {
             alert(ErrorMeta.ERR_FB_LOGIN_CANCELLED);
           } else {
-            FCM.getFCMToken().then(token => {
+            FCM.getFCMToken().then((token) => {
               AccessToken.getCurrentAccessToken()
                 .then((data) => {
+                  console.log(token);
                   const body = {};
                   body.platform_type = LoginMeta.LOGIN_TYPE_FB;
                   body.access_token = data.accessToken.toString();

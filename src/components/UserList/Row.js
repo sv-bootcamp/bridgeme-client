@@ -88,9 +88,16 @@ class Row extends Component {
     let profileId = { _id: this.props.dataSource._id };
     const goToUserProfile = () => Actions.userProfile(profileId);
 
+    let viewStyle = [
+      styles.rowView,
+      {
+        marginRight: this.props.dataSource.last ? 36 : 15,
+      },
+    ]
+
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>
-        <View style={styles.rowView}>
+        <View style={viewStyle}>
           <Image style={styles.photo}
             source={this.state.profileImage}/>
           <Image style={styles.bookmarkIcon}
@@ -102,15 +109,17 @@ class Row extends Component {
             <Text style={styles.skillTitle}>I am expertised in</Text>
             <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
-            <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
+            <View style={styles.connectBtnContainer}>
+              <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-            <TouchableWithoutFeedback>
-              <View style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>CONNECT</Text>
-              </View>
-            </TouchableWithoutFeedback>
-            </LinearGradient>
+                <TouchableWithoutFeedback>
+                  <View style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>CONNECT</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </LinearGradient>
+            </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -118,33 +127,33 @@ class Row extends Component {
 }
 
 const CARD_PREVIEW_WIDTH = 10;
-const CARD_MARGIN = 10;
-const CARD_WIDTH = Dimensions.get('window').width - (CARD_MARGIN + 10 + CARD_PREVIEW_WIDTH) * 2;
-const CARD_HEIGHT = Dimensions.get('window').height - 180;
+const CARD_MARGIN = 15;
+const CARD_WIDTH = Dimensions.get('window').width - 72;
+const CARD_HEIGHT = Dimensions.get('window').height - 182;
 const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   rowView: {
     flex: 1,
     backgroundColor: '#ffffff',
     width: CARD_WIDTH,
-    margin: CARD_MARGIN,
-    marginTop: 100,
-    height: CARD_HEIGHT,
+    marginRight: CARD_MARGIN,
     justifyContent: 'center',
     borderRadius: 4,
-    shadowColor: '#000000',
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    shadowOffset: {
-      height: 1,
-      width: 0.3,
-    },
     ...Platform.select({
       ios: {
-        marginTop: 100,
+        height: CARD_HEIGHT + 10,
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
       },
       android: {
-        marginTop: 90,
+        height: CARD_HEIGHT,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
       },
     }),
   },
@@ -200,19 +209,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#2e3031',
   },
-  connectBtnStyle: {
+  connectBtnContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  connectBtnStyle: {
     width: CARD_WIDTH / 1.78,
-    height: CARD_HEIGHT / 11,
-    left: CARD_WIDTH / 2 - 85,
+    height: 45,
     marginBottom: CARD_HEIGHT / 20,
     borderRadius: CARD_HEIGHT / 4.12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonContainer: {
     backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
+    flex: 1,
     fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
