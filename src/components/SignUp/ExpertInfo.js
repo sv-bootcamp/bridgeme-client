@@ -28,12 +28,15 @@ class ExpertInfo extends Component {
     for (i = 0; i < this.state.options.length; i++) {
       this.state.checked.push(false);
     }
+
+    UserUtil.getExpert(this.onGetExpertCallback.bind(this));
   }
 
   componentDidMount() {
-    if(this.props.fromEdit)
+    if (this.props.fromEdit)
       Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
   }
+
   // Update checkbox state
   updateCheckBox(answerIdx, optionIdx, isFreeForm, isChecked) {
     this.state.checked[optionIdx] = !this.state.checked[optionIdx];
@@ -67,6 +70,19 @@ class ExpertInfo extends Component {
     }
   }
 
+  onGetExpertCallback(result, error) {
+    if (error) {
+      alert(error.msg);
+    } else if (result.length !== 0) {
+      result.map(
+        (object, idx) => {
+          this.state.checked[object.index] = true;
+        }
+      );
+      this.forceUpdate();
+    }
+  }
+
   onNextBtnPressed() {
     let expertise = [];
     for (i = 0; i < this.state.checked.length; i++) {
@@ -86,7 +102,7 @@ class ExpertInfo extends Component {
 
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = (
         <View style={styles.btnContainer}>
           <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >

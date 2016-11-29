@@ -23,7 +23,6 @@ class UserUtil {
             FCM.getFCMToken().then((token) => {
               AccessToken.getCurrentAccessToken()
                 .then((data) => {
-                  console.log(token);
                   const body = {};
                   body.platform_type = LoginMeta.LOGIN_TYPE_FB;
                   body.access_token = data.accessToken.toString();
@@ -81,6 +80,16 @@ class UserUtil {
   // Get CareerInfo
   getCareer(callback) {
     apiUtil.requestGetWithToken(callback, 'API_GET_CAREER');
+  }
+
+  // Get ExpertInfo
+  getExpert(callback) {
+    apiUtil.requestGetWithToken(callback, 'API_GET_EXPERTISE');
+  }
+
+  // Get ExpertInfo
+  getPersonality(callback) {
+    apiUtil.requestGetWithToken(callback, 'API_GET_PERSONALITY');
   }
 
   // Get activity list(request, received)

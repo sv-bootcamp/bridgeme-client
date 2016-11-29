@@ -25,6 +25,7 @@ class Personality extends Component {
       values: [],
       sliderTitle: Personalites,
     };
+    UserUtil.getPersonality(this.onGetPersonalityCallback.bind(this));
   }
 
   onUploadCallback(result, error) {
@@ -34,8 +35,16 @@ class Personality extends Component {
       if (this.props.fromEdit) {
         Actions.pop();
       } else {
-        Actions.completed({me: this.props.me});
+        Actions.completed({ me: this.props.me });
       }
+    }
+  }
+
+  onGetPersonalityCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result.length !== 0) {
+      console.log(this.state.values);
     }
   }
 
@@ -44,7 +53,7 @@ class Personality extends Component {
     values.fill(0, 0, values.length);
     this.setState({ values: values });
 
-    if(this.props.fromEdit)
+    if (this.props.fromEdit)
       Actions.refresh({ rightTitle: 'SAVE', onRight: this.sendRequest.bind(this) });
   }
 
@@ -74,6 +83,7 @@ class Personality extends Component {
   }
 
   render() {
+    console.log(this.state.values);
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (
         <View key={index} style ={{ flex: 1 }} >
           <View style={styles.sliderTitle}>
@@ -91,7 +101,7 @@ class Personality extends Component {
             maximumValue={2}
             minimumValue={-2}
             step={1}
-            value={0}
+            value={this.state.values[index]}
           />
         </View>
       )
@@ -99,7 +109,7 @@ class Personality extends Component {
 
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = (
         <View style={{ flex: 1, marginTop: 50, }}>
           <TouchableOpacity onPress={this.sendRequest.bind(this)}>
