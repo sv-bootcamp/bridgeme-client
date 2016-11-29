@@ -67,7 +67,6 @@ class ApiUtil {
     }
 
     if (jwt) {
-      if (api === 'API_EDIT_CAREER') jwt = jwt + 'a';
       reqSet.headers.access_token = jwt;
     }
 
@@ -76,7 +75,6 @@ class ApiUtil {
     this.callback = callback;
 
     this.fetchData();
-
   }
 
   fetchData() {
@@ -105,6 +103,7 @@ class ApiUtil {
     if (response.err_point === ErrorMeta.ERR_TOKEN_EXPIRED) {
       this.requestUpdateToken();
     } else {
+      console.log(response);
       (async () => {
         try {
           await AsyncStorage.removeItem('token');

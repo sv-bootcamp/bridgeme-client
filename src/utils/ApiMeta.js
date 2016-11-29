@@ -9,7 +9,7 @@ export const ServerMeta = {
 };
 
 export const UrlMeta = {
-  HOST: 'http://127.0.0.1:80/',
+  HOST: 'http://192.168.0.87:80/',
   API_LOGIN: 'users/signIn/',
   API_MENTOR:  'users/mentorlist/',
   API_ALL: 'users/all/',

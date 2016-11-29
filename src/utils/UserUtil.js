@@ -78,6 +78,11 @@ class UserUtil {
     apiUtil.requestGetWithToken(callback, 'API_ME');
   }
 
+  // Get CareerInfo
+  getCareer(callback) {
+    apiUtil.requestGetWithToken(callback, 'API_GET_CAREER');
+  }
+
   // Get activity list(request, received)
   getActivityList(callback) {
     apiUtil.requestGetWithToken(callback, 'API_ACTIVITY');

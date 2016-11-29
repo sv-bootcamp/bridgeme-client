@@ -43,13 +43,15 @@ class Login extends Component {
   }
 
   onTokenValidCheck(profile, error) {
-    this.setState({ loaded: true });
     if (error) {
       this.setState({ loaded: true });
-    } else if (false) {
-      if (profile.status === 200) {
+    } else if (profile) {
+      console.log(profile);
+      if (profile.status === 201) {
         Actions.generalInfo({ me: profile });
-      } else if (profile.status === 201) {
+      } else if (profile.personality.length === 0) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.status === 200) {
         Actions.generalInfo({ me: profile });
       }
     } else {
@@ -185,9 +187,12 @@ class Login extends Component {
     if (error) {
       this.alert('Sever error(Profile)! Please sign in again.');
     } else if (profile) {
-      if (profile.status === 200) {
-        Actions.main({ me: profile });
-      } else if (profile.status === 201) {
+      console.log(profile);
+      if (profile.status === 201) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.personality.length === 0) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.status === 200) {
         Actions.generalInfo({ me: profile });
       }
     }

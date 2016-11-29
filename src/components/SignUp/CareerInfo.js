@@ -60,6 +60,8 @@ class CareerInfo extends Component {
       this.state.checked[3] = true;
     }
 
+    UserUtil.getCareer(this.onGetCareerCallback.bind(this));
+
   }
 
   componentDidMount() {
@@ -126,6 +128,7 @@ class CareerInfo extends Component {
                   <Dropdown
                     style={{ height: 40, width: Dimensions.get('window').width - 60 }}
                     values={this.state.option[idx]}
+                    selected={this.state.option[idx].indexOf(this.state.selected[idx])}
                     onChange={(CareerData) => {
                       this.onSelect(CareerData.value, idx);
                     }}/>
@@ -139,6 +142,7 @@ class CareerInfo extends Component {
                 <Text style={styles.questionText}>{this.state.questions[idx]}</Text>
                 <View style={[styles.dropdownContainer]}>
                   <Select
+                    value={this.state.selected[idx]}
                     ref={'SELECT' + idx}
                     clear={clear}
                     activate={activate}
@@ -148,7 +152,7 @@ class CareerInfo extends Component {
                     optionListRef={this.getOptionList.bind(this)}
                     onSelect={this.onSelect.bind(this)}>
                     {this.getOptionSet(idx)}
-                    </Select>
+                  </Select>
                     <OptionList ref={'OPTION' + idx} index={idx}/>
                 </View>
               </View>
@@ -160,7 +164,6 @@ class CareerInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      console.log(error);
       alert(JSON.stringify(error));
     } else if (result) {
       if (this.props.fromEdit) {
@@ -168,6 +171,32 @@ class CareerInfo extends Component {
       } else {
         Actions.expertInfo({ me: this.props.me });
       }
+    }
+  }
+
+  onGetCareerCallback(result, error) {
+    console.log(result);
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result.length !== 0) {
+      console.log(result[0]);
+      this.state.option[1] = CareerData.role[CareerData.area.indexOf(result[0].area)].list;
+
+      this.state.selected[0] = result[0].area;
+      this.state.selected[1] = result[0].role;
+      this.state.selected[2] = result[0].years;
+      this.state.selected[3] = result[0].education_background;
+      for (i = 0; i < 4; i++) {
+        this.onSelect(this.state.selected[i], i);
+      }
+
+      this.state.checked[0] = true;
+      this.state.checked[1] = true;
+      this.state.checked[2] = true;
+      this.state.checked[3] = true;
+
+      console.log(this.state);
+      this.forceUpdate();
     }
   }
 
