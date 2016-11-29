@@ -44,6 +44,7 @@ class UserList extends Component {
         }),
       });
 
+      result[result.length - 1].last = true;
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(result.slice()),
         loaded: true,
@@ -56,7 +57,8 @@ class UserList extends Component {
     UserUtil.getMentorList(this.onServerCallback.bind(this));
   }
 
-  renderRow(rowData) {
+  renderRow(rowData, sectionID, rowID) {
+    rowData['rowID'] = rowID;
     return <Row dataSource={rowData}/>;
   }
 

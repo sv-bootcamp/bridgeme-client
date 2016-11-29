@@ -83,7 +83,7 @@ class ConnectedRow extends Component {
   onChatButtonPress() {
     Actions.chatPage({
       title: this.props.dataSource.name,
-      me: { userId: this.props.me._id },
+      me: { userId: this.props.dataSource._id },
       opponent: { userId: this.props.dataSource._id },
     });
   }

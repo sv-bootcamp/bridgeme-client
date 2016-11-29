@@ -13,6 +13,7 @@ export const UrlMeta = {
   API_LOGIN: 'users/signIn/',
   API_MENTOR:  'users/mentorlist/',
   API_ALL: 'users/all/',
+  API_CHATTING_PUSH: 'match/push/',
   API_ME: 'users/me/',
   API_USER: 'users/id/',
   API_ACTIVITY: 'match/activity/',
