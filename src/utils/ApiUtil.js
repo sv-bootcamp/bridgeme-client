@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import {
   AsyncStorage,
   Alert,
@@ -9,7 +10,11 @@ import {
 } from './ApiMeta';
 import { Actions } from 'react-native-router-flux';
 
-class ApiUtil {
+class ApiUtil extends Component {
+
+  constructor(props) {
+    super(props);
+  }
 
   requestGet(callback, api, body = null, contentType = ServerMeta.CONTENT_TYPE_URL) {
     this.request(callback, api, 'GET', body, contentType);

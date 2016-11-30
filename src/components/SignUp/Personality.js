@@ -24,6 +24,7 @@ class Personality extends Component {
     this.state = {
       values: [],
       sliderTitle: Personalites,
+      needRefresh: true,
     };
     UserUtil.getPersonality(this.onGetPersonalityCallback.bind(this));
   }
@@ -54,7 +55,20 @@ class Personality extends Component {
     this.setState({ values: values });
 
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.sendRequest.bind(this) });
+      Actions.refresh({ onRight: this.sendRequest.bind(this) });
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.fromEdit && this.state.needRefresh) {
+      Actions.refresh({
+        onRight: this.sendRequest.bind(this),
+        onBack: () => {
+          this.setState({ needRefresh: true });
+          Actions.pop();
+        },
+      });
+      this.setState({ needRefresh: false });
+    }
   }
 
   sendRequest() {

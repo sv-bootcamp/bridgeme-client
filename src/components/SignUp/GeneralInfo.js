@@ -55,6 +55,7 @@ class GeneralInfo extends Component {
       eduDataSource: eduDS.cloneWithRows([]),
       workDataSource: workDS.cloneWithRows([]),
       imageResource: null,
+      needRefresh: true,
     };
   }
 
@@ -81,7 +82,20 @@ class GeneralInfo extends Component {
     }
 
     if(this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.regist.bind(this) });
+      Actions.refresh({ onRight: this.regist.bind(this) });
+  }
+
+  componentWillReceiveProps(props) {
+    if(props.fromEdit && this.state.needRefresh) {
+      Actions.refresh({
+        onRight: this.regist.bind(this),
+        onBack: () => {
+          this.setState({ needRefresh: true });
+          Actions.pop();
+        }
+      });
+      this.setState({ needRefresh: false });
+    }
   }
 
   onGetMyProfileCallback(result, error) {
