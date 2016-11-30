@@ -199,10 +199,8 @@ class CareerInfo extends Component {
       this.state.selected[2] = result[0].years;
       this.state.selected[3] = result[0].education_background;
 
-      this.state.checked[0] = true;
-      this.state.checked[1] = true;
-      this.state.checked[2] = true;
-      this.state.checked[3] = true;
+      for (i = 0; i < 4; i++)
+        this.state.checked[i] = true;
 
       this.forceUpdate();
     }

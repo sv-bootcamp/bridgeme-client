@@ -35,11 +35,7 @@ class ExpertInfo extends Component {
 
   componentDidMount() {
     if (this.props.fromEdit)
-<<<<<<< HEAD
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
-=======
       Actions.refresh({ onRight: this.onNextBtnPressed.bind(this) });
->>>>>>> cbb4ea21bb33e1ceeb5b3ee8ac0efd489d89f597
   }
 
   // Update checkbox state

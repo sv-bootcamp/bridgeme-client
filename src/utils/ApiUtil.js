@@ -127,7 +127,7 @@ class ApiUtil extends Component {
       },
     };
     fetch(UrlMeta.HOST + UrlMeta.API_TOKEN, reqSet)
-    .then((response)=> {
+    .then((response) => {
       if (response.status === 200 || response.status === 201) {
         return response.json();
       } else {

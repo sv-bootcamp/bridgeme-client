@@ -35,27 +35,11 @@ class Login extends Component {
       if (err) {
         this.setState({ loaded: true });
       } else if (result) {
-        UserUtil.getMyProfile(this.onTokenValidCheck.bind(this));
+        UserUtil.getMyProfile(this.onGetProfileCallback.bind(this));
       } else {
         this.setState({ loaded: true });
       }
     });
-  }
-
-  onTokenValidCheck(profile, error) {
-    if (error) {
-      this.setState({ loaded: true });
-    } else if (profile) {
-      if (profile.status === 201) {
-        Actions.generalInfo({ me: profile });
-      } else if (profile.personality.length === 0) {
-        Actions.generalInfo({ me: profile });
-      } else if (profile.status === 200) {
-        Actions.main({ me: profile });
-      }
-    } else {
-      this.setState({ loaded: true });
-    }
   }
 
   render() {
@@ -192,6 +176,8 @@ class Login extends Component {
         Actions.generalInfo({ me: profile });
       } else if (profile.status === 200) {
         Actions.main({ me: profile });
+      } else {
+        this.setState({ loaded: true });
       }
     }
   }
