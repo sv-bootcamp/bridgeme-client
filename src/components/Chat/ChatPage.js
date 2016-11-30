@@ -31,7 +31,6 @@ class ChatPage extends Component {
 
     this.state = {
       messages: [],
-      channel: props.channel,
       isTyping: false,
     };
   }
@@ -135,9 +134,8 @@ class ChatPage extends Component {
         channel: null,
       });
 
+      UserUtil.getOthersProfile(this.onOpponentInfoRequest.bind(this), opponent.userId);
       const userIds = [me.userId, opponent.userId];
-
-      UserUtil.getOthersProfile(this.onServerCallback.bind(this), opponent.userId);
 
       this.sb.GroupChannel.createChannelWithUserIds(
         userIds, true, '', '', '', function (channel, error) {
@@ -169,7 +167,7 @@ class ChatPage extends Component {
     }
   }
 
-  onServerCallback(result, error) {
+  onOpponentInfoRequest(result, error) {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {

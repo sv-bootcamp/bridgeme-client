@@ -31,12 +31,7 @@ class ChannelList extends Component {
     this.isConnected = false;
     this.sb = SendBird();
     this.ChannelHandler = new this.sb.ChannelHandler();
-    this.ChannelHandler.onMessageReceived = (channel, userMessage) => {
-      ///Todo : using channel & userMessage params, update list seperately.
-      this.initChannelList();
-    };
-
-    this.sb.addChannelHandler('ChannelList', this.ChannelHandler);
+    this.ChannelHandler.onMessageReceived = this.onMessageReceived.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,25 +41,6 @@ class ChannelList extends Component {
   componentDidMount() {
     AppState.addEventListener('change', this.onAppStateChange.bind(this));
     NetInfo.isConnected.addEventListener('change', this.onConnectionStateChange.bind(this));
-  }
-
-  onConnectionStateChange(isConnected) {
-    this.isConnected = isConnected;
-    if (this.isConnected) {
-      this.connectSendBird();
-    } else {
-      SendBird().disconnect();
-    }
-  }
-
-  onAppStateChange(state) {
-    if (state === 'active') {
-      if (this.isConnected) {
-        this.connectSendBird();
-      }
-    } else {
-      SendBird().disconnect();
-    }
   }
 
   connectSendBird() {
@@ -78,15 +54,40 @@ class ChannelList extends Component {
     }.bind(this));
   }
 
+  onAppStateChange(state) {
+    if (state === 'active') {
+      if (this.isConnected) {
+        this.connectSendBird();
+      }
+    } else {
+      this.sb.removeChannelHandler('ChannelList');
+      SendBird().disconnect();
+    }
+  }
+
+  onConnectionStateChange(isConnected) {
+    this.isConnected = isConnected;
+    if (this.isConnected) {
+      this.connectSendBird();
+    } else {
+      this.sb.removeChannelHandler('ChannelList');
+      SendBird().disconnect();
+    }
+  }
+
+  onMessageReceived(channel, userMessage) {
+    this.initChannelList();
+  }
+
   componentWillUnmount() {
     AppState.removeEventListener('change');
-    this.sb.removeChannelHandler('ChannelList');
   }
 
   initChannelList() {
     if (SendBird().getConnectionState() === 'OPEN') {
       const channelListQuery = SendBird().GroupChannel.createMyGroupChannelListQuery();
       channelListQuery.includeEmpty = true;
+      this.sb.addChannelHandler('ChannelList', this.ChannelHandler);
 
       if (channelListQuery.hasNext) {
         channelListQuery.next(function (channelList, error) {

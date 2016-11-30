@@ -16,7 +16,7 @@ import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import UserList from './UserList/UserList';
 
-const APP_ID = 'D1A48349-CBE6-41FF-9FF8-BCAA2A068B05';
+const APP_ID = 'B0CB1759-B7E9-436D-A9CD-C818EE69E7B4';
 
 class Main extends Component {
   constructor(props) {
@@ -85,7 +85,7 @@ class Main extends Component {
               <Text>Tournament</Text>
             </View>
           </ScrollView>
-          <Activity tabLabel="ios-people" style={styles.tabView} />
+          <Activity tabLabel="ios-people" style={styles.tabView}  me={this.props.me} />
           <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
         <MyPage tabLabel="md-contact" me={this.props.me} />
       </ScrollableTabView>
