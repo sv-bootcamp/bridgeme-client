@@ -45,8 +45,42 @@ class Personality extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result.length !== 0) {
-      console.log(this.state.values);
+      const values = this.state.values.slice();
+
+      for (let i = 0, sliderIndex = 0; i < result.length; i += 2, sliderIndex++) {
+
+        // 0 means it has no direction
+        if (result[i].score === 0) {
+          continue;
+        } else {
+          const direction = this.findDirection(result[i].option);
+          values[sliderIndex] = result[i].score *= direction;
+          i--;
+        }
+      }
+
+      this.setState({ values: values });
     }
+  }
+
+  /**
+   * Return -1 if given personality is from left side, or return 1
+   * if given personality is from right side.
+   * @param {string} option - given personality
+   * @returns {number} The direction. if nothing matches, return 0
+   */
+  findDirection(option) {
+    for (let options of Personalites) {
+      if (options[0] === option) {
+        return -1;
+      } else if (options[1] === option) {
+        return 1;
+      } else {
+        continue;
+      }
+    }
+
+    return 0;
   }
 
   componentDidMount() {
