@@ -11,8 +11,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import OverviewRow from './OverviewRow';
 import UserUtil from '../../utils/UserUtil';
 
 class UserOverview extends Component {
@@ -33,25 +31,12 @@ class UserOverview extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      let sectionIDs = ['About', 'I am expertised in', 'Personality'];
-
-      this.setState({
-        dataSource: new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2,
-          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-        }),
-        dataBlob: {},
-      });
-
-      // TODO: change with real data
-      this.state.dataBlob[sectionIDs[0]] = '1';
-      this.state.dataBlob[sectionIDs[1]] = '2';
-      this.state.dataBlob[sectionIDs[2]] = '3';
-
       this.setState({
         id: result._id,
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
         loaded: true,
+        expertise: result.expertise.slice()
+          .map((value) => value.select)
+          .sort((a, b) => a.length - b.length),
       });
     }
   }
@@ -86,9 +71,44 @@ class UserOverview extends Component {
   }
 
   renderMyExpertise() {
+    const CHARACTER_WIDTH = 10;
+    const LINE_PADDING = 10;
+    const originArray = this.state.expertise;
+    const newArray = [[]];
+    let lineSize = 0;
+    let lineCount = 0;
+
+
+    for (let i = 0; i < originArray.length; i++) {
+      const itemSize = originArray[i].length * CHARACTER_WIDTH;
+
+      // Check to see if current line has exceed device width
+      if (lineSize + itemSize > WIDTH - LINE_PADDING) {
+        lineSize = 0;
+        lineCount++;
+        newArray[lineCount] = [];
+      }
+
+      newArray[lineCount].push(originArray[i]);
+      lineSize += itemSize;
+    }
+
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>My expertise</Text>
+          {
+            newArray.map((value, index) =>
+              (<View key={index} style={{ flexDirection: 'row' }}>
+                {
+                  value.map((value, index) =>
+                    (<View key={index} style={styles.tagRectangle}>
+                      <Text style={styles.tagText}>
+                        {value}
+                      </Text>
+                    </View>))
+                }
+              </View>))
+          }
       </View>
     );
   }
@@ -138,11 +158,34 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 20,
     marginLeft: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f2',
+    paddingBottom: 20,
   },
   sectionName: {
     fontFamily: 'SFUIText-Bold',
     fontSize: 12,
     color: '#a6aeae',
+    marginBottom: 20,
+  },
+  tagRectangle: {
+    backgroundColor: '#f0f0f2',
+    borderRadius: 25,
+    height: 38,
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginRight: 10,
+    marginBottom: 10,
+    justifyContent: 'center',
+  },
+  tagText: {
+    color: '#2e3031',
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 14,
+    backgroundColor: 'transparent',
+    textAlign: 'center',
   },
 });
 
