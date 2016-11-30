@@ -4,6 +4,8 @@ import {
 } from 'react-native';
 import {
   ActionConst,
+  Actions,
+  Alert,
 } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
 import CareerInfo from './SignUp/CareerInfo';
@@ -195,7 +197,7 @@ const AppProps = {
         Actions.pop();
 
         //Delay 10ms to refresh previous scene when current scene is completely popped.
-        setTimeout(() => Actions.refresh(), 10);
+        setTimeout(() => Actions.refresh(), 20);
       },
     },
     {

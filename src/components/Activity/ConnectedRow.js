@@ -12,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import ChatPage from '../Chat/ChatPage';
 
 class ConnectedRow extends Component {
   constructor(props) {
@@ -60,10 +59,10 @@ class ConnectedRow extends Component {
     let position = this.state.position;
     let company = this.state.company;
 
-    if (this.props.dataSource.work.length > 0) {
-      company = this.props.dataSource.work[0].employer.name;
-      if (this.props.dataSource.work[0].position) {
-        position = this.props.dataSource.work[0].position.name;
+    if (this.props.dataSource.experience.length > 0) {
+      company = this.props.dataSource.experience[0].employer.name;
+      if (this.props.dataSource.experience[0].position) {
+        position = this.props.dataSource.experience[0].position.name;
       }
 
       return position + ' at ' + company;
