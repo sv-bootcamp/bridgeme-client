@@ -59,10 +59,11 @@ class ConnectedRow extends Component {
     let position = this.state.position;
     let company = this.state.company;
 
-    if (this.props.dataSource.experience.length > 0) {
-      company = this.props.dataSource.experience[0].employer.name;
-      if (this.props.dataSource.experience[0].position) {
-        position = this.props.dataSource.experience[0].position.name;
+    const experience = this.props.dataSource.experience;
+    if (experience.length > 0) {
+      company = experience[0].employer.name;
+      if (experience[0].position) {
+        position = experience[0].position.name;
       }
 
       return position + ' at ' + company;
@@ -82,7 +83,7 @@ class ConnectedRow extends Component {
   onChatButtonPress() {
     Actions.chatPage({
       title: this.props.dataSource.name,
-      me: { userId: this.props.dataSource._id },
+      me: { userId: this.props.me._id },
       opponent: { userId: this.props.dataSource._id },
     });
   }
@@ -95,7 +96,7 @@ class ConnectedRow extends Component {
       <TouchableWithoutFeedback onPress={goToUserProfile}>
         <View style={styles.row}>
           <Image style={styles.photo}
-            source={this.state.profileImage}/>
+                 source={this.state.profileImage}/>
           <View style={styles.userInformation}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.currentStatus}>{this.state.currentStatus}</Text>
@@ -103,7 +104,7 @@ class ConnectedRow extends Component {
           <TouchableHighlight
             style={styles.chatButtonBackground}
             onPress={this.onChatButtonPress.bind(this)}
-            >
+          >
             <Image source={require('../../resources/chatButton.png')}/>
           </TouchableHighlight>
         </View>

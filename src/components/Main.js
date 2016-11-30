@@ -16,7 +16,7 @@ import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import UserList from './UserList/UserList';
 
-const APP_ID = 'B0CB1759-B7E9-436D-A9CD-C818EE69E7B4';
+const APP_ID = 'D398BE17-3332-43F7-988D-78B45C3FF9EB';
 
 class Main extends Component {
   constructor(props) {
