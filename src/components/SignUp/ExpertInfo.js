@@ -32,9 +32,10 @@ class ExpertInfo extends Component {
   }
 
   componentDidMount() {
-    if(this.props.fromEdit)
+    if (this.props.fromEdit)
       Actions.refresh({ onRight: this.onNextBtnPressed.bind(this) });
   }
+
   // Update checkbox state
   updateCheckBox(answerIdx, optionIdx, isFreeForm, isChecked) {
     this.state.checked[optionIdx] = !this.state.checked[optionIdx];
@@ -42,15 +43,15 @@ class ExpertInfo extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if(props.fromEdit && this.state.needRefresh) {
+    if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
           Actions.pop();
-        }
+        },
       });
-      this.setState({ needRefresh: false});
+      this.setState({ needRefresh: false });
     }
   }
 
@@ -100,7 +101,7 @@ class ExpertInfo extends Component {
 
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = (
         <View style={styles.btnContainer}>
           <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >

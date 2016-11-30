@@ -71,20 +71,20 @@ class CareerInfo extends Component {
       }
     }
 
-    if(this.props.fromEdit)
+    if (this.props.fromEdit)
       Actions.refresh({ onRight: this.onNextBtnPressed.bind(this) });
   }
 
   componentWillReceiveProps(props) {
-    if(props.fromEdit && this.state.needRefresh) {
+    if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
           Actions.pop();
-        }
+        },
       });
-      this.setState({ needRefresh: false});
+      this.setState({ needRefresh: false });
     }
   }
 
@@ -179,7 +179,7 @@ class CareerInfo extends Component {
       if (this.props.fromEdit) {
         Actions.pop();
       } else {
-        Actions.expertInfo({me: this.props.me});
+        Actions.expertInfo({ me: this.props.me });
       }
     }
   }
@@ -228,7 +228,7 @@ class CareerInfo extends Component {
   render() {
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = this.renderNextBtn();
     return (
       <View style ={styles.container}>

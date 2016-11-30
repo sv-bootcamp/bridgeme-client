@@ -94,7 +94,7 @@ class GeneralInfo extends Component {
           Actions.pop();
         }
       });
-      this.setState({ needRefresh: false});
+      this.setState({ needRefresh: false });
     }
   }
 
