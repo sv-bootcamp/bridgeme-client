@@ -5,7 +5,6 @@ import {
 import {
   ActionConst,
   Actions,
-  Alert,
 } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
 import CareerInfo from './SignUp/CareerInfo';
