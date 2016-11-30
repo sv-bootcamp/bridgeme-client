@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import SendBird from 'sendbird';
+import MatchUtil from '../../../../utils/MatchUtil';
 
 export default class Send extends React.Component {
   render() {
@@ -28,6 +29,14 @@ export default class Send extends React.Component {
     }
 
     return <View/>;
+  }
+
+  onUploadCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result) {
+      Actions.pop();
+    }
   }
 }
 

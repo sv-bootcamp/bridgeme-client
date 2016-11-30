@@ -44,13 +44,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       FCM.requestPermissions();
     }
-
-    FCM.getInitialNotification().then(notif => {
-      console.log(notif)
-    });
   }
 
   backAndroidHandler() {

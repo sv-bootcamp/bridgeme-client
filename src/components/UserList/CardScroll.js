@@ -79,26 +79,16 @@ export default class CardScroll extends Component {
   // Control preview page and next page
   controlScroll(e) {
     const event = e.nativeEvent;
+    const interval = Dimensions.get('window').width - 57;
 
-    if (this.props.showPreview === true && Platform.OS === 'ios') {
-      const newShowPreview = event.zoomScale <= 1;
-      if (this.state.showPreview !== newShowPreview) {
-        this.setState({ showPreview: newShowPreview });
-      }
-
-      if (!newShowPreview) {
-        return;
-      }
-    }
-
-    if (this.resetPrevListView !== null) {
-      const layoutWidth = event.layoutMeasurement.width;
-      const currentIndex = Math.floor((event.contentOffset.x + (0.5 * layoutWidth)) / layoutWidth);
-      const newPreviewOffset = ((currentIndex - 2) * this.props.previewImageSize) + this._bias;
-      if (this.previewOffset !== newPreviewOffset) {
-        this.resetPrevListView.scrollTo({ x: newPreviewOffset });
-        this.previewOffset = newPreviewOffset;
-      }
+    let offsetX = Math.ceil(event.contentOffset.x.toFixed(0));
+    let leftover = offsetX % interval;
+    if (leftover > 0 && leftover < 100) {
+      // Swipe right(iOS doesn't work)
+      // this.resetListView.scrollTo({x: offsetX - leftover + interval});
+    } else if (leftover > (interval - 100)) {
+      // Swipe left(iOS doesn't work)
+      // this.resetListView.scrollTo({x: offsetX - leftover});
     }
   }
 
@@ -146,7 +136,7 @@ export default class CardScroll extends Component {
       <ListView
         renderScrollComponent={this.renderScrollComponent}
         initialListSize={5}
-        onScroll={this.controlScroll}
+        onScroll={this.controlScroll.bind()}
         dataSource={this.props.dataSource}
         style={styles.listView}
         renderRow={this.props.renderRow.bind(this)}
@@ -160,11 +150,6 @@ export default class CardScroll extends Component {
   }
 }
 
-const CARD_PREVIEW_WIDTH = 10;
-const CARD_MARGIN = 25;
-const CARD_WIDTH = Dimensions.get('window').width - (CARD_MARGIN + CARD_PREVIEW_WIDTH) * 2;
-const CARD_HEIGHT = Dimensions.get('window').height - 200;
-const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
@@ -174,6 +159,15 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1,
+    paddingLeft: 36,
+    ...Platform.select({
+      ios: {
+        marginTop: 94,
+      },
+      android: {
+        marginTop: 84,
+      },
+    }),
   },
   previewListView: {
     marginTop: 2,

@@ -35,7 +35,15 @@ class MatchUtil {
   getActivityList(callback) {
     apiUtil.requestGetWithToken(callback, 'API_ACTIVITY');
   }
-
+  
+  // Send chatting message
+  sendChattingMessage(callback, senderId, message) {
+    let body = {};
+    body.senderId = senderId;
+    body.message = message;
+    apiUtil.requestPostWithToken(callback, 'API_CHATTING_PUSH', body);
+  }
+  
 };
 
 const matchUtil = new MatchUtil();
