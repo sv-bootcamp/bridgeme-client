@@ -33,7 +33,7 @@ class ExpertInfo extends Component {
 
   componentDidMount() {
     if(this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({ onRight: this.onNextBtnPressed.bind(this) });
   }
   // Update checkbox state
   updateCheckBox(answerIdx, optionIdx, isFreeForm, isChecked) {
@@ -44,7 +44,6 @@ class ExpertInfo extends Component {
   componentWillReceiveProps(props) {
     if(props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
-        rightTitle: 'SAVE',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });

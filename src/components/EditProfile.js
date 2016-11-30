@@ -19,6 +19,7 @@ class EditProfile extends Component {
       backButtonImage: leftButtonGrey,
       type: ActionConst.PUSH,
       fromEdit: true,
+      rightTitle: 'SAVE',
       rightButtonTextStyle: {
         color: '#44acff',
       },
