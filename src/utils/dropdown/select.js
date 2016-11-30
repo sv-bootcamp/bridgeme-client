@@ -101,12 +101,13 @@ class Select extends Component {
       styleOption,
       styleText,
       activate,
+      value,
     } = this.props;
     const dimensions = { width, height };
 
     let bgColor = (activate) ? '#ffffff' : '#fafafa';
+    if (value) this.state.value = value;
     if (clear) this.state.value = '';
-
     return (
       <TouchableWithoutFeedback disabled={!activate} onPress={this.onPress.bind(this)}>
         <View ref={SELECT}

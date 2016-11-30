@@ -1,10 +1,10 @@
 import {
+  Alert,
   StyleSheet,
 } from 'react-native';
 import {
   ActionConst,
   Actions,
-  Alert,
 } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
 import CareerInfo from './SignUp/CareerInfo';
@@ -190,6 +190,8 @@ const AppProps = {
     {
       key: 'chatPage',
       component: ChatPage,
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
       onBack: () => {
         Actions.pop();
 

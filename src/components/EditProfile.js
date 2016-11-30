@@ -28,19 +28,19 @@ class EditProfile extends Component {
     return (
       <View style={[styles.container]}>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => Actions.generalInfo(fromEditProps)}>
+          onPress={() => Actions.generalInfo(fromEditProps)}>
           <Text style={styles.menuText}>General information</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => Actions.careerInfo(fromEditProps)}>
+          onPress={() => Actions.careerInfo(fromEditProps)}>
           <Text style={styles.menuText}>Career background</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => Actions.expertInfo(fromEditProps)}>
+          onPress={() => Actions.expertInfo(fromEditProps)}>
           <Text style={styles.menuText}>My expertise</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}
-                          onPress={() => Actions.personality(fromEditProps)}>
+          onPress={() => Actions.personality(fromEditProps)}>
           <Text style={styles.menuText}>My personality</Text>
         </TouchableOpacity>
       </View>

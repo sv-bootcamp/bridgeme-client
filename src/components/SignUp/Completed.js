@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 
 class Completed extends Component {
@@ -20,7 +21,15 @@ class Completed extends Component {
   }
 
   onNextBtnPressed() {
-    Actions.main({ me: this.props.me });
+    UserUtil.getMyProfile(this.onGetProfileCallback.bind(this));
+  }
+
+  onGetProfileCallback(profile, error) {
+    if (error) {
+      alert('Sever error(Profile)! Please sign in again.');
+    } else if (profile) {
+      Actions.main({ me: profile });
+    }
   }
 
   render() {

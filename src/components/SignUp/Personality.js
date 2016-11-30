@@ -26,6 +26,7 @@ class Personality extends Component {
       sliderTitle: Personalites,
       needRefresh: true,
     };
+    UserUtil.getPersonality(this.onGetPersonalityCallback.bind(this));
   }
 
   onUploadCallback(result, error) {
@@ -37,6 +38,14 @@ class Personality extends Component {
       } else {
         Actions.completed({ me: this.props.me });
       }
+    }
+  }
+
+  onGetPersonalityCallback(result, error) {
+    if (error) {
+      alert(JSON.stringify(error));
+    } else if (result.length !== 0) {
+      console.log(this.state.values);
     }
   }
 
@@ -105,7 +114,7 @@ class Personality extends Component {
             maximumValue={2}
             minimumValue={-2}
             step={1}
-            value={0}
+            value={this.state.values[index]}
           />
         </View>
       )
