@@ -82,10 +82,11 @@ class MyPage extends Component {
     UserUtil.setRequestSetting(this.onRequestCallback.bind(this), value);
   }
 
-  signOut = async () => {
+  signOut = () => {
     try {
-      await AsyncStorage.removeItem('token');
-      Actions.login();
+      UserUtil.signOut((result, error) => {
+        AsyncStorage.removeItem('token', () => { Actions.login(); });
+      });
     } catch (error) {
       alert('ERROR: Try again');
     }
