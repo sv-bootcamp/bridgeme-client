@@ -24,6 +24,7 @@ class Personality extends Component {
     this.state = {
       values: [],
       sliderTitle: Personalites,
+      needRefresh: true,
     };
   }
 
@@ -34,7 +35,7 @@ class Personality extends Component {
       if (this.props.fromEdit) {
         Actions.pop();
       } else {
-        Actions.completed({me: this.props.me});
+        Actions.completed({ me: this.props.me });
       }
     }
   }
@@ -44,8 +45,21 @@ class Personality extends Component {
     values.fill(0, 0, values.length);
     this.setState({ values: values });
 
-    if(this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.sendRequest.bind(this) });
+    if (this.props.fromEdit)
+      Actions.refresh({ onRight: this.sendRequest.bind(this) });
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.fromEdit && this.state.needRefresh) {
+      Actions.refresh({
+        onRight: this.sendRequest.bind(this),
+        onBack: () => {
+          this.setState({ needRefresh: true });
+          Actions.pop();
+        },
+      });
+      this.setState({ needRefresh: false });
+    }
   }
 
   sendRequest() {
@@ -99,7 +113,7 @@ class Personality extends Component {
 
     let submitButton = null;
 
-    if(!this.props.fromEdit)
+    if (!this.props.fromEdit)
       submitButton = (
         <View style={{ flex: 1, marginTop: 50, }}>
           <TouchableOpacity onPress={this.sendRequest.bind(this)}>
