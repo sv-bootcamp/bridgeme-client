@@ -83,7 +83,6 @@ class Personality extends Component {
   }
 
   render() {
-    console.log(this.state.values);
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (
         <View key={index} style ={{ flex: 1 }} >
           <View style={styles.sliderTitle}>

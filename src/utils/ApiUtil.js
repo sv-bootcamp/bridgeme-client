@@ -103,7 +103,6 @@ class ApiUtil {
     if (response.err_point === ErrorMeta.ERR_TOKEN_EXPIRED) {
       this.requestUpdateToken();
     } else {
-      console.log(response);
       (async () => {
         try {
           await AsyncStorage.removeItem('token');

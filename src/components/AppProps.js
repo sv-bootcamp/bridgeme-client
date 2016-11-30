@@ -1,8 +1,8 @@
 import {
+  Alert,
   StyleSheet,
 } from 'react-native';
 import {
-  Alert,
   ActionConst,
 } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
@@ -189,6 +189,8 @@ const AppProps = {
     {
       key: 'chatPage',
       component: ChatPage,
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
       onBack: () => {
         Actions.pop();
 
@@ -205,7 +207,7 @@ const AppProps = {
       component: EditProfile,
       title: 'Edit profile',
       backButtonImage: leftButtonGrey,
-    }
+    },
   ],
 };
 

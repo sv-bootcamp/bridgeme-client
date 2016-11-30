@@ -46,13 +46,12 @@ class Login extends Component {
     if (error) {
       this.setState({ loaded: true });
     } else if (profile) {
-      console.log(profile);
       if (profile.status === 201) {
         Actions.generalInfo({ me: profile });
       } else if (profile.personality.length === 0) {
         Actions.generalInfo({ me: profile });
       } else if (profile.status === 200) {
-        Actions.generalInfo({ me: profile });
+        Actions.main({ me: profile });
       }
     } else {
       this.setState({ loaded: true });
@@ -187,13 +186,12 @@ class Login extends Component {
     if (error) {
       this.alert('Sever error(Profile)! Please sign in again.');
     } else if (profile) {
-      console.log(profile);
       if (profile.status === 201) {
         Actions.generalInfo({ me: profile });
       } else if (profile.personality.length === 0) {
         Actions.generalInfo({ me: profile });
       } else if (profile.status === 200) {
-        Actions.generalInfo({ me: profile });
+        Actions.main({ me: profile });
       }
     }
   }
