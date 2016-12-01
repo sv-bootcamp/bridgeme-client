@@ -21,6 +21,7 @@ export const UrlMeta = {
   API_GET_EXPERTISE: 'users/expertise/',
   API_GET_PERSONALITY: 'users/personality/',
   API_GET_REQUEST_SETTING: 'users/mentorMode/',
+  API_GET_SENDBIRD_APP_ID: 'chat/appid/',
   API_GET_SURVEY_MENTEE: 'survey/request/mentee',
   API_GET_SURVEY_MENTOR: 'survey/request/mentor',
   API_LOCAL_SIGNUP: 'users/localSignUp/',
