@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-class ExperienceRow extends Component {
+class CareerRow extends Component {
   constructor(props) {
     super(props);
 
@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ExperienceRow;
+module.exports = CareerRow;

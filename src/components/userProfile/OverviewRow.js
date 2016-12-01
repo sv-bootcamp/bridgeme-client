@@ -17,7 +17,7 @@ class OverviewRow extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
     //TODO: will be updated with real data
     this.setState({
