@@ -93,7 +93,7 @@ class Row extends Component {
       {
         marginRight: this.props.dataSource.last ? 36 : 15,
       },
-    ]
+    ];
 
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>

@@ -60,7 +60,7 @@ class ConnectedRow extends Component {
     let company = this.state.company;
 
     const experience = this.props.dataSource.experience;
-    if (experience.length > 0) {
+    if (experience && experience.length > 0) {
       company = experience[0].employer.name;
       if (experience[0].position) {
         position = experience[0].position.name;
