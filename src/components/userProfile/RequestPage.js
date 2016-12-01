@@ -79,41 +79,43 @@ class RequestPage extends Component {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
         <Text style={styles.subTitle}>Subjects</Text>
-        <MenuContext ref="MenuContext">
-          <View style={styles.dropdownContent}>
-            <Menu style={styles.dropdown}
-              onSelect={(value) => this.setState({ selection: value })}>
-              <MenuTrigger>
-                <Text>{this.state.selection}</Text>
-              </MenuTrigger>
-              <MenuOptions optionsContainerStyle={styles.dropdownOptions}
-                renderOptionsContainer={(options) =>
-                  <ScrollView>{options}</ScrollView>}>
-                <MenuOption value='Study abroad'>
-                  <Text>Study abroad</Text>
-                </MenuOption>
-                <MenuOption value='Get a new job'>
-                  <Text>Get a new job</Text>
-                </MenuOption>
-                <MenuOption value='Portfolio & resume'>
-                  <Text>Portfolio & resume</Text>
-                </MenuOption>
-                <MenuOption value='Start up'>
-                  <Text>Start up</Text>
-                </MenuOption>
-                <MenuOption value='Career change'>
-                  <Text>Career change</Text>
-                </MenuOption>
-                <MenuOption value='Networking'>
-                  <Text>Networking</Text>
-                </MenuOption>
-                <MenuOption value='Soft skills'>
-                  <Text>Soft skills</Text>
-                </MenuOption>
-              </MenuOptions>
-            </Menu>
-          </View>
-        </MenuContext>
+        <View style={{ zIndex: 500 }}>
+          <MenuContext ref="MenuContext">
+            <View style={styles.dropdownContent}>
+              <Menu style={styles.dropdown}
+                onSelect={(value) => this.setState({ selection: value })}>
+                <MenuTrigger>
+                  <Text>{this.state.selection}</Text>
+                </MenuTrigger>
+                <MenuOptions optionsContainerStyle={styles.dropdownOptions}
+                  renderOptionsContainer={(options) =>
+                    <ScrollView>{options}</ScrollView>}>
+                  <MenuOption value='Study abroad'>
+                    <Text>Study abroad</Text>
+                  </MenuOption>
+                  <MenuOption value='Get a new job'>
+                    <Text>Get a new job</Text>
+                  </MenuOption>
+                  <MenuOption value='Portfolio & resume'>
+                    <Text>Portfolio & resume</Text>
+                  </MenuOption>
+                  <MenuOption value='Start up'>
+                    <Text>Start up</Text>
+                  </MenuOption>
+                  <MenuOption value='Career change'>
+                    <Text>Career change</Text>
+                  </MenuOption>
+                  <MenuOption value='Networking'>
+                    <Text>Networking</Text>
+                  </MenuOption>
+                  <MenuOption value='Soft skills'>
+                    <Text>Soft skills</Text>
+                  </MenuOption>
+                </MenuOptions>
+              </Menu>
+            </View>
+          </MenuContext>
+        </View>
         <View style={styles.messageContainer}>
           <Text style={styles.subTitle}>Message</Text>
           <Text style={styles.messageLength}>{this.state.messageLength} / 140 </Text>
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     flexDirection: 'row',
+    zIndex: 100,
   },
   messageLength: {
     fontSize: 10,

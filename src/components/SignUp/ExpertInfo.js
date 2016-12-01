@@ -29,6 +29,8 @@ class ExpertInfo extends Component {
     for (i = 0; i < this.state.options.length; i++) {
       this.state.checked.push(false);
     }
+
+    UserUtil.getExpert(this.onGetExpertCallback.bind(this));
   }
 
   componentDidMount() {
@@ -79,6 +81,19 @@ class ExpertInfo extends Component {
       } else {
         Actions.personality({ me: this.props.me });
       }
+    }
+  }
+
+  onGetExpertCallback(result, error) {
+    if (error) {
+      alert(error.msg);
+    } else if (result.length !== 0) {
+      result.map(
+        (object, idx) => {
+          this.state.checked[object.index] = true;
+        }
+      );
+      this.forceUpdate();
     }
   }
 

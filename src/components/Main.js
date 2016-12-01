@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ErrorUtils from 'ErrorUtils';
 import {
   AppState,
   NetInfo,
