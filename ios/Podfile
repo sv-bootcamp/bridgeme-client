@@ -5,7 +5,8 @@ target 'Bridgeme' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
    use_frameworks!
 
-  # Pods for Bridgem
+  # Pods for BridgMe
    pod 'Firebase/Analytics'
    pod 'Firebase/Messaging'
+   pod 'FLAnimatedImage', '~> 1.0'
 end
