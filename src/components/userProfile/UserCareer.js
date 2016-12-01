@@ -33,7 +33,7 @@ class UserCareer extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       let sectionIDs = ['Education', 'Experience'];
 

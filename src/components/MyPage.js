@@ -34,7 +34,7 @@ class MyPage extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       if (result.msg) {
         // When setting mentor mode is done

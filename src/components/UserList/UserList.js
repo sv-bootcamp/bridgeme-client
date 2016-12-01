@@ -35,7 +35,7 @@ class UserList extends Component {
 
   onServerCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       // Refresh dataSource
       this.setState({

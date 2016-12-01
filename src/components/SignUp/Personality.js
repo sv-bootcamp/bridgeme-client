@@ -31,7 +31,7 @@ class Personality extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();
@@ -43,7 +43,7 @@ class Personality extends Component {
 
   onGetPersonalityCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result.length !== 0) {
       const values = this.state.values.slice();
 

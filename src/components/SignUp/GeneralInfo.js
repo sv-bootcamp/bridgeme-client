@@ -193,7 +193,7 @@ class GeneralInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();

@@ -41,7 +41,7 @@ class UserProfile extends Component {
 
   onReqestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       this.onRequestSuccess(result);
     }

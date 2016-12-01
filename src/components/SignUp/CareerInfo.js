@@ -179,7 +179,7 @@ class CareerInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();
@@ -191,7 +191,7 @@ class CareerInfo extends Component {
 
   onGetCareerCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result.length !== 0) {
       this.state.option[1] = CareerData.role[CareerData.area.indexOf(result[0].area)].list;
 
