@@ -108,6 +108,9 @@ class UserProfile extends Component {
         statusAsMentee: statusAsMentee,
         statusAsMentor: statusAsMentor,
       });
+    } else if (result.msg !== undefined) {
+      this.setState({ evalLoaded: true });
+      Actions.evalPageMain({ select: 'mentee' });
     }
   }
 

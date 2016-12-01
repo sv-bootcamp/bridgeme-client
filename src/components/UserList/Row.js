@@ -84,10 +84,14 @@ class Row extends Component {
     }
   }
 
+  sendRequest() {
+    Actions.requestPage({ id: this.props.dataSource._id });
+  }
+
   render() {
     let profileId = { _id: this.props.dataSource._id };
     const goToUserProfile = () => Actions.userProfile(profileId);
-
+    const connect = () => this.sendRequest();
     let viewStyle = [
       styles.rowView,
       {
@@ -113,7 +117,7 @@ class Row extends Component {
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={connect}>
                   <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>CONNECT</Text>
                   </View>
@@ -229,10 +233,10 @@ const styles = StyleSheet.create({
   buttonText: {
     flex: 1,
     fontFamily: 'SFUIText-Bold',
+    paddingTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
-    alignSelf: 'center',
   },
 });
 
