@@ -31,7 +31,6 @@ class UserOverview extends Component {
     if (error) {
       alert(JSON.stringify(error));
     } else if (result) {
-      console.log(result);
       this.setState({
         id: result._id,
         loaded: true,
