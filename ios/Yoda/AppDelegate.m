@@ -17,13 +17,20 @@
 @import FirebaseInstanceID;
 @import FirebaseMessaging;
 
+#import "SplashViewController.h"
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "RNFIRMessaging.h"
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-@interface AppDelegate () <UNUserNotificationCenterDelegate, FIRMessagingDelegate>
+@interface AppDelegate () <UNUserNotificationCenterDelegate, FIRMessagingDelegate> {
+  UIView *splashView;
+}
+
+- (void)startupAnimationDone:(NSString *)animationID
+                    finished:(NSNumber *)finished
+                     context:(void *)context;
 @end
 #endif
 
@@ -36,32 +43,54 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [NSThread sleepForTimeInterval:2.0]; // Used for splash screen for 2 secs
+  [self setNotification];
   
-  [FIRApp configure];
-  #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-  #endif
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
   
-  NSURL *jsCodeLocation;
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
+  UIViewController *rootViewController = [UIViewController new];
+  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"yoda"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
+  
+  
+  splashViewController = [[SplashViewController alloc] init];
+  splashView = splashViewController.view;
+  [self.window addSubview:splashView];
+  [self.window bringSubviewToFront:splashView];
+  
+  [UIView beginAnimations:nil context:nil];
+  [UIView setAnimationDuration:4.0];
+  [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.window cache:YES];
+  [UIView setAnimationDelegate:self];
+  [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];
+  
+  splashView.alpha = 1.0;
+  
+  [UIView commitAnimations];
   
   return YES;
+}
+
+- (void)startupAnimationDone:(NSString *)animationID
+                    finished:(NSNumber *)finished context:(void *)context {
+  [splashView removeFromSuperview];
+}
+
+- (void)setNotification {
+  [FIRApp configure];
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+#endif
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

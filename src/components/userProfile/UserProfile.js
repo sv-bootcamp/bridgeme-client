@@ -194,6 +194,11 @@ class UserProfile extends Component {
     }
 
     return (
+      <View style={{
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        flex: 1,
+      }}>
         <ScrollView>
           <StatusBar
             backgroundColor = "transparent"
@@ -226,10 +231,11 @@ class UserProfile extends Component {
             <UserOverview tabLabel='OVERVIEW' id={this.state.id}/>
             <UserCareer tabLabel='CAREER' id={this.state.id}/>
           </ScrollableTabView>
-          <View style={styles.btn}>
-            {connectButton}
-          </View>
         </ScrollView>
+        <View style={styles.btn}>
+          {connectButton}
+        </View>
+      </View>
     );
   }
 

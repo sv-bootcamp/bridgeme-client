@@ -10,8 +10,11 @@
 #import <UIKit/UIKit.h>
 @import UserNotifications;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate> {
+  UIViewController *splashViewController;
+}
 
 @property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, retain) UIViewController *splashViewController;
 
 @end

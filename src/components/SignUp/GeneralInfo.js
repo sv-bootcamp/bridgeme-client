@@ -82,12 +82,13 @@ class GeneralInfo extends Component {
     }
 
     if(this.props.fromEdit)
-      Actions.refresh({ onRight: this.regist.bind(this) });
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.regist.bind(this) });
   }
 
   componentWillReceiveProps(props) {
     if(props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightTitle: 'SAVE',
         onRight: this.regist.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
