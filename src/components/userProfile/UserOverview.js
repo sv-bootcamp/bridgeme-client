@@ -78,7 +78,6 @@ class UserOverview extends Component {
     let lineSize = 0;
     let lineCount = 0;
 
-
     for (let i = 0; i < originArray.length; i++) {
       const itemSize = originArray[i].length * CHARACTER_WIDTH;
 
