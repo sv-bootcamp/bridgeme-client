@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
-import ExperienceRow from './ExperienceRow';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
@@ -143,7 +142,7 @@ class UserProfile extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
       />
     );
   }

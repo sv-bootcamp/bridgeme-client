@@ -139,6 +139,7 @@ export default class CardScroll extends Component {
         onScroll={this.controlScroll.bind()}
         dataSource={this.props.dataSource}
         style={styles.listView}
+        enableEmptySections={true}
         renderRow={this.props.renderRow.bind(this)}
         ref={comp => {
           this.resetListView = comp;

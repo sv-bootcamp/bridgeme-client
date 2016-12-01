@@ -20,7 +20,7 @@ class UserOverview extends Component {
     this.state = {
       id: '',
       about: 'No data',
-      experts: [],
+      expertise: [],
       personality: [],
       score: [],
       loaded: false,
@@ -37,6 +37,10 @@ class UserOverview extends Component {
         expertise: result.expertise.slice()
           .map((value) => value.select)
           .sort((a, b) => a.length - b.length),
+        personality: result.personality.slice()
+          .map((value) => value.option),
+        score: result.personality.slice()
+          .map((value) => value.score),
       });
     }
   }
@@ -78,7 +82,6 @@ class UserOverview extends Component {
     let lineSize = 0;
     let lineCount = 0;
 
-
     for (let i = 0; i < originArray.length; i++) {
       const itemSize = originArray[i].length * CHARACTER_WIDTH;
 
@@ -114,10 +117,32 @@ class UserOverview extends Component {
   }
 
   renderPersonality() {
+    const personalityArray = this.state.personality;
+    const scoreArray = this.state.score;
+
+    const fontStyle = [
+      {
+        color: '#cdd2d2',
+        fontSize: 12,
+      },
+      {
+        color: '#757b7c',
+        fontSize: 16,
+      },
+      {
+        color: '#2e3031',
+        fontSize: 20,
+      },
+    ];
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>Personality</Text>
-        <Text>{this.state.personality}</Text>
+        {
+          personalityArray.map((value, index) =>
+            (<View key={index} style={{ flexDirection: 'row' }}>
+              <Text style={[fontStyle[scoreArray[index]], styles.personality]}>{value}</Text>
+            </View>))
+        }
       </View>
     );
   }
@@ -166,7 +191,7 @@ const styles = StyleSheet.create({
     fontFamily: 'SFUIText-Bold',
     fontSize: 12,
     color: '#a6aeae',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
@@ -186,6 +211,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     backgroundColor: 'transparent',
     textAlign: 'center',
+  },
+  personality: {
+    marginBottom: 5,
   },
 });
 
