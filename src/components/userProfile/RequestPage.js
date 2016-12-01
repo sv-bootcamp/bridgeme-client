@@ -79,7 +79,7 @@ class RequestPage extends Component {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
         <Text style={styles.subTitle}>Subjects</Text>
-        <View style={{ zIndex: 101, backgroundColor: 'blue'}}>
+        <View style={{ zIndex: 101 }}>
           <MenuContext ref="MenuContext">
             <View style={styles.dropdownContent}>
               <Menu style={styles.dropdown}
@@ -87,7 +87,7 @@ class RequestPage extends Component {
                 <MenuTrigger>
                   <Text>{this.state.selection}</Text>
                 </MenuTrigger>
-                <MenuOptions optionsContainerStyle={[styles.dropdownOptions, {backgroundColor: 'red'}]}
+                <MenuOptions optionsContainerStyle={styles.dropdownOptions}
                   renderOptionsContainer={(options) =>
                     <ScrollView>{options}</ScrollView>}>
                   <MenuOption value='Study abroad'>
@@ -116,7 +116,7 @@ class RequestPage extends Component {
             </View>
           </MenuContext>
         </View>
-        <View style={[styles.messageContainer, {backgroundColor: 'pink'}]}>
+        <View style={styles.messageContainer}>
           <Text style={styles.subTitle}>Message</Text>
           <Text style={styles.messageLength}>{this.state.messageLength} / 140 </Text>
         </View>
@@ -136,9 +136,9 @@ class RequestPage extends Component {
           </TouchableWithoutFeedback>
         </LinearGradient>
         <StatusBar
-          backgroundColor = 'transparent'
-          barStyle = 'default'
-          networkActivityIndicatorVisible={false}
+         backgroundColor = 'transparent'
+         barStyle = 'default'
+         networkActivityIndicatorVisible={false}
         />
       </ScrollView>
     );
@@ -234,8 +234,8 @@ const styles = StyleSheet.create({
   dropdown: {
     width: WIDTH - (WIDTH / 6),
     height: 40,
-    borderColor: '#efeff2',
     justifyContent: 'center',
+    borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 1,
     padding: 5,
@@ -246,10 +246,6 @@ const styles = StyleSheet.create({
     width: WIDTH - (WIDTH / 6),
     left: 30,
     height: 200,
-    position: 'absolute',
-    zIndex: 1000,
-    top: 0,
-    left: 0
   },
 });
 

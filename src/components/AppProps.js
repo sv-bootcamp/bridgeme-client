@@ -173,7 +173,7 @@ const AppProps = {
       key: 'requestPage',
       component: RequestPage,
       title: 'Request Connection',
-      backButtonImage: backButton,
+      backButtonImage: leftButtonGrey,
     },
     {
       key: 'requestSent',

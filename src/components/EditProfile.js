@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   menu: {
     height: 45,
     backgroundColor: 'white',
+    justifyContent: 'center',
     borderBottomWidth: 1,
     borderColor: '#efeff2',
   },
@@ -71,8 +72,6 @@ const styles = StyleSheet.create({
     fontFamily: 'SFUIText-Regular',
     color: '#2e3031',
     fontSize: 14,
-    marginTop: 16,
-    marginBottom: 15,
     marginLeft: 30,
   },
 });
