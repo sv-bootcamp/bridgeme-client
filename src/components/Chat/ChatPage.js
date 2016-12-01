@@ -169,7 +169,7 @@ class ChatPage extends Component {
 
   onOpponentInfoRequest(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       this.setState({
         opponentInfo: result,

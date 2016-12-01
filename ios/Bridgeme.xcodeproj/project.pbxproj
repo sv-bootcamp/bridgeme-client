@@ -7,25 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00C302E51ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		00C302E71ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		00C302E81ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		00C302E91ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		00C302EA1ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		00E356F31AD99517003FC87E /* yodaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* yodaTests.m */; };
-		133E29F31AD74F7200F7D852 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		139105C61AF99C1200B5F7CC /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		139FDEF61B0652A700C62182 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		140ED2AC1D01E1AD002B40FF /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		146834051AC3E58100842450 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		34662C9C5AD05944D25D59C2 /* Pods_Bridgeme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC587F67577966FC5C2AB7AB /* Pods_Bridgeme.framework */; };
+		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		4C856AB5D33F489B9D253114 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8233557009B44A194C41AF1 /* libRNVectorIcons.a */; };
 		558EED2ED95C4E9F9C6CDB9F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04A067182DB14C86A4185454 /* EvilIcons.ttf */; };
-		5D0252411DE91B1500AC87B2 /* Pods_Bridgeme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D0252401DE91B1500AC87B2 /* Pods_Bridgeme.framework */; };
+		5DAABD521DEEB6A700876278 /* splash_anim.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5DAABD511DEEB6A700876278 /* splash_anim.gif */; };
+		5DAABD581DEEF33400876278 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAABD571DEEF33400876278 /* SplashViewController.m */; };
 		5DD54E381DE3E6F0008DB293 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5DD54E371DE3E6F0008DB293 /* GoogleService-Info.plist */; };
 		6CBD4B68ED1F4C2DB3EF680C /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CC928ABDC22477197316C7F /* Octicons.ttf */; };
-		832341BD1AAA6AB300B99B32 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		8BD2EE6C0C5148828E88A7DB /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BA01BC26B2C4F9EB7B662A7 /* Ionicons.ttf */; };
 		9270CCCD8AFB40E899061E1C /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ABB6E3779EC44E592BDB2FC /* libBVLinearGradient.a */; };
 		987023F775104EDDB574C95B /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37742BA01604412EACB21EF2 /* libRNImagePicker.a */; };
@@ -38,6 +38,7 @@
 		AA49EE151D6FFBD20083C256 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */; };
 		AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE161D6FFEB90083C256 /* Bolts.framework */; };
 		AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB23E201D75476D00C97A58 /* LaunchScreen.xib */; };
+		B2B50B2668A9DFB34BE8FCAE /* Pods_Bridgeme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C70163B6C22B5593B4AD7CCC /* Pods_Bridgeme.framework */; };
 		C53AE6EE75B24F7796048F37 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8655169BA5E745C094ADC0B3 /* libRNFIRMessaging.a */; };
 		CAD4F49CCA74414DB6CE0F54 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39817FD5C2A845CD8964A8D1 /* Foundation.ttf */; };
 		D22304981DDEE0AE0098E0A8 /* ProductSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */; };
@@ -208,9 +209,14 @@
 		39817FD5C2A845CD8964A8D1 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		3CC928ABDC22477197316C7F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		42FC2727DC9941AF86EF1AFE /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		5D0252401DE91B1500AC87B2 /* Pods_Bridgeme.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_Bridgeme.framework; path = "Pods/../build/Debug-iphoneos/Pods_Bridgeme.framework"; sourceTree = "<group>"; };
-		5D0252421DE91B7C00AC87B2 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = "Pods/../build/Release-iphoneos/GoogleToolboxForMac/GoogleToolboxForMac.framework"; sourceTree = "<group>"; };
 		5D8089A61DEBE77C00F112EE /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Bridgeme-fmndwppcwhgyykcnpvvuucjdipbo/Build/Products/Debug-iphoneos/GoogleToolboxForMac/GoogleToolboxForMac.framework"; sourceTree = "<group>"; };
+		5DAABD4D1DEEB3B700876278 /* FLAnimatedImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		5DAABD4E1DEEB3B700876278 /* FLAnimatedImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		5DAABD4F1DEEB3B700876278 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		5DAABD501DEEB3B700876278 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		5DAABD511DEEB6A700876278 /* splash_anim.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = splash_anim.gif; sourceTree = "<group>"; };
+		5DAABD561DEEF33400876278 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashViewController.h; path = Yoda/SplashViewController.h; sourceTree = "<group>"; };
+		5DAABD571DEEF33400876278 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplashViewController.m; path = Yoda/SplashViewController.m; sourceTree = "<group>"; };
 		5DD54E371DE3E6F0008DB293 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5DD54E3D1DE3E8AB008DB293 /* yoda.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = yoda.entitlements; sourceTree = "<group>"; };
 		62711B2CE8C9F6920D30F36A /* Pods-Bridgeme.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bridgeme.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bridgeme/Pods-Bridgeme.release.xcconfig"; sourceTree = "<group>"; };
@@ -225,12 +231,12 @@
 		AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AA49EE161D6FFEB90083C256 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		AAB23E211D75476D00C97A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Yoda/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		AC587F67577966FC5C2AB7AB /* Pods_Bridgeme.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bridgeme.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFAEADFECB4B46DCAF4C4EAC /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		B6EC3E37F8A04FAB84EFA14B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		B990CCEFED2B4F1EAC914352 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		BA618E5CA3F34A9D8CD1096F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		C5DB8359243A4142B3E50AFF /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
+		C70163B6C22B5593B4AD7CCC /* Pods_Bridgeme.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bridgeme.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProductSans-Bold.ttf"; sourceTree = "<group>"; };
 		D2BCC21E1DD5E8BF00B27069 /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
 		D2BCC21F1DD5E8BF00B27069 /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
@@ -247,7 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140ED2AC1D01E1AD002B40FF /* ReferenceProxy in Frameworks */,
+				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,28 +261,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D0252411DE91B1500AC87B2 /* Pods_Bridgeme.framework in Frameworks */,
 				AA49EE171D6FFEB90083C256 /* Bolts.framework in Frameworks */,
-				146834051AC3E58100842450 /* ReferenceProxy in Frameworks */,
+				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				AA49EE131D6FFBD20083C256 /* FBSDKCoreKit.framework in Frameworks */,
-				00C302E51ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */,
-				00C302E71ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */,
-				00C302E81ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */,
-				133E29F31AD74F7200F7D852 /* ReferenceProxy in Frameworks */,
-				00C302E91ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */,
+				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
+				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
+				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				AA49EE141D6FFBD20083C256 /* FBSDKLoginKit.framework in Frameworks */,
-				139105C61AF99C1200B5F7CC /* ReferenceProxy in Frameworks */,
-				832341BD1AAA6AB300B99B32 /* ReferenceProxy in Frameworks */,
+				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
+				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				AA49EE151D6FFBD20083C256 /* FBSDKShareKit.framework in Frameworks */,
-				00C302EA1ABCBA2D00DB3ED1 /* ReferenceProxy in Frameworks */,
-				139FDEF61B0652A700C62182 /* ReferenceProxy in Frameworks */,
+				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DAED1D04D05544F98EBCFE9D /* libRCTFBSDK.a in Frameworks */,
 				E9538CD01DD9A12D0066FB51 /* FirebaseMessaging.framework in Frameworks */,
 				4C856AB5D33F489B9D253114 /* libRNVectorIcons.a in Frameworks */,
 				9270CCCD8AFB40E899061E1C /* libBVLinearGradient.a in Frameworks */,
 				987023F775104EDDB574C95B /* libRNImagePicker.a in Frameworks */,
 				C53AE6EE75B24F7796048F37 /* libRNFIRMessaging.a in Frameworks */,
-				34662C9C5AD05944D25D59C2 /* Pods_Bridgeme.framework in Frameworks */,
+				B2B50B2668A9DFB34BE8FCAE /* Pods_Bridgeme.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +382,8 @@
 				E97CB5FE1DD98E6C00050F48 /* GoogleService-Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AAB23E201D75476D00C97A58 /* LaunchScreen.xib */,
+				5DAABD561DEEF33400876278 /* SplashViewController.h */,
+				5DAABD571DEEF33400876278 /* SplashViewController.m */,
 			);
 			name = Bridgeme;
 			sourceTree = "<group>";
@@ -387,6 +394,18 @@
 				146834041AC3E56700842450 /* libReact.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5DAABD4C1DEEB3B700876278 /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				5DAABD4D1DEEB3B700876278 /* FLAnimatedImage.h */,
+				5DAABD4E1DEEB3B700876278 /* FLAnimatedImage.m */,
+				5DAABD4F1DEEB3B700876278 /* FLAnimatedImageView.h */,
+				5DAABD501DEEB3B700876278 /* FLAnimatedImageView.m */,
+			);
+			name = FLAnimatedImage;
+			path = Pods/FLAnimatedImage/FLAnimatedImage;
 			sourceTree = "<group>";
 		};
 		5DD54DCD1DE3E25B008DB293 /* Products */ = {
@@ -438,6 +457,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				5DAABD511DEEB6A700876278 /* splash_anim.gif */,
 				D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */,
 				AA20BCD31DA4B63F00BFA62C /* opensans.ttf */,
 				D2BCC21E1DD5E8BF00B27069 /* SF-UI-Text-Bold.otf */,
@@ -475,14 +495,13 @@
 		AA49EE0F1D6FFBB10083C256 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5DAABD4C1DEEB3B700876278 /* FLAnimatedImage */,
 				5D8089A61DEBE77C00F112EE /* GoogleToolboxForMac.framework */,
-				5D0252421DE91B7C00AC87B2 /* GoogleToolboxForMac.framework */,
-				5D0252401DE91B1500AC87B2 /* Pods_Bridgeme.framework */,
 				AA49EE161D6FFEB90083C256 /* Bolts.framework */,
 				AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */,
 				AA49EE111D6FFBD20083C256 /* FBSDKLoginKit.framework */,
 				AA49EE121D6FFBD20083C256 /* FBSDKShareKit.framework */,
-				AC587F67577966FC5C2AB7AB /* Pods_Bridgeme.framework */,
+				C70163B6C22B5593B4AD7CCC /* Pods_Bridgeme.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -835,6 +854,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB23E221D75476D00C97A58 /* LaunchScreen.xib in Resources */,
+				5DAABD521DEEB6A700876278 /* splash_anim.gif in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D22304981DDEE0AE0098E0A8 /* ProductSans-Bold.ttf in Resources */,
 				D2BCC2211DD5E8D300B27069 /* SF-UI-Text-Bold.otf in Resources */,
@@ -932,6 +952,7 @@
 			files = (
 				AA00CA931DD69F2200991FBE /* main.m in Sources */,
 				AA00CA921DD69F1B00991FBE /* AppDelegate.m in Sources */,
+				5DAABD581DEEF33400876278 /* SplashViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1011,7 +1032,7 @@
 			baseConfigurationReference = E78AFDDE4E8A7ECC3E30E00F /* Pods-Bridgeme.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = yoda.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1024,6 +1045,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/GoogleToolboxForMac",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Release-iphoneos/GoogleToolboxForMac",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FLAnimatedImage",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1038,6 +1060,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = yoda/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1047,6 +1070,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.svbootcamp.bridgeme;
 				PRODUCT_NAME = yoda;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1055,7 +1079,7 @@
 			baseConfigurationReference = 62711B2CE8C9F6920D30F36A /* Pods-Bridgeme.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = yoda.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1067,6 +1091,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/GoogleToolboxForMac",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Release-iphoneos/GoogleToolboxForMac",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FLAnimatedImage",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1081,6 +1106,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = yoda/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1090,6 +1116,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.svbootcamp.bridgeme;
 				PRODUCT_NAME = yoda;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

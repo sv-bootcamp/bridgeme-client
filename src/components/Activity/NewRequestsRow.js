@@ -22,7 +22,7 @@ class NewRequestsRow extends Component {
 
   onGetActivityCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       this.props.onSelect(result);
     }
@@ -30,7 +30,7 @@ class NewRequestsRow extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       MatchUtil.getActivityList(this.onGetActivityCallback.bind(this));
     }

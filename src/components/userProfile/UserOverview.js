@@ -29,7 +29,7 @@ class UserOverview extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       this.setState({
         id: result._id,

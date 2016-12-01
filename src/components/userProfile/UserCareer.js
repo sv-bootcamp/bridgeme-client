@@ -33,7 +33,7 @@ class UserCareer extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       let sectionIDs = ['Education', 'Experience'];
 
@@ -46,7 +46,7 @@ class UserCareer extends Component {
       });
 
       this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
-      this.state.dataBlob[sectionIDs[1]] = result.work.slice();
+      this.state.dataBlob[sectionIDs[1]] = result.experience.slice();
 
       this.setState({
         id: result._id,
