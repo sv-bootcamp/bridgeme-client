@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import ExperienceRow from './ExperienceRow';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
@@ -40,7 +41,7 @@ class UserProfile extends Component {
 
   onReqestCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       this.onRequestSuccess(result);
     }
@@ -55,18 +56,18 @@ class UserProfile extends Component {
       let currentLocation = this.state.currentLocation;
 
       if (result.experience.length > 0) {
-        let work = result.experience[0];
+        let experience = result.experience[0];
 
-        if (work.employer) {
-          currentStatus = 'at ' + work.employer.name;
+        if (experience.employer) {
+          currentStatus = 'at ' + experience.employer.name;
         }
 
-        if (work.position) {
-          currentPosition = work.position.name;
+        if (experience.position) {
+          currentPosition = experience.position.name;
         }
 
-        if (work.location) {
-          currentLocation = work.location.name;
+        if (experience.location) {
+          currentLocation = experience.location.name;
         }
       } else if (result.education.length > 0) {
         let lastIndex = result.education.length - 1;
@@ -108,6 +109,9 @@ class UserProfile extends Component {
         statusAsMentee: statusAsMentee,
         statusAsMentor: statusAsMentor,
       });
+    } else if (result.msg !== undefined) {
+      this.setState({ evalLoaded: true });
+      Actions.evalPageMain({ select: 'mentee' });
     }
   }
 
@@ -139,7 +143,7 @@ class UserProfile extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size='small'
+        size="large"
       />
     );
   }
