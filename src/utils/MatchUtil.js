@@ -43,7 +43,6 @@ class MatchUtil {
     body.message = message;
     apiUtil.requestPostWithToken(callback, 'API_CHATTING_PUSH', body);
   }
-
 };
 
 const matchUtil = new MatchUtil();
