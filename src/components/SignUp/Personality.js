@@ -89,13 +89,13 @@ class Personality extends Component {
     this.setState({ values: values });
 
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.sendRequest.bind(this) });
+      Actions.refresh({ rightTitle: 'Save', onRight: this.sendRequest.bind(this) });
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
-        rightTitle: 'SAVE',
+        rightTitle: 'Save',
         onRight: this.sendRequest.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
