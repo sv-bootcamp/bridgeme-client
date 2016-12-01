@@ -23,6 +23,7 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
+  - FLAnimatedImage (1.0.12)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
@@ -35,6 +36,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Messaging
+  - FLAnimatedImage (~> 1.0)
 
 SPEC CHECKSUMS:
   Firebase: ff77ffb77b317c3720fef57a60e9335cebf962e6
@@ -42,10 +44,11 @@ SPEC CHECKSUMS:
   FirebaseCore: d0ed25f27b6f9158eccc439f1be6f92e81207e28
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
 
-PODFILE CHECKSUM: 0e36e380e2cd9ed7484e3cec1393e8329b8c7eb5
+PODFILE CHECKSUM: fdc6d421f2b03ca169b2ed578c9a6e0e5ed756bb
 
 COCOAPODS: 1.1.1
