@@ -47,10 +47,10 @@ class Row extends Component {
     let job = this.state.job;
     let position = this.state.position;
 
-    if (this.props.dataSource.work.length > 0) {
-      job = this.props.dataSource.work[0].employer.name;
-      if (this.props.dataSource.work[0].position) {
-        position = this.props.dataSource.work[0].position.name;
+    if (this.props.dataSource.experience.length > 0) {
+      job = this.props.dataSource.experience[0].employer.name;
+      if (this.props.dataSource.experience[0].position) {
+        position = this.props.dataSource.experience[0].position.name;
       }
 
       return position + ' at ' + job;
