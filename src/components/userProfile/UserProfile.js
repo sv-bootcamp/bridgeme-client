@@ -54,8 +54,8 @@ class UserProfile extends Component {
       let currentPosition = this.state.currentPosition;
       let currentLocation = this.state.currentLocation;
 
-      if (result.work.length > 0) {
-        let work = result.work[0];
+      if (result.experience.length > 0) {
+        let work = result.experience[0];
 
         if (work.employer) {
           currentStatus = 'at ' + work.employer.name;
@@ -108,9 +108,6 @@ class UserProfile extends Component {
         statusAsMentee: statusAsMentee,
         statusAsMentor: statusAsMentor,
       });
-    } else if (result.msg !== undefined) {
-      this.setState({ evalLoaded: true });
-      Actions.evalPageMain({ select: 'mentee' });
     }
   }
 
