@@ -139,7 +139,7 @@ class UserProfile extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
       />
     );
   }
