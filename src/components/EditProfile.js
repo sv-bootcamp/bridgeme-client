@@ -19,7 +19,6 @@ class EditProfile extends Component {
       backButtonImage: leftButtonGrey,
       type: ActionConst.PUSH,
       fromEdit: true,
-      rightTitle: 'SAVE',
       rightButtonTextStyle: {
         color: '#44acff',
       },
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     }),
   },
   menu: {
-    flex: 1,
+    height: 45,
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderColor: '#efeff2',
