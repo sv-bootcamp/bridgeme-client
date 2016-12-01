@@ -110,6 +110,10 @@ class UserUtil {
     apiUtil.requestGetWithTokenUrl(callback, 'API_USER', userid);
   }
 
+  getSendBirdAppId(callback) {
+    apiUtil.requestGet(callback, 'API_GET_SENDBIRD_APP_ID');
+  }
+
   // Send an email address to get secret code
   reqeustSecretCode(callback, email) {
     let body = {};
