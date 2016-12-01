@@ -79,14 +79,17 @@ class ApiUtil extends Component {
     this.reqSet = reqSet;
     this.callback = callback;
 
-    this.fetchData();
+    this.fetchData(callback);
   }
 
-  fetchData() {
+  fetchData(callback) {
     fetch(this.url, this.reqSet)
     .then(this.getResponse.bind(this))
-    .then((res) => this.callback(res, null))
-    .catch((error) => this.callback(null, error));
+    .then((res) => callback(res, null))
+    .catch((error) => {
+      if (JSON.stringify(error) !== '{}') callback(null, JSON.stringify(error));
+      else callback(null, error);
+    });
   }
 
   getResponse(response) {
@@ -94,8 +97,10 @@ class ApiUtil extends Component {
       return response.json()
         .then((res) => {
           res.status = response.status;
-          this.tokenCheck(res);
-          return res;
+          if (res.status === 401)
+            this.tokenCheck(res);
+          else
+            return res;
         });
     } else {
       throw new Error(response);
@@ -103,8 +108,6 @@ class ApiUtil extends Component {
   }
 
   tokenCheck(response) {
-    if (response.status !== 401)
-      return response;
     if (response.err_point === ErrorMeta.ERR_TOKEN_EXPIRED) {
       this.requestUpdateToken();
     } else {
@@ -140,7 +143,7 @@ class ApiUtil extends Component {
         this.reqSet.headers.access_token = response.access_token;
       }
 
-      this.fetchData();
+      this.fetchData(this.callback);
     })
     .catch((error) => Alert.alert(error));
   }

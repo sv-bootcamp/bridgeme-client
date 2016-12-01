@@ -73,21 +73,22 @@ class GeneralInfo extends Component {
         location: result.location,
         about: result.about,
         education: result.education,
-        experience: result.work,
+        experience: result.experience,
         eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
       });
     } else {
       UserUtil.getMyProfile(this.onGetMyProfileCallback.bind(this));
     }
 
     if(this.props.fromEdit)
-      Actions.refresh({ onRight: this.regist.bind(this) });
+      Actions.refresh({ rightTitle: 'SAVE', onRight: this.regist.bind(this) });
   }
 
   componentWillReceiveProps(props) {
     if(props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightTitle: 'SAVE',
         onRight: this.regist.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
@@ -110,9 +111,9 @@ class GeneralInfo extends Component {
         location: result.location,
         about: result.about,
         education: result.education,
-        experience: result.work,
+        experience: result.experience,
         eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.work),
+        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
       });
     }
 
@@ -183,7 +184,7 @@ class GeneralInfo extends Component {
       location: this.state.location,
       about: this.state.about,
       education: this.state.education,
-      work: this.state.experience,
+      experience: this.state.experience,
       image: image,
     };
 
@@ -192,7 +193,7 @@ class GeneralInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();
@@ -349,13 +350,13 @@ class GeneralInfo extends Component {
     });
   }
 
-  getDefaultWork(work, sectionID, rowID) {
-    let employer = work.employer === undefined ? '' : work.employer.name;
-    let position = work.position === undefined ? '' : work.position.name;
-    let start = work.start_date === undefined ? '' : work.start_date;
+  getDefaultWork(experience, sectionID, rowID) {
+    let employer = experience.employer === undefined ? '' : experience.employer.name;
+    let position = experience.position === undefined ? '' : experience.position.name;
+    let start = experience.start_date === undefined ? '' : experience.start_date;
     let end = '';
-    if (work.end_date !== undefined) {
-      end = work.end_date == '0000-00' ? 'present' : work.end_date;
+    if (experience.end_date !== undefined) {
+      end = experience.end_date == '0000-00' ? 'present' : experience.end_date;
     }
     let onDelete = (rowID) => this.onDeleteWork(rowID);
     let onChangeText = (propName1, propName2, idx, text) =>

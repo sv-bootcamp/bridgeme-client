@@ -33,7 +33,7 @@ export default class Send extends React.Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      alert(JSON.stringify(error));
+      alert(error);
     } else if (result) {
       Actions.pop();
     }
