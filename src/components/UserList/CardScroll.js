@@ -82,7 +82,10 @@ export default class CardScroll extends Component {
     const interval = Dimensions.get('window').width - 57;
     let index =  Math.round(event.contentOffset.x / interval);
     if (index > this.props.dataSource._cachedRowCount - 1 ) index -= 1;
-    this.resetListView.scrollTo({x: (Math.round(event.contentOffset.x / interval)) * interval, y: 0, animated: true});
+    this.resetListView.scrollTo({x: (Math.round(event.contentOffset.x / interval)) * interval,
+      y: 0,
+      animated: true,
+    });
   }
 
   renderView(row) {
