@@ -5,7 +5,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Slider,
   Text,
   TouchableOpacity,
   TouchableHighlight,
@@ -16,6 +15,7 @@ import UserUtil from '../../utils/UserUtil';
 import Progress from '../Shared/Progress';
 import { Personalites } from './SignUpMETA';
 import { Actions, Scene, }  from 'react-native-router-flux';
+import Slider from 'react-native-slider';
 
 class Personality extends Component {
   constructor(props) {
@@ -133,23 +133,26 @@ class Personality extends Component {
 
   render() {
     let slidersWithTitle = this.state.sliderTitle.map((currentValue, index) => (
-        <View key={index} style ={{ flex: 1 }} >
+        <View key={index} style ={{ flex: 1, backgroundColor: 'transparent' }} >
           <View style={styles.sliderTitle}>
             <Text style={{ color: '#757b7c' }}>{currentValue[0]}</Text>
             <Text style={{ color: '#757b7c' }}>{currentValue[1]}</Text>
           </View>
           <Slider
             style={styles.slider}
+            trackStyle={sliderStyle.track}
+            thumbStyle={sliderStyle.thumb}
+            minimumTrackTintColor='#44acff'
+            maximumValue={2}
+            minimumValue={-2}
+            step={1}
+            value={this.state.values[index]}
             onValueChange={(value) => {
               let newValues = this.state.values.slice();
               newValues[index] = value;
               this.setState({ values: newValues });
             }}
 
-            maximumValue={2}
-            minimumValue={-2}
-            step={1}
-            value={this.state.values[index]}
           />
         </View>
       )
@@ -175,14 +178,14 @@ class Personality extends Component {
 
     return (
       <View style={styles.container}>
-        <Progress level={4} step={4} />
-        <ScrollView>
+        {this.props.fromEdit ? null : (<Progress level={4} step={4} />)}
+        <ScrollView contentContainerStyle={{ marginTop: 50 }}>
           <View style={{ flex: 1 }}>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>
                 {'Let’s figure out your\npersonality !'}
               </Text>
-              <Text style={{ color: '#2e3031', fontSize: 12, }}>
+              <Text style={{ color: '#2e3031', fontSize: 12, marginBottom: 51 }}>
                 Drag each point to express youself.
               </Text>
             </View>
@@ -196,6 +199,21 @@ class Personality extends Component {
     );
   }
 }
+
+const sliderStyle = StyleSheet.create({
+  track: {
+    height: 1,
+    borderRadius: 2,
+  },
+  thumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    borderColor: '#44acff',
+    borderWidth: 2,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -217,16 +235,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     marginBottom: 25,
-    ...Platform.select({
-      ios: {
-        marginLeft: 30,
-        marginRight: 30,
-      },
-      android: {
-        marginLeft: 15,
-        marginRight: 15,
-      },
-    }),
+    backgroundColor: 'transparent',
+    marginLeft: 30,
+    marginRight: 30,
   },
   body: {
     flex: 5,
