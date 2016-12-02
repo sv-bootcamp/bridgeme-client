@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
 
 const leftButtonGrey = require('../resources/icon-arrow-left-grey.png');
 const backButton = require('../resources/icon-arrow-left-white.png');
+const cancelButton = require('../resources/icon-cancel.png');
 
 const AppProps = {
   rootProp: {
@@ -173,7 +174,7 @@ const AppProps = {
       key: 'requestPage',
       component: RequestPage,
       title: 'Request Connection',
-      backButtonImage: backButton,
+      backButtonImage: cancelButton,
     },
     {
       key: 'requestSent',
