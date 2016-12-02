@@ -26,17 +26,27 @@ class CareerRow extends Component {
     let companyName = this.state.companyName;
     let position = this.state.period;
     let identifier = this.state.identifier;
+    let period = this.state.period;
 
     if (this.props.dataSource.employer) {
       companyName = this.props.dataSource.employer.name;
       identifier = 1;
-      if (this.props.dataSource.position)
+      if (this.props.dataSource.position) {
         position = '| ' + this.props.dataSource.position.name;
+      }
+
+      if (this.props.dataSource.start_date) {
+        period = this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
+      }
     } else if (this.props.dataSource.school) {
       schoolName = this.props.dataSource.school.name;
       identifier = 2;
       if (this.props.dataSource.concentration.length > 0) {
         major = this.props.dataSource.concentration[0].name;
+      }
+
+      if (this.props.dataSource.year) {
+        period = 'Class of ' + this.props.dataSource.year.name;
       }
     }
 
@@ -45,7 +55,7 @@ class CareerRow extends Component {
       major: major,
       companyName: companyName,
       position: position,
-      period: '2016.01 - present',
+      period: period,
       identifier: identifier,
       loaded: true,
     });
