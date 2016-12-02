@@ -149,7 +149,7 @@ class GeneralInfo extends Component {
 
     return (
       <View style={styles.container}>
-        <Progress level={4} step={1} />
+        {this.props.fromEdit ? null : (<Progress level={4} step={1} />)}
         <ScrollView style={styles.scrollView}>
           <MyPic uri={this.state.mypic} readyUploadImage={readyUploadImage} />
           {Forms}

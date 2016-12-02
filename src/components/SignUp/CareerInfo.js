@@ -262,7 +262,7 @@ class CareerInfo extends Component {
       submitButton = this.renderNextBtn();
     return (
       <View style ={styles.container}>
-        <Progress level={4} step={2} />
+        {this.props.fromEdit ? null : (<Progress level={4} step={2} />)}
         <ScrollView contentContainerStyle ={styles.scrollViewcontainer}>
           <View style={styles.header}>
             <Text style={styles.titleText}>What do you do?</Text>
