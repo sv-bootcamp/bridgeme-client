@@ -131,7 +131,7 @@ class ExpertInfo extends Component {
 
     return (
       <View style={styles.container}>
-        <Progress level={4} step={3} />
+        {this.props.fromEdit ? null : (<Progress level={4} step={3} />)}
         <View style={styles.header}>
           <Text allowFontScaling={false} style={styles.titleText}>
             {'Add all Keywords that\nyou can help others with.'}
