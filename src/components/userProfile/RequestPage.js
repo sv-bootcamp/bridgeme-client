@@ -54,7 +54,7 @@ class RequestPage extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size='large'
+        size='small'
       />
     );
   }
@@ -127,6 +127,8 @@ class RequestPage extends Component {
           style={styles.multiline}
           placeholder='Enter message'
           maxLength={140}
+          underlineColorAndroid='transparent'
+          textAlignVertical='top'
           onChangeText={this.onChangeMessage.bind(this)}/>
         <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
           locations={[0, 0.75]}
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
   multiline: {
     alignSelf: 'center',
     width: WIDTH - (WIDTH / 6),
-    height: HEIGHT / 2.5,
+    height: HEIGHT / 5,
     borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 2,
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: 'opensans',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
