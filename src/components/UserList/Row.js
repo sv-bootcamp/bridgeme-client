@@ -96,22 +96,23 @@ class Row extends Component {
       styles.rowView,
       {
         marginRight: this.props.dataSource.last ? 36 : 15,
+        elevation: 10,
       },
     ];
 
     return (
-      <TouchableWithoutFeedback onPress={goToUserProfile}>
-        <View style={viewStyle}>
-          <Image style={styles.photo}
-            source={this.state.profileImage}/>
-          <Image style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}/>
-          <View style={styles.userInformation}>
-            <Text style={styles.name}>{this.state.name}</Text>
-            <Text style={styles.job}> {this.state.currentJob}</Text>
-            <Text style={styles.location}> {this.state.currentLocation}</Text>
-            <Text style={styles.skillTitle}>I am expertised in</Text>
-            <Text style={styles.skill}>{this.state.skills}</Text>
+        <TouchableWithoutFeedback onPress={goToUserProfile}>
+          <View style={viewStyle}>
+            <Image style={styles.photo}
+              source={this.state.profileImage}/>
+            <Image style={styles.bookmarkIcon}
+              source={require('../../resources/icon-bookmark.png')}/>
+            <View style={styles.userInformation}>
+              <Text style={styles.name}>{this.state.name}</Text>
+              <Text style={styles.job}> {this.state.currentJob}</Text>
+              <Text style={styles.location}> {this.state.currentLocation}</Text>
+              <Text style={styles.skillTitle}>I am expertised in</Text>
+              <Text style={styles.skill}>{this.state.skills}</Text>
             </View>
             <View style={styles.connectBtnContainer}>
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
@@ -124,9 +125,9 @@ class Row extends Component {
                 </TouchableWithoutFeedback>
               </LinearGradient>
             </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
+          </View>
+        </TouchableWithoutFeedback>
+      );
   }
 }
 

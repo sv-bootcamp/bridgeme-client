@@ -74,13 +74,13 @@ class CareerInfo extends Component {
     }
 
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'SAVE', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({ rightTitle: 'Save', onRight: this.onNextBtnPressed.bind(this) });
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
-        rightTitle: 'SAVE',
+        rightTitle: 'Save',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
           this.setState({ needRefresh: true });
@@ -208,6 +208,13 @@ class CareerInfo extends Component {
   }
 
   onNextBtnPressed() {
+    for (i = 0; i < this.state.checked.length; i++) {
+      if (!this.state.checked[i]) {
+        Alert.alert('System', 'Please Fill all data');
+        return;
+      }
+    }
+
     let career = [
     {
       area: this.state.selected[0],
