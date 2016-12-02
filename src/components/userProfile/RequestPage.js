@@ -81,7 +81,7 @@ class RequestPage extends Component {
         contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
         <Text style={styles.subTitle}>Subjects</Text>
-        <View style={{ zIndex: 500 }}>
+        <View style={{ zIndex: 101 }}>
           <MenuContext ref="MenuContext">
             <View style={styles.dropdownContent}>
               <Menu style={styles.dropdown}
@@ -236,6 +236,7 @@ const styles = StyleSheet.create({
   dropdown: {
     width: WIDTH - (WIDTH / 6),
     height: 40,
+    justifyContent: 'center',
     borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 1,
