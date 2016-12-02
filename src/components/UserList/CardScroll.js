@@ -128,7 +128,7 @@ export default class CardScroll extends Component {
     return (
       <ListView
         renderScrollComponent={this.renderScrollComponent}
-        onScrollEndDrag = {this.controlScroll.bind(this)}
+        onScrollEndDrag={this.controlScroll.bind(this)}
         initialListSize={5}
         dataSource={this.props.dataSource}
         style={styles.listView}
@@ -138,7 +138,7 @@ export default class CardScroll extends Component {
           this.resetListView = comp;
           return;
         }
-      }
+        }
       />
     );
   }
