@@ -20,6 +20,7 @@ import Menu, {
   MenuOption,
   MenuTrigger
 } from 'react-native-menu';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 import MatchUtil from '../../utils/MatchUtil';
 
@@ -59,7 +60,6 @@ class RequestPage extends Component {
   }
 
   sendMessage() {
-    // TODO: This will be changed with request to server
     MatchUtil.sendMentoringRequest(this.onRequestCallback.bind(this),
       this.props.id, this.state.selection, this.state.message);
   }
@@ -76,7 +76,9 @@ class RequestPage extends Component {
     const send = () => this.sendMessage();
 
     return (
-      <ScrollView contentContainerStyle={styles.content}>
+      <KeyboardAwareScrollView
+        extraHeight={HEIGHT / 4}
+        contentContainerStyle={styles.content}>
         <Text style={styles.title}>What would you like to ask first?</Text>
         <Text style={styles.subTitle}>Subjects</Text>
         <View style={{ zIndex: 500 }}>
@@ -140,7 +142,7 @@ class RequestPage extends Component {
          barStyle = 'default'
          networkActivityIndicatorVisible={false}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 
@@ -238,6 +240,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderWidth: 1,
     padding: 5,
+    paddingTop: 10,
   },
   dropdownOptions: {
     borderColor: '#efeff2',

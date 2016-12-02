@@ -22,6 +22,7 @@
     "react-native-fcm": "^2.3.2",
     "react-native-gifted-chat": "0.0.10",
     "react-native-image-picker": "^0.22.10",
+    "react-native-keyboard-aware-scroll-view": "^0.2.4",
     "react-native-linear-gradient": "^1.5.13",
     "react-native-menu": "^0.20.2",
     "react-native-router-flux": "^3.35.0",
