@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AsyncStorage,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -98,7 +99,7 @@ class Main extends Component {
           </ScrollView>
           <Activity tabLabel="ios-people" style={styles.tabView}  me={this.props.me} />
           <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
-        <MyPage tabLabel="md-contact" me={this.props.me} />
+          <MyPage tabLabel="md-contact" me={this.props.me} />
       </ScrollableTabView>
     );
   }
