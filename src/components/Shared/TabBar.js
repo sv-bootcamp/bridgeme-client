@@ -1,39 +1,29 @@
 import React, { Component } from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 class TabBar extends Component {
   constructor(props) {
     super(props);
-    this.tabIcons = [];
-  }
+    this.tabIconsGray = [];
+    this.tabIconsBlue = [];
 
-  componentDidMount() {
-    this.listener = this.props.scrollValue.addListener(this.setAnimationValue.bind(this));
-  }
+    this.tabIconsGray.push(require('../../resources/icon-home-solid_gray.png'));
+    this.tabIconsGray.push(require('../../resources/icon-line_gray.png'));
+    this.tabIconsGray.push(require('../../resources/icon-activity_gray.png'));
+    this.tabIconsGray.push(require('../../resources/icon-chat_gray.png'));
+    this.tabIconsGray.push(require('../../resources/icon-profile_gray.png'));
 
-  setAnimationValue({ value, }) {
-    this.tabIcons.forEach((icon, i) => {
-      const progress = (value - i >= 0 && value - i <= 1) ? value - i : 1;
-      icon.setNativeProps({
-        style: {
-          color: this.iconColor(progress),
-        },
-      });
-    });
-  }
-
-  //color between rgb(59,89,152) and rgb(204,204,204)
-  iconColor(progress) {
-    const red = 59 + (204 - 59) * progress;
-    const green = 89 + (204 - 89) * progress;
-    const blue = 152 + (204 - 152) * progress;
-    return `rgb(${red}, ${green}, ${blue})`;
+    this.tabIconsBlue.push(require('../../resources/icon-home-solid_blue.png'));
+    this.tabIconsBlue.push(require('../../resources/icon-line_blue.png'));
+    this.tabIconsBlue.push(require('../../resources/icon-activity_blue.png'));
+    this.tabIconsBlue.push(require('../../resources/icon-chat_blue.png'));
+    this.tabIconsBlue.push(require('../../resources/icon-profile_blue.png'));
   }
 
   render() {
@@ -41,12 +31,8 @@ class TabBar extends Component {
       <View style={[styles.tabs, this.props.style]}>
         {this.props.tabs.map((tab, i) =>
           <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-            <Icon
-              name={tab}
-              size={30}
-              color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
-              ref={(icon) => this.tabIcons[i] = icon }
-            />
+            <Image
+              source={this.props.activeTab === i ? this.tabIconsBlue[i] : this.tabIconsGray[i]}/>
           </TouchableOpacity>
         )}
       </View>
