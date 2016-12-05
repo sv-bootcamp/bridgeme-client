@@ -210,7 +210,7 @@ class CareerInfo extends Component {
   onNextBtnPressed() {
     for (i = 0; i < this.state.checked.length; i++) {
       if (!this.state.checked[i]) {
-        Alert.alert('System', 'Please Fill all data');
+        Alert.alert('System', 'Please select all');
         return;
       }
     }
