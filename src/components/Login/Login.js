@@ -27,7 +27,14 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.hasToken();
+    AsyncStorage.getItem('firstFlag', (error, result) => {
+      if (result === 'on') {
+        this.hasToken();
+        return;
+      }
+      AsyncStorage.setItem('firstFlag', 'on');
+      Actions.onBoarding();
+    });
   }
 
   hasToken() {
