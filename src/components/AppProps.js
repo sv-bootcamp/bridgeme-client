@@ -33,11 +33,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
   },
-  title: {
-    fontFamily: 'SFUIText-Regular',
-    fontSize: 16,
-    color: '#2e3031',
-  },
   mainTitle: {
     fontFamily: 'ProductSans-Bold',
     fontSize: 17,
@@ -61,7 +56,6 @@ const cancelButton = require('../resources/icon-cancel.png');
 const AppProps = {
   rootProp: {
     key: 'root',
-    titleStyle: styles.title,
     rightButtonTextStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
     leftButtonIconStyle: styles.leftBtn,
