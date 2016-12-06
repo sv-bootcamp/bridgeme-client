@@ -4,7 +4,6 @@ import {
  Alert,
  AsyncStorage,
  Image,
- Text,
  TextInput,
  TouchableWithoutFeedback,
  TouchableOpacity,
@@ -12,6 +11,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import styles from './Styles';
 
@@ -170,6 +170,8 @@ class Login extends Component {
         result.access_token,
         () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this))
       );
+    } else {
+      this.setState({ loaded: true });
     }
   }
 
@@ -188,6 +190,7 @@ class Login extends Component {
         this.setState({ loaded: true });
       }
     }
+
   }
 
   alert(msg) {

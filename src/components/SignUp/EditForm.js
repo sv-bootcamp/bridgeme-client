@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   Image,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   TextInput,
   View,
 } from 'react-native';
 import commonStyles from './Styles';
+import Text from '../Shared/UniText';
 
 // A form component for single input
 class EditForm extends Component {

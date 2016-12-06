@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  Text,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment/min/moment.min';
+import Text from '../Shared/UniText';
 
 export default class Row extends Component {
   constructor(props) {

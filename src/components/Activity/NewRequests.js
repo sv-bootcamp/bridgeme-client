@@ -4,12 +4,12 @@ import {
   Platform,
   RefreshControl,
   StyleSheet,
-  Text,
   View,
   Image,
 } from 'react-native';
 import MatchUtil from '../../utils/MatchUtil';
 import NewRequestsRow from './NewRequestsRow';
+import Text from '../Shared/UniText';
 
 class NewRequests extends Component {
   constructor(props) {

@@ -5,9 +5,9 @@ import {
   Image,
   Platform,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 import { Actions } from 'react-native-router-flux';
 
 class RequestSent extends Component {

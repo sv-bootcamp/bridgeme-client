@@ -8,9 +8,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class UserOverview extends Component {

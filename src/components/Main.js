@@ -4,7 +4,6 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -14,6 +13,7 @@ import MyPage from './MyPage';
 import SendBird from 'sendbird';
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
+import Text from './Shared/UniText';
 import UserList from './UserList/UserList';
 import UserUtil from '../utils/UserUtil';
 
@@ -75,7 +75,7 @@ class Main extends Component {
           initialPage={0}
           onChangeTab={(obj) => {
             if (obj.i === pageTitle.HOME) {
-              Actions.refresh({ title: 'Bridgeme' });
+              Actions.refresh({ title: 'Bridge Me' });
             } else if (obj.i === pageTitle.TOURNAMENT) {
               Actions.refresh({ title: 'Tournament' });
             } else if (obj.i === pageTitle.MYCONNECTION) {

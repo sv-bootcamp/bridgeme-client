@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
  Alert,
  Image,
- Text,
  TextInput,
  TouchableWithoutFeedback,
  TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './Styles';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class SignUp extends Component {

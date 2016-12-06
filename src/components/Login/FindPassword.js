@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
  Alert,
  StyleSheet,
- Text,
  TextInput,
  TouchableOpacity,
  View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 
 class FindPassStep extends Component {
   constructor(props) {

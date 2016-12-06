@@ -4,12 +4,12 @@ import {
   Picker,
   ScrollView,
   TextInput,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
+import Text from '../Shared/UniText';
 
 const Item = Picker.Item;
 

@@ -3,12 +3,12 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Text,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MatchUtil from '../../utils/MatchUtil';
 import Swipeout from './Swipeout';
+import Text from '../Shared/UniText';
 import moment from 'moment';
 
 class NewRequestsRow extends Component {

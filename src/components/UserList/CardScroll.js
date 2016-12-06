@@ -6,9 +6,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 
 export default class CardScroll extends Component {
   static propTypes = {

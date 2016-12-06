@@ -3,13 +3,13 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from './Styles';
+import Text from '../Shared/UniText';
 
 class WorkForm extends Component {
   constructor(props) {

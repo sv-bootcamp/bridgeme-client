@@ -4,9 +4,9 @@ import {
   View,
   StyleSheet,
   Platform,
-  Text,
 } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import Text from './Shared/UniText';
 
 class EditProfile extends Component {
   constructor(props) {

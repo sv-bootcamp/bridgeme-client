@@ -6,7 +6,6 @@ import {
   RefreshControl,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableHighlight,
   View,
@@ -14,6 +13,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { GiftedChat }  from './react-native-gifted-chat';
 import SendBird from 'sendbird';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class ChatPage extends Component {
