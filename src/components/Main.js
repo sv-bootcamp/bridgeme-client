@@ -89,6 +89,7 @@ class Main extends Component {
 
           tabBarPosition='bottom'
           locked={true}
+          scrollWithoutAnimation={true}
           renderTabBar={() => <TabBar />}
         >
           <UserList tabLabel="ios-home" style={styles.tabView} />
