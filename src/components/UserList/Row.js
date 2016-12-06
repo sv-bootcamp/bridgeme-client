@@ -5,12 +5,7 @@ import {
   Image,
   Platform,
   StyleSheet,
-<<<<<<< HEAD
-  Text,
   TouchableOpacity,
-=======
-  TouchableHighlight,
->>>>>>> 9d316436ba956f9b4eedeaa9f69ad393f343492a
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -114,7 +109,10 @@ class Row extends Component {
 
     return (
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionName}>MY EXPERTISE </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.sectionName}>MY EXPERTISE{'\t'}</Text>
+          <View style={styles.expertiseSeparator}/>
+        </View>
           {
             newArray.map((value, index) =>
               (<View key={index} style={{ flexDirection: 'row' }}>
@@ -257,6 +255,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#a6aeae',
     marginBottom: 10,
+  },
+  expertiseSeparator: {
+    height: 2,
+    width: CARD_WIDTH * 0.55,
+    marginBottom: 8,
+    alignSelf: 'center',
+    backgroundColor: '#d6dada',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
