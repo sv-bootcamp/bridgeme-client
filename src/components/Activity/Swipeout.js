@@ -1,8 +1,9 @@
 var React = require('react');
 var ReactNative = require('react-native');
-var {PanResponder, TouchableHighlight, StyleSheet, Text, View} = ReactNative;
+var {PanResponder, TouchableHighlight, StyleSheet, View} = ReactNative;
 var tweenState = require('react-tween-state');
 var styles = require('./styles.js');
+import Text from '../Shared/UniText';
 
 var SwipeoutBtn = React.createClass({
   getDefaultProps: function() {

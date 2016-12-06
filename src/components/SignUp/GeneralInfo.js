@@ -6,7 +6,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import EduForm from './EduForm';
 import LinearGradient from 'react-native-linear-gradient';
 import MyPic from './MyPic';
 import Progress from '../Shared/Progress';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import WorkForm from './WorkForm';
 import {

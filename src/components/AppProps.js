@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#d6dada',
   },
   title: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: 16,
     color: '#2e3031',
   },
@@ -150,7 +151,7 @@ const AppProps = {
       key: 'main',
       component: Main,
       hideNavBar: false,
-      title: 'BridgeMe',
+      title: 'Bridge Me',
       titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
       rightTitle: 'right',

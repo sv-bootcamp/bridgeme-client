@@ -3,10 +3,10 @@ import {
   ActivityIndicator,
   Platform,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from '../../../Shared/UniText';
 
 export default class LoadEarlier extends React.Component {
   renderLoading() {

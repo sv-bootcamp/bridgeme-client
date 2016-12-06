@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from '../../../Shared/UniText';
 
 export default class Actions extends React.Component {
   constructor(props) {

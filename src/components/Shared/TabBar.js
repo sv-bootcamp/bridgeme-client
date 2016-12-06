@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
   Image,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 
 class TabBar extends Component {
   constructor(props) {

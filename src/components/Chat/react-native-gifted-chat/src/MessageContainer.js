@@ -5,9 +5,9 @@ import {
   ListView,
   Row,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../../../Shared/UniText';
 
 import shallowequal from 'shallowequal';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';

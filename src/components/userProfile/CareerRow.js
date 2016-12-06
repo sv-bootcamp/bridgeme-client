@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 
 class CareerRow extends Component {
   constructor(props) {

@@ -5,13 +5,18 @@ import {
   Image,
   Platform,
   StyleSheet,
+<<<<<<< HEAD
   Text,
   TouchableOpacity,
+=======
+  TouchableHighlight,
+>>>>>>> 9d316436ba956f9b4eedeaa9f69ad393f343492a
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import Text from '../Shared/UniText';
 
 class Row extends Component {
   constructor(props) {

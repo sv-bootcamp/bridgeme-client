@@ -6,12 +6,12 @@ import {
   Dimensions,
   Image,
   StyleSheet,
-  Text,
   TouchableHighlight,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Text from '../Shared/UniText';
 
 class ConnectedRow extends Component {
   constructor(props) {

@@ -6,8 +6,8 @@ import {
   Platform,
   StyleSheet,
   View,
-  Text,
 } from 'react-native';
+import Text from '../../../Shared/UniText';
 
 import ActionSheet from '@exponent/react-native-action-sheet';
 import dismissKeyboard from 'react-native-dismiss-keyboard';

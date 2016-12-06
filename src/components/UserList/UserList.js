@@ -5,12 +5,12 @@ import {
   Platform,
   RefreshControl,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import Row from './Row';
 import { Actions } from 'react-native-router-flux';
 import CardScroll from './CardScroll';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class UserList extends Component {
