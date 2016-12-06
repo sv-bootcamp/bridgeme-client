@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2e3031',
   },
+  mainTitle: {
+    fontFamily: 'ProductSans-Bold',
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#2e3031',
+  },
   rightBtn: {
     fontSize: 16,
     color: '#557bfc',
@@ -144,7 +150,8 @@ const AppProps = {
       key: 'main',
       component: Main,
       hideNavBar: false,
-      title: 'Bridgeme',
+      title: 'BridgeMe',
+      titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
       rightTitle: 'right',
       rightButtonTextStyle: { color: 'transparent' },
