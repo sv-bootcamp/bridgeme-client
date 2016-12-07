@@ -91,7 +91,6 @@ export default class MessageText extends React.Component {
 }
 
 const textStyle = {
-  fontFamily: 'SFUIText-Regular',
   fontSize: 14,
   lineHeight: 19,
   marginTop: 5,

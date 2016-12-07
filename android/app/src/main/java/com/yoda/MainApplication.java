@@ -3,6 +3,10 @@ package com.yoda;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.appevents.AppEventsLogger;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+
 import java.util.Arrays;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -17,7 +21,7 @@ import com.chymtt.reactnativedropdown.DropdownPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
     // implement CallbackManager for facebook SDK
     private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -56,5 +60,11 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

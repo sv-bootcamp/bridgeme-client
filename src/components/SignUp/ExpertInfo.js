@@ -194,20 +194,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleText: {
-    fontFamily: 'SFUIText-regular',
     fontSize: 18,
     textAlign: 'center',
     color: '#2e3031',
   },
   subTitleText: {
-    fontFamily: 'SFUIText-regular',
     fontSize: 12,
     textAlign: 'center',
     color: '#2e3031',
     marginTop: 10,
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
+    fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
     fontSize: 16,

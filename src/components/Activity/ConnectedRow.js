@@ -139,13 +139,12 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   name: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 14,
+    fontWeight: 'bold',
     marginBottom: 2,
     color: '#2e3031',
   },
   currentStatus: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     color: '#a6aeae',
   },

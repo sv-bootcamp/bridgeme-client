@@ -243,18 +243,16 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   name: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
+    fontWeight: 'bold',
     color: '#ffffff',
   },
   positionText: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 30,
     color: '#ffffff',
   },
   currentLocationText: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 5,
     color: '#ffffff',
@@ -298,7 +296,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
@@ -324,7 +321,7 @@ const styles = StyleSheet.create({
   },
   tabBarText: {
     fontSize: 12,
-    fontFamily: 'SFUIText-Bold',
+    fontWeight: 'bold',
   },
   tabBarUnderline: {
     backgroundColor: '#44acff',

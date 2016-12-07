@@ -89,14 +89,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoText: {
-    fontFamily: 'SFUIText-regular',
     fontSize: 16,
     textAlign: 'center',
     color: '#2e3031',
     marginTop: 40,
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
+    fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
     fontSize: 16,

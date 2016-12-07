@@ -226,21 +226,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   name: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
+    fontWeight: 'bold',
     marginTop: 25,
     marginLeft: 25,
     color: '#2e3031',
   },
   job: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginTop: 25,
     marginLeft: 25,
     color: '#2e3031',
   },
   location: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
     marginLeft: 25,
     color: '#2e3031',
@@ -251,8 +249,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   sectionName: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 10,
+    fontWeight: 'bold',
     color: '#a6aeae',
     marginBottom: 10,
   },
@@ -277,7 +275,6 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#2e3031',
-    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     backgroundColor: 'transparent',
     textAlign: 'center',
@@ -297,7 +294,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
     paddingTop: CARD_HEIGHT * 0.09 / 4,
     fontSize: 16,
     fontWeight: 'bold',
