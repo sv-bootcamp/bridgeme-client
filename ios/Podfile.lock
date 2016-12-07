@@ -35,6 +35,7 @@ PODS:
 
 DEPENDENCIES:
   - Firebase/Analytics
+  - Firebase/Core
   - Firebase/Messaging
   - FLAnimatedImage (~> 1.0)
 
@@ -49,6 +50,6 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
 
-PODFILE CHECKSUM: fdc6d421f2b03ca169b2ed578c9a6e0e5ed756bb
+PODFILE CHECKSUM: 9025b5839190348f2f2ac7d1fb40249a02bf12ee
 
 COCOAPODS: 1.1.1
