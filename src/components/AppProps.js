@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
   },
-  title: {
-    fontFamily: 'SFUIText-Regular',
-    fontSize: 16,
+  mainTitle: {
+    fontFamily: 'ProductSans-Bold',
+    fontSize: 17,
+    fontWeight: 'bold',
     color: '#2e3031',
   },
   rightBtn: {
@@ -55,7 +56,6 @@ const cancelButton = require('../resources/icon-cancel.png');
 const AppProps = {
   rootProp: {
     key: 'root',
-    titleStyle: styles.title,
     rightButtonTextStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
     leftButtonIconStyle: styles.leftBtn,
@@ -146,6 +146,7 @@ const AppProps = {
       component: Main,
       hideNavBar: false,
       title: 'Bridge Me',
+      titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
       rightTitle: 'right',
       rightButtonTextStyle: { color: 'transparent' },

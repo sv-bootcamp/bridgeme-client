@@ -172,7 +172,7 @@ class GeneralInfo extends Component {
       return;
     }
 
-    let image = null;
+    let image = '';
     if (this.state.imageResource !== null) {
       image = this.state.imageResource.data;
     }

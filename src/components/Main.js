@@ -75,15 +75,15 @@ class Main extends Component {
           initialPage={0}
           onChangeTab={(obj) => {
             if (obj.i === pageTitle.HOME) {
-              Actions.refresh({ title: 'Bridge Me' });
+              Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle, });
             } else if (obj.i === pageTitle.TOURNAMENT) {
-              Actions.refresh({ title: 'Tournament' });
+              Actions.refresh({ title: 'Tournament', titleStyle: styles.title, });
             } else if (obj.i === pageTitle.MYCONNECTION) {
-              Actions.refresh({ title: 'My Connection' });
+              Actions.refresh({ title: 'My Connection', titleStyle: styles.title, });
             } else if (obj.i === pageTitle.CHAT) {
-              Actions.refresh({ title: 'Chat' });
+              Actions.refresh({ title: 'Chat', titleStyle: styles.title, });
             } else if (obj.i === pageTitle.MYPROFILE) {
-              Actions.refresh({ title: 'My Profile' });
+              Actions.refresh({ title: 'My Profile', titleStyle: styles.title, });
             }
           }}
 
@@ -123,6 +123,17 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2, },
     shadowOpacity: 0.5,
     shadowRadius: 3,
+  },
+  mainTitle: {
+    fontFamily: 'ProductSans-Bold',
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#2e3031',
+  },
+  title: {
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 16,
+    color: '#2e3031',
   },
 });
 

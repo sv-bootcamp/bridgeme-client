@@ -5,7 +5,7 @@ import {
   Image,
   Platform,
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -95,19 +95,24 @@ class Row extends Component {
       const itemSize = originArray[i].length * CHARACTER_WIDTH;
 
       // Check to see if current line has exceed device width
-      if (lineSize + itemSize > CARD_WIDTH - LINE_PADDING) {
-        lineSize = 0;
-        lineCount++;
-        newArray[lineCount] = [];
+      if (lineCount < 2) {
+        if (lineSize + itemSize > CARD_WIDTH - LINE_PADDING) {
+          lineSize = 0;
+          lineCount++;
+          newArray[lineCount] = [];
+        } else {
+          newArray[lineCount].push(originArray[i]);
+          lineSize += itemSize;
+        }
       }
-
-      newArray[lineCount].push(originArray[i]);
-      lineSize += itemSize;
     }
 
     return (
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionName}>MY EXPERTISE </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.sectionName}>MY EXPERTISE{'\t'}</Text>
+          <View style={styles.expertiseSeparator}/>
+        </View>
           {
             newArray.map((value, index) =>
               (<View key={index} style={{ flexDirection: 'row' }}>
@@ -158,11 +163,11 @@ class Row extends Component {
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-                <TouchableWithoutFeedback onPress={connect}>
+                <TouchableOpacity onPress={connect}>
                   <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>CONNECT</Text>
                   </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               </LinearGradient>
             </View>
           </View>
@@ -251,16 +256,23 @@ const styles = StyleSheet.create({
     color: '#a6aeae',
     marginBottom: 10,
   },
+  expertiseSeparator: {
+    height: 2,
+    width: CARD_WIDTH * 0.55,
+    marginBottom: 8,
+    alignSelf: 'center',
+    backgroundColor: '#d6dada',
+  },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
     borderRadius: 25,
     height: 27,
-    paddingBottom: 10,
-    paddingTop: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginRight: 5,
-    marginBottom: 5,
+    paddingBottom: 6,
+    paddingTop: 6,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 10,
+    marginBottom: 10,
     justifyContent: 'center',
   },
   tagText: {
@@ -276,21 +288,17 @@ const styles = StyleSheet.create({
   },
   connectBtnStyle: {
     width: CARD_WIDTH / 1.78,
-    height: 45,
+    height: CARD_HEIGHT * 0.09,
     marginBottom: CARD_HEIGHT / 20,
     borderRadius: CARD_HEIGHT / 4.12,
-    alignItems: 'center',
-
   },
   buttonContainer: {
     backgroundColor: 'transparent',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonText: {
-    flex: 1,
     fontFamily: 'SFUIText-Bold',
-    paddingTop: 10,
+    paddingTop: CARD_HEIGHT * 0.09 / 4,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
