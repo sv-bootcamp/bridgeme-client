@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionName: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 12,
+    fontWeight: 'bold',
     color: '#a6aeae',
   },
   container: {

@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontFamily: 'SFUIText-Bold',
+    fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',
     margin: 10,

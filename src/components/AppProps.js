@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontFamily: 'ProductSans-Bold',
     fontSize: 17,
-    fontWeight: 'bold',
     color: '#2e3031',
   },
   rightBtn: {

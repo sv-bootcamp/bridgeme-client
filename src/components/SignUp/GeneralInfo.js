@@ -182,6 +182,7 @@ class GeneralInfo extends Component {
     if (profile.education[idx][parentProp] === undefined) {
       profile.education[idx][parentProp] = {};
     }
+
     profile.education[idx][parentProp][childProp] = text;
   }
 
@@ -449,5 +450,66 @@ class GeneralInfo extends Component {
   }
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
+    flex: 1,
+    flexDirection: 'column',
+  },
+  scrollView: {
+    paddingLeft: 40,
+  },
+  form: {
+    marginTop: 20,
+  },
+  title: {
+    color: '#a6aeae',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  add: {
+    color: '#2e3031',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 30,
+  },
+  nextView: {
+    alignItems: 'center',
+    marginTop: 64,
+    marginBottom: 30,
+    marginRight: 40,
+  },
+  nextImage: {
+    width: 230,
+    height: 45,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nextTxt: {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  flexR: {
+    flexDirection: 'row',
+  },
+  horiL: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  horiR: {
+    justifyContent: 'flex-end',
+  },
+});
 
 module.exports = GeneralInfo;
