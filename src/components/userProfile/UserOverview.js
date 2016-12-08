@@ -33,6 +33,7 @@ class UserOverview extends Component {
     } else if (result) {
       this.setState({
         id: result._id,
+        about: result.about,
         loaded: true,
         expertise: result.expertise.slice()
           .map((value) => value.select)
@@ -69,7 +70,7 @@ class UserOverview extends Component {
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>About</Text>
-        <Text>{this.state.about}</Text>
+        <Text style={styles.about}>{this.state.about}</Text>
       </View>
     );
   }
@@ -141,12 +142,18 @@ class UserOverview extends Component {
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>Personality</Text>
-        {
-          personalityArray.map((value, index) =>
-            (<View key={index} style={{ flexDirection: 'row' }}>
-              <Text style={[fontStyle[scoreArray[index]], styles.personality]}>{value}</Text>
-            </View>))
-        }
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {
+            personalityArray.map((value, index) =>
+              (
+                <Text
+                  key={index}
+                  style={[fontStyle[scoreArray[index]], styles.personality]}>
+                  {value}
+                </Text>
+              ))
+          }
+        </View>
       </View>
     );
   }
@@ -197,6 +204,11 @@ const styles = StyleSheet.create({
     color: '#a6aeae',
     marginBottom: 10,
   },
+  about: {
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 16,
+    color: '#2e3031',
+  },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
     borderRadius: 25,
@@ -217,6 +229,8 @@ const styles = StyleSheet.create({
   },
   personality: {
     marginBottom: 5,
+    marginRight: 5,
+    height: 30,
   },
 });
 
