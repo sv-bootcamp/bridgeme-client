@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
  Alert,
+ AsyncStorage,
  Image,
  TextInput,
  TouchableWithoutFeedback,
@@ -109,9 +110,32 @@ class SignUp extends Component {
 
   onLoginCallback(result, error) {
     if (error) {
-      this.alert('Sever error(Profile)! Please sign in again.');
+      this.alert('Please check your account information and sign in again!');
     } else if (result) {
-      AsyncStorage.setItem('token', result.access_token, () => Actions.generalInfo());
+      AsyncStorage.setItem(
+        'token',
+        result.access_token,
+        () => UserUtil.getMyProfile(this.onGetProfileCallback.bind(this))
+      );
+    } else {
+      this.setState({ loaded: true });
+    }
+  }
+
+  onGetProfileCallback(profile, error) {
+    if (error) {
+      alert(error);
+      this.setState({ loaded: true });
+    } else if (profile) {
+      if (profile.status === 201) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.personality.length === 0) {
+        Actions.generalInfo({ me: profile });
+      } else if (profile.status === 200) {
+        Actions.main({ me: profile });
+      } else {
+        this.setState({ loaded: true });
+      }
     }
   }
 
