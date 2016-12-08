@@ -320,8 +320,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   tabBarText: {
+    fontFamily: 'SFUIText-Bold',
     fontSize: 12,
-    fontWeight: 'bold',
   },
   tabBarUnderline: {
     backgroundColor: '#44acff',

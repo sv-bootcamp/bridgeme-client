@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     }),
   },
   tabBarText: {
+    fontFamily: 'SFUIText-Bold',
     fontSize: 12,
-    fontWeight: 'bold',
   },
   section: {
     flexDirection: 'column',
