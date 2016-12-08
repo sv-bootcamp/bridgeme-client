@@ -193,7 +193,6 @@ class Login extends Component {
     } else {
       this.setState({ loaded: true });
     }
-
   }
 
   alert(msg) {
