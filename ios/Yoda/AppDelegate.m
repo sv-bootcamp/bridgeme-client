@@ -43,7 +43,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [self setNotification];
+  [FIRApp configure];
+  #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  #endif
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
@@ -84,13 +87,6 @@
 - (void)startupAnimationDone:(NSString *)animationID
                     finished:(NSNumber *)finished context:(void *)context {
   [splashView removeFromSuperview];
-}
-
-- (void)setNotification {
-  [FIRApp configure];
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-#endif
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
