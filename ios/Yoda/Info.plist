@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.0.1</string>
 	<key>FacebookAppID</key>
 	<string>293003637722841</string>
 	<key>FacebookDisplayName</key>
@@ -62,17 +62,20 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>This app requires access to the camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>This app requires access to the photo library.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-UI-Text-Light.otf</string>
 		<string>SF-UI-Text-Ultrathin.otf</string>
 		<string>ProductSans-Bold.ttf</string>
 		<string>opensans.ttf</string>
+		<string>SF-UI-Text-Bold.otf</string>
+		<string>SF-UI-Text-Regular.otf</string>
+		<string>SF-UI-Text-Semibold.otf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>FontAwesome.ttf</string>
@@ -81,9 +84,6 @@
 		<string>MaterialIcons.ttf</string>
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>SF-UI-Text-Bold.otf</string>
-		<string>SF-UI-Text-Regular.otf</string>
-		<string>SF-UI-Text-Semibold.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
