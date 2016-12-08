@@ -239,7 +239,7 @@ class UserProfile extends Component {
           </View>
           <TouchableOpacity onPress={this.toggleAbout.bind(this)}>
             <Image style={styles.cancelButton}
-                   source={require('../../resources/cancle-icon.png')}/>
+                   source={require('../../resources/cancel-icon.png')}/>
           </TouchableOpacity>
         </Animated.View>
       );
