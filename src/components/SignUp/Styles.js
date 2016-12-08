@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   formEditYear: {
     width: 100,
-    //height: 24,
   },
   doneWrapper: {
     alignItems: 'flex-end',

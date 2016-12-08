@@ -52,17 +52,17 @@ class EduFormIOS extends Component {
       <View style={styles.formEditView}>
         <View style={styles.formEditBottomLine}>
           <TextInput style={[styles.formName, styles.formEditName]}
-             defaultValue={this.state.name}
-             placeholder="Name"
-             placeholderTextColor="#a6aeae"
-             onChangeText={onChangeName} />
+            defaultValue={this.state.name}
+            placeholder="Name"
+            placeholderTextColor="#a6aeae"
+            onChangeText={onChangeName} />
         </View>
         <View style={styles.formEditBottomLine}>
           <TextInput style={[styles.formName, styles.formEditName]}
-             defaultValue={this.state.subject}
-             placeholder="Subject"
-             placeholderTextColor="#a6aeae"
-             onChangeText={onChangeSubject} />
+            defaultValue={this.state.subject}
+            placeholder="Subject"
+            placeholderTextColor="#a6aeae"
+            onChangeText={onChangeSubject} />
         </View>
         <View style={styles.flexR}>
           <TouchableOpacity onPress={setModalVisible}>
@@ -78,11 +78,11 @@ class EduFormIOS extends Component {
             <View style={{ flex: 1 }}></View>
           </TouchableWithoutFeedback>
           <Modal
-            animationType={"slide"}
+            animationType={'slide'}
             transparent={true}
             visible={this.state.modalVisible}
-            onRequestClose={() => {alert("Modal has been closed.")}}
-            >
+            onRequestClose={() => {alert('Modal has been closed.');}}
+          >
             <View style={{ flex: 1, }}></View>
             <View style={styles.doneWrapper}>
               <TouchableOpacity onPress={setModalVisible}>
@@ -111,7 +111,7 @@ class EduFormIOS extends Component {
   }
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
 
   // Get picker items(year for education)
