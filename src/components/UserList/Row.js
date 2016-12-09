@@ -35,6 +35,7 @@ class Row extends Component {
       expertise: this.props.dataSource.expertise.slice()
         .map((value) => value.select)
         .sort((a, b) => a.length - b.length),
+      pending: this.props.dataSource.pending,
     });
   }
 
@@ -167,9 +168,12 @@ class Row extends Component {
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-                <TouchableOpacity onPress={connect}>
+                <TouchableOpacity onPress={this.state.pending ? null : connect}>
                   <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>CONNECT</Text>
+                    <Text style={styles.buttonText}>
+                      {this.state.pending ? 'WAITING' : 'CONNECT'}
+                    </Text>
+
                   </View>
                 </TouchableOpacity>
               </LinearGradient>
