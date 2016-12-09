@@ -233,13 +233,17 @@ class UserProfile extends Component {
               opacity: this.state.opacity,
             },
             ]}>
-          <View style={styles.aboutDetailContainer}>
-            <Text style={styles.aboutDetailTitle}>About</Text>
-            <Text style={styles.aboutDetailContent}>{this.state.about}</Text>
-          </View>
-          <TouchableOpacity onPress={this.toggleAbout.bind(this)}>
-            <Image style={styles.cancelButton}
-                   source={require('../../resources/cancel-icon.png')}/>
+          <TouchableOpacity
+            onPress={this.toggleAbout.bind(this)}
+            style={{ flex: 1 }}>
+            <View style={styles.aboutDetailContainer}>
+              <Text style={styles.aboutDetailTitle}>About</Text>
+              <Text style={styles.aboutDetailContent}>{this.state.about}</Text>
+            </View>
+            <TouchableOpacity onPress={this.toggleAbout.bind(this)}>
+              <Image style={styles.cancelButton}
+                     source={require('../../resources/cancel-icon.png')}/>
+            </TouchableOpacity>
           </TouchableOpacity>
         </Animated.View>
       );
