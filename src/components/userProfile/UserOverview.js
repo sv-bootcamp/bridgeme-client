@@ -75,7 +75,6 @@ class UserOverview extends Component {
         <View style={styles.sectionContainer} onLayout={ event => {
           const { height } = event.nativeEvent.layout;
           const HEIGHT_OF_TWO_LINES = 119;
-          console.log(height);
           if (height > HEIGHT_OF_TWO_LINES) {
             this.setState({ needEllipsize: true });
           }
@@ -223,6 +222,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a6aeae',
     marginBottom: 23,
+  },
+  about: {
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 16,
+    color: '#2e3031',
   },
   about: {
     fontFamily: 'SFUIText-Regular',
