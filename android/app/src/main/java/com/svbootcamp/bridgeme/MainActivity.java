@@ -1,4 +1,4 @@
-package com.yoda;
+package com.svbootcamp.bridgeme;
 
 import android.os.Bundle;
 import android.content.Intent;

@@ -21,8 +21,8 @@ export default class LoadEarlier extends React.Component {
     return (
       <View>
         <Text style={[styles.text, this.props.textStyle, {
-            opacity: 0,
-          }, ]}>
+          opacity: 0,
+        }, ]}>
           {this.props.label}
         </Text>
         <ActivityIndicator

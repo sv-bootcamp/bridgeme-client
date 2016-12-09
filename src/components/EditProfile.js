@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
   },
   menuText: {
-    fontFamily: 'SFUIText-Regular',
     color: '#2e3031',
     fontSize: 14,
     marginLeft: 30,

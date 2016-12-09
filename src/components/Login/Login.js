@@ -32,6 +32,7 @@ class Login extends Component {
         this.hasToken();
         return;
       }
+
       AsyncStorage.setItem('firstFlag', 'on');
       Actions.onBoarding();
     });
@@ -189,8 +190,9 @@ class Login extends Component {
       } else {
         this.setState({ loaded: true });
       }
+    } else {
+      this.setState({ loaded: true });
     }
-
   }
 
   alert(msg) {

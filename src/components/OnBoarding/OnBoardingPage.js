@@ -134,13 +134,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
+    fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
   },
   footerText: {
-    fontFamily: 'SFUIText-Regular',
     color: '#a6aeae',
     fontSize: 12,
     marginBottom: 30,

@@ -23,75 +23,13 @@ import WorkForm from './WorkForm';
 const fieldTitles = [
   { name: 'Name', isArray: false },
   { name: 'Email', isArray: false },
+  { name: 'Location', isArray: false },
   { name: 'About', isArray: false },
   { name: 'Education', isArray: true },
   { name: 'Experience', isArray: true },
 ];
 
-const styles = StyleSheet.create({
-  container: {
-    ...Platform.select({
-      ios: {
-        marginTop: 64,
-      },
-      android: {
-        marginTop: 54,
-      },
-    }),
-    marginBottom: 30,
-    flex: 1,
-    flexDirection: 'column',
-  },
-  scrollView: {
-    paddingLeft: 40,
-  },
-  form: {
-    marginTop: 20,
-  },
-  title: {
-    color: '#a6aeae',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  add: {
-    color: '#2e3031',
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginRight: 30,
-  },
-  nextView: {
-    alignItems: 'center',
-    marginTop: 64,
-    marginBottom: 30,
-    marginRight: 40,
-  },
-  nextImage: {
-    width: 230,
-    height: 45,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nextTxt: {
-    fontFamily: 'SFUIText-Bold',
-    backgroundColor: 'transparent',
-    color: '#ffffff',
-    fontSize: 16,
-  },
-  flexR: {
-    flexDirection: 'row',
-  },
-  horiL: {
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
-  horiR: {
-    justifyContent: 'flex-end',
-  },
-});
-
 class GeneralInfo extends Component {
-
   constructor(props) {
     super(props);
 
@@ -182,6 +120,7 @@ class GeneralInfo extends Component {
     if (profile.education[idx][parentProp] === undefined) {
       profile.education[idx][parentProp] = {};
     }
+
     profile.education[idx][parentProp][childProp] = text;
   }
 
@@ -274,6 +213,7 @@ class GeneralInfo extends Component {
     const fieldSet = {
       name: profile.name,
       email: profile.email,
+      location: profile.location,
       about: profile.about || '',
       education: profile.education,
       experience: profile.experience,
@@ -335,6 +275,7 @@ class GeneralInfo extends Component {
     if (experience.end_date !== undefined) {
       end = experience.end_date === '0000-00' ? 'present' : experience.end_date;
     }
+
     const onDelete = deletedRowID => this.onDeleteWork(deletedRowID);
     const onChangeText = (propName1, propName2, idx, text) =>
                           this.onChangeExpInfo(propName1, propName2, idx, text);
@@ -357,6 +298,7 @@ class GeneralInfo extends Component {
     if (!edu.concentration && edu.concentration.length > 0) {
       eduSubject = edu.concentration[0].name;
     }
+
     const onDelete = deletedRowID => this.onDeleteEdu(deletedRowID);
     const onChangeText = (parentProp, childProp, idx, text) =>
                         this.onChangeEduInfo(parentProp, childProp, idx, text);
@@ -447,7 +389,68 @@ class GeneralInfo extends Component {
 
     return Forms;
   }
-
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...Platform.select({
+      ios: {
+        marginTop: 64,
+      },
+      android: {
+        marginTop: 54,
+      },
+    }),
+    marginBottom: 30,
+    flex: 1,
+    flexDirection: 'column',
+  },
+  scrollView: {
+    paddingLeft: 40,
+  },
+  form: {
+    marginTop: 20,
+  },
+  title: {
+    color: '#a6aeae',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  add: {
+    color: '#2e3031',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 30,
+  },
+  nextView: {
+    alignItems: 'center',
+    marginTop: 64,
+    marginBottom: 30,
+    marginRight: 40,
+  },
+  nextImage: {
+    width: 230,
+    height: 45,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nextTxt: {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  flexR: {
+    flexDirection: 'row',
+  },
+  horiL: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  horiR: {
+    justifyContent: 'flex-end',
+  },
+});
 
 module.exports = GeneralInfo;

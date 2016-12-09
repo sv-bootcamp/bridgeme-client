@@ -10,26 +10,40 @@ class UniText extends Component {
     super(props);
     const style = StyleSheet.flatten(this.props.style);
     if (!style) return;
-    if (Platform.OS === 'ios') {
-      if (style.fontWeight === 'bold') {
-        this.defaultFont = {
-          fontFamily: 'SFUIText-Bold',
-        };
-      } else {
-        this.defaultFont = {
-          fontFamily: 'SFUIText-Regular',
-        };
-      }
+
+    this.defaultFont = {
+      fontFamily: 'SFUIText-Regular',
+      fontWeight: 'normal',
+    };
+
+    if (style.fontFamily) {
+      this.defaultFont.fontFamily = style.fontFamily;
+      this.defaultFont.fontWeight = style.fontWeight;
     } else {
-      this.defaultFont = {
-        fontFamily: 'SFUIText',
-      };
+      if (style.fontWeight === 'bold' || Number(style.fontWeight) >= 700) {
+        this.defaultFont.fontFamily = 'SFUIText-Bold';
+      } else if (Number(style.fontWeight) >= 600) {
+        this.defaultFont.fontFamily = 'SFUIText-Semibold';
+      } else if (Number(style.fontWeight) >= 400) {
+        this.defaultFont.fontFamily = 'SFUIText-Regular';
+      } else if (Number(style.fontWeight) >= 200) {
+        this.defaultFont.fontFamily = 'SFUIText-Light';
+      } else if (Number(style.fontWeight) >= 100) {
+        this.defaultFont.fontFamily = 'SFUIText-Ultrathin';
+      } else {
+        this.defaultFont.fontFamily = 'SFUIText-Regular';
+      }
+
+      if (Platform.OS === 'ios' && style.fontWeight)
+        this.defaultFont.fontWeight = style.fontWeight;
     }
   }
 
   render() {
     return (
-      <Text style={[this.defaultFont, this.props.style]}>{this.props.children}</Text>
+      <Text {...this.props} style={[this.props.style, this.defaultFont]}>
+        {this.props.children}
+      </Text>
     );
   }
 }

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   linkText: {
-    color: '#557bfc',
+    color: '#44acff',
   },
   receiveRequest: {
     flexDirection: 'row',

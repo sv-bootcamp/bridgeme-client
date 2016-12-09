@@ -1,4 +1,4 @@
-package com.yoda;
+package com.svbootcamp.bridgeme;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

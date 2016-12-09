@@ -35,6 +35,7 @@ class Row extends Component {
       expertise: this.props.dataSource.expertise.slice()
         .map((value) => value.select)
         .sort((a, b) => a.length - b.length),
+      pending: this.props.dataSource.pending,
     });
   }
 
@@ -46,10 +47,14 @@ class Row extends Component {
       location = this.props.dataSource.experience[0].employer.name;
       if (this.props.dataSource.experience[0].position) {
         currentTask = this.props.dataSource.experience[0].position.name;
+      } else {
+        return location;
       }
+
+      return currentTask + ' at ' + location;
     }
 
-    return currentTask + ' at ' + location;
+    return 'No current status';
   }
 
   getProfileImage() {
@@ -155,7 +160,7 @@ class Row extends Component {
               source={require('../../resources/icon-bookmark.png')}/>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
-              <Text style={styles.job}> {this.state.currentJob}</Text>
+              <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
               <Text style={styles.location}> {this.state.currentLocation}</Text>
               {this.renderMyExpertise()}
             </View>
@@ -163,9 +168,12 @@ class Row extends Component {
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-                <TouchableOpacity onPress={connect}>
+                <TouchableOpacity onPress={this.state.pending ? null : connect}>
                   <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>CONNECT</Text>
+                    <Text style={styles.buttonText}>
+                      {this.state.pending ? 'WAITING' : 'CONNECT'}
+                    </Text>
+
                   </View>
                 </TouchableOpacity>
               </LinearGradient>
@@ -226,22 +234,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   name: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 22,
+    fontWeight: 'bold',
     marginTop: 25,
     marginLeft: 25,
     color: '#2e3031',
   },
   job: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
-    marginTop: 25,
-    marginLeft: 25,
+    marginTop: 10,
+    marginLeft: CARD_WIDTH * 0.082,
+    marginRight: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   location: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 14,
+    marginTop: 5,
     marginLeft: 25,
     color: '#2e3031',
   },
@@ -251,8 +259,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   sectionName: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 10,
+    fontWeight: 'bold',
     color: '#a6aeae',
     marginBottom: 10,
   },
@@ -277,7 +285,6 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#2e3031',
-    fontFamily: 'SFUIText-Regular',
     fontSize: 12,
     backgroundColor: 'transparent',
     textAlign: 'center',
@@ -297,7 +304,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
     paddingTop: CARD_HEIGHT * 0.09 / 4,
     fontSize: 16,
     fontWeight: 'bold',

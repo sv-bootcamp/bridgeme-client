@@ -127,11 +127,9 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontFamily: 'ProductSans-Bold',
     fontSize: 17,
-    fontWeight: 'bold',
     color: '#2e3031',
   },
   title: {
-    fontFamily: 'SFUIText-Regular',
     fontSize: 16,
     color: '#2e3031',
   },

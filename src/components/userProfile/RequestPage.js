@@ -76,12 +76,12 @@ class RequestPage extends Component {
     const send = () => this.sendMessage();
 
     return (
-      <KeyboardAwareScrollView
-        extraHeight={HEIGHT / 4}
-        contentContainerStyle={styles.content}>
-        <Text style={styles.title}>What would you like to ask first?</Text>
-        <Text style={styles.subTitle}>Subjects</Text>
-        <MenuContext ref="MenuContext">
+      <MenuContext ref="MenuContext">
+        <KeyboardAwareScrollView
+          extraHeight={HEIGHT / 4}
+          contentContainerStyle={styles.content}>
+          <Text style={styles.title}>What would you like to ask first?</Text>
+          <Text style={styles.subTitle}>Subjects</Text>
           <View style={styles.dropdownContent}>
             <Menu style={styles.dropdown}
               onSelect={(value) => this.setState({ selection: value })}>
@@ -142,8 +142,9 @@ class RequestPage extends Component {
             networkActivityIndicatorVisible={false}
           />
 
-        </MenuContext>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </MenuContext>
+
     );
   }
 
@@ -222,7 +223,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: 'SFUIText-Bold',
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
