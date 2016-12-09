@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginTop: 25,
-    marginLeft: 25,
+    marginLeft: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   job: {
@@ -264,22 +264,23 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 14,
     marginTop: 5,
-    marginLeft: 25,
+    marginLeft: CARD_WIDTH * 0.082,
+    marginBottom: 10,
     color: '#2e3031',
   },
   sectionContainer: {
     marginTop: 20,
-    marginLeft: 30,
+    marginLeft: CARD_WIDTH * 0.082,
     paddingBottom: 20,
   },
   sectionName: {
     fontSize: 10,
     fontWeight: 'bold',
     color: '#a6aeae',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   expertiseSeparator: {
-    height: 2,
+    height: 1,
     width: CARD_WIDTH * 0.55,
     marginBottom: 8,
     alignSelf: 'center',

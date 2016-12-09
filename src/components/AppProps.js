@@ -177,6 +177,7 @@ const AppProps = {
       key: 'requestPage',
       component: RequestPage,
       title: 'Request Connection',
+      direction: 'vertical',
       backButtonImage: cancelButton,
     },
     {

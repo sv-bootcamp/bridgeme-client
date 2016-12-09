@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   },
   positionText: {
     fontSize: 14,
-    marginTop: 30,
+    marginTop: 10,
     color: '#ffffff',
   },
   currentLocationText: {
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   profileImage: {
     alignItems: 'stretch',
     opacity: 0.4,
-    height: 300,
+    height: HEIGHT * 0.4,
     width: WIDTH,
   },
   profileImgGradient: {
