@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   acceptButton: {
     height: 26,
     width: 91,
-    borderColor: '#557bfc',
+    borderColor: '#44acff',
     borderWidth: 1,
     borderRadius: 2,
     justifyContent: 'center',
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   acceptButtonText: {
-    color: '#557bfc',
+    color: '#44acff',
     textAlign: 'center',
     fontSize: 12,
     fontWeight: 'bold',

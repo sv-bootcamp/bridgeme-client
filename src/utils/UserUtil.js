@@ -13,6 +13,7 @@ class UserUtil {
 
   // Sign In with Facebook.
   signInWithFacebook(callback) {
+    this.signOut();
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'email', 'user_education_history', 'user_work_history'])
       .then(
@@ -67,6 +68,7 @@ class UserUtil {
       const body = {};
       body.deviceToken = token;
       apiUtil.requestPostWithToken(callback, 'API_SIGN_OUT', body);
+      LoginManager.logOut();
     });
   }
 
