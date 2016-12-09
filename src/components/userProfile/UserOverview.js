@@ -74,7 +74,7 @@ class UserOverview extends Component {
     return (
         <View style={styles.sectionContainer} onLayout={ event => {
           const { height } = event.nativeEvent.layout;
-          const HEIGHT_OF_TWO_LINES = 54.5;
+          const HEIGHT_OF_TWO_LINES = 119;
           console.log(height);
           if (height > HEIGHT_OF_TWO_LINES) {
             this.setState({ needEllipsize: true });
@@ -97,7 +97,7 @@ class UserOverview extends Component {
 
   renderMyExpertise() {
     const CHARACTER_WIDTH = 10;
-    const LINE_PADDING = 10;
+    const LINE_PADDING = 40;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
