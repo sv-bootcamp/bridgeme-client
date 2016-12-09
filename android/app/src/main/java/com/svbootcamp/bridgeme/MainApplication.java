@@ -1,8 +1,8 @@
-package com.yoda;
+package com.svbootcamp.bridgeme;
 
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.appevents.AppEventsLogger;
-import android.app.Application;
+
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
