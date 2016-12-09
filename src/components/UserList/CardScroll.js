@@ -6,9 +6,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 
 export default class CardScroll extends Component {
   static propTypes = {
@@ -39,7 +39,7 @@ export default class CardScroll extends Component {
     height: Dimensions.get('window').height,
     getImageSourceFromDataSource: (row) => row,
     inactiveCardScale: 0.9,
-    activeCardOpacity: 1,
+    inactiveCardOpacity: 1,
   };
 
   constructor(props) {

@@ -5,56 +5,51 @@ import {
   Image,
   Platform,
   StyleSheet,
-  Text,
-  TouchableHighlight,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
+import Text from '../Shared/UniText';
 
 class Row extends Component {
   constructor(props) {
     super(props);
 
-    // Current location and skills will be changed with real data later.
     this.state = {
       profileImage: '',
       name: '',
-      job: '',
-      position: 'Employer',
-      currentJob: '',
-      currentLocation: 'San Jose, CA, USA',
-      skills: ['# Motivation', '# prefered_skill', '# freelance'],
+      currentStatus: '',
+      currentLocation: '',
+      expertise: [],
     };
   }
 
   componentWillMount() {
-
-    // Skills will be updated later
-    let skills = this.state.skills;
-
     this.setState({
       profileImage: this.getProfileImage(),
       name: this.getName(),
-      currentJob: this.getCurrentJob(),
+      currentStatus: this.getCurrentStatus(),
       currentLocation: this.getCurrentLocation(),
-      skills: skills,
+      expertise: this.props.dataSource.expertise.slice()
+        .map((value) => value.select)
+        .sort((a, b) => a.length - b.length),
     });
   }
 
-  getCurrentJob() {
-    let job = this.state.job;
-    let position = this.state.position;
+  getCurrentStatus() {
+    let currentTask;
+    let location;
 
     if (this.props.dataSource.experience.length > 0) {
-      job = this.props.dataSource.experience[0].employer.name;
+      location = this.props.dataSource.experience[0].employer.name;
       if (this.props.dataSource.experience[0].position) {
-        position = this.props.dataSource.experience[0].position.name;
+        currentTask = this.props.dataSource.experience[0].position.name;
       }
-
-      return position + ' at ' + job;
     }
+
+    return currentTask + ' at ' + location;
   }
 
   getProfileImage() {
@@ -84,6 +79,57 @@ class Row extends Component {
     }
   }
 
+  renderMyExpertise() {
+    const CHARACTER_WIDTH = 10;
+    const LINE_PADDING = 10;
+    const originArray = this.state.expertise;
+    const newArray = [[]];
+    let lineSize = 0;
+    let lineCount = 0;
+
+    for (let i = 0; i < originArray.length; i++) {
+      if (originArray[i].includes('(')) {
+        originArray[i] = originArray[i].substring(0, originArray[i].indexOf('('));
+      }
+
+      const itemSize = originArray[i].length * CHARACTER_WIDTH;
+
+      // Check to see if current line has exceed device width
+      if (lineCount < 2) {
+        if (lineSize + itemSize > CARD_WIDTH - LINE_PADDING) {
+          lineSize = 0;
+          lineCount++;
+          newArray[lineCount] = [];
+        } else {
+          newArray[lineCount].push(originArray[i]);
+          lineSize += itemSize;
+        }
+      }
+    }
+
+    return (
+      <View style={styles.sectionContainer}>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.sectionName}>MY EXPERTISE{'\t'}</Text>
+          <View style={styles.expertiseSeparator}/>
+        </View>
+          {
+            newArray.map((value, index) =>
+              (<View key={index} style={{ flexDirection: 'row' }}>
+                {
+                  value.map((value, index) =>
+                    (<View key={index} style={styles.tagRectangle}>
+                      <Text style={styles.tagText}>
+                        {value}
+                      </Text>
+                    </View>))
+                }
+              </View>))
+          }
+      </View>
+    );
+  }
+
   sendRequest() {
     Actions.requestPage({ id: this.props.dataSource._id });
   }
@@ -111,18 +157,17 @@ class Row extends Component {
               <Text style={styles.name}>{this.state.name}</Text>
               <Text style={styles.job}> {this.state.currentJob}</Text>
               <Text style={styles.location}> {this.state.currentLocation}</Text>
-              <Text style={styles.skillTitle}>I am expertised in</Text>
-              <Text style={styles.skill}>{this.state.skills}</Text>
+              {this.renderMyExpertise()}
             </View>
             <View style={styles.connectBtnContainer}>
               <LinearGradient style={styles.connectBtnStyle} start={[0.9, 0.5]} end={[0.0, 0.5]}
                 locations={[0, 0.75]}
                 colors={['#07e4dd', '#44acff']}>
-                <TouchableWithoutFeedback onPress={connect}>
+                <TouchableOpacity onPress={connect}>
                   <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>CONNECT</Text>
                   </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               </LinearGradient>
             </View>
           </View>
@@ -136,6 +181,7 @@ const CARD_MARGIN = 15;
 const CARD_WIDTH = Dimensions.get('window').width - 72;
 const CARD_HEIGHT = Dimensions.get('window').height - 182;
 const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   rowView: {
     flex: 1,
@@ -199,20 +245,42 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     color: '#2e3031',
   },
-  skillTitle: {
-    fontFamily: 'SFUIText-Bold',
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginLeft: 25,
+  sectionContainer: {
     marginTop: 20,
-    color: '#a6aeae',
+    marginLeft: 30,
+    paddingBottom: 20,
   },
-  skill: {
+  sectionName: {
+    fontFamily: 'SFUIText-Bold',
+    fontSize: 10,
+    color: '#a6aeae',
+    marginBottom: 10,
+  },
+  expertiseSeparator: {
+    height: 2,
+    width: CARD_WIDTH * 0.55,
+    marginBottom: 8,
+    alignSelf: 'center',
+    backgroundColor: '#d6dada',
+  },
+  tagRectangle: {
+    backgroundColor: '#f0f0f2',
+    borderRadius: 25,
+    height: 27,
+    paddingBottom: 6,
+    paddingTop: 6,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 10,
+    marginBottom: 10,
+    justifyContent: 'center',
+  },
+  tagText: {
+    color: '#2e3031',
     fontFamily: 'SFUIText-Regular',
     fontSize: 12,
-    marginLeft: 25,
-    marginTop: 10,
-    color: '#2e3031',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
   },
   connectBtnContainer: {
     justifyContent: 'center',
@@ -220,21 +288,17 @@ const styles = StyleSheet.create({
   },
   connectBtnStyle: {
     width: CARD_WIDTH / 1.78,
-    height: 45,
+    height: CARD_HEIGHT * 0.09,
     marginBottom: CARD_HEIGHT / 20,
     borderRadius: CARD_HEIGHT / 4.12,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonContainer: {
     backgroundColor: 'transparent',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonText: {
-    flex: 1,
     fontFamily: 'SFUIText-Bold',
-    paddingTop: 10,
+    paddingTop: CARD_HEIGHT * 0.09 / 4,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',

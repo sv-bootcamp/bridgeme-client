@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   Image,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   TextInput,
   View,
 } from 'react-native';
 import commonStyles from './Styles';
+import Text from '../Shared/UniText';
 
 // A form component for single input
 class EditForm extends Component {
@@ -27,21 +27,16 @@ class EditForm extends Component {
   }
 
   render() {
-    if (this.state.editMode) {
-      return this.renderEdit();
-    } else {
-      return this.renderView();
-    }
+    return this.renderEdit();
   }
 
   renderEdit() {
     return (
-      <View>
+      <View style={styles.view}>
         <TextInput
           style={[styles.text, styles.input]}
           defaultValue={this.state.defaultValue}
-          underlineColorAndroid="#a6aeae"
-          autoFocus={true}
+          underlineColorAndroid="rgba(255, 255, 255, 0)"
           onEndEditing={() => this.reflctInput()}
           onChangeText={
             (text) => {
@@ -58,31 +53,6 @@ class EditForm extends Component {
     this.setState({ editMode: false });
   }
 
-  renderView() {
-    let defaultValue = this.state.defaultValue;
-
-    return (
-      <View style={[commonStyles.flexR, styles.view]}>
-        <View style={commonStyles.editL}>
-          <Text style={styles.text}>{defaultValue}</Text>
-        </View>
-        <View style={commonStyles.editR}>
-          <TouchableWithoutFeedback onPress={() => this.toggleEdit()}>
-            <Image style={commonStyles.editBtn}
-                   source={require('../../resources/icon-detail-edit.png')} />
-          </TouchableWithoutFeedback>
-        </View>
-      </View>
-    );
-  }
-
-  // switch edit or view mode
-  toggleEdit() {
-    this.setState({
-      editMode: !this.state.editMode,
-    });
-  }
-
 }
 
 const styles = StyleSheet.create({
@@ -96,7 +66,6 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   view: {
-    paddingBottom: 10.5,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',
   },

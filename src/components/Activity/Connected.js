@@ -8,12 +8,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MatchUtil from '../../utils/MatchUtil';
 import ConnectedRow from './ConnectedRow';
+import Text from '../Shared/UniText';
 
 class Connected extends Component {
   constructor(props) {

@@ -33,8 +33,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
   },
-  title: {
-    fontSize: 16,
+  mainTitle: {
+    fontFamily: 'ProductSans-Bold',
+    fontSize: 17,
+    fontWeight: 'bold',
     color: '#2e3031',
   },
   rightBtn: {
@@ -54,7 +56,6 @@ const cancelButton = require('../resources/icon-cancel.png');
 const AppProps = {
   rootProp: {
     key: 'root',
-    titleStyle: styles.title,
     rightButtonTextStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
     leftButtonIconStyle: styles.leftBtn,
@@ -144,7 +145,8 @@ const AppProps = {
       key: 'main',
       component: Main,
       hideNavBar: false,
-      title: 'Bridgeme',
+      title: 'Bridge Me',
+      titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
       rightTitle: 'right',
       rightButtonTextStyle: { color: 'transparent' },
@@ -164,6 +166,8 @@ const AppProps = {
       key: 'userProfile',
       component: UserProfile,
       hideBackImage: false,
+      direction: 'fade',
+      duration: 500,
       backButtonImage: require('../resources/icon-arrow-left-white.png'),
       navigationBarStyle: {
         backgroundColor: 'transparent',

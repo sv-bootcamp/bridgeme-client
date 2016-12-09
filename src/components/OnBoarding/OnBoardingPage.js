@@ -3,11 +3,11 @@ import {
   Dimensions,
   Image,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import Text from '../Shared/UniText';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 

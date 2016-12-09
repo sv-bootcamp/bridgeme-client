@@ -2,10 +2,9 @@ import React from 'react';
 import {
   Linking,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-
+import Text from '../../../Shared/UniText';
 import ParsedText from 'react-native-parsed-text';
 import Communications from 'react-native-communications';
 
@@ -53,8 +52,8 @@ export default class MessageText extends React.Component {
       <View
         style={
           [
-            styles[this.props.position].container,
-            this.props.containerStyle[this.props.position],
+          styles[this.props.position].container,
+          this.props.containerStyle[this.props.position],
           ]
         }
       >
@@ -63,25 +62,25 @@ export default class MessageText extends React.Component {
           parse={[
             { type: 'url',
               style: StyleSheet.flatten(
-                [
-                  styles[this.props.position].link,
-                  this.props.linkStyle[this.props.position],
-                ]
-              ), onPress: this.onUrlPress, },
+              [
+              styles[this.props.position].link,
+              this.props.linkStyle[this.props.position],
+              ]
+            ), onPress: this.onUrlPress, },
             { type: 'phone',
               style: StyleSheet.flatten(
-                [
-                  styles[this.props.position].link,
-                  this.props.linkStyle[this.props.position],
-                ]
-              ), onPress: this.onPhonePress, },
+              [
+              styles[this.props.position].link,
+              this.props.linkStyle[this.props.position],
+              ]
+            ), onPress: this.onPhonePress, },
             { type: 'email',
               style: StyleSheet.flatten(
-                [
-                  styles[this.props.position].link,
-                  this.props.linkStyle[this.props.position],
-                ]
-              ), onPress: this.onEmailPress, },
+              [
+              styles[this.props.position].link,
+              this.props.linkStyle[this.props.position],
+              ]
+            ), onPress: this.onEmailPress, },
           ]}
         >
           {this.props.currentMessage.text}
@@ -92,6 +91,7 @@ export default class MessageText extends React.Component {
 }
 
 const textStyle = {
+  fontFamily: 'SFUIText-Regular',
   fontSize: 14,
   lineHeight: 19,
   marginTop: 5,

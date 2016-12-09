@@ -8,11 +8,11 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import CareerRow from './CareerRow';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class UserCareer extends Component {
@@ -129,10 +129,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionName: {
-    fontFamily: 'SFUIText-Regular',
+    fontFamily: 'SFUIText-Bold',
     fontSize: 12,
-    fontWeight: 'bold',
-    color: '#2e3031',
+    color: '#a6aeae',
   },
 });
 

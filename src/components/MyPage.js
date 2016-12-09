@@ -8,13 +8,13 @@ import {
   Platform,
   StyleSheet,
   Switch,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import UserUtil from '../utils/UserUtil';
+import Text from './Shared/UniText';
 
 class MyPage extends Component {
   constructor(props) {

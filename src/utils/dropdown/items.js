@@ -5,8 +5,8 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
-  Text,
 } from 'react-native';
+import Text from '../../components/Shared/UniText';
 
 const window = Dimensions.get('window');
 

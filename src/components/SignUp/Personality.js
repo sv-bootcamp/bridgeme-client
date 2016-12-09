@@ -5,12 +5,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   TouchableHighlight,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import Progress from '../Shared/Progress';
 import { Personalites } from './SignUpMETA';
@@ -162,7 +162,7 @@ class Personality extends Component {
 
     if (!this.props.fromEdit)
       submitButton = (
-        <View style={{ flex: 1, marginTop: 50, }}>
+        <View style={{ flex: 1, marginTop: 50, marginBottom: 80 }}>
           <TouchableOpacity onPress={this.sendRequest.bind(this)}>
             <LinearGradient
               start={[0.9, 0.5]} end={[0.0, 0.5]}

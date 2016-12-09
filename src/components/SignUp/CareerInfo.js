@@ -6,7 +6,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   TouchableOpacity,
@@ -21,6 +20,7 @@ import {
 import Dropdown from 'react-native-dropdown-android';
 import LinearGradient from 'react-native-linear-gradient';
 import Progress from '../Shared/Progress';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 import { CareerData } from './SignUpMETA';
@@ -210,7 +210,7 @@ class CareerInfo extends Component {
   onNextBtnPressed() {
     for (i = 0; i < this.state.checked.length; i++) {
       if (!this.state.checked[i]) {
-        Alert.alert('System', 'Please Fill all data');
+        Alert.alert('System', 'Please select all');
         return;
       }
     }

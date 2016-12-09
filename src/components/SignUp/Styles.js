@@ -7,8 +7,12 @@ const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   formEditView: {
     borderBottomWidth: 1,
-    borderBottomColor: '#efeff2',
+    borderBottomColor: '#a6aeae',
     paddingBottom: 15,
+  },
+  formEditBottomLine: {
+    borderBottomColor: '#a6aeae',
+    borderBottomWidth: 1,
   },
   formView: {
     width: deviceWidth - 40,
@@ -45,7 +49,22 @@ const styles = StyleSheet.create({
   },
   formEditYear: {
     width: 100,
-    height: 24,
+    //height: 24,
+  },
+  doneWrapper: {
+    alignItems: 'flex-end',
+    backgroundColor: '#fbfbfb',
+    padding: 10,
+  },
+  doneText: {
+    fontSize: 16,
+    color: '#44acff',
+  },
+  modalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fbfbfb',
   },
   formEditDate: {
     height: 30,

@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>Bridgeme</string>
+    <string>BridgeMe</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIcons</key>
@@ -61,12 +61,19 @@
         </dict>
       </dict>
     </dict>
+    <key>NSCameraUsageDescription</key>
+    <string/>
     <key>NSLocationWhenInUseUsageDescription</key>
+    <string/>
+    <key>NSPhotoLibraryUsageDescription</key>
     <string/>
     <key>UIAppFonts</key>
     <array>
       <string>ProductSans-Bold.ttf</string>
       <string>opensans.ttf</string>
+      <string>SF-UI-Text-Bold.otf</string>
+      <string>SF-UI-Text-Regular.otf</string>
+      <string>SF-UI-Text-Semibold.otf</string>
       <string>Entypo.ttf</string>
       <string>EvilIcons.ttf</string>
       <string>FontAwesome.ttf</string>
@@ -75,9 +82,6 @@
       <string>MaterialIcons.ttf</string>
       <string>Octicons.ttf</string>
       <string>Zocial.ttf</string>
-      <string>SF-UI-Text-Bold.otf</string>
-      <string>SF-UI-Text-Regular.otf</string>
-      <string>SF-UI-Text-Semibold.otf</string>
     </array>
     <key>UIBackgroundModes</key>
     <array>
@@ -96,9 +100,5 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string/>
-    <key>NSCameraUsageDescription</key>
-    <string/>
   </dict>
 </plist>

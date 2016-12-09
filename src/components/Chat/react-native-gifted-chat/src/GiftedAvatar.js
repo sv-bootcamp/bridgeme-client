@@ -4,10 +4,10 @@
 import React from 'react';
 import {
   Image,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from '../../../Shared/UniText';
 
 // TODO
 // 3 words name initials

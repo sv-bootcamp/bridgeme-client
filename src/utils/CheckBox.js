@@ -3,12 +3,12 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Text,
   View,
   Platform,
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Text from '../components/Shared/UniText';
 
 let PropTypes = React.PropTypes;
 

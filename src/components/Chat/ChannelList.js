@@ -9,13 +9,13 @@ import {
   Platform,
   RefreshControl,
   StyleSheet,
-  Text,
   TextInput,
   Vibration,
   View,
 } from 'react-native';
 import Row from './Row';
 import SendBird from 'sendbird';
+import Text from '../Shared/UniText';
 
 ///Todo : Implement Sort by Alphabet & Latest Action in iOS native.
 class ChannelList extends Component {

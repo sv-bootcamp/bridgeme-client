@@ -8,9 +8,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
 class UserOverview extends Component {
@@ -83,6 +83,10 @@ class UserOverview extends Component {
     let lineCount = 0;
 
     for (let i = 0; i < originArray.length; i++) {
+      if (originArray[i].includes('(')) {
+        originArray[i] = originArray[i].substring(0, originArray[i].indexOf('('));
+      }
+
       const itemSize = originArray[i].length * CHARACTER_WIDTH;
 
       // Check to see if current line has exceed device width
