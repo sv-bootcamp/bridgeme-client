@@ -83,8 +83,8 @@ class MyPage extends Component {
 
       return currentTask + ' at ' + location;
     }  else if (status.education.length > 0) {
-      let lastIndex = status.education.length - 1;
-      let education = status.education[lastIndex];
+      const lastIndex = status.education.length - 1;
+      const education = status.education[lastIndex];
 
       if (education.school) {
         location = education.school.name;
