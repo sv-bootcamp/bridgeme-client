@@ -29,7 +29,6 @@ class UserProfile extends Component {
       profileImage: '../../resources/pattern.png',
       name: '',
       currentStatus: '',
-      currentPosition: '',
       currentLocation: '',
       statusAsMentee: '',
       statusAsMentor: '',
@@ -55,37 +54,6 @@ class UserProfile extends Component {
 
     // Check result code: profile Request/mentor request
     if (result._id) {
-      let currentStatus = this.state.currentStatus;
-      let currentPosition = this.state.currentPosition;
-      let currentLocation = this.state.currentLocation;
-
-      if (result.experience.length > 0) {
-        let experience = result.experience[0];
-
-        if (experience.employer) {
-          currentStatus = 'at ' + experience.employer.name;
-        }
-
-        if (experience.position) {
-          currentPosition = experience.position.name;
-        }
-
-        if (experience.location) {
-          currentLocation = experience.location.name;
-        }
-      } else if (result.education.length > 0) {
-        let lastIndex = result.education.length - 1;
-        let education = result.education[lastIndex];
-
-        if (education.school) {
-          currentStatus = 'at ' + education.school.name;
-        }
-
-        if (education.concentration.length > 0) {
-          currentPosition = education.concentration[0].name;
-        }
-      }
-
       let statusAsMentee = this.state.statusAsMentee;
       let statusAsMentor = this.state.statusAsMentor;
 
@@ -94,30 +62,72 @@ class UserProfile extends Component {
         statusAsMentor = result.relation.asMentor;
       }
 
-      let image;
-      if (result.profile_picture) {
-        image = { uri: result.profile_picture };
-      } else {
-        image = require('../../resources/pattern.png');
-      }
-
       this.setState({
         id: result._id,
-        profileImage: image,
+        profileImage: this.getProfileImage(result),
         name: result.name,
-        currentStatus: currentStatus,
-        currentPosition: currentPosition,
-        currentLocation: currentLocation,
+        currentStatus: this.getCurrentStatus(result),
+        currentLocation: this.getCurrentLocation(result),
         loaded: true,
         isRefreshing: false,
         statusAsMentee: statusAsMentee,
         statusAsMentor: statusAsMentor,
         about: result.about,
       });
-    } else if (result.msg !== undefined) {
-      this.setState({ evalLoaded: true });
-      Actions.evalPageMain({ select: 'mentee' });
     }
+  }
+
+  getProfileImage(status) {
+    let image;
+    if (status.profile_picture) {
+      image = { uri: status.profile_picture };
+      return image;
+    } else {
+      image = require('../../resources/pattern.png');
+      return image;
+    }
+  }
+
+  getCurrentStatus(status) {
+    let currentTask;
+    let location;
+
+    if (status.experience.length > 0) {
+      location = status.experience[0].employer.name;
+      if (status.experience[0].position) {
+        currentTask = status.experience[0].position.name;
+      } else {
+        return location;
+      }
+
+      return currentTask + ' at ' + location;
+    }  else if (status.education.length > 0) {
+      let lastIndex = status.education.length - 1;
+      let education = status.education[lastIndex];
+
+      if (education.school) {
+        location = education.school.name;
+        if (education.concentration.length > 0) {
+          currentTask = education.concentration[0].name;
+        } else {
+          return location;
+        }
+
+        return currentTask + ' at ' + location;
+      }
+    }
+
+    return 'No current status';
+  }
+
+  getCurrentLocation(status) {
+    let location;
+    if (status.location) {
+      location = status.location;
+      return location;
+    }
+
+    return location;
   }
 
   componentDidMount() {
@@ -266,9 +276,7 @@ class UserProfile extends Component {
             source={require('../../resources/icon-bookmark.png')}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
-            <Text style={styles.positionText}>
-              {this.state.currentPosition} {this.state.currentStatus}
-            </Text>
+            <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
 
