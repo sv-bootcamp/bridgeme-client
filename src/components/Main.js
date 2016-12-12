@@ -92,7 +92,7 @@ class Main extends Component {
           scrollWithoutAnimation={true}
           renderTabBar={() => <TabBar />}
         >
-          <UserList tabLabel="ios-home" style={styles.tabView} />
+          <UserList tabLabel="ios-home" style={styles.tabView}  me={this.props.me} />
           <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
             <View style={styles.card}>
               <Text>Tournament</Text>
