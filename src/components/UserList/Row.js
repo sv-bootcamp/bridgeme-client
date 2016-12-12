@@ -58,7 +58,7 @@ class Row extends Component {
 
       if (education.school) {
         location = education.school.name;
-        if (education.concentration.length > 0) {
+        if (education.concentration.length > 0 && education.concentration[0].name !== '') {
           currentTask = education.concentration[0].name;
         } else {
           return location;
@@ -72,13 +72,10 @@ class Row extends Component {
   }
 
   getProfileImage() {
-    let image;
     if (this.props.dataSource.profile_picture) {
-      image = { uri: this.props.dataSource.profile_picture };
-      return image;
+      return { uri: this.props.dataSource.profile_picture };
     } else {
-      image = require('../../resources/pattern.png');
-      return image;
+      return require('../../resources/pattern.png');
     }
   }
 
