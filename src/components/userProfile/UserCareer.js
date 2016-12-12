@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   sectionName: {
     fontSize: 12,
     fontWeight: 'bold',
+    marginBottom: 20,
     color: '#a6aeae',
   },
 });

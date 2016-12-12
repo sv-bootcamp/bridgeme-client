@@ -228,11 +228,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2e3031',
   },
-  about: {
-    fontFamily: 'SFUIText-Regular',
-    fontSize: 16,
-    color: '#2e3031',
-  },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
     borderRadius: 25,

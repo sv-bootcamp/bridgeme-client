@@ -123,13 +123,12 @@ const styles = StyleSheet.create({
   period: {
     fontSize: 12,
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 15,
     color: '#a6aeae',
   },
   seperator: {
     alignItems: 'stretch',
-    borderWidth: 1,
-    height: 2,
+    borderBottomWidth: 1,
     borderColor: '#efeff2',
   },
   activityIndicator: {
