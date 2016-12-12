@@ -52,6 +52,20 @@ class Row extends Component {
       }
 
       return currentTask + ' at ' + location;
+    } else if (this.props.dataSource.education.length > 0) {
+      const lastIndex = this.props.dataSource.education.length - 1;
+      const education = this.props.dataSource.education[lastIndex];
+
+      if (education.school) {
+        location = education.school.name;
+        if (education.concentration.length > 0) {
+          currentTask = education.concentration[0].name;
+        } else {
+          return location;
+        }
+
+        return currentTask + ' at ' + location;
+      }
     }
 
     return 'No current status';
