@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   experienceSection: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 20,
   },
   sectionName: {
