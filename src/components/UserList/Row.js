@@ -74,7 +74,6 @@ class Row extends Component {
   getProfileImage() {
     if (this.props.dataSource.profile_picture) {
       return { uri: this.props.dataSource.profile_picture };
-      return image;
     } else {
       return require('../../resources/pattern.png');
     }
