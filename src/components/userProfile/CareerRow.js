@@ -40,69 +40,51 @@ class CareerRow extends Component {
   }
 
   getCompanyName() {
-    let companyName = this.state.companyName;
-
     if (this.props.dataSource.employer) {
-      companyName = this.props.dataSource.employer.name;
-      return companyName;
+      return this.props.dataSource.employer.name;
     }
 
-    return companyName;
+    return this.state.companyName;
   }
 
   getPosition() {
-    let position = this.state.position;
-
     if (this.props.dataSource.position) {
-      position = this.props.dataSource.position.name;
-      return position;
+      return this.props.dataSource.position.name;
     }
 
-    return position;
+    return this.state.position;
   }
 
   getPeriod() {
-    let period = this.state.period;
-
     if (this.props.dataSource.start_date) {
-      period = this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
-      return period;
+      return this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
     }
 
-    return period;
+    return this.state.period;
   }
 
   getSchoolName() {
-    let schoolName = this.state.schoolName;
-
     if (this.props.dataSource.school) {
-      schoolName = this.props.dataSource.school.name;
-      return schoolName;
+      return this.props.dataSource.school.name;
     }
 
-    return schoolName;
+    return this.state.schoolName;;
   }
 
   getMajor() {
-    let major = this.state.major;
-
     if (this.props.dataSource.concentration.length > 0) {
-      major = this.props.dataSource.concentration[0].name;
-      return major;
+      return this.props.dataSource.concentration[0].name;
     }
 
-    return major;
+    return this.state.major;
   }
 
   graduationYear() {
-    let graduationYear = this.state.graduationYear;
-
     if (this.props.dataSource.year && this.props.dataSource.year.name !== '') {
-      graduationYear = 'Class of ' + this.props.dataSource.year.name;
-      return graduationYear;
+      return 'Class of ' + this.props.dataSource.year.name;
     }
 
-    return graduationYear;
+    return this.state.graduationYear;;
   }
 
   renderExperience() {
