@@ -59,13 +59,10 @@ class MyPage extends Component {
   }
 
   getProfileImage(status) {
-    let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture };
-      return image;
+      return { uri: status.profile_picture };
     } else {
-      image = require('../resources/pattern.png');
-      return image;
+      return require('../resources/pattern.png');
     }
   }
 

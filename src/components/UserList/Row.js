@@ -53,8 +53,8 @@ class Row extends Component {
 
       return currentTask + ' at ' + location;
     } else if (this.props.dataSource.education.length > 0) {
-      let lastIndex = this.props.dataSource.education.length - 1;
-      let education = this.props.dataSource.education[lastIndex];
+      const lastIndex = this.props.dataSource.education.length - 1;
+      const education = this.props.dataSource.education[lastIndex];
 
       if (education.school) {
         location = education.school.name;
