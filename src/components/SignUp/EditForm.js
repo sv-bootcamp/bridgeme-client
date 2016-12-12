@@ -57,6 +57,7 @@ class EditForm extends Component {
           style={[styles.text, styles.input]}
           defaultValue={this.state.defaultValue}
           underlineColorAndroid="rgba(255, 255, 255, 0)"
+          editable={!this.props.disabled}
           onFocus={() => {
             this.editView.setNativeProps({ style: styles.editView });
           }}
