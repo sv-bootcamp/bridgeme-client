@@ -58,7 +58,7 @@ class Row extends Component {
 
       if (education.school) {
         location = education.school.name;
-        if (education.concentration.length > 0) {
+        if (education.concentration.length > 0 && education.concentration[0].name !== '') {
           currentTask = education.concentration[0].name;
         } else {
           return location;
@@ -257,14 +257,14 @@ const styles = StyleSheet.create({
   job: {
     fontSize: 14,
     marginTop: 10,
-    marginLeft: CARD_WIDTH * 0.082,
+    marginLeft: CARD_WIDTH * 0.072,
     marginRight: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   location: {
     fontSize: 14,
     marginTop: 5,
-    marginLeft: CARD_WIDTH * 0.082,
+    marginLeft: CARD_WIDTH * 0.072,
     marginBottom: 10,
     color: '#2e3031',
   },
@@ -280,11 +280,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   expertiseSeparator: {
-    height: 1,
+    borderBottomWidth: 1,
     width: CARD_WIDTH * 0.55,
-    marginBottom: 8,
+    marginBottom: 10,
     alignSelf: 'center',
-    backgroundColor: '#d6dada',
+    borderColor: '#d6dada',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
