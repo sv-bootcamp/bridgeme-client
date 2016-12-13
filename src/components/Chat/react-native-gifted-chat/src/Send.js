@@ -30,7 +30,8 @@ export default class Send extends React.Component {
       );
     }
 
-    return <View/>;
+    return <Image style={[styles.sendButton, this.props.textStyle]}
+                  source={require('../../../../resources/send-inactive.png')}/>;
   }
 
   onUploadCallback(result, error) {

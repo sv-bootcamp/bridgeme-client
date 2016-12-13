@@ -12,7 +12,7 @@ export default class Day extends React.Component {
     if (!this.props.isSameDay(this.props.currentMessage, this.props.previousMessage)) {
       return (
         <View style={[styles.container, this.props.containerStyle]}>
-          <View style={[styles.wrapper, this.props.wrapperStyle]}>
+          <View style={[this.props.wrapperStyle]}>
             <Text style={[styles.text, this.props.textStyle]}>
               {
                 moment(this.props.currentMessage.createdAt)
@@ -35,18 +35,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  wrapper: {
-    // backgroundColor: '#ccc',
-    // borderRadius: 10,
-    // paddingLeft: 10,
-    // paddingRight: 10,
-    // paddingTop: 5,
-    // paddingBottom: 5,
-  },
   text: {
     backgroundColor: 'transparent',
     color: '#b2b2b2',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'normal',
     paddingBottom: 10,
     paddingTop: 10,
