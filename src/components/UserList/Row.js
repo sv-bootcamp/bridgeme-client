@@ -147,11 +147,11 @@ class Row extends Component {
   }
 
   sendRequest() {
-    Actions.requestPage({ id: this.props.dataSource._id });
+    Actions.requestPage({ id: this.props.dataSource._id, me: this.props.dataSource.me });
   }
 
   render() {
-    let profileId = { _id: this.props.dataSource._id };
+    let profileId = { _id: this.props.dataSource._id, me: this.props.dataSource.me };
     const goToUserProfile = () => Actions.userProfile(profileId);
     const connect = () => this.sendRequest();
     let viewStyle = [

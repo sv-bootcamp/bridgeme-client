@@ -46,6 +46,7 @@ class UserOverview extends Component {
           .map((value) => value.option),
         score: result.personality.slice()
           .map((value) => value.score),
+        about: result.about,
       });
     }
   }

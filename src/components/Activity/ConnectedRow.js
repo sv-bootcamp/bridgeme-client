@@ -99,14 +99,20 @@ class ConnectedRow extends Component {
                  source={this.state.profileImage}/>
           <View style={styles.userInformation}>
             <Text style={styles.name}>{this.state.name}</Text>
-            <Text style={styles.currentStatus}>{this.state.currentStatus}</Text>
+            <Text ellipsizeMode={'tail'}
+                  numberOfLines = {1}
+                  style={styles.currentStatus}>
+              {this.state.currentStatus}
+              </Text>
           </View>
-          <TouchableHighlight
-            style={styles.chatButtonBackground}
-            onPress={this.onChatButtonPress.bind(this)}
-          >
-            <Image source={require('../../resources/chatButton.png')}/>
-          </TouchableHighlight>
+          <View style={styles.chatButtonArea}>
+            <TouchableHighlight
+              style={styles.chatButtonBackground}
+              onPress={this.onChatButtonPress.bind(this)}
+            >
+              <Image source={require('../../resources/chatButton.png')}/>
+            </TouchableHighlight>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -126,44 +132,48 @@ const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+    height: 75,
   },
   photo: {
     height: 40,
     width: 40,
-    margin: 20,
+    margin: 15,
+    marginTop: 20,
     borderRadius: 20,
   },
   userInformation: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
+    borderBottomWidth: 1,
+    borderColor: '#f0f0f2',
   },
   name: {
     fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: 2,
     color: '#2e3031',
+    marginBottom: 5,
   },
   currentStatus: {
     fontSize: 12,
     color: '#a6aeae',
   },
+  chatButtonArea: {
+    width: 85,
+    borderBottomWidth: 1,
+    borderColor: '#f0f0f2',
+  },
   chatButtonBackground: {
     position: 'absolute',
     alignSelf: 'center',
-    padding: 5,
-    paddingRight: 9,
-    paddingLeft: 9,
-    marginTop: 25,
+    padding: 7,
+    paddingTop: 8,
+    paddingLeft: 8,
+    marginTop: 22,
     borderRadius: 2,
     right: WIDTH / 20,
-    backgroundColor: '#557bfc',
-  },
-  seperator: {
-    alignItems: 'stretch',
-    borderWidth: 10,
-    height: 2,
-    borderColor: '#efeff2',
+    backgroundColor: '#44acff',
   },
 });
 

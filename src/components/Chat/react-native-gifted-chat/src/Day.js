@@ -46,8 +46,10 @@ const styles = StyleSheet.create({
   text: {
     backgroundColor: 'transparent',
     color: '#b2b2b2',
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: 'normal',
+    paddingBottom: 10,
+    paddingTop: 10,
   },
 });
 

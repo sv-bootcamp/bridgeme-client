@@ -68,7 +68,7 @@ class RequestPage extends Component {
     if (error) {
       alert(error);
     } else if (result) {
-      Actions.requestSent();
+      Actions.requestSent({ me: this.props.me });
     }
   }
 

@@ -56,7 +56,6 @@ export default class Row extends Component {
       title: this.state.opponent.nickname,
       me: this.state.me,
       opponent: this.state.opponent,
-      channel: this.state.channel,
     });
   }
 
@@ -94,7 +93,7 @@ export default class Row extends Component {
               <Text style={styles.name}>
                 {this.state.opponent.nickname}
               </Text>
-              <Text style={styles.lastMessage}>
+              <Text ellipsizeMode={'tail'} numberOfLines = {1}  style={styles.lastMessage}>
                 {this.state.lastMessageInfo ? this.state.lastMessageInfo.message : ''}
               </Text>
             </View>
@@ -132,8 +131,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    borderBottomWidth: 0.5,
-    borderColor: '#e3e3e3',
+    borderBottomWidth: 1,
+    borderColor: '#f0f0f2',
   },
 
   leftSection: {
@@ -141,24 +140,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   name: {
-    lineHeight: 14,
-    height: 16,
     fontSize: 14,
     fontWeight: 'bold',
     marginTop: 18,
     color: '#494b4c',
-
   },
   lastMessage: {
-    lineHeight: 12,
-    height: 14,
     fontSize: 12,
-    marginTop: 6,
+    marginTop: 8,
+    marginBottom: 18,
     fontWeight: 'normal',
     color: '#a6aeae',
   },
   rightSection: {
-    width: 120,
+    width: 90,
     alignItems: 'flex-end',
     paddingRight: 15,
   },

@@ -21,10 +21,10 @@ import WorkForm from './WorkForm';
 
 // List data for rendering each section.
 const fieldTitles = [
-  { name: 'Name', isArray: false },
-  { name: 'Email', isArray: false },
-  { name: 'Location', isArray: false },
-  { name: 'About', isArray: false },
+  { name: 'Name' },
+  { name: 'Email', disabled: true },
+  { name: 'Location' },
+  { name: 'About' },
   { name: 'Education', isArray: true },
   { name: 'Experience', isArray: true },
 ];
@@ -179,7 +179,7 @@ class GeneralInfo extends Component {
     }
   }
 
-  getTextInput(propName, defaultValue) {
+  getTextInput(propName, defaultValue, disabled) {
     const onChangeText = (editedPropName, text) =>
                           this.onChangeText(editedPropName, text);
     return (
@@ -187,6 +187,7 @@ class GeneralInfo extends Component {
         propName={propName}
         defaultValue={defaultValue}
         onChangeText={onChangeText}
+        disabled={disabled}
       />
     );
   }
@@ -194,7 +195,7 @@ class GeneralInfo extends Component {
   // Regist general user info.
   regist() {
     const profile = this.state.profile;
-    if (profile.name === '') {
+    if (profile.name.replace(/\s/g, '') === '') {
       Alert.alert('Sign In', 'Please input your name.');
       return;
     }
@@ -344,7 +345,8 @@ class GeneralInfo extends Component {
     } else {
       const propName = title.name.toLowerCase();
       const defaultValue = profile[propName];
-      Input = this.getTextInput(propName, defaultValue);
+      const disabled = title.disabled;
+      Input = this.getTextInput(propName, defaultValue, disabled);
     }
 
     return Input;
@@ -352,7 +354,7 @@ class GeneralInfo extends Component {
 
   // If a form has several inputs, the title should be able to add new input set
   getTitle(title) {
-    if (title.isArray === false) {
+    if (!title.isArray) {
       return <Text style={styles.title}>{title.name}</Text>;
     }
 
