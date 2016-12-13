@@ -294,6 +294,10 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     color: '#a6aeae',
   },
+  connectMessage:{
+    fontSize: 12,
+    paddingTop: 5,
+  },
 });
 
 MessageContainer.defaultProps = {
