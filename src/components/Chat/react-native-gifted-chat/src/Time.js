@@ -20,13 +20,13 @@ export default class Time extends React.Component {
 }
 
 const containerStyle = {
-  marginLeft: 10,
-  marginRight: 10,
-  marginBottom: 5,
+  justifyContent: 'flex-end',
+  marginBottom:8,
 };
 
 const textStyle = {
   fontSize: 10,
+  fontWeight: '300',
   backgroundColor: 'transparent',
   textAlign: 'right',
 };
@@ -46,7 +46,7 @@ const styles = {
       ...containerStyle,
     },
     text: {
-      color: '#fff',
+      color: '#aaa',
       ...textStyle,
     },
   }),
