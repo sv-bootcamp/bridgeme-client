@@ -90,7 +90,7 @@ class Main extends Component {
         this.connectSendBird(callback);
       } else {
         if (callback) {
-          callback(user, error);
+          callback(null, error);
         }
       }
     });
