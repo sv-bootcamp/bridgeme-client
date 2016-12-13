@@ -72,18 +72,21 @@ class UserOverview extends Component {
 
   renderAbout() {
     return (
-        <View style={styles.sectionContainer} onLayout={ event => {
-          const { height } = event.nativeEvent.layout;
-          const HEIGHT_OF_TWO_LINES = 119;
-          if (height > HEIGHT_OF_TWO_LINES) {
-            this.setState({ needEllipsize: true });
-          }
-        }}
-        >
+        <View style={styles.sectionContainer}>
           <Text style={styles.sectionName}>About</Text>
-          <Text style={{ marginRight: 45 }} ellipsizeMode={'tail'} numberOfLines={2}>
-            {this.state.about}
-          </Text>
+          <View onLayout={ (event) => {
+            const { height } = event.nativeEvent.layout;
+            const HEIGHT_OF_TWO_LINES = 33;
+
+            if (height > HEIGHT_OF_TWO_LINES) {
+              this.setState({ needEllipsize: true });
+            }
+          }}
+          >
+            <Text style={{ marginRight: 45 }} ellipsizeMode={'tail'} numberOfLines={2}>
+              {this.state.about}
+            </Text>
+          </View>
           {this.state.needEllipsize ?
             (<TouchableOpacity onPress={this.props.toggleAbout}>
               <Text style={styles.expandText}>
@@ -222,11 +225,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a6aeae',
     marginBottom: 23,
-  },
-  about: {
-    fontFamily: 'SFUIText-Regular',
-    fontSize: 16,
-    color: '#2e3031',
   },
   about: {
     fontFamily: 'SFUIText-Regular',

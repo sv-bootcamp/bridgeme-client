@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   View,
 } from 'react-native';
@@ -10,73 +11,111 @@ class CareerRow extends Component {
     super(props);
 
     this.state = {
-      schoolName: '',
-      major: '',
-      companyName: '',
-      position: '',
-      period: '',
-      identifier: 0,
+      schoolName: undefined,
+      major: undefined,
+      graduationYear: undefined,
+      companyName: undefined,
+      position: undefined,
+      period: undefined,
       loaded: false,
     };
   }
 
-  componentWillMount() {
-    let schoolName = this.state.schoolName;
-    let major = this.state.major;
-    let companyName = this.state.companyName;
-    let position = this.state.period;
-    let identifier = this.state.identifier;
-    let period = this.state.period;
-
-    if (this.props.dataSource.employer) {
-      companyName = this.props.dataSource.employer.name;
-      identifier = 1;
-      if (this.props.dataSource.position) {
-        position = '| ' + this.props.dataSource.position.name;
-      }
-
-      if (this.props.dataSource.start_date) {
-        period = this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
-      }
-    } else if (this.props.dataSource.school) {
-      schoolName = this.props.dataSource.school.name;
-      identifier = 2;
-      if (this.props.dataSource.concentration.length > 0) {
-        major = this.props.dataSource.concentration[0].name;
-      }
-
-      if (this.props.dataSource.year) {
-        period = 'Class of ' + this.props.dataSource.year.name;
-      }
+  componentDidMount() {
+    if (this.props.sectionID === 'Experience') {
+      this.setState({
+        companyName: this.getCompanyName(),
+        position: this.getPosition(),
+        period: this.getPeriod(),
+        loaded: true,
+      });
+    } else if (this.props.sectionID === 'Education') {
+      this.setState({
+        schoolName: this.getSchoolName(),
+        major: this.getMajor(),
+        graduationYear: this.graduationYear(),
+        loaded: true,
+      });
     }
-
-    this.setState({
-      schoolName: schoolName,
-      major: major,
-      companyName: companyName,
-      position: position,
-      period: period,
-      identifier: identifier,
-      loaded: true,
-    });
   }
 
-  renderEducation() {
-    return (
-      <View style={styles.container}>
-        <Text style ={styles.name}>{this.state.schoolName}</Text>
-        <Text style ={styles.name}>{this.state.major}</Text>
-        <Text style ={styles.period}>{this.state.period}</Text>
-        <View style={styles.seperator}></View>
-      </View>
-    );
+  getCompanyName() {
+    if (this.props.dataSource.employer) {
+      return this.props.dataSource.employer.name;
+    }
+
+    return this.state.companyName;
+  }
+
+  getPosition() {
+    if (this.props.dataSource.position) {
+      return this.props.dataSource.position.name;
+    }
+
+    return this.state.position;
+  }
+
+  getPeriod() {
+    if (this.props.dataSource.start_date) {
+      return this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
+    }
+
+    return this.state.period;
+  }
+
+  getSchoolName() {
+    if (this.props.dataSource.school) {
+      return this.props.dataSource.school.name;
+    }
+
+    return this.state.schoolName;;
+  }
+
+  getMajor() {
+    if (this.props.dataSource.concentration.length > 0) {
+      return this.props.dataSource.concentration[0].name;
+    }
+
+    return this.state.major;
+  }
+
+  graduationYear() {
+    if (this.props.dataSource.year && this.props.dataSource.year.name !== '') {
+      return 'Class of ' + this.props.dataSource.year.name;
+    }
+
+    return this.state.graduationYear;;
   }
 
   renderExperience() {
     return (
       <View style={styles.container}>
-        <Text style ={styles.name}>{this.state.companyName} {this.state.position}</Text>
-        <Text style ={styles.period}>{this.state.period}</Text>
+        {this.state.position !== undefined &&
+          <Text style ={styles.name}>{this.state.position}</Text>
+        }
+        {this.state.companyName !== undefined &&
+          <Text style ={styles.name}>{this.state.companyName}</Text>
+        }
+        {this.state.period !== undefined &&
+          <Text style ={styles.period}>{this.state.period}</Text>
+        }
+        <View style={styles.seperator}></View>
+      </View>
+    );
+  }
+
+  renderEducation() {
+    return (
+      <View style={styles.container}>
+        {this.state.schoolName !== undefined &&
+          <Text style ={styles.name}>{this.state.schoolName}</Text>
+        }
+        {this.state.major !== undefined &&
+          <Text style ={styles.name}>{this.state.major}</Text>
+        }
+        {this.state.graduationYear !== undefined &&
+          <Text style ={styles.period}>{this.state.graduationYear}</Text>
+        }
         <View style={styles.seperator}></View>
       </View>
     );
@@ -88,7 +127,7 @@ class CareerRow extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size="large"
+        size='small'
         />
     );
   }
@@ -97,9 +136,9 @@ class CareerRow extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     } else {
-      if (this.state.identifier === 1) {
+      if (this.props.sectionID === 'Experience') {
         return this.renderExperience();
-      } else if (this.state.identifier === 2) {
+      } else if (this.props.sectionID === 'Education') {
         return this.renderEducation();
       }
     }
@@ -123,13 +162,12 @@ const styles = StyleSheet.create({
   period: {
     fontSize: 12,
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 15,
     color: '#a6aeae',
   },
   seperator: {
     alignItems: 'stretch',
-    borderWidth: 1,
-    height: 2,
+    borderBottomWidth: 1,
     borderColor: '#efeff2',
   },
   activityIndicator: {

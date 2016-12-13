@@ -24,12 +24,10 @@ class MyPage extends Component {
       loaded: false,
       trueSwitchIsOn: true,
       falseSwitchIsOn: false,
-      profileImage: '../resources/profile-img.png',
+      profileImage: '',
       name: '',
       currentStatus: '',
-      currentPosition: '',
     };
-
   }
 
   onRequestCallback(result, error) {
@@ -37,6 +35,7 @@ class MyPage extends Component {
       alert(error);
     } else if (result) {
       if (result.msg) {
+
         // When setting mentor mode is done
         UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
       } else if (typeof result.result === 'boolean') {
@@ -44,28 +43,10 @@ class MyPage extends Component {
         // When getting mentor mode is done
         this.setState({ trueSwitchIsOn: result.result });
       } else if (result._id) {
-
-        // When user profile request is done
-        let currentStatus = this.state.currentStatus;
-        let currentPosition = this.state.currentPosition;
-
-        if (result.experience.length > 0) {
-          const experience = result.experience[0];
-
-          if (experience.employer) currentStatus = experience.employer.name;
-          if (experience.position) currentPosition = experience.position.name;
-        } else if (result.education.length > 0) {
-          const education = result.education[result.education.length - 1];
-
-          if (education.school) currentStatus = education.school.name;
-          if (education.concentration.length > 0) currentPosition = education.concentration[0].name;
-        }
-
         this.setState({
           name: result.name,
-          profileImage: result.profile_picture,
-          currentStatus: currentStatus,
-          currentPosition: currentPosition,
+          profileImage: this.getProfileImage(result),
+          currentStatus: this.getCurrentStatus(result),
           loaded: true,
         });
       }
@@ -75,6 +56,46 @@ class MyPage extends Component {
   componentDidMount() {
     UserUtil.getMyProfile(this.onRequestCallback.bind(this));
     UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
+  }
+
+  getProfileImage(status) {
+    if (status.profile_picture) {
+      return { uri: status.profile_picture };
+    } else {
+      return require('../resources/pattern.png');
+    }
+  }
+
+  getCurrentStatus(status) {
+    let currentTask;
+    let location;
+
+    if (status.experience.length > 0) {
+      location = status.experience[0].employer.name;
+      if (status.experience[0].position) {
+        currentTask = status.experience[0].position.name;
+      } else {
+        return location;
+      }
+
+      return currentTask + ' at ' + location;
+    }  else if (status.education.length > 0) {
+      const lastIndex = status.education.length - 1;
+      const education = status.education[lastIndex];
+
+      if (education.school) {
+        location = education.school.name;
+        if (education.concentration.length > 0) {
+          currentTask = education.concentration[0].name;
+        } else {
+          return location;
+        }
+
+        return currentTask + ' at ' + location;
+      }
+    }
+
+    return 'No current status';
   }
 
   onValueChange(value) {
@@ -97,21 +118,18 @@ class MyPage extends Component {
   }
 
   render() {
-    const defaultProfileImage = require('../resources/profile-img.png');
-    const facebookProfileImage = { uri: this.state.profileImage };
-
     return (
       <View style={styles.container}>
         <View style={styles.userInfo}>
-          <Image style={styles.profileImage}
-                 source={this.state.loaded ? facebookProfileImage : defaultProfileImage}/>
-
+          <Image
+            style={styles.profileImage}
+            source={this.state.profileImage}/>
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoText}>
               {this.state.name}
             </Text>
             <Text ellipsizeMode ='tail' numberOfLines={1}>
-              {this.state.currentPosition} at {this.state.currentStatus}
+              {this.state.currentStatus}
             </Text>
             <TouchableWithoutFeedback onPress={() => Actions.userProfile({ myProfile: true })}>
               <View>
@@ -122,7 +140,6 @@ class MyPage extends Component {
             </TouchableWithoutFeedback>
           </View>
         </View>
-
         <TouchableOpacity style={[styles.menu, { borderTopWidth: 1 }]} onPress={this.onEditButtonPress.bind(this)}>
           <Image source={require('../resources/page-1.png')} />
           <Text style={styles.menuText}>Edit my profile</Text>

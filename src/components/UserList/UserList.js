@@ -45,6 +45,11 @@ class UserList extends Component {
       });
 
       result[result.length - 1].last = true;
+      result.map((value) => {
+        value.me = this.props.me;
+        return value;
+      });
+
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(result.slice()),
         loaded: true,

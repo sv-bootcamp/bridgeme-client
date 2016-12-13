@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import Connected from './Connected';
 import NewRequests from './NewRequests';
-import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import ScrollableTabBar from './ScrollableTabBar';
 import Text from '../Shared/UniText';
 
 class Activity extends Component {
@@ -32,14 +33,18 @@ class Activity extends Component {
   render() {
     return (
       <ScrollableTabView
-        initialPage={0}
         style={styles.container}
+        initialPage={0}
+        page={this.state.currentActivityPage}
+        locked={true}
         tabBarTextStyle={styles.tabBarText}
         tabBarInactiveTextColor={'#a6aeae'}
         tabBarActiveTextColor={'#2e3031'}
         tabBarUnderlineStyle={styles.tabBarUnderline}
-        renderTabBar={() => <ScrollableTabBar />}
-      >
+        renderTabBar={() => <ScrollableTabBar
+        leftOffset={53}
+        rightOffset={42}
+        />}>
         <NewRequests tabLabel='NEW REQUESTS'/>
         <Connected tabLabel='CONNECTED' me={this.props.me}/>
       </ScrollableTabView>

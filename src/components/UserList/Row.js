@@ -52,19 +52,30 @@ class Row extends Component {
       }
 
       return currentTask + ' at ' + location;
+    } else if (this.props.dataSource.education.length > 0) {
+      const lastIndex = this.props.dataSource.education.length - 1;
+      const education = this.props.dataSource.education[lastIndex];
+
+      if (education.school) {
+        location = education.school.name;
+        if (education.concentration.length > 0 && education.concentration[0].name !== '') {
+          currentTask = education.concentration[0].name;
+        } else {
+          return location;
+        }
+
+        return currentTask + ' at ' + location;
+      }
     }
 
     return 'No current status';
   }
 
   getProfileImage() {
-    let image;
     if (this.props.dataSource.profile_picture) {
-      image = { uri: this.props.dataSource.profile_picture };
-      return image;
+      return { uri: this.props.dataSource.profile_picture };
     } else {
-      image = require('../../resources/pattern.png');
-      return image;
+      return require('../../resources/pattern.png');
     }
   }
 
@@ -136,11 +147,11 @@ class Row extends Component {
   }
 
   sendRequest() {
-    Actions.requestPage({ id: this.props.dataSource._id });
+    Actions.requestPage({ id: this.props.dataSource._id, me: this.props.dataSource.me });
   }
 
   render() {
-    let profileId = { _id: this.props.dataSource._id };
+    let profileId = { _id: this.props.dataSource._id, me: this.props.dataSource.me };
     const goToUserProfile = () => Actions.userProfile(profileId);
     const connect = () => this.sendRequest();
     let viewStyle = [
@@ -237,39 +248,40 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginTop: 25,
-    marginLeft: 25,
+    marginLeft: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   job: {
     fontSize: 14,
     marginTop: 10,
-    marginLeft: CARD_WIDTH * 0.082,
+    marginLeft: CARD_WIDTH * 0.072,
     marginRight: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   location: {
     fontSize: 14,
     marginTop: 5,
-    marginLeft: 25,
+    marginLeft: CARD_WIDTH * 0.072,
+    marginBottom: 10,
     color: '#2e3031',
   },
   sectionContainer: {
     marginTop: 20,
-    marginLeft: 30,
+    marginLeft: CARD_WIDTH * 0.082,
     paddingBottom: 20,
   },
   sectionName: {
     fontSize: 10,
     fontWeight: 'bold',
     color: '#a6aeae',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   expertiseSeparator: {
-    height: 2,
+    borderBottomWidth: 1,
     width: CARD_WIDTH * 0.55,
-    marginBottom: 8,
+    marginBottom: 10,
     alignSelf: 'center',
-    backgroundColor: '#d6dada',
+    borderColor: '#d6dada',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',

@@ -68,7 +68,7 @@ class RequestPage extends Component {
     if (error) {
       alert(error);
     } else if (result) {
-      Actions.requestSent();
+      Actions.requestSent({ me: this.props.me });
     }
   }
 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   messageLength: {
     fontSize: 10,
-    left: WIDTH / 2 + 50,
+    marginLeft: WIDTH * 0.58,
     color: '#a6aeae',
     backgroundColor: 'transparent',
   },
@@ -207,17 +207,17 @@ const styles = StyleSheet.create({
     height: HEIGHT / 5,
     borderColor: '#efeff2',
     borderRadius: 2,
-    borderWidth: 2,
+    borderWidth: 1,
     padding: 15,
     marginBottom: 30,
   },
   sendButton: {
     justifyContent: 'center',
     alignSelf: 'center',
-    width: 230,
-    height: 45,
-    marginBottom: 25,
-    borderRadius: 100,
+    width: WIDTH * 0.613,
+    height: HEIGHT * 0.067,
+    borderRadius: WIDTH * 0.267,
+    marginTop: HEIGHT / 6,
   },
   buttonContainer: {
     backgroundColor: 'transparent',
@@ -239,11 +239,10 @@ const styles = StyleSheet.create({
     width: WIDTH - (WIDTH / 6),
     height: 40,
     justifyContent: 'center',
+    alignSelf: 'center',
     borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 1,
-    padding: 5,
-    paddingTop: 10,
   },
   dropdownOptions: {
     borderColor: '#efeff2',

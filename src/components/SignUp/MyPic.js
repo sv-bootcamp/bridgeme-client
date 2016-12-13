@@ -10,10 +10,6 @@ import {
 import ImagePicker from 'react-native-image-picker';
 
 const options = {
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
   maxWidth: Dimensions.get('window').width,
 };
 

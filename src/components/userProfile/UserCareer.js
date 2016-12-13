@@ -35,7 +35,7 @@ class UserCareer extends Component {
     if (error) {
       alert(error);
     } else if (result) {
-      let sectionIDs = ['Education', 'Experience'];
+      const sectionIDs = ['Education', 'Experience'];
 
       this.setState({
         dataSource: new ListView.DataSource({
@@ -77,15 +77,23 @@ class UserCareer extends Component {
   }
 
   renderSectionHeader(sectionData, sectionID) {
-    return (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{sectionID}</Text>
-      </View>
-    );
+    if (sectionID === 'Education') {
+      return (
+        <View style={styles.educationSection}>
+          <Text style={styles.sectionName}>{sectionID}</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.experienceSection}>
+          <Text style={styles.sectionName}>{sectionID}</Text>
+        </View>
+      );
+    }
   }
 
-  renderRow(rowData) {
-    return <CareerRow dataSource={rowData}/>;
+  renderRow(rowData, sectionID) {
+    return <CareerRow dataSource={rowData} sectionID={sectionID}/>;
   }
 
   // Render User profile
@@ -98,6 +106,7 @@ class UserCareer extends Component {
         renderRow={this.renderRow}
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
+        scrollEnabled={false}
         />
     );
   }
@@ -124,13 +133,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  section: {
+  educationSection: {
     flexDirection: 'column',
     justifyContent: 'center',
+    marginBottom: 20,
+  },
+  experienceSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
   },
   sectionName: {
     fontSize: 12,
     fontWeight: 'bold',
+    marginBottom: 20,
     color: '#a6aeae',
   },
 });
