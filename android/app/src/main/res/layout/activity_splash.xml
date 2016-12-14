@@ -7,8 +7,10 @@
     tools:context="com.svbootcamp.bridgeme.SplashActivity"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/webview"
+    <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:src="@drawable/splash_anim"
+        android:id="@+id/gifImageView"
+        android:scaleType="fitXY" />
 </LinearLayout>

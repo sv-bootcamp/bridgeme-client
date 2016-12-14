@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Clipboard,
+  Dimensions,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -117,17 +118,30 @@ export default class Bubble extends React.Component {
     }
   }
 
+  renderIfRight() {
+    if (this.props.position === 'right') {
+      return this.renderTime();
+    }
+  }
+
+  renderIfLeft() {
+    if (this.props.position === 'left') {
+      return this.renderTime();
+    }
+  }
+
   render() {
     return (
+
       <View style={
         [styles[this.props.position].container, this.props.containerStyle[this.props.position]]}
       >
+        <View style = {{ flexDirection: 'row' }}>
+          {this.renderIfRight()}
         <View style={[
           styles[
           this.props.position].wrapper,
           this.props.wrapperStyle[this.props.position],
-          this.handleBubbleToNext(),
-          this.handleBubbleToPrevious(),
         ]}>
           <TouchableWithoutFeedback
             onLongPress={this.onLongPress}
@@ -137,15 +151,18 @@ export default class Bubble extends React.Component {
               {this.renderCustomView()}
               {this.renderMessageImage()}
               {this.renderMessageText()}
-              {this.renderTime()}
             </View>
           </TouchableWithoutFeedback>
         </View>
+          {this.renderIfLeft()}
+        </View>
       </View>
+
     );
   }
 }
 
+const WINDOW_WIDTH = Dimensions.get('window').width;
 const styles = {
   left: StyleSheet.create({
     container: {
@@ -153,10 +170,12 @@ const styles = {
       alignItems: 'flex-start',
     },
     wrapper: {
-      borderRadius: 15,
+      maxWidth: WINDOW_WIDTH - 120,
+      borderRadius: 16,
       backgroundColor: '#f0f0f0',
-      marginRight: 60,
+      marginRight: 5,
       minHeight: 20,
+      marginTop:3,
       justifyContent: 'flex-end',
     },
     containerToNext: {
@@ -172,10 +191,12 @@ const styles = {
       alignItems: 'flex-end',
     },
     wrapper: {
-      borderRadius: 15,
-      backgroundColor: '#557bfc',
-      marginLeft: 60,
+      maxWidth: WINDOW_WIDTH - 80,
+      borderRadius: 16,
+      backgroundColor: '#44acff',
+      marginLeft: 5,
       minHeight: 20,
+      marginTop:3,
       justifyContent: 'flex-end',
     },
     containerToNext: {
