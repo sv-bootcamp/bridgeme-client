@@ -140,7 +140,8 @@ class MyPage extends Component {
             <Text ellipsizeMode="tail" numberOfLines={1}>
               {this.state.currentStatus}
             </Text>
-            <TouchableWithoutFeedback onPress={() => Actions.userProfile({ myProfile: true })}>
+            <TouchableWithoutFeedback
+              onPress={() => Actions.userProfile({ myProfile: true, direction: 'horizontal' })}>
               <View>
                 <Text style={styles.linkText}>
                   View Profile
