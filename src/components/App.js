@@ -30,7 +30,7 @@ class App extends Component {
   render() {
     let routerProp = {
       createReducer: reducerCreate,
-      animationStyle: LayoutAnimation.animationStyle,
+      animationStyle: LayoutAnimation,
       backAndroidHandler: () => this.backAndroidHandler(),
     };
 

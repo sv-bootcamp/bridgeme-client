@@ -12,7 +12,7 @@ const animationStyle = (props) => {
     outputRange: [0, 1, 0.5],
   });
 
-  const scale = position.interpolate({
+  let scale = position.interpolate({
     inputRange,
     outputRange: [1, 1, 0.95],
   });
@@ -37,7 +37,44 @@ const animationStyle = (props) => {
         outputRange: [height, 0, 0],
       });
       break;
+    case 'diagonal':
+      scale = position.interpolate({
+        inputRange: [-2, -1, 0, 1],
+        outputRange: [0.2, 0.5, 0.8, 1],
+      });
+      translateX = position.interpolate({
+        inputRange,
+        outputRange: [width - 20, 0, 0],
+      });
+      translateY = position.interpolate({
+        inputRange,
+        outputRange: [-height + 20, 0, 0],
+      });
+      break;
+    case 'sent':
+      scale = position.interpolate({
+        inputRange: [-1, 0, 1],
+        outputRange: [-1, -0.5, 1],
+      });
+      translateX = position.interpolate({
+        inputRange,
+        outputRange: [width, 0, 0],
+      });
+      translateY = position.interpolate({
+        inputRange,
+        outputRange: [0, 0, height],
+      });
+      break;
   }
+
+  return {
+    opacity,
+    transform: [
+       { scale },
+       { translateX },
+       { translateY },
+     ],
+  };
 };
 
 export default animationStyle;
