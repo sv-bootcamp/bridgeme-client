@@ -205,12 +205,10 @@ class Main extends Component {
         renderTabBar={() => <TabBar />}
       >
         <UserList tabLabel="ios-home" style={styles.tabView} me={this.props.me} />
-        <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
-          <View style={styles.comingSoonView}>
-            <Image source={require('../resources/tournament.png')} />
-            <Text style={styles.comingSoonText}>Coming Soon!</Text>
-          </View>
-        </ScrollView>
+        <View tabLabel="md-shuffle" style={styles.comingSoonView}>
+          <Image source={require('../resources/tournament.png')} />
+          <Text style={styles.comingSoonText}>Coming Soon!</Text>
+        </View>
         <Activity
           tabLabel="ios-people"
           style={styles.tabView}
@@ -224,7 +222,6 @@ class Main extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   tabView: {
     flex: 1,
@@ -244,8 +241,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   comingSoonView: {
-    width,
-    height: height - 80,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
