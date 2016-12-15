@@ -54,7 +54,7 @@ const animationStyle = (props) => {
     case 'sent':
       scale = position.interpolate({
         inputRange: [-1, 0, 1],
-        outputRange: [-1, -0.5, 1],
+        outputRange: [-1, 0, 1],
       });
       translateX = position.interpolate({
         inputRange,
