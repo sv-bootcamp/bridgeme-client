@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Dimensions,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -37,7 +38,13 @@ class NewRequestsRow extends Component {
   }
 
   acceptRequest() {
-    MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
+    if (this.props.dataSource.close) {
+      MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
+    } else {
+
+      // Call this method with no parameter will close all swipe button
+      this.props.closeAllExceptCurrent();
+    }
   }
 
   rejectRequest() {
@@ -83,7 +90,13 @@ class NewRequestsRow extends Component {
 
     return (
       <View>
-        <Swipeout right={SwipeoutButtons} onPress={this.state.goToUserProfile}>
+        <Swipeout
+          right={SwipeoutButtons}
+          close={this.props.dataSource.close}
+          scroll={event => this.props.allowScroll(event)}
+          onPress={this.state.goToUserProfile}
+          onOpen={() => this.props.closeAllExceptCurrent(this.props.dataSource._id)}
+        >
           <View style={styles.row}>
             <View style={styles.userInformation}>
               <Image style={styles.photo}
@@ -115,6 +128,8 @@ class NewRequestsRow extends Component {
     );
   }
 }
+
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'column',
@@ -132,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   userNameWithTime: {
-    flex: 1,
+    width: WIDTH - 180,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
