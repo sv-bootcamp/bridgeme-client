@@ -28,6 +28,7 @@
 		5DAABD581DEEF33400876278 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAABD571DEEF33400876278 /* SplashViewController.m */; };
 		5DD54E381DE3E6F0008DB293 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5DD54E371DE3E6F0008DB293 /* GoogleService-Info.plist */; };
 		5DE15D361DF56F3300B737B5 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA49EE051D6FFA110083C256 /* libRCTFBSDK.a */; };
+		690B38A5CAB7488D920D962E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F96AF642BEEE4552A01BC5A9 /* Foundation.ttf */; };
 		71AE297F13FF46D2A3FE3A26 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 602C1E7670574F32A8791127 /* libRNFIRMessaging.a */; };
 		731DF778AA9F44FEBBEFDCAC /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 653C133BD70D45F88A4A2EAC /* libRNImagePicker.a */; };
 		82118A4896384BFDB51C9626 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DEC81A917A84E8C9AA0CC6C /* Octicons.ttf */; };
@@ -310,7 +311,6 @@
 		AAB23E211D75476D00C97A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Yoda/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BA618E5CA3F34A9D8CD1096F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		C2C05E76B5AB4FAFAC60FF28 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		C70163B6C22B5593B4AD7CCC /* Pods_Bridgeme.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bridgeme.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22304871DDEE06A0098E0A8 /* ProductSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProductSans-Bold.ttf"; sourceTree = "<group>"; };
 		D25C9D681DF17574007B800A /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		D26039371DF7D8E0004DC6C9 /* SF-UI-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Light.otf"; sourceTree = "<group>"; };
@@ -1057,13 +1057,8 @@
 				AECFEB9DCBE146209AFA448D /* MaterialIcons.ttf in Resources */,
 				82118A4896384BFDB51C9626 /* Octicons.ttf in Resources */,
 				0C054E404DC64AB6A42716A0 /* Zocial.ttf in Resources */,
-<<<<<<< HEAD
-				AE2DB4505D70471989D6E763 /* Foundation.ttf in Resources */,
-				70D7CBF3630848A09A4ACA82 /* Ionicons.ttf in Resources */,
-=======
 				690B38A5CAB7488D920D962E /* Foundation.ttf in Resources */,
 				BF3356F76D4F4DD3A6BEE9FB /* Ionicons.ttf in Resources */,
->>>>>>> b00d38f3fa43518d2624adeb344a8aa1046a6793
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1177,11 +1172,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 9JUUF4DE58;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/GoogleToolboxForMac",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/FLAnimatedImage",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
