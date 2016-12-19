@@ -20,6 +20,7 @@ import Text from '../Shared/UniText';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
 import UserUtil from '../../utils/UserUtil';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -211,7 +212,7 @@ class UserProfile extends Component {
 
     if (this.state.statusAsMentee === ConnectStatus.CONNECTED
         || this.state.statusAsMentor === ConnectStatus.CONNECTED) {
-      connectBtnText = 'WAITING...';
+      connectBtnText = 'WAITING';
     } else if (this.state.statusAsMentee === ConnectStatus.DISCONNECTED
         && this.state.statusAsMentor === ConnectStatus.DISCONNECTED) {
       connectBtnText = 'CONNECT';
@@ -231,6 +232,19 @@ class UserProfile extends Component {
             </View>
           </TouchableOpacity>
         </LinearGradient>
+      );
+    }
+
+    if (connectBtnText === 'WAITING') {
+      connectButton = (
+        <View style={[styles.connectBtnStyle, { backgroundColor: '#a6aeae' }]}>
+            <View style={styles.buttonContainer}>
+              <View style={{ paddingTop: 10, marginRight: 5, }}>
+                <Icon name="clock-o" size={15} color="white" />
+              </View>
+              <Text style={styles.buttonText}>{connectBtnText}</Text>
+            </View>
+        </View>
       );
     }
 
@@ -376,6 +390,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: 'transparent',
     alignItems: 'center',
   },

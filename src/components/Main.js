@@ -1,106 +1,222 @@
 import React, { Component } from 'react';
 import {
+  AppState,
   AsyncStorage,
+  Dimensions,
   Image,
+  NetInfo,
   ScrollView,
   StyleSheet,
+  Vibration,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
 import ChannelList from './Chat/ChannelList';
+import Fcm from 'react-native-fcm';
+import FcmUtil from '../utils/FcmUtil';
 import MyPage from './MyPage';
 import SendBird from 'sendbird';
-import ScrollableTabView  from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import Text from './Shared/UniText';
 import UserList from './UserList/UserList';
 import UserUtil from '../utils/UserUtil';
 
+const mainPageTitle = {
+  DEFAULT: -1,
+  HOME: 0,
+  TOURNAMENT: 1,
+  MYCONNECTION: 2,
+  CHAT: 3,
+  MYPROFILE: 4,
+};
+
+const activityPageTitle = {
+  DEFAULT: -1,
+  NEWREQUESTS: 0,
+  CONNECTED: 1,
+};
+
 class Main extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentMainPage: mainPageTitle.DEFAULT,
+      currentActivityPage: activityPageTitle.DEFAULT,
+    };
+
+    this.isConnected = false;
   }
 
   componentDidMount() {
-    this.initSendBird();
+    AppState.addEventListener('change', this.onAppStateChange.bind(this));
+    this.initSendBird((user, error)=> {
+
+      if (user.nickname !== this.props.me.name ||
+        user.profileUrl !== this.props.me.profile_picture) {
+
+        //Sendbird has an issue in updateCurrentUserInfo() API right after connect() API.
+        setTimeout(() => {
+          this.sb.updateCurrentUserInfo(this.props.me.name, this.props.me.profile_picture);
+        }, 1000);
+      }
+
+      NetInfo.isConnected.addEventListener('change', this.onConnectionStateChange.bind(this));
+
+      this.notificationUnsubscribe = Fcm.on('notification', this.onNotificationReceived.bind(this));
+      Fcm.getInitialNotification().then((notif) => {
+        if (notif) this.actionFromNotification(notif);
+      });
+    });
+
   }
 
-  initSendBird() {
-    UserUtil.getSendBirdAppId((appId, error) => {
-      if (error) {
-        AsyncStorage.getItem('sendBirdAppId', (err, result) => {
-          this.connectSendBird(result);
-        });
+  componentWillReceiveProps(nextProps) {
+    this.sb.removeChannelHandler('Main');
+    this.sb.addChannelHandler('Main', this.ChannelHandler);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change');
+    this.notificationUnsubscribe();
+  }
+
+  initSendBird(callback) {
+    UserUtil.getSendBirdAppId((sendBirdAppIdObject, error) => {
+      if (!error) {
+        this.sendBirdAppId = sendBirdAppIdObject.key;
+        this.connectSendBird(callback);
       } else {
-        AsyncStorage.setItem('sendBirdAppId', appId.key, () => {
-          this.connectSendBird(appId.key);
-        });
+        if (callback) {
+          callback(null, error);
+        }
       }
     });
   }
 
-  connectSendBird(appID) {
-    new SendBird({
-      appId: appID,
+  connectSendBird(callback) {
+    this.sb = new SendBird({
+      appId: this.sendBirdAppId,
     });
+    this.sb.connect(this.props.me._id, (user, error) => {
+      this.sb.removeChannelHandler('Main');
+      this.ChannelHandler = new this.sb.ChannelHandler();
+      this.ChannelHandler.onMessageReceived = this.onMainMessageReceived.bind(this);
+      this.sb.addChannelHandler('Main', this.ChannelHandler);
 
-    SendBird().connect(this.props.me._id, function (user, error) {
-      if (error) {
-        alert(JSON.stringify(error));
+      if (callback) {
+        callback(user, error);
       }
+    });
+  }
 
-      SendBird().updateCurrentUserInfo(
-        this.props.me.name,
-        this.props.me.profile_picture,
-        function (response, error) {
-          if (error) {
-            alert(JSON.stringify(error));
-          }
-        }.bind(this));
-    }.bind(this));
+  onAppStateChange(currentAppState) {
+    if (currentAppState === 'active') {
+      this.sb.setForegroundState();
+    } else if (currentAppState === 'background') {
+      this.sb.setBackgroundState();
+    }
+  }
+
+  onConnectionStateChange(isConnected) {
+    this.isConnected = isConnected;
+    if (this.isConnected) {
+      this.connectSendBird();
+    } else {
+      SendBird().removeChannelHandler('Main');
+      this.sb.disconnect();
+    }
+  }
+
+  onMainMessageReceived(channel, userMessage) {
+    Vibration.vibrate();
+    FcmUtil.presentLocalChatNotification(userMessage);
+  }
+
+  onNotificationReceived(notif) {
+    if (notif.opened_from_tray) {
+      this.actionFromNotification(notif);
+    }
+  }
+
+  actionFromNotification(notif) {
+    Actions.main({ me: this.props.me });
+    setTimeout(() => {
+      if (notif.notificationType === 'MESSAGE') {
+        this.changeMainPage(mainPageTitle.CHAT, () => {
+          const opponent = JSON.parse(notif.extraData).opponent;
+          Actions.chatPage({
+            title: opponent.name,
+            me: { userId: this.props.me._id },
+            opponent,
+          });
+        });
+      } else if (notif.notificationType === 'CONNECTION') {
+        this.changeMainPage(
+          mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.CONNECTED));
+      } else if (notif.notificationType === 'REQUEST') {
+        this.changeMainPage(
+          mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.NEWREQUESTS));
+      }
+    }, 500);
+  }
+
+  changeMainPage(pageTitle, callback) {
+    this.setState({ currentMainPage: pageTitle }, () => {
+      this.setState({ currentMainPage: mainPageTitle.DEFAULT }, () => {
+        if (typeof callback === 'function') callback();
+      });
+    });
+  }
+
+  changeActivityPage(pageTitle, callback) {
+    this.setState({ currentActivityPage: pageTitle }, () => {
+      this.setState({ currentActivityPage: activityPageTitle.DEFAULT }, () => {
+        if (typeof callback === 'function') callback();
+      });
+    });
   }
 
   render() {
-    const pageTitle = {
-      HOME: 0,
-      TOURNAMENT: 1,
-      MYCONNECTION: 2,
-      CHAT: 3,
-      MYPROFILE: 4,
-    };
-
     return (
-        <ScrollableTabView
-          initialPage={0}
-          onChangeTab={(obj) => {
-            if (obj.i === pageTitle.HOME) {
-              Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle, });
-            } else if (obj.i === pageTitle.TOURNAMENT) {
-              Actions.refresh({ title: 'Tournament', titleStyle: styles.title, });
-            } else if (obj.i === pageTitle.MYCONNECTION) {
-              Actions.refresh({ title: 'My Connection', titleStyle: styles.title, });
-            } else if (obj.i === pageTitle.CHAT) {
-              Actions.refresh({ title: 'Chat', titleStyle: styles.title, });
-            } else if (obj.i === pageTitle.MYPROFILE) {
-              Actions.refresh({ title: 'My Profile', titleStyle: styles.title, });
-            }
-          }}
+      <ScrollableTabView
+        initialPage={0}
+        page={this.state.currentMainPage}
+        onChangeTab={(obj) => {
+          this.currentTab = obj.i;
+          if (this.currentTab === mainPageTitle.HOME) {
+            Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle });
+          } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
+            Actions.refresh({ title: 'Tournament', titleStyle: styles.title });
+          } else if (this.currentTab === mainPageTitle.MYCONNECTION) {
+            Actions.refresh({ title: 'My Connection', titleStyle: styles.title });
+          } else if (this.currentTab === mainPageTitle.CHAT) {
+            Actions.refresh({ title: 'Chat', titleStyle: styles.title });
+          } else if (this.currentTab === mainPageTitle.MYPROFILE) {
+            Actions.refresh({ title: 'My Profile', titleStyle: styles.title });
+          }
+        }}
 
-          tabBarPosition='bottom'
-          locked={true}
-          scrollWithoutAnimation={true}
-          renderTabBar={() => <TabBar />}
-        >
-          <UserList tabLabel="ios-home" style={styles.tabView}  me={this.props.me} />
-          <ScrollView tabLabel="md-shuffle" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>Tournament</Text>
-            </View>
-          </ScrollView>
-          <Activity tabLabel="ios-people" style={styles.tabView}  me={this.props.me} />
-          <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
-          <MyPage tabLabel="md-contact" me={this.props.me} />
+        tabBarPosition='bottom'
+        locked
+        scrollWithoutAnimation
+        renderTabBar={() => <TabBar />}
+      >
+        <UserList tabLabel="ios-home" style={styles.tabView} me={this.props.me} />
+        <View tabLabel="md-shuffle" style={styles.comingSoonView}>
+          <Image source={require('../resources/tournament.png')} />
+          <Text style={styles.comingSoonText}>Coming Soon!</Text>
+        </View>
+        <Activity
+          tabLabel="ios-people"
+          style={styles.tabView}
+          currentActivityPage={this.state.currentActivityPage}
+          me={this.props.me}
+        />
+        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
+        <MyPage tabLabel="md-contact" me={this.props.me} />
       </ScrollableTabView>
     );
   }
@@ -120,9 +236,20 @@ const styles = StyleSheet.create({
     height: 150,
     padding: 15,
     shadowColor: '#ccc',
-    shadowOffset: { width: 2, height: 2, },
+    shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
+  },
+  comingSoonView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  comingSoonText: {
+    marginTop: 12,
+    fontFamily: 'SFUIText-Regular',
+    fontSize: 14,
+    color: '#a6aeae',
   },
   mainTitle: {
     fontFamily: 'ProductSans-Bold',

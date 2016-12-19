@@ -13,6 +13,7 @@ import {
   Vibration,
   View,
 } from 'react-native';
+import FCM from 'react-native-fcm';
 import Row from './Row';
 import SendBird from 'sendbird';
 import Text from '../Shared/UniText';
@@ -31,51 +32,18 @@ class ChannelList extends Component {
     this.isConnected = false;
     this.sb = SendBird();
     this.ChannelHandler = new this.sb.ChannelHandler();
-    this.ChannelHandler.onMessageReceived = this.onMessageReceived.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.initChannelList();
+    this.ChannelHandler.onMessageReceived = this.onChanneListMessageReceived.bind(this);
   }
 
   componentDidMount() {
-    AppState.addEventListener('change', this.onAppStateChange.bind(this));
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.isConnected = isConnected;
+    });
+
     NetInfo.isConnected.addEventListener('change', this.onConnectionStateChange.bind(this));
   }
 
-  connectSendBird() {
-    SendBird().connect(this.state.me._id, function (user, error) {
-      if (error) {
-        alert('Fail to connect SendBird.');
-        throw new Error(error);
-      }
-
-      this.initChannelList();
-    }.bind(this));
-  }
-
-  onAppStateChange(state) {
-    if (state === 'active') {
-      if (this.isConnected) {
-        this.connectSendBird();
-      }
-    } else {
-      this.sb.removeChannelHandler('ChannelList');
-      SendBird().disconnect();
-    }
-  }
-
-  onConnectionStateChange(isConnected) {
-    this.isConnected = isConnected;
-    if (this.isConnected) {
-      this.connectSendBird();
-    } else {
-      this.sb.removeChannelHandler('ChannelList');
-      SendBird().disconnect();
-    }
-  }
-
-  onMessageReceived(channel, userMessage) {
+  componentWillReceiveProps(nextProps) {
     this.initChannelList();
   }
 
@@ -83,27 +51,62 @@ class ChannelList extends Component {
     AppState.removeEventListener('change');
   }
 
-  initChannelList() {
-    if (SendBird().getConnectionState() === 'OPEN') {
-      const channelListQuery = SendBird().GroupChannel.createMyGroupChannelListQuery();
-      channelListQuery.includeEmpty = true;
+  initChannelList(callback) {
+    this.connectSendBird((user, error) => {
+      if (user) {
+        this.refreshChannelList();
+      }
+    });
+  }
+
+  refreshChannelList(callback) {
+    const channelListQuery = this.sb.GroupChannel.createMyGroupChannelListQuery();
+    channelListQuery.includeEmpty = true;
+
+    if (channelListQuery.hasNext) {
+      channelListQuery.next(function (channelList, error) {
+        if (error) {
+          alert(error);
+          throw new Error();
+        } else {
+          this.setState({
+            channelList: channelList,
+            dataSource: this.ds.cloneWithRows(channelList),
+            loaded: true,
+          });
+          if (typeof callback === 'function') {
+            callback();
+          }
+        }
+      }.bind(this));
+    }
+  }
+
+  connectSendBird(callback) {
+    this.sb.connect(this.props.me._id, (user, error) => {
+      this.sb.removeChannelHandler('ChannelList');
       this.sb.addChannelHandler('ChannelList', this.ChannelHandler);
 
-      if (channelListQuery.hasNext) {
-        channelListQuery.next(function (channelList, error) {
-          if (error) {
-            alert(error);
-            throw new Error();
-          } else {
-            this.setState({
-              channelList: channelList,
-              dataSource: this.ds.cloneWithRows(channelList),
-              loaded: true,
-            });
-          }
-        }.bind(this));
+      if (typeof callback === 'function') {
+        callback(user, error);
       }
+    });
+  }
+
+  onConnectionStateChange(isConnected) {
+    this.isConnected = isConnected;
+    if (this.isConnected) {
+      this.initChannelList();
+    } else {
+      this.sb.removeChannelHandler('ChannelList');
+      this.sb.disconnect();
     }
+  }
+
+  onChanneListMessageReceived(channel, userMessage) {
+    FCM.presentLocalNotification(userMessage);
+    this.refreshChannelList();
+    Vibration.vibrate();
   }
 
   renderRow(rowData) {

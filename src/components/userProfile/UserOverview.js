@@ -46,6 +46,7 @@ class UserOverview extends Component {
           .map((value) => value.option),
         score: result.personality.slice()
           .map((value) => value.score),
+        about: result.about,
       });
     }
   }
@@ -98,8 +99,9 @@ class UserOverview extends Component {
   }
 
   renderMyExpertise() {
-    const CHARACTER_WIDTH = 10;
-    const LINE_PADDING = 40;
+    const CHARACTER_WIDTH = 9;
+    const LINE_PADDING = 30;
+    const TAG_RECTANGLE_SIZE = 50;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
@@ -120,7 +122,7 @@ class UserOverview extends Component {
       }
 
       newArray[lineCount].push(originArray[i]);
-      lineSize += itemSize;
+      lineSize += itemSize + TAG_RECTANGLE_SIZE;
     }
 
     return (

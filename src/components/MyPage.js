@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {
   Alert,
   AsyncStorage,
-  Dimensions,
   Image,
-  ListView,
   Platform,
   StyleSheet,
   Switch,
@@ -24,15 +22,21 @@ class MyPage extends Component {
       loaded: false,
       trueSwitchIsOn: true,
       falseSwitchIsOn: false,
-      profileImage: '',
       name: '',
       currentStatus: '',
+      profileImage: '',
+      icons: [
+        require('../resources/page-1.png'),
+        require('../resources/for-you-icon-line.png'),
+        require('../resources/icon-request.png'),
+        require('../resources/icon-logout.png'),
+      ],
     };
   }
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(error);
+      Alert.alert('My Profile', error);
     } else if (result) {
       if (result.msg) {
 
@@ -61,9 +65,9 @@ class MyPage extends Component {
   getProfileImage(status) {
     if (status.profile_picture) {
       return { uri: status.profile_picture };
-    } else {
-      return require('../resources/pattern.png');
     }
+
+    return require('../resources/pattern.png');
   }
 
   getCurrentStatus(status) {
@@ -79,7 +83,7 @@ class MyPage extends Component {
       }
 
       return currentTask + ' at ' + location;
-    }  else if (status.education.length > 0) {
+    } else if (status.education.length > 0) {
       const lastIndex = status.education.length - 1;
       const education = status.education[lastIndex];
 
@@ -103,35 +107,41 @@ class MyPage extends Component {
     UserUtil.setRequestSetting(this.onRequestCallback.bind(this), value);
   }
 
-  signOut = () => {
+  signOut() {
     try {
       UserUtil.signOut((result, error) => {
         AsyncStorage.removeItem('token', () => { Actions.login(); });
       });
     } catch (error) {
-      alert('ERROR: Try again');
+      Alert.alert('My Profile', error);
     }
-  };
+  }
 
   onEditButtonPress() {
     Actions.editProfile({ me: this.props.me });
   }
 
   render() {
+    if (!this.state.profileImage) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.userInfo}>
           <Image
             style={styles.profileImage}
-            source={this.state.profileImage}/>
+            source={this.state.profileImage}
+          />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoText}>
               {this.state.name}
             </Text>
-            <Text ellipsizeMode ='tail' numberOfLines={1}>
+            <Text ellipsizeMode="tail" numberOfLines={1}>
               {this.state.currentStatus}
             </Text>
-            <TouchableWithoutFeedback onPress={() => Actions.userProfile({ myProfile: true })}>
+            <TouchableWithoutFeedback
+              onPress={() => Actions.userProfile({ myProfile: true, direction: 'horizontal' })}>
               <View>
                 <Text style={styles.linkText}>
                   View Profile
@@ -140,17 +150,20 @@ class MyPage extends Component {
             </TouchableWithoutFeedback>
           </View>
         </View>
-        <TouchableOpacity style={[styles.menu, { borderTopWidth: 1 }]} onPress={this.onEditButtonPress.bind(this)}>
-          <Image source={require('../resources/page-1.png')} />
+        <TouchableOpacity
+          style={[styles.menu, { borderTopWidth: 1 }]}
+          onPress={this.onEditButtonPress.bind(this)}
+        >
+          <Image source={this.state.icons[0]} />
           <Text style={styles.menuText}>Edit my profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu}>
-          <Image source={require('../resources/for-you-icon-line.png')} />
+          <Image source={this.state.icons[1]} />
           <Text style={styles.menuText}>Bookmarks</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menu, { justifyContent: 'space-between' }]}>
           <View style={styles.receiveRequest}>
-            <Image source={require('../resources/icon-request.png')} />
+            <Image source={this.state.icons[2]} />
             <Text style={styles.menuText}>Recieve a request</Text>
           </View>
           <Switch
@@ -160,11 +173,10 @@ class MyPage extends Component {
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menu} onPress={this.signOut}>
-          <Image source={require('../resources/icon-logout.png')} />
+          <Image source={this.state.icons[3]} />
           <Text style={styles.menuText}>Log out</Text>
         </TouchableOpacity>
-        <View style={{ flex: 3 }}>
-        </View>
+        <View style={{ flex: 3 }} />
       </View>
     );
   }
