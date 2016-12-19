@@ -72,7 +72,7 @@
   [self.window bringSubviewToFront:splashView];
   
   [UIView beginAnimations:nil context:nil];
-  [UIView setAnimationDuration:4.0];
+  [UIView setAnimationDuration:3.0];
   [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.window cache:YES];
   [UIView setAnimationDelegate:self];
   [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];

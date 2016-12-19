@@ -2,6 +2,7 @@ package com.svbootcamp.bridgeme;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.os.Handler;
 import android.content.Intent;
@@ -30,7 +31,14 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        handler.postDelayed(runnable, delayTime);
+
+        Bundle bundle = getIntent().getExtras();
+        if (null == bundle) {
+            handler.postDelayed(runnable, delayTime);
+        } else {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
