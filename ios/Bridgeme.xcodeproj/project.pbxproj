@@ -15,7 +15,6 @@
 		00E356F31AD99517003FC87E /* yodaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* yodaTests.m */; };
 		0C054E404DC64AB6A42716A0 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A82D3D852DF843F3B10977D9 /* Zocial.ttf */; };
 		0E5F52AED9EA40F283EDE0AE /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ACDABC882914D87849DC0D4 /* libRNVectorIcons.a */; };
-		10B3E52F485B8F1346521162 /* Pods_Bridgeme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673A3430BE33787F718321C9 /* Pods_Bridgeme.framework */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; settings = {ATTRIBUTES = (Required, ); }; };
