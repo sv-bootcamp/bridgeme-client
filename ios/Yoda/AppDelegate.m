@@ -72,7 +72,7 @@
   [self.window bringSubviewToFront:splashView];
   
   [UIView beginAnimations:nil context:nil];
-  [UIView setAnimationDuration:4.0];
+  [UIView setAnimationDuration:3.0];
   [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.window cache:YES];
   [UIView setAnimationDelegate:self];
   [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];
@@ -113,7 +113,7 @@
 
 //You can skip this method if you don't want to use local notification
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self + userInfo:notification.userInfo];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
 }
 #endif
 

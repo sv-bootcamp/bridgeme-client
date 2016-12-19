@@ -207,13 +207,13 @@ export default class MessageContainer extends React.Component {
                  }
           />
           <View style={styles.userInformation}>
-            <Text style={styles.name}>
+            <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.name}>
               {this.state.opponentInfo ? this.state.opponentInfo.name : ''}
             </Text>
-            <Text style={styles.experience}>
+            <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.experience}>
               {this.getExperienceInfo(this.state.opponentInfo)}
             </Text>
-            <Text style={styles.connectMessage}>
+            <Text  style={styles.connectMessage}>
               You are connected now.
             </Text>
           </View>
@@ -282,16 +282,14 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    lineHeight: 15,
     fontSize: 14,
     fontWeight: 'bold',
     paddingTop: 24,
-
   },
   experience: {
-    lineHeight: 12,
     fontSize: 12,
     paddingTop: 8,
+    paddingRight: 5,
     color: '#a6aeae',
   },
   connectMessage:{
