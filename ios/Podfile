@@ -8,5 +8,5 @@ target 'Bridgeme' do
   # Pods for BridgMe
    pod 'Firebase/Analytics'
    pod 'Firebase/Messaging'
-   pod 'FLAnimatedImage', '~> 1.0'
+   pod 'YYImage'
 end
