@@ -52,7 +52,6 @@
 		D260393C1DF7D9D0004DC6C9 /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D26039371DF7D8E0004DC6C9 /* SF-UI-Text-Light.otf */; };
 		D260393D1DF7D9D0004DC6C9 /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D26039381DF7D8E0004DC6C9 /* SF-UI-Text-Ultrathin.otf */; };
 		D260393E1DF7D9D5004DC6C9 /* opensans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA20BCD31DA4B63F00BFA62C /* opensans.ttf */; };
-		D5E0701529FDEA50E3853B3C /* Pods_Bridgeme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A017673B50621265D95583E4 /* Pods_Bridgeme.framework */; };
 		DAB407959AAC40BC9D08F885 /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
@@ -305,7 +304,6 @@
 		964BFFFBBA5C2D20C255DE54 /* Pods-Bridgeme.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bridgeme.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bridgeme/Pods-Bridgeme.debug.xcconfig"; sourceTree = "<group>"; };
 		9C1364092D824D12ABF9650F /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		9DEC81A917A84E8C9AA0CC6C /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		A017673B50621265D95583E4 /* Pods_Bridgeme.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bridgeme.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A82D3D852DF843F3B10977D9 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		AA20BCD31DA4B63F00BFA62C /* opensans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = opensans.ttf; sourceTree = "<group>"; };
 		AA49EE101D6FFBD20083C256 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
