@@ -106,7 +106,6 @@ class ChannelList extends Component {
   onChanneListMessageReceived(channel, userMessage) {
     FCM.presentLocalNotification(userMessage);
     this.refreshChannelList();
-    Vibration.vibrate();
   }
 
   renderRow(rowData) {

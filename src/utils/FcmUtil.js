@@ -4,8 +4,6 @@ export default {
   presentLocalNotification(notificationType, body, customData) {
     FCM.presentLocalNotification({
       body: body,
-      priority: 'high',
-      sound: 'default',
       extraData: customData,
       notificationType: notificationType,
       show_in_foreground: true,
