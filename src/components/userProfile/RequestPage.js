@@ -9,7 +9,7 @@ import {
   StatusBar,
   StyleSheet,
   TextInput,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -54,7 +54,7 @@ class RequestPage extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size='small'
+        size="small"
       />
     );
   }
@@ -76,40 +76,39 @@ class RequestPage extends Component {
     const send = () => this.sendMessage();
 
     return (
-      <MenuContext ref="MenuContext">
+      <MenuContext lazyRender={200} ref="MenuContext">
         <KeyboardAwareScrollView
-          extraHeight={HEIGHT / 4}
+          extraHeight={HEIGHT / 2.5}
           contentContainerStyle={styles.content}>
           <Text style={styles.title}>What would you like to ask first?</Text>
-          <Text style={styles.subTitle}>Subjects</Text>
+          <Text style={styles.subTitle}>Subject</Text>
           <View style={styles.dropdownContent}>
-            <Menu style={styles.dropdown}
-              onSelect={(value) => this.setState({ selection: value })}>
-              <MenuTrigger>
-                <Text>{this.state.selection}</Text>
+            <Menu onSelect={(value) => this.setState({ selection: value })}>
+              <MenuTrigger style={styles.dropdown}>
+                <Text style={styles.dropdownText}>{this.state.selection}</Text>
               </MenuTrigger>
               <MenuOptions optionsContainerStyle={styles.dropdownOptions}
                 renderOptionsContainer={(options) =>
                   <ScrollView>{options}</ScrollView>}>
-                <MenuOption value='Study abroad'>
+                <MenuOption value="Study abroad">
                   <Text>Study abroad</Text>
                 </MenuOption>
-                <MenuOption value='Get a new job'>
+                <MenuOption value="Get a new job">
                   <Text>Get a new job</Text>
                 </MenuOption>
-                <MenuOption value='Portfolio & resume'>
+                <MenuOption value="Portfolio & resume">
                   <Text>Portfolio & resume</Text>
                 </MenuOption>
-                <MenuOption value='Start up'>
+                <MenuOption value="Start up">
                   <Text>Start up</Text>
                 </MenuOption>
-                <MenuOption value='Career change'>
+                <MenuOption value="Career change">
                   <Text>Career change</Text>
                 </MenuOption>
-                <MenuOption value='Networking'>
+                <MenuOption value="Networking">
                   <Text>Networking</Text>
                 </MenuOption>
-                <MenuOption value='Soft skills'>
+                <MenuOption value="Soft skills">
                   <Text>Soft skills</Text>
                 </MenuOption>
               </MenuOptions>
@@ -122,29 +121,27 @@ class RequestPage extends Component {
           <TextInput
             multiline={true}
             style={styles.multiline}
-            placeholder='Enter message'
+            placeholder="Enter message"
             maxLength={140}
-            underlineColorAndroid='transparent'
-            textAlignVertical='top'
+            underlineColorAndroid="transparent"
+            textAlignVertical="top"
             onChangeText={this.onChangeMessage.bind(this)}/>
           <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
             locations={[0, 0.75]}
             colors={['#07e4dd', '#44acff']}>
-            <TouchableWithoutFeedback onPress={send}>
+            <TouchableOpacity onPress={send}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>SEND</Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </LinearGradient>
           <StatusBar
-            backgroundColor = 'transparent'
-            barStyle = 'default'
+            backgroundColor = "transparent"
+            barStyle = "default"
             networkActivityIndicatorVisible={false}
           />
-
         </KeyboardAwareScrollView>
       </MenuContext>
-
     );
   }
 
@@ -217,7 +214,7 @@ const styles = StyleSheet.create({
     width: WIDTH * 0.613,
     height: HEIGHT * 0.067,
     borderRadius: WIDTH * 0.267,
-    marginTop: HEIGHT / 6,
+    marginTop: HEIGHT / 8,
   },
   buttonContainer: {
     backgroundColor: 'transparent',
@@ -248,8 +245,13 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
     borderWidth: 2,
     width: WIDTH - (WIDTH / 6),
-    left: 30,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    left: WIDTH * 0.08,
     height: 200,
+  },
+  dropdownText: {
+    marginLeft: WIDTH * 0.053,
   },
 });
 
