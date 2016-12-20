@@ -100,7 +100,8 @@ class NewRequestsRow extends Component {
           <View style={styles.row}>
             <View style={styles.userInformation}>
               <Image style={styles.photo}
-                     source={{ uri: this.props.dataSource.profile_picture }}/>
+                     source={{ uri: this.props.dataSource.profile_picture_small ?
+                       this.props.dataSource.profile_picture_small : this.props.dataSource.profile_picture }}/>
               <View style={styles.horizontalSpaceBetween}>
                 <View style={styles.userNameWithTime}>
                   <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.name}>{this.props.dataSource.name}</Text>

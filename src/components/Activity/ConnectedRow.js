@@ -39,7 +39,8 @@ class ConnectedRow extends Component {
   getProfileImage() {
     let image;
     if (this.props.dataSource.profile_picture) {
-      image = { uri: this.props.dataSource.profile_picture };
+      image = { uri: this.props.dataSource.profile_picture_small ?
+        this.props.dataSource.profile_picture_small : this.props.dataSource.profile_picture };
       return image;
     } else {
       image = require('../../resources/pattern.png');
