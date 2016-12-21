@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   },
   overlay: {
     position: 'absolute',
-    backgroundColor: 'transparent',
     width: window.width,
     height: window.height,
   },

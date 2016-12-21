@@ -158,16 +158,20 @@ class Login extends Component {
       return;
     }
 
-    UserUtil.localSignIn(
-      this.onLoginCallback.bind(this),
-      this.state.email,
-      this.state.password
+    this.setState(
+      { loaded: false },
+      () => UserUtil.localSignIn(
+        this.onLoginCallback.bind(this),
+        this.state.email,
+        this.state.password
+      ),
     );
   }
 
   onLoginCallback(result, error) {
     if (error) {
-      this.alert('Please check your account information and sign in again!');
+      this.alert('LoginCallback error');
+      this.setState({ loaded: true });
     } else if (result) {
       AsyncStorage.setItem(
         'token',

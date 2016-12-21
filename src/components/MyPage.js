@@ -110,7 +110,8 @@ class MyPage extends Component {
   signOut() {
     try {
       UserUtil.signOut((result, error) => {
-        AsyncStorage.removeItem('token', () => { Actions.login(); });
+        let keys = ['token', 'filter'];
+        AsyncStorage.multiRemove(keys, () => { Actions.login(); });
       });
     } catch (error) {
       Alert.alert('My Profile', error);

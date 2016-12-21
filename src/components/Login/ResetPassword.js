@@ -20,7 +20,7 @@ class ResetPassword extends Component {
 
     return (
       <FindPassword
-        title="Reset your password"
+        title="Reset your password."
         inputHint="New password"
         inputHint2="Confirm password"
         isFinal={true}
