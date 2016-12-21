@@ -68,6 +68,9 @@ class Select extends Component {
       return false;
     }
 
+    if (this.props.onPress)
+      this.props.onPress();
+
     let show = optionListRef(index).getShowState();
 
     if (this.state.show !== show) {
@@ -102,14 +105,16 @@ class Select extends Component {
       styleText,
       activate,
       value,
+      pressed,
     } = this.props;
     const dimensions = { width, height };
 
     let bgColor = (activate) ? '#ffffff' : '#fafafa';
     if (value) this.state.value = value;
     if (clear) this.state.value = '';
+    let active = (pressed !== undefined) ? !pressed && activate : activate;
     return (
-      <TouchableWithoutFeedback disabled={!activate} onPress={this.onPress.bind(this)}>
+      <TouchableWithoutFeedback disabled={!active} onPress={this.onPress.bind(this)}>
         <View ref={SELECT}
           style={[styles.container, style, dimensions, { backgroundColor: bgColor }]}>
           <Option style={ styleOption } styleText={ styleText }

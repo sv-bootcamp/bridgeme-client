@@ -43,7 +43,7 @@ class Option extends Component {
           <Text style={[styles.text, { color: fontColor }]}>
             {this.props.children}
           </Text>
-            <Icon name={icon} size={20} style={styles.icon}/>
+          <Icon name={icon} size={20} style={styles.icon}/>
         </View>
     );
   }

@@ -41,7 +41,7 @@ class UniText extends Component {
 
   render() {
     return (
-      <Text {...this.props} style={[this.props.style, this.defaultFont]}>
+      <Text allowFontScaling={false} {...this.props}  style={[this.props.style, this.defaultFont]}>
         {this.props.children}
       </Text>
     );

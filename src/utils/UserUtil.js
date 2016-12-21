@@ -13,7 +13,7 @@ class UserUtil {
 
   // Sign In with Facebook.
   signInWithFacebook(callback) {
-    this.signOut();
+    LoginManager.logOut();
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'email', 'user_education_history', 'user_work_history'])
       .then(
@@ -75,11 +75,6 @@ class UserUtil {
   // Get user lists except me
   tokenCheck(callback) {
     apiUtil.requestGetWithToken(callback, 'API_TOKEN');
-  }
-
-  // Get user lists except me
-  getMentorList(callback) {
-    apiUtil.requestGetWithToken(callback, 'API_MENTOR');
   }
 
   // Get my profile
@@ -159,6 +154,7 @@ class UserUtil {
     body.mentorMode = value.toString();
     apiUtil.requestPostWithToken(callback, 'API_SET_REQUEST_SETTING', body);
   }
+
 };
 
 const userUtil = new UserUtil();

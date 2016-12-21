@@ -18,7 +18,7 @@ class InputEmailAddr extends Component {
 
     return (
       <FindPassword
-        title="Please input your email address"
+        title="Please input your email address."
         inputHint="Email"
         buttonText="Send Code"
         isFinal={false}

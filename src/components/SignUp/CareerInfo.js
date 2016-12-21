@@ -30,6 +30,7 @@ class CareerInfo extends Component {
     super(props);
     this.state = {
       questions: CareerData.questions,
+      pressed: [],
       checked: [],
       selected: [],
       option: [],
@@ -44,6 +45,7 @@ class CareerInfo extends Component {
     this.state.option[3] = CareerData.education_background;
 
     for (i = 0; i < this.state.option.length; i++) {
+      this.state.pressed.push(false);
       this.state.checked.push(false);
       this.state.selected.push('');
     }
@@ -115,7 +117,17 @@ class CareerInfo extends Component {
       }
     }
 
+    for (let i = 0; i < this.state.pressed.length; i++) {
+      this.state.pressed[i] = false;
+    }
+
     this.forceUpdate();
+  }
+
+  onPress() {
+    for (let i = 0; i < this.state.pressed.length; i++) {
+      this.state.pressed[i] = true;
+    }
   }
 
   getOptionSet(index) {
@@ -161,6 +173,8 @@ class CareerInfo extends Component {
                     ref={'SELECT' + idx}
                     clear={clear}
                     activate={activate}
+                    pressed={this.state.pressed[idx]}
+                    onPress={this.onPress.bind(this)}
                     index={idx}
                     width={Dimensions.get('window').width - 60}
                     defaultValue={' '}
@@ -168,7 +182,7 @@ class CareerInfo extends Component {
                     onSelect={this.onSelect.bind(this)}>
                     {this.getOptionSet(idx)}
                   </Select>
-                    <OptionList ref={'OPTION' + idx} index={idx}/>
+                  <OptionList ref={'OPTION' + idx} index={idx}/>
                 </View>
               </View>
             );
@@ -200,8 +214,9 @@ class CareerInfo extends Component {
       this.state.selected[2] = result[0].years;
       this.state.selected[3] = result[0].education_background;
 
-      for (i = 0; i < 4; i++)
+      for (i = 0; i < 4; i++) {
         this.state.checked[i] = true;
+      }
 
       this.forceUpdate();
     }

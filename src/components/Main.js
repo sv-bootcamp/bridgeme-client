@@ -205,14 +205,15 @@ class Main extends Component {
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
             Actions.refresh({ title: 'My Profile', titleStyle: styles.title });
           }
-        }}
-
+        }
+        }
         tabBarPosition='bottom'
         locked
         scrollWithoutAnimation
-        renderTabBar={() => <TabBar />}
-      >
-        <UserList tabLabel="ios-home" style={styles.tabView} me={this.props.me} />
+        renderTabBar={() => <TabBar />}>
+        <UserList tabLabel="ios-home"
+          style={styles.tabView}
+          me={this.props.me}/>
         <View tabLabel="md-shuffle" style={styles.comingSoonView}>
           <Image source={require('../resources/tournament.png')} />
           <Text style={styles.comingSoonText}>Coming Soon!</Text>

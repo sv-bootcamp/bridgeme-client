@@ -18,7 +18,7 @@ class InputSecretCode extends Component {
 
     return (
       <FindPassword
-        title="Please input your code"
+        title="Please enter the code you received via email."
         inputHint="Code"
         buttonText="Find password"
         isFinal={false}
