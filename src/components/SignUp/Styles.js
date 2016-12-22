@@ -6,13 +6,23 @@ import {
 const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   formEditView: {
+    width: deviceWidth - 30,
     borderBottomWidth: 1,
     borderBottomColor: '#a6aeae',
-    paddingBottom: 15,
+    paddingTop: 50,
+    paddingBottom: 35,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 15,
+    marginLeft: 15,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: '#ffffff',
   },
   formEditBottomLine: {
-    borderBottomColor: '#a6aeae',
+    borderBottomColor: '#dddddd',
     borderBottomWidth: 1,
+    marginBottom: 15,
   },
   formView: {
     width: deviceWidth - 40,
@@ -47,8 +57,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 12,
   },
+  formEditDegree: {
+    width: deviceWidth - 70,
+  },
   formEditYear: {
-    width: 100,
+    flex: 1,
+  },
+  formEditMid: {
+    width: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  formEditPlaceholder: {
+    borderWidth:1,
+    borderColor:'#ddd',
+    padding:10,
+    height:30,
   },
   doneWrapper: {
     alignItems: 'flex-end',
@@ -60,15 +84,15 @@ const styles = StyleSheet.create({
     color: '#44acff',
   },
   modalContainer: {
-    flexDirection: 'row',
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, .5)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
   },
   formEditDate: {
     height: 30,
     borderWidth: 0,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   firstMargin: {
     marginTop: 20,
