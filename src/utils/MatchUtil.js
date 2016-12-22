@@ -43,6 +43,22 @@ class MatchUtil {
     body.message = message;
     apiUtil.requestPostWithToken(callback, 'API_CHATTING_PUSH', body);
   }
+
+  // Get user lists except me
+  getMentorList(callback, body = null) {
+    if (!body) {
+      body = {};
+      body.initial = 'true';
+    } else {
+      body.initial = 'false';
+    }
+
+    apiUtil.requestPostWithToken(callback, 'API_MENTOR', body);
+  }
+
+  getFilterCnt(callback, body) {
+    apiUtil.requestPostWithToken(callback, 'API_MENTOR_FILTER_COUNT', body);
+  }
 };
 
 const matchUtil = new MatchUtil();

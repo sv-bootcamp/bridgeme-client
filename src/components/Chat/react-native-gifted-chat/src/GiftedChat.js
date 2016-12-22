@@ -432,10 +432,8 @@ class GiftedChat extends React.Component {
   renderLoadingView() {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>Loading...</Text>
         <ActivityIndicator
           animating={!this.state.loaded}
-          style={styles.activityIndicator}
           size='large'
           color='gray'
         />

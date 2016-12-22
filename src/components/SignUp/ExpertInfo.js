@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     height: 50,
-    justifyContent: 'center',
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
     borderStyle: 'solid',

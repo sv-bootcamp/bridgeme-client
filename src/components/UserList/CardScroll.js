@@ -122,6 +122,7 @@ export default class CardScroll extends Component {
         showsVerticalScrollIndicator: false,
         showsHorizontalScrollIndicator: false,
         automaticallyAdjustContentInsets: true,
+        enableEmptySections: true,
         ...props,
       });
   }

@@ -74,7 +74,8 @@ class Row extends Component {
 
   getProfileImage() {
     if (this.props.dataSource.profile_picture) {
-      return { uri: this.props.dataSource.profile_picture };
+      return { uri: this.props.dataSource.profile_picture_large ?
+        this.props.dataSource.profile_picture_large : this.props.dataSource.profile_picture };
     } else {
       return require('../../resources/pattern.png');
     }
@@ -179,10 +180,10 @@ class Row extends Component {
     } else {
       connectButton = (
         <LinearGradient style={styles.connectBtnStyle}
-                        start={[0.9, 0.5]}
-                        end={[0.0, 0.5]}
-                        locations={[0, 0.75]}
-                        colors={['#07e4dd', '#44acff']}>
+          start={[0.9, 0.5]}
+          end={[0.0, 0.5]}
+          locations={[0, 0.75]}
+          colors={['#07e4dd', '#44acff']}>
           <TouchableOpacity onPress={connect}>
             <View style={styles.buttonContainer}>
               <Text style={styles.buttonText}>CONNECT</Text>

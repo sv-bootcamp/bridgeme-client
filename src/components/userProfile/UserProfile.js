@@ -82,7 +82,7 @@ class UserProfile extends Component {
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture };
+      image = { uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture };
       return image;
     } else {
       image = require('../../resources/pattern.png');

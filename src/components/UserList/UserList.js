@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  AsyncStorage,
   ListView,
   Platform,
   RefreshControl,
@@ -11,7 +12,7 @@ import Row from './Row';
 import { Actions } from 'react-native-router-flux';
 import CardScroll from './CardScroll';
 import Text from '../Shared/UniText';
-import UserUtil from '../../utils/UserUtil';
+import MatchUtil from '../../utils/MatchUtil';
 
 class UserList extends Component {
   constructor(props) {
@@ -25,25 +26,40 @@ class UserList extends Component {
       loaded: false,
       isRefreshing: false,
     };
+
+    AsyncStorage.getItem('filter', (error, result) => {
+      if (result) {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this), JSON.parse(result));
+      } else {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this));
+      }
+    });
   }
 
   // Refresh data
   onRefresh() {
     this.setState({ isRefreshing: true });
-    UserUtil.getMentorList(this.onServerCallback.bind(this));
+
+    AsyncStorage.getItem('filter', (error, result) => {
+      if (result) {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this), JSON.parse(result));
+      } else {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this));
+      }
+    });
   }
 
   onServerCallback(result, error) {
     if (error) {
       alert(error);
     } else if (result) {
+
       // Refresh dataSource
       this.setState({
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
       });
-
       result[result.length - 1].last = true;
       result.map((value) => {
         value.me = this.props.me;
@@ -59,7 +75,23 @@ class UserList extends Component {
   }
 
   componentDidMount() {
-    UserUtil.getMentorList(this.onServerCallback.bind(this));
+    AsyncStorage.getItem('filter', (error, result) => {
+      if (result) {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this), JSON.parse(result));
+      } else {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this));
+      }
+    });
+  }
+
+  componentWillReceiveProps(props) {
+    AsyncStorage.getItem('filter', (error, result) => {
+      if (result) {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this), JSON.parse(result));
+      } else {
+        MatchUtil.getMentorList(this.onServerCallback.bind(this));
+      }
+    });
   }
 
   renderRow(rowData, sectionID, rowID) {
