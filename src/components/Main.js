@@ -166,7 +166,8 @@ class Main extends Component {
             mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.CONNECTED));
         } else if (notif.notificationType === 'REQUEST') {
           this.changeMainPage(
-            mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.NEWREQUESTS));
+            mainPageTitle.MYCONNECTION,
+            () => this.changeActivityPage(activityPageTitle.NEWREQUESTS));
         }
       });
   }
@@ -195,15 +196,22 @@ class Main extends Component {
         onChangeTab={(obj) => {
           this.currentTab = obj.i;
           if (this.currentTab === mainPageTitle.HOME) {
-            Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle });
+            Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle,
+              rightButtonIconStyle: { marginRight: 6 },
+              rightButtonImage: require('../resources/filter.png'),
+              onRight: () => Actions.filter(), });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
-            Actions.refresh({ title: 'Tournament', titleStyle: styles.title });
+            Actions.refresh({ title: 'Tournament', titleStyle: styles.title,
+              rightButtonImage: '', });
           } else if (this.currentTab === mainPageTitle.MYCONNECTION) {
-            Actions.refresh({ title: 'My Connection', titleStyle: styles.title });
+            Actions.refresh({ title: 'My Connection', titleStyle: styles.title,
+              rightButtonImage: '', });
           } else if (this.currentTab === mainPageTitle.CHAT) {
-            Actions.refresh({ title: 'Chat', titleStyle: styles.title });
+            Actions.refresh({ title: 'Chat', titleStyle: styles.title,
+              rightButtonImage: '', });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
-            Actions.refresh({ title: 'My Profile', titleStyle: styles.title });
+            Actions.refresh({ title: 'My Profile', titleStyle: styles.title,
+              rightButtonImage: '', });
           }
         }
         }

@@ -49,7 +49,7 @@ class Filter extends Component {
       selectOP: '',
       clearFlag: false,
       options: OptionsFilter,
-      options_ref: Options,
+      optionsRef: Options,
       optionsNum: [],
       overviewChecked: [],
       needRefresh: true,
@@ -60,7 +60,7 @@ class Filter extends Component {
     this.state.option[2] = CareerData.years.slice();
     this.state.option[3] = CareerData.education_background.slice();
 
-    let all = {
+    const all = {
       area: 'All',
       list: [],
     };
@@ -176,7 +176,7 @@ class Filter extends Component {
     for (i = 0; i < this.state.overviewChecked.length; i++) {
       if (this.state.overviewChecked[i]) {
         expertise.push({
-          select: this.state.options_ref[i],
+          select: this.state.optionsRef[i],
           index: i,
         });
       }
@@ -213,7 +213,6 @@ class Filter extends Component {
         setTimeout(() => Actions.refresh(), 20);
       },
     );
-
   }
 
   onFilterCallback(result, error) {
@@ -259,8 +258,9 @@ class Filter extends Component {
       }
     }
 
-    for (let i = 0; i < this.state.pressed.length; i++)
+    for (let i = 0; i < this.state.pressed.length; i++) {
       this.state.pressed[i] = false;
+    }
 
     if (this.state.checked[1] === false) {
       return;
@@ -282,8 +282,9 @@ class Filter extends Component {
   }
 
   onPress() {
-    for (let i = 0; i < this.state.pressed.length; i++)
+    for (let i = 0; i < this.state.pressed.length; i++) {
       this.state.pressed[i] = true;
+    }
   }
 
   getOptionSet(index) {
@@ -349,19 +350,20 @@ class Filter extends Component {
   getOverviewOptionSet() {
     return this.state.options.map(
         (option, idx) => (
-            <CheckBox key={idx}
-              iconSize={15}
-              iconStyle={styles.iconStyle}
-              labelStyle={(idx !== this.state.options.length - 1) ?
-              styles.labelStyle : styles.labelStyleLast }
-              label={this.state.options[idx]}
-              subLabelFontStyle={styles.subLabelFontStyle}
-              subLabel={(this.state.optionsNum[idx] !== 0) ?
-              this.state.optionsNum[idx] : ''}
-              checked={this.state.overviewChecked[idx]}
-              optionIdx={idx}
-              onUpdate={this.updateCheckBox.bind(this)}
-            />
+          <CheckBox
+            key={idx}
+            iconSize={15}
+            iconStyle={styles.iconStyle}
+            labelStyle={(idx !== this.state.options.length - 1) ?
+            styles.labelStyle : styles.labelStyleLast }
+            label={this.state.options[idx]}
+            subLabelFontStyle={styles.subLabelFontStyle}
+            subLabel={(this.state.optionsNum[idx] !== 0) ?
+            this.state.optionsNum[idx] : ''}
+            checked={this.state.overviewChecked[idx]}
+            optionIdx={idx}
+            onUpdate={this.updateCheckBox.bind(this)}
+          />
         )
     );
   }
