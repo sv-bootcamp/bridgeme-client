@@ -154,9 +154,7 @@ const AppProps = {
       title: 'Bridge Me',
       titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
-      rightTitle: 'right',
-      rightButtonTextStyle: { color: 'transparent' },
-      rightButtonIconStyle: { marginBottom: 13, marginRight: 6 },
+      rightButtonIconStyle: { marginRight: 6 },
       rightButtonImage: require('../resources/filter.png'),
       onRight: () => Actions.filter(),
     },
@@ -186,6 +184,7 @@ const AppProps = {
       title: 'Filter',
       backButtonImage: cancelButton,
       leftButtonIconStyle: styles.leftBtnCancel,
+      direction: 'diagonal',
     },
     {
       key: 'requestPage',
