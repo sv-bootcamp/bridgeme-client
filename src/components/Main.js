@@ -202,16 +202,16 @@ class Main extends Component {
               onRight: () => Actions.filter(), });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
             Actions.refresh({ title: 'Tournament', titleStyle: styles.title,
-              rightButtonImage: '', });
+              rightButtonImage: null, });
           } else if (this.currentTab === mainPageTitle.MYCONNECTION) {
             Actions.refresh({ title: 'My Connection', titleStyle: styles.title,
-              rightButtonImage: '', });
+              rightButtonImage: null, });
           } else if (this.currentTab === mainPageTitle.CHAT) {
             Actions.refresh({ title: 'Chat', titleStyle: styles.title,
-              rightButtonImage: '', });
+              rightButtonImage: null, });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
             Actions.refresh({ title: 'My Profile', titleStyle: styles.title,
-              rightButtonImage: '', });
+              rightButtonImage: null, });
           }
         }
         }
