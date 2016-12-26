@@ -30,6 +30,7 @@ import {
   Options,
   OptionsFilter,
 } from '../SignUp/SignUpMETA';
+import { dimensions } from '../Shared/Dimensions';
 
 class Filter extends Component {
   constructor(props) {
@@ -92,6 +93,7 @@ class Filter extends Component {
     }
 
     Actions.refresh({
+      rightButtonTextStyle: styles.rightTextStyle,
       rightTitle: 'Save',
       onRight: this.onSave.bind(this),
       onBack: () => {
@@ -131,6 +133,7 @@ class Filter extends Component {
   componentWillReceiveProps(props) {
     if (this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.onSave.bind(this),
         onBack: () => {
@@ -304,7 +307,7 @@ class Filter extends Component {
                 <Text style={styles.questionText}>{this.state.questions[idx]}</Text>
                 <View key={idx} style={[styles.dropdownContainerAndroid]}>
                   <Dropdown
-                    style={{ height: 40, width: Dimensions.get('window').width - 60 }}
+                    style={{ height: dimensions.heightWeight * 40, width: Dimensions.get('window').width - dimensions.widthWeight * 60 }}
                     values={this.state.option[idx]}
                     selected={this.state.option[idx].indexOf(this.state.selected[idx])}
                     onChange={(CareerData) => {
@@ -326,7 +329,7 @@ class Filter extends Component {
                     pressed={this.state.pressed[idx]}
                     onPress={this.onPress.bind(this)}
                     index={idx}
-                    width={Dimensions.get('window').width - 60}
+                    width={Dimensions.get('window').width - dimensions.widthWeight * 60}
                     defaultValue={' '}
                     optionListRef={this.getOptionList.bind(this)}
                     onSelect={this.onSelect.bind(this)}>
@@ -375,7 +378,10 @@ class Filter extends Component {
           <View style={styles.reload}>
             <TouchableOpacity onPress={this.resetData.bind(this)}>
               <View style={styles.reload}>
-                <Icon name={'ios-refresh-outline'} color={'#44acff'} size={15} />
+                <Icon
+                  name={'ios-refresh-outline'}
+                  color={'#44acff'}
+                  size={dimensions.fontWeight * 15} />
                 <Text style={styles.reloadText}>
                   {'Reset'}
                 </Text>
@@ -405,31 +411,31 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 44 + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
     flex: 1,
   },
   careerBody: {
     flex: 2,
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: dimensions.widthWeight * 30,
+    marginRight: dimensions.widthWeight * 30,
     zIndex: 100,
   },
   overviewBody: {
     flex: 1,
   },
   questionContainer: {
-    marginBottom: 20,
+    marginBottom: dimensions.heightWeight * 20,
   },
   dropdownContainer: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   dropdownContainerAndroid: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
     borderColor: '#efeff2',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -446,7 +452,7 @@ const styles = StyleSheet.create({
     color: '#44acff',
     alignItems: 'center',
     margin: 10,
-    marginLeft: 5,
+    marginLeft: dimensions.widthWeight * 5,
   },
   btnContainer: {
     flex: 1,
@@ -455,23 +461,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnStyle: {
-    height: 45,
-    width: 230,
-    borderRadius: 100,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 230,
+    borderRadius: dimensions.widthWeight * 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   subTitleText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#2e3031',
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   questionText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
   },
@@ -479,11 +485,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   header: {
     flex: 1,
-    marginBottom: 10,
+    marginBottom: dimensions.heightWeight * 10,
   },
   body: {
     flex: 1,
@@ -491,62 +497,39 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: 2,
-    marginBottom: 15,
+    marginBottom: dimensions.heightWeight * 15,
   },
   scrollViewContainer: {
     flex: 1,
   },
-  btnContainer: {
-    flex: 1,
-    zIndex: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btnStyle: {
-    height: 45,
-    width: 230,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  titleText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#2e3031',
-  },
-  subTitleText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#a6aeae',
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    backgroundColor: 'transparent',
-    color: '#ffffff',
-    fontSize: 16,
-  },
   iconStyle: {
-    width: 30,
-    height: 50,
+    width: dimensions.widthWeight * 30,
+    height: dimensions.fontWeight * 50,
   },
   labelStyle: {
-    height: 50,
+    height: dimensions.heightWeight * 50,
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
     borderStyle: 'solid',
   },
   labelStyleLast: {
-    height: 50,
+    height: dimensions.heightWeight * 50,
     borderBottomColor: 'transparent',
   },
   overviewBody: {
     flex: 1,
-    padding: 30,
+    padding: dimensions.heightWeight * 30,
     paddingTop: 0,
   },
   subLabelFontStyle: {
     color: '#a6aeae',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

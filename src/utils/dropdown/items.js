@@ -6,14 +6,15 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { dimensions } from '../../components/Shared/Dimensions';
 import Text from '../../components/Shared/UniText';
 
 const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: 120,
-    width: 100, //TODO: this needs to be dynamic
+    height: dimensions.heightWeight * 120,
+    width: dimensions.widthWeight * 100, //TODO: this needs to be dynamic
   },
   container: {
     position: 'absolute',
@@ -35,7 +36,12 @@ class Items extends Component {
 
     return (
         <View style={{ padding: 10, backgroundColor: backColor }}>
-          <Text style={{ marginLeft: 10, color: textColor, fontSize: 14 }}>
+          <Text
+            style={{
+              marginLeft: dimensions.widthWeight * 10,
+              color: textColor,
+              fontSize: dimensions.fontWeight * 14,
+            }}>
             {item.props.children}
           </Text>
         </View>

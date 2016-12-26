@@ -16,16 +16,16 @@ export default class Send extends React.Component {
         <TouchableOpacity
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
-              if (SendBird().getConnectionState() === 'OPEN') {
-                this.props.onSend({ text: this.props.text.trim() }, true);
-              } else {
-                alert('Please check Network state.');
-              }
+            if (SendBird().getConnectionState() === 'OPEN') {
+              this.props.onSend({ text: this.props.text.trim() }, true);
+            } else {
+              alert('Please check Network state.');
             }
+          }
           }
         >
           <Image style={[styles.sendButton, this.props.textStyle]}
-                 source={require('../../../../resources/send-active.png')}/>
+            source={require('../../../../resources/send-active.png')}/>
         </TouchableOpacity>
       );
     }

@@ -59,7 +59,7 @@ Composer.defaultProps = {
   textInputProps: null,
   multiline: true,
   textInputStyle: {
-    paddingTop:1,
+    paddingTop: 1,
     fontSize: 14,
   },
 };

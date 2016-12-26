@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import MatchUtil from '../../utils/MatchUtil';
 import Swipeout from './Swipeout';
 import Text from '../Shared/UniText';
@@ -100,11 +101,14 @@ class NewRequestsRow extends Component {
           <View style={styles.row}>
             <View style={styles.userInformation}>
               <Image style={styles.photo}
-                     source={{ uri: this.props.dataSource.profile_picture_small ?
-                       this.props.dataSource.profile_picture_small : this.props.dataSource.profile_picture }}/>
+                source={{ uri: this.props.dataSource.profile_picture_small ?
+                  this.props.dataSource.profile_picture_small
+                : this.props.dataSource.profile_picture, }}/>
               <View style={styles.horizontalSpaceBetween}>
                 <View style={styles.userNameWithTime}>
-                  <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.name}>{this.props.dataSource.name}</Text>
+                  <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.name}>
+                    {this.props.dataSource.name}
+                  </Text>
                   <Text style={styles.fromNow}>
                     {moment(this.props.dataSource.request_date).fromNow()}
                   </Text>
@@ -137,11 +141,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   photo: {
-    height: 40,
-    width: 40,
-    margin: 15,
-    marginTop: 20,
-    borderRadius: 20,
+    height: dimensions.fontWeight * 40,
+    width: dimensions.fontWeight * 40,
+    marginBottom: dimensions.heightWeight * 15,
+    marginLeft: dimensions.widthWeight * 15,
+    marginRight: dimensions.widthWeight * 15,
+    marginTop: dimensions.heightWeight * 20,
+    borderRadius: dimensions.fontWeight * 20,
   },
   userInformation: {
     flex: 1,
@@ -152,8 +158,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginTop: 20,
-    paddingRight: 20,
+    marginTop: dimensions.heightWeight * 20,
+    paddingRight: dimensions.widthWeight * 20,
   },
   horizontalSpaceBetween: {
     flex: 1,
@@ -161,45 +167,45 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   name: {
-    fontSize: 14,
+    fontSize: dimensions.fontWeight * 14,
     fontWeight: 'bold',
     color: '#2e3031',
   },
   fromNow: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#a6aeae',
-    marginTop: 5,
-    marginBottom: 20,
+    marginTop: dimensions.heightWeight * 5,
+    marginBottom: dimensions.heightWeight * 20,
   },
   expandText: {
     color: '#a6aeae',
-    fontSize: 10,
-    marginBottom: 15,
+    fontSize: dimensions.fontWeight * 10,
+    marginBottom: dimensions.heightWeight * 15,
   },
   message: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#2e3031',
-    marginBottom: 15,
-    marginRight: 35,
+    marginBottom: dimensions.heightWeight * 15,
+    marginRight: dimensions.widthWeight * 35,
   },
   borderContainer: {
     flexDirection: 'column',
-    marginLeft: 70,
+    marginLeft: dimensions.widthWeight * 70,
   },
   acceptButton: {
-    height: 26,
-    width: 91,
+    height: dimensions.heightWeight * 26,
+    width: dimensions.widthWeight * 91,
     borderColor: '#44acff',
     borderWidth: 1,
     borderRadius: 2,
     justifyContent: 'center',
     alignSelf: 'center',
-    marginRight: 15,
+    marginRight: dimensions.widthWeight * 15,
   },
   acceptButtonText: {
     color: '#44acff',
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
   },
 });

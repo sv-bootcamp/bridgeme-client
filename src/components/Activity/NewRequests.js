@@ -7,6 +7,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import MatchUtil from '../../utils/MatchUtil';
 import NewRequestsRow from './NewRequestsRow';
 import Text from '../Shared/UniText';
@@ -77,7 +78,7 @@ class NewRequests extends Component {
         style={{
           height: 1,
           backgroundColor: '#efeff2',
-          marginLeft: 70,
+          marginLeft: dimensions.widthWeight * 70,
         }}
       />
     );
@@ -126,22 +127,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
   titleContainer: {
     alignItems: 'center',
-    marginTop: 62,
+    marginTop: dimensions.heightWeight * 62,
   },
   title: {
     color: '#a6aeae',
-    fontSize: 20,
+    fontSize: dimensions.heightWeight * 20,
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: dimensions.heightWeight * 10,
   },
 });
 module.exports = NewRequests;

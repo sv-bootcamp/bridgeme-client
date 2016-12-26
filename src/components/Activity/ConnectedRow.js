@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 
 class ConnectedRow extends Component {
@@ -133,14 +134,16 @@ const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    height: 75,
+    height: dimensions.heightWeight * 75,
   },
   photo: {
-    height: 40,
-    width: 40,
-    margin: 15,
-    marginTop: 20,
-    borderRadius: 20,
+    height: dimensions.fontWeight * 40,
+    width: dimensions.fontWeight * 40,
+    marginBottom: dimensions.heightWeight * 15,
+    marginLeft: dimensions.widthWeight * 15,
+    marginRight: dimensions.widthWeight * 15,
+    marginTop: dimensions.heightWeight * 20,
+    borderRadius: dimensions.fontWeight * 20,
   },
   userInformation: {
     flex: 1,
@@ -151,27 +154,28 @@ const styles = StyleSheet.create({
     borderColor: '#f0f0f2',
   },
   name: {
-    fontSize: 14,
+    fontSize: dimensions.fontWeight * 14,
     fontWeight: 'bold',
     color: '#2e3031',
-    marginBottom: 5,
+    marginBottom: dimensions.heightWeight * 5,
   },
   currentStatus: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#a6aeae',
   },
   chatButtonArea: {
-    width: 85,
+    width: dimensions.widthWeight * 85,
     borderBottomWidth: 1,
     borderColor: '#f0f0f2',
   },
   chatButtonBackground: {
     position: 'absolute',
     alignSelf: 'center',
-    padding: 7,
-    paddingTop: 8,
-    paddingLeft: 8,
-    marginTop: 22,
+    paddingVertical: dimensions.heightWeight * 7,
+    paddingHorizontal: dimensions.widthWeight * 7,
+    paddingTop: dimensions.heightWeight * 8,
+    paddingLeft: dimensions.widthWeight * 8,
+    marginTop: dimensions.heightWeight * 22,
     borderRadius: 2,
     right: WIDTH / 20,
     backgroundColor: '#44acff',

@@ -1,11 +1,13 @@
 import {
   Alert,
+  Platform,
   StyleSheet,
 } from 'react-native';
 import {
   ActionConst,
   Actions,
 } from 'react-native-router-flux';
+import { dimensions } from './Shared/Dimensions';
 import Activity from './Activity/Activity';
 import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
@@ -31,21 +33,106 @@ import EditProfile from './EditProfile';
 
 const styles = StyleSheet.create({
   bar: {
+    ...Platform.select({
+      ios: {
+        height: dimensions.heightWeight * 44 + 20,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+      },
+    }),
+    padding: 0,
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
+    borderBottomWidth: dimensions.heightWeight * 1,
+  },
+  titleWrapperStyle: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    marginTop: 0,
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    left: 0,
+    right: 0,
+  },
+  rightButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginTop: 0,
+    justifyContent: 'center',
+  },
+  leftButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    marginLeft: dimensions.widthWeight * 10,
+    alignItems: 'center',
+    padding: 0,
   },
   mainTitle: {
+    backgroundColor: 'transparent',
     fontFamily: 'ProductSans-Bold',
-    fontSize: 17,
+    fontSize: dimensions.fontWeight * 17,
     color: '#2e3031',
   },
+  title: {
+    backgroundColor: 'transparent',
+    fontFamily: 'SFUIText-Regular',
+    fontSize: dimensions.fontWeight * 17,
+    color: '#2e3031',
+  },
+  rightTxt: {
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 0,
+    height: dimensions.heightWeight * 0,
+    fontSize: dimensions.fontWeight * 16,
+    color: '#557bfc',
+  },
   rightBtn: {
-    fontSize: 16,
-    color: '#44acff',
+    backgroundColor: 'transparent',
+    marginRight: dimensions.widthWeight * 16,
+    width: dimensions.widthWeight * 20,
+    height: dimensions.heightWeight * 18,
+    resizeMode: 'contain',
   },
   leftBtn: {
-    width: 25,
-    height: 20,
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 25,
+    height: dimensions.heightWeight * 20,
+    resizeMode: 'contain',
+  },
+  leftBtnCancel: {
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 13,
+    height: dimensions.heightWeight * 13,
   },
   leftBtnCancel: {
     marginTop: 5,
@@ -62,7 +149,12 @@ const cancelButton = require('../resources/icon-cancel.png');
 const AppProps = {
   rootProp: {
     key: 'root',
-    rightButtonTextStyle: styles.rightBtn,
+    titleStyle: styles.title,
+    titleWrapperStyle: styles.titleWrapperStyle,
+    rightButtonStyle: styles.rightButtonStyle,
+    leftButtonStyle: styles.leftButtonStyle,
+    rightButtonTextStyle: styles.rightTxt,
+    rigntButtonIconStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
     leftButtonIconStyle: styles.leftBtn,
   },
@@ -154,7 +246,8 @@ const AppProps = {
       title: 'Bridge Me',
       titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
-      rightButtonIconStyle: { marginRight: 6 },
+      rightTitle: 'right',
+      rightButtonIconStyle: styles.rightBtn,
       rightButtonImage: require('../resources/filter.png'),
       onRight: () => Actions.filter(),
     },

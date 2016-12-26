@@ -19,6 +19,7 @@ import Menu, {
   MenuOption,
   MenuTrigger
 } from 'react-native-menu';
+import { dimensions } from '../Shared/Dimensions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 import MatchUtil from '../../utils/MatchUtil';
@@ -126,15 +127,15 @@ class RequestPage extends Component {
             underlineColorAndroid="transparent"
             textAlignVertical="top"
             onChangeText={this.onChangeMessage.bind(this)}/>
-          <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
-            locations={[0, 0.75]}
-            colors={['#07e4dd', '#44acff']}>
-            <TouchableOpacity onPress={send}>
+          <TouchableOpacity onPress={send}>
+            <LinearGradient style={styles.sendButton} start={[0.9, 0.5]} end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>SEND</Text>
               </View>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableOpacity>
           <StatusBar
             backgroundColor = "transparent"
             barStyle = "default"
@@ -161,30 +162,31 @@ const styles = StyleSheet.create({
   content: {
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 44 + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
   title: {
     alignSelf: 'center',
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
     marginTop: HEIGHT / 15,
-    marginBottom: 50,
+    marginBottom: dimensions.heightWeight * 50,
   },
   subTitle: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginLeft: 36,
-    marginBottom: 10,
+    marginLeft: dimensions.widthWeight * 36,
+    marginBottom: dimensions.heightWeight * 10,
     color: '#a6aeae',
     backgroundColor: 'transparent',
   },
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   messageLength: {
-    fontSize: 10,
+    fontSize: dimensions.fontWeight * 10,
     marginLeft: WIDTH * 0.58,
     color: '#a6aeae',
     backgroundColor: 'transparent',
@@ -205,8 +207,9 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
     borderRadius: 2,
     borderWidth: 1,
-    padding: 15,
-    marginBottom: 30,
+    paddingVertical: dimensions.heightWeight * 15,
+    paddingHorizontal: dimensions.widthWeight * 15,
+    marginBottom: dimensions.heightWeight * 30,
   },
   sendButton: {
     justifyContent: 'center',
@@ -220,21 +223,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
   },
   dropdownContent: {
     zIndex: 101,
-    marginBottom: 30,
+    backgroundColor: 'transparent',
+    marginBottom: dimensions.heightWeight * 30,
     justifyContent: 'center',
     alignSelf: 'center',
     borderColor: '#efeff2',
   },
   dropdown: {
+    backgroundColor: 'transparent',
     width: WIDTH - (WIDTH / 6),
-    height: 40,
+    height: dimensions.heightWeight * 40,
     justifyContent: 'center',
     alignSelf: 'center',
     borderColor: '#efeff2',
@@ -245,10 +250,10 @@ const styles = StyleSheet.create({
     borderColor: '#efeff2',
     borderWidth: 2,
     width: WIDTH - (WIDTH / 6),
+    left: dimensions.widthWeight * 30,
+    height: dimensions.heightWeight * 200,
     justifyContent: 'center',
     alignSelf: 'center',
-    left: WIDTH * 0.08,
-    height: 200,
   },
   dropdownText: {
     marginLeft: WIDTH * 0.053,
