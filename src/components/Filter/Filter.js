@@ -307,7 +307,10 @@ class Filter extends Component {
                 <Text style={styles.questionText}>{this.state.questions[idx]}</Text>
                 <View key={idx} style={[styles.dropdownContainerAndroid]}>
                   <Dropdown
-                    style={{ height: dimensions.heightWeight * 40, width: Dimensions.get('window').width - dimensions.widthWeight * 60 }}
+                    style={{
+                      height: dimensions.heightWeight * 40,
+                      width: Dimensions.get('window').width - dimensions.widthWeight * 60,
+                    }}
                     values={this.state.option[idx]}
                     selected={this.state.option[idx].indexOf(this.state.selected[idx])}
                     onChange={(CareerData) => {
