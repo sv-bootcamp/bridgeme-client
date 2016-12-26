@@ -431,12 +431,9 @@ class GiftedChat extends React.Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.header}>
-        <ActivityIndicator
-          animating={!this.state.loaded}
-          size='large'
-          color='gray'
-        />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -509,6 +506,12 @@ const styles = StyleSheet.create({
         marginTop: 54,
       },
     }),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   activityIndicator: {
     alignItems: 'center',
