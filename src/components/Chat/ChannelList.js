@@ -140,7 +140,7 @@ class ChannelList extends Component {
   renderLoadingView() {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator animating={!this.state.loaded} size="large" />
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
         <Text>Loading...</Text>
       </View>
     );
