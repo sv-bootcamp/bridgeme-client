@@ -305,7 +305,7 @@ const AppProps = {
       onBack: () => {
         Actions.pop();
 
-        //Delay 10ms to refresh previous scene when current scene is completely popped.
+        //Delay 20ms to refresh previous scene when current scene is completely popped.
         setTimeout(() => Actions.refresh(), 20);
       },
     },
@@ -318,6 +318,12 @@ const AppProps = {
       component: EditProfile,
       title: 'Edit profile',
       backButtonImage: leftButtonGrey,
+      onBack: () => {
+        Actions.pop();
+
+        //Delay 20ms to refresh previous scene when current scene is completely popped.
+        setTimeout(() => Actions.refresh(), 20);
+      },
     },
   ],
 };
