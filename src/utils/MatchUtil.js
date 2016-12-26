@@ -47,10 +47,14 @@ class MatchUtil {
   // Get user lists except me
   getMentorList(callback, body = null) {
     if (!body) {
-      body = {};
-      body.initial = 'true';
-    } else {
-      body.initial = 'false';
+      let career = {
+        area: 'All',
+        role: 'All',
+        years: 'All',
+        education_background: 'All',
+      };
+      let expertise = [];
+      body = { career, expertise };
     }
 
     apiUtil.requestPostWithToken(callback, 'API_MENTOR', body);
