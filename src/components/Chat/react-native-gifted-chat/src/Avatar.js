@@ -19,6 +19,7 @@ export default class Avatar extends React.Component {
         avatarStyle={StyleSheet
           .flatten([styles[this.props.position].image, this.props.imageStyle[this.props.position]])}
         user={this.props.currentMessage.user}
+        opponentImage={this.props.opponentInfo.profile_picture_small}
       />
     );
   }
