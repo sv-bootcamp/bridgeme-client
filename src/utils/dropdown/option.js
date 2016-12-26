@@ -5,6 +5,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import { dimensions } from '../../components/Shared/Dimensions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Text from '../../components/Shared/UniText';
 
@@ -16,13 +17,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
-    marginLeft: 20,
-    fontSize: 14,
+    marginLeft: dimensions.heightWeight * 20,
+    fontSize: dimensions.fontWeight * 14,
     justifyContent: 'flex-start',
   },
   icon: {
-    marginTop: 5,
-    marginRight: 16,
+    marginTop: dimensions.heightWeight * 5,
+    marginRight: dimensions.widthWeight * 16,
     color: '#cdd2d2', justifyContent: 'flex-end',
   },
 });
@@ -43,7 +44,7 @@ class Option extends Component {
           <Text style={[styles.text, { color: fontColor }]}>
             {this.props.children}
           </Text>
-          <Icon name={icon} size={20} style={styles.icon}/>
+          <Icon name={icon} size={dimensions.fontWeight * 20} style={styles.icon}/>
         </View>
     );
   }

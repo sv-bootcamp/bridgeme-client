@@ -9,7 +9,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import ModalPicker from 'react-native-modal-picker'
+import { dimensions } from '../Shared/Dimensions';
+import ModalPicker from 'react-native-modal-picker';
 import styles from './Styles';
 import Text from '../Shared/UniText';
 
@@ -64,7 +65,7 @@ class WorkForm extends Component {
       startDate: {
         year,
         month: this.state.startDate.month,
-      }
+      },
     });
   }
 
@@ -78,7 +79,7 @@ class WorkForm extends Component {
       startDate: {
         year: this.state.startDate.year,
         month,
-      }
+      },
     });
   }
 
@@ -90,7 +91,7 @@ class WorkForm extends Component {
       endDate: {
         year,
         month: this.state.endDate.month,
-      }
+      },
     });
   }
 
@@ -104,7 +105,7 @@ class WorkForm extends Component {
       endDate: {
         year: this.state.endDate.year,
         month,
-      }
+      },
     });
   }
 
@@ -173,8 +174,11 @@ class WorkForm extends Component {
                 placeholderTextColor="#ddd"
                 onChangeText={onChangeName}
               />
-            </View><View style={{ marginTop: 10, marginBottom: 10 }}>
-              <Text style={{ fontSize: 16 }}>From</Text>
+            </View><View style={{
+              marginTop: dimensions.heightWeight * 10,
+              marginBottom: dimensions.heightWeight * 10,
+            }}>
+              <Text style={{ fontSize: dimensions.fontWeight * 16 }}>From</Text>
             </View>
             <View style={styles.flexR}>
               <ModalPicker
@@ -203,8 +207,11 @@ class WorkForm extends Component {
                   value={this.state.startDate.month.replace('0', '')} />
               </ModalPicker>
             </View>
-            <View style={{ marginTop: 10, marginBottom: 10 }}>
-              <Text style={{ fontSize: 16 }}>To</Text>
+            <View style={{
+              marginTop: dimensions.heightWeight * 10,
+              marginBottom: dimensions.heightWeight * 10,
+            }}>
+              <Text style={{ fontSize: dimensions.fontWeight * 16 }}>To</Text>
             </View>
             <View style={styles.flexR}>
               <ModalPicker
@@ -234,7 +241,11 @@ class WorkForm extends Component {
                   value={this.state.endDate.month.replace('0', '')} />
               </ModalPicker>
             </View>
-            <View style={[styles.flexR, { marginTop: 15, justifyContent: 'flex-end' }]}>
+            <View style={[styles.flexR, {
+              marginTop: dimensions.heightWeight * 15,
+              justifyContent: 'flex-end',
+            },
+            ]}>
               <TouchableOpacity onPress={toggleEdit}>
                 <Text style={[styles.doneText, { color: '#BEBEBE' }]}>Close</Text>
               </TouchableOpacity>

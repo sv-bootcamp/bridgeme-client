@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { dimensions } from '../../components/Shared/Dimensions';
 import Option from './option';
 
 const window = Dimensions.get('window');
@@ -135,8 +136,8 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-  width: 100,
-  height: 40,
+  width: dimensions.widthWeight * 100,
+  height: dimensions.heightWeight * 40,
   onSelect: () => { },
 };
 

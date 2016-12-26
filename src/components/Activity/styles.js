@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
+
 const styles = StyleSheet.create({
   swipeout: {
     backgroundColor: '#dbddde',

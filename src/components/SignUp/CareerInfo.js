@@ -24,6 +24,7 @@ import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 import { CareerData } from './SignUpMETA';
+import { dimensions } from '../Shared/Dimensions';
 
 class CareerInfo extends Component {
   constructor(props) {
@@ -76,12 +77,17 @@ class CareerInfo extends Component {
     }
 
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'Save', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.onNextBtnPressed.bind(this),
+      });
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
@@ -153,7 +159,10 @@ class CareerInfo extends Component {
                 <Text style={styles.questionText}>{this.state.questions[idx]}</Text>
                 <View key={idx} style={[styles.dropdownContainerAndroid]}>
                   <Dropdown
-                    style={{ height: 40, width: Dimensions.get('window').width - 60 }}
+                    style={{
+                      height: dimensions.heightWeight * 40,
+                      width: Dimensions.get('window').width - dimensions.widthWeight * 60,
+                    }}
                     values={this.state.option[idx]}
                     selected={this.state.option[idx].indexOf(this.state.selected[idx])}
                     onChange={(CareerData) => {
@@ -176,7 +185,7 @@ class CareerInfo extends Component {
                     pressed={this.state.pressed[idx]}
                     onPress={this.onPress.bind(this)}
                     index={idx}
-                    width={Dimensions.get('window').width - 60}
+                    width={Dimensions.get('window').width - dimensions.widthWeight * 60}
                     defaultValue={' '}
                     optionListRef={this.getOptionList.bind(this)}
                     onSelect={this.onSelect.bind(this)}>
@@ -300,10 +309,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
@@ -318,18 +327,18 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 4,
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: dimensions.widthWeight * 30,
+    marginRight: dimensions.widthWeight * 30,
     zIndex: 100,
   },
   questionContainer: {
-    marginBottom: 20,
+    marginBottom: dimensions.heightWeight * 20,
   },
   dropdownContainer: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   dropdownContainerAndroid: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
     borderColor: '#efeff2',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -342,23 +351,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnStyle: {
-    height: 45,
-    width: 230,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 230,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   subTitleText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#2e3031',
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   questionText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
   },
@@ -366,7 +375,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Text from '../Shared/UniText';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 
 class RequestSent extends Component {
   constructor(props) {
@@ -66,10 +67,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
@@ -77,14 +78,15 @@ const styles = StyleSheet.create({
     marginTop: HEIGHT / 5,
   },
   successMsg: {
-    fontSize: 18,
-    marginTop: 39,
+    fontSize: dimensions.fontWeight * 18,
+    marginTop: dimensions.heightWeight * 39,
     color: '#2e3031',
   },
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
 });
 

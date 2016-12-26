@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -98,8 +99,8 @@ class Row extends Component {
   }
 
   renderMyExpertise() {
-    const CHARACTER_WIDTH = 10;
-    const LINE_PADDING = 10;
+    const CHARACTER_WIDTH = dimensions.widthWeight * 10;
+    const LINE_PADDING = dimensions.widthWeight * 10;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
@@ -131,7 +132,7 @@ class Row extends Component {
           <Text style={styles.sectionName}>MY EXPERTISE{'\t'}</Text>
           <View style={styles.expertiseSeparator}/>
         </View>
-          {
+        {
             newArray.map((value, index) =>
               (<View key={index} style={{ flexDirection: 'row' }}>
                 {
@@ -159,7 +160,8 @@ class Row extends Component {
     let viewStyle = [
       styles.rowView,
       {
-        marginRight: this.props.dataSource.last ? 36 : 15,
+        marginRight: this.props.dataSource.last ?
+        dimensions.widthWeight * 36 : dimensions.widthWeight * 15,
         elevation: 10,
       },
     ];
@@ -170,7 +172,7 @@ class Row extends Component {
       connectButton = (
         <View style={[styles.connectBtnStyle, { backgroundColor: '#a6aeae' }]}>
           <View style={styles.buttonContainer}>
-            <View style={{ paddingTop: 10, marginRight: 5, }}>
+            <View style={{ marginRight: 5, alignItems: 'center', }}>
               <Icon name="clock-o" size={15} color="white" />
             </View>
             <Text style={styles.buttonText}>WAITING</Text>
@@ -179,17 +181,17 @@ class Row extends Component {
       );
     } else {
       connectButton = (
+      <TouchableOpacity onPress={connect}>
         <LinearGradient style={styles.connectBtnStyle}
           start={[0.9, 0.5]}
           end={[0.0, 0.5]}
           locations={[0, 0.75]}
           colors={['#07e4dd', '#44acff']}>
-          <TouchableOpacity onPress={connect}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>CONNECT</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>CONNECT</Text>
+          </View>
         </LinearGradient>
+      </TouchableOpacity>
       );
     }
 
@@ -215,23 +217,23 @@ class Row extends Component {
   }
 }
 
-const CARD_PREVIEW_WIDTH = 10;
-const CARD_MARGIN = 15;
-const CARD_WIDTH = Dimensions.get('window').width - 72;
-const CARD_HEIGHT = Dimensions.get('window').height - 182;
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
+const CARD_PREVIEW_WIDTH = dimensions.widthWeight * 10;
+const CARD_MARGIN = dimensions.widthWeight * 15;
+const CARD_WIDTH = dimensions.widthWeight * 303;
+const CARD_HEIGHT = dimensions.heightWeight * 498;
+const HEIGHT = dimensions.heightWeight * Dimensions.get('window').height;
+const WIDTH = dimensions.widthWeight * Dimensions.get('window').width;
 const styles = StyleSheet.create({
   rowView: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     width: CARD_WIDTH,
     marginRight: CARD_MARGIN,
     justifyContent: 'center',
     borderRadius: 4,
     ...Platform.select({
       ios: {
-        height: CARD_HEIGHT + 10,
+        height: CARD_HEIGHT,
         shadowColor: '#000000',
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -250,12 +252,12 @@ const styles = StyleSheet.create({
   bookmarkIcon: {
     position: 'absolute',
     zIndex: 1,
-    right: 20,
-    top: 20,
+    right: dimensions.widthWeight * 20,
+    top: dimensions.heightWeight * 20,
   },
   photo: {
-    height: CARD_HEIGHT / 2.73,
-    width: CARD_WIDTH,
+    height: dimensions.heightWeight * 182,
+    width: dimensions.widthWeight * 303,
     borderRadius: 2,
   },
   userInformation: {
@@ -265,71 +267,72 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   name: {
-    fontSize: 22,
+    fontSize: dimensions.fontWeight * 22,
     fontWeight: 'bold',
-    marginTop: 25,
-    marginLeft: CARD_WIDTH * 0.082,
+    marginTop: dimensions.heightWeight * 25,
+    marginLeft: dimensions.widthWeight * 25,
     color: '#2e3031',
   },
   job: {
-    fontSize: 14,
-    marginTop: 10,
-    marginLeft: CARD_WIDTH * 0.072,
+    fontSize: dimensions.fontWeight * 14,
+    marginTop: dimensions.heightWeight * 10,
+    marginLeft: dimensions.widthWeight * 25,
     marginRight: CARD_WIDTH * 0.082,
     color: '#2e3031',
   },
   location: {
-    fontSize: 14,
-    marginTop: 5,
-    marginLeft: CARD_WIDTH * 0.072,
-    marginBottom: 10,
+    fontSize: dimensions.fontWeight * 14,
+    marginTop: dimensions.heightWeight * 5,
+    marginLeft: dimensions.widthWeight * 25,
+    marginBottom: dimensions.heightWeight * 10,
     color: '#2e3031',
   },
   sectionContainer: {
-    marginTop: 20,
-    marginLeft: CARD_WIDTH * 0.082,
-    paddingBottom: 20,
+    marginTop: dimensions.heightWeight * 20,
+    marginLeft: dimensions.widthWeight * 25,
+    paddingBottom: dimensions.heightWeight * 20,
   },
   sectionName: {
-    fontSize: 10,
+    fontSize: dimensions.fontWeight * 10,
     fontWeight: 'bold',
     color: '#a6aeae',
-    marginBottom: 15,
+    marginBottom: dimensions.heightWeight * 15,
   },
   expertiseSeparator: {
     borderBottomWidth: 1,
-    width: CARD_WIDTH * 0.55,
-    marginBottom: 10,
+    width: dimensions.widthWeight * 167,
+    marginBottom: dimensions.heightWeight * 10,
     alignSelf: 'center',
     borderColor: '#d6dada',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
-    borderRadius: 25,
-    height: 27,
-    paddingBottom: 6,
-    paddingTop: 6,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginRight: 10,
-    marginBottom: 10,
+    borderRadius: dimensions.fontWeight * 25,
+    height: dimensions.heightWeight * 27,
+    paddingBottom: dimensions.heightWeight * 6,
+    paddingTop: dimensions.heightWeight * 6,
+    paddingLeft: dimensions.widthWeight * 15,
+    paddingRight: dimensions.widthWeight * 15,
+    marginRight: dimensions.widthWeight * 10,
+    marginBottom: dimensions.heightWeight * 10,
     justifyContent: 'center',
   },
   tagText: {
     color: '#2e3031',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     backgroundColor: 'transparent',
     textAlign: 'center',
   },
   connectBtnContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   connectBtnStyle: {
-    width: CARD_WIDTH / 1.78,
-    height: CARD_HEIGHT * 0.09,
-    marginBottom: CARD_HEIGHT / 20,
-    borderRadius: CARD_HEIGHT / 4.12,
+    width: dimensions.heightWeight * 170,
+    height: dimensions.widthWeight * 45,
+    marginBottom: dimensions.heightWeight * 25,
+    borderRadius: dimensions.fontWeight * 121,
+    justifyContent: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -338,8 +341,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    paddingTop: CARD_HEIGHT * 0.09 / 4,
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     fontWeight: 'bold',
     color: '#ffffff',
   },

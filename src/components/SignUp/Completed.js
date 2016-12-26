@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 
 class Completed extends Component {
 
@@ -36,7 +37,10 @@ class Completed extends Component {
     return (
       <View style={styles.container}>
         <View style ={styles.body}>
-          <Image style={{ width: 130, height: 130 }}
+          <Image style={{
+            width: dimensions.widthWeight * 130,
+            height: dimensions.heightWeight * 130,
+          }}
             source={require('../../resources/img-completed.png')}/>
           <Text style={styles.infoText}>{this.state.msg}</Text>
         </View>
@@ -61,10 +65,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
@@ -82,26 +86,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   btnStyle: {
-    height: 45,
-    width: 230,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.heightWeight * 230,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   infoText: {
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     textAlign: 'center',
     color: '#2e3031',
-    marginTop: 40,
+    marginTop: dimensions.heightWeight * 40,
   },
   buttonText: {
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   labelStyle: {
-    height: 50,
+    height: dimensions.heightWeight * 50,
     justifyContent: 'center',
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
