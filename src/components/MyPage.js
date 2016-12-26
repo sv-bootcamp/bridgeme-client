@@ -62,6 +62,11 @@ class MyPage extends Component {
     UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
   }
 
+  componentWillReceiveProps(props) {
+    UserUtil.getMyProfile(this.onRequestCallback.bind(this));
+    UserUtil.getRequestSetting(this.onRequestCallback.bind(this));
+  }
+
   getProfileImage(status) {
     if (status.profile_picture) {
       return { uri: status.profile_picture };
