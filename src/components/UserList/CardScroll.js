@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 
 export default class CardScroll extends Component {
@@ -79,7 +80,7 @@ export default class CardScroll extends Component {
   // Control preview page and next page
   controlScroll(e) {
     const event = e.nativeEvent;
-    const interval = Dimensions.get('window').width - 57;
+    const interval = Dimensions.get('window').width - dimensions.widthWeight * 57;
     let index =  Math.round(event.contentOffset.x / interval);
     if (index > this.props.dataSource._cachedRowCount - 1 ) index -= 1;
     this.resetListView.scrollTo({x: (Math.round(event.contentOffset.x / interval)) * interval,
@@ -150,27 +151,21 @@ export default class CardScroll extends Component {
 const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
+    paddingHorizontal: dimensions.widthWeight * 10,
     paddingVertical: HEIGHT / 10,
     flex: 1,
   },
   listView: {
+    backgroundColor: 'transparent',
     flex: 1,
-    paddingLeft: 36,
+    paddingLeft: dimensions.widthWeight * 36,
     ...Platform.select({
       ios: {
-        marginTop: 94,
+        marginTop: dimensions.heightWeight * 74 + 20 - 45 * (1 - dimensions.heightWeight),
       },
       android: {
-        marginTop: 84,
+        marginTop: dimensions.heightWeight * 74 ,
       },
     }),
-  },
-  previewListView: {
-    marginTop: 2,
-    paddingTop: 2,
-    borderTopWidth: 1,
-    borderColor: '#CCCCCC',
-    backgroundColor: '#FFFFFF',
   },
 });

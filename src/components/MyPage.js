@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from './Shared/Dimensions';
 import UserUtil from '../utils/UserUtil';
 import Text from './Shared/UniText';
 
@@ -138,7 +139,7 @@ class MyPage extends Component {
             <Text style={styles.infoText}>
               {this.state.name}
             </Text>
-            <Text ellipsizeMode="tail" numberOfLines={1}>
+            <Text style={styles.currentStatusText} ellipsizeMode="tail" numberOfLines={1}>
               {this.state.currentStatus}
             </Text>
             <TouchableWithoutFeedback
@@ -188,10 +189,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
@@ -200,7 +201,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
+    paddingVertical: dimensions.heightWeight * 20,
   },
   menu: {
     flex: 1,
@@ -209,38 +211,43 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderColor: '#efeff2',
-    paddingLeft: 20,
+    paddingLeft: dimensions.widthWeight * 20,
   },
   menuText: {
-    marginLeft: 15,
+    marginLeft: dimensions.widthWeight * 15,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
+    width: dimensions.fontWeight * 100,
+    height: dimensions.fontWeight * 100,
+    borderRadius: dimensions.fontWeight * 50,
+    borderWidth: dimensions.widthWeight * 3,
     borderColor: '#efeff2',
   },
   infoTextContainer: {
     flex: 1,
-    height: 70,
+    height: dimensions.heightWeight * 70,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginLeft: 20,
+    marginLeft: dimensions.widthWeight * 20,
   },
   infoText: {
     color: '#2e3031',
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: dimensions.fontWeight * 18,
+    fontWeight: 'bold',
+  },
+  currentStatusText: {
+    color: '#2e3031',
+    fontSize: dimensions.fontWeight * 12,
   },
   linkText: {
     color: '#44acff',
+    fontSize: dimensions.fontWeight * 12,
   },
   receiveRequest: {
     flexDirection: 'row',
   },
   switchButton: {
-    marginRight: 20,
+    marginRight: dimensions.widthWeight * 20,
   },
 });
 

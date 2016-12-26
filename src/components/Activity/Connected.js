@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import MatchUtil from '../../utils/MatchUtil';
 import ConnectedRow from './ConnectedRow';
 import Text from '../Shared/UniText';
@@ -95,7 +96,7 @@ class Connected extends Component {
           <Image source={require('../../resources/chat_onboarding.png')}/>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Make a connection!</Text>
-            <Text style={{ color: '#a6aeae', fontSize: 14, }}>
+            <Text style={{ color: '#a6aeae', fontSize: dimensions.fontWeight * 14, }}>
               You did not connect with anyone yet.
             </Text>
           </View>
@@ -138,14 +139,15 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
   },
   sectionName: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
   },
@@ -155,22 +157,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
   titleContainer: {
     alignItems: 'center',
-    marginTop: 62,
+    marginTop: dimensions.heightWeight * 62,
   },
   title: {
     color: '#a6aeae',
-    fontSize: 20,
+    fontSize: dimensions.fontWeight * 20,
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: dimensions.heightWeight * 10,
   },
 });
 

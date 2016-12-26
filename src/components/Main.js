@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from './Shared/Dimensions';
 import Activity from './Activity/Activity';
 import ChannelList from './Chat/ChannelList';
 import Fcm from 'react-native-fcm';
@@ -197,21 +198,37 @@ class Main extends Component {
           this.currentTab = obj.i;
           if (this.currentTab === mainPageTitle.HOME) {
             Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle,
-              rightButtonIconStyle: { marginRight: 6 },
               rightButtonImage: require('../resources/filter.png'),
-              onRight: () => Actions.filter(), });
+              onRight: () => Actions.filter(),
+            });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
-            Actions.refresh({ title: 'Tournament', titleStyle: styles.title,
-              rightButtonImage: '', });
+            Actions.refresh({
+              title: 'Tournament',
+              titleStyle: styles.title,
+              rightButtonImage: null,
+              onRight: () => {},
+            });
           } else if (this.currentTab === mainPageTitle.MYCONNECTION) {
-            Actions.refresh({ title: 'My Connection', titleStyle: styles.title,
-              rightButtonImage: '', });
+            Actions.refresh({
+              title: 'My Connection',
+              titleStyle: styles.title,
+              rightButtonImage: null,
+              onRight: () => {},
+            });
           } else if (this.currentTab === mainPageTitle.CHAT) {
-            Actions.refresh({ title: 'Chat', titleStyle: styles.title,
-              rightButtonImage: '', });
+            Actions.refresh({
+              title: 'Chat',
+              titleStyle: styles.title,
+              rightButtonImage: null,
+              onRight: () => {},
+            });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
-            Actions.refresh({ title: 'My Profile', titleStyle: styles.title,
-              rightButtonImage: '', });
+            Actions.refresh({
+              title: 'My Profile',
+              titleStyle: styles.title,
+              rightButtonImage: null,
+              onRight: () => {},
+            });
           }
         }
         }
@@ -223,7 +240,7 @@ class Main extends Component {
           style={styles.tabView}
           me={this.props.me}/>
         <View tabLabel="md-shuffle" style={styles.comingSoonView}>
-          <Image source={require('../resources/tournament.png')} />
+          <Image source={require('../resources/tournament.png')}/>
           <Text style={styles.comingSoonText}>Coming Soon!</Text>
         </View>
         <Activity
@@ -232,8 +249,8 @@ class Main extends Component {
           currentActivityPage={this.state.currentActivityPage}
           me={this.props.me}
         />
-        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
-        <MyPage tabLabel="md-contact" me={this.props.me} />
+        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me}/>
+        <MyPage tabLabel="md-contact" me={this.props.me}/>
       </ScrollableTabView>
     );
   }
@@ -242,16 +259,21 @@ class Main extends Component {
 const styles = StyleSheet.create({
   tabView: {
     flex: 1,
-    padding: 10,
+    paddingVertical: dimensions.heightWeight * 10,
+    paddingHorizontal: dimensions.widthWeight * 10,
     backgroundColor: '#fafafa',
   },
   card: {
     borderWidth: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderColor: 'rgba(0,0,0,0.1)',
-    margin: 5,
-    height: 150,
-    padding: 15,
+    marginTop: dimensions.heightWeight * 5,
+    marginBottom: dimensions.heightWeight * 5,
+    marginLeft: dimensions.widthWeight * 5,
+    marginRight: dimensions.widthWeight * 5,
+    height: dimensions.heightWeight * 150,
+    paddingVertical: dimensions.heightWeight * 15,
+    paddingHorizontal: dimensions.widthWeight * 15,
     shadowColor: '#ccc',
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
@@ -263,18 +285,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   comingSoonText: {
-    marginTop: 12,
+    marginTop: dimensions.heightWeight * 12,
     fontFamily: 'SFUIText-Regular',
-    fontSize: 14,
+    fontSize:  dimensions.fontWeight * 14,
     color: '#a6aeae',
   },
   mainTitle: {
     fontFamily: 'ProductSans-Bold',
-    fontSize: 17,
+    fontSize: dimensions.fontWeight * 17,
     color: '#2e3031',
   },
   title: {
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     color: '#2e3031',
   },
 });

@@ -6,6 +6,7 @@ import {
  TouchableOpacity,
  View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 
 class FindPassStep extends Component {
@@ -88,28 +89,28 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#2e3031',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   inputContainer: {
-    marginTop: 50,
+    marginTop: dimensions.heightWeight * 50,
   },
   input: {
-    width: 251,
-    height: 45,
-    marginLeft: 18,
-    marginRight: 18,
+    width: dimensions.widthWeight * 251,
+    height: dimensions.heightWeight * 45,
+    marginLeft: dimensions.widthWeight * 18,
+    marginRight: dimensions.widthWeight * 18,
     borderColor: '#efeff2',
     borderWidth: 1,
   },
   inputContainer2: {
-    marginTop: 30,
+    marginTop: dimensions.heightWeight * 30,
   },
   buttonContainer: {
-    marginTop: 40,
+    marginTop: dimensions.heightWeight * 40,
   },
   button: {
-    width: 240,
-    height: 45,
+    width: dimensions.widthWeight * 240,
+    height: dimensions.heightWeight * 45,
     borderWidth: 1,
     borderColor: '#44acff',
     borderRadius: 120,
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#44acff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
 });
 

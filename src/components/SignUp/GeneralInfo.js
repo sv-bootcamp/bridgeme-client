@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import EditForm from './EditForm';
 import EduForm from './EduForm';
@@ -60,13 +61,18 @@ class GeneralInfo extends Component {
     }
 
     if (this.props.fromEdit) {
-      Actions.refresh({ rightTitle: 'Save', onRight: this.regist.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.regist.bind(this),
+      });
     }
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.regist.bind(this),
         onBack: () => {
@@ -396,42 +402,42 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
-    marginBottom: 30,
+    marginBottom: dimensions.heightWeight * 30,
     flex: 1,
     flexDirection: 'column',
   },
   scrollView: {
-    paddingLeft: 40,
+    paddingLeft: dimensions.widthWeight * 40,
   },
   form: {
-    marginTop: 20,
+    marginTop: dimensions.heightWeight * 20,
   },
   title: {
     color: '#a6aeae',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
   },
   add: {
     color: '#2e3031',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginRight: 30,
+    marginRight: dimensions.heightWeight * 30,
   },
   nextView: {
     alignItems: 'center',
-    marginTop: 64,
-    marginBottom: 30,
-    marginRight: 40,
+    marginTop: dimensions.heightWeight * 64,
+    marginBottom: dimensions.heightWeight * 30,
+    marginRight: dimensions.widthWeight * 40,
   },
   nextImage: {
-    width: 230,
-    height: 45,
+    width: dimensions.widthWeight * 230,
+    height: dimensions.heightWeight * 45,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
@@ -440,7 +446,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   flexR: {
     flexDirection: 'row',
@@ -451,6 +457,12 @@ const styles = StyleSheet.create({
   },
   horiR: {
     justifyContent: 'flex-end',
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

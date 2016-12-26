@@ -13,6 +13,7 @@ import Progress from '../Shared/Progress';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import { Options } from './SignUpMETA';
 
 const window = Dimensions.get('window');
@@ -35,7 +36,11 @@ class ExpertInfo extends Component {
 
   componentDidMount() {
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'Save', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.onNextBtnPressed.bind(this),
+      });
   }
 
   // Update checkbox state
@@ -47,6 +52,7 @@ class ExpertInfo extends Component {
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
@@ -157,10 +163,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: dimensions.heightWeight * 64,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
@@ -187,38 +193,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnStyle: {
-    height: 45,
-    width: 230,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 230,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     textAlign: 'center',
     color: '#2e3031',
   },
   subTitleText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     textAlign: 'center',
     color: '#2e3031',
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   buttonText: {
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   iconStyle: {
-    width: 50,
-    height: 50,
+    width: dimensions.widthWeight * 50,
+    height: dimensions.heightWeight * 50,
   },
   labelStyle: {
-    height: 50,
+    height: dimensions.heightWeight * 50,
+    justifyContent: 'center',
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
     borderStyle: 'solid',
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 
