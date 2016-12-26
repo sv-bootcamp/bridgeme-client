@@ -19,10 +19,10 @@ export default class LoadEarlier extends React.Component {
     }
 
     return (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator animating={!this.state.loaded} size="large" />
-          <Text>Loading...</Text>
-        </View>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={!this.state.loaded} size="large" />
+        <Text>Loading...</Text>
+      </View>
     );
   }
 
