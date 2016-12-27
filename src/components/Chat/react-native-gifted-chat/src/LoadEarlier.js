@@ -19,17 +19,9 @@ export default class LoadEarlier extends React.Component {
     }
 
     return (
-      <View>
-        <Text style={[styles.text, this.props.textStyle, {
-          opacity: 0,
-        }, ]}>
-          {this.props.label}
-        </Text>
-        <ActivityIndicator
-          color='white'
-          size='small'
-          style={[styles.activityIndicator, this.props.activityIndicatorStyle]}
-        />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -55,6 +47,12 @@ export default class LoadEarlier extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
   container: {
     alignItems: 'center',
     marginTop: 5,

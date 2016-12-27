@@ -75,7 +75,6 @@ export default class MessageContainer extends React.Component {
     const messagesData = this.prepareMessages(nextProps.messages);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(messagesData.blob, messagesData.keys),
-      opponentInfo: nextProps.opponentInfo,
     });
   }
 
@@ -203,15 +202,15 @@ export default class MessageContainer extends React.Component {
         <View style={styles.headerRow}>
           <Image style={styles.photo}
                  source={
-                   { uri: this.state.opponentInfo ? this.state.opponentInfo.profile_picture : '' }
+                   { uri: this.props.opponentInfo ? this.props.opponentInfo.profile_picture : '' }
                  }
           />
           <View style={styles.userInformation}>
             <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.name}>
-              {this.state.opponentInfo ? this.state.opponentInfo.name : ''}
+              {this.props.opponentInfo ? this.props.opponentInfo.name : ''}
             </Text>
             <Text ellipsizeMode={'tail'} numberOfLines = {1} style={styles.experience}>
-              {this.getExperienceInfo(this.state.opponentInfo)}
+              {this.getExperienceInfo(this.props.opponentInfo)}
             </Text>
             <Text  style={styles.connectMessage}>
               You are connected now.
