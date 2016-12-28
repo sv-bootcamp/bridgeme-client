@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   bar: {
     ...Platform.select({
       ios: {
-        height: dimensions.heightWeight * 44 + 20,
+        height: (dimensions.heightWeight * 44) + 20,
       },
       android: {
         height: dimensions.heightWeight * 54,

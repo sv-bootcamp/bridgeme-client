@@ -7,6 +7,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { dimensions } from '../../../Shared/Dimensions';
+
 import Text from '../../../Shared/UniText';
 
 import ActionSheet from '@exponent/react-native-action-sheet';
@@ -500,10 +502,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },

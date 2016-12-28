@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: dimensions.heightWeight * 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
         marginTop: dimensions.heightWeight * 54,
