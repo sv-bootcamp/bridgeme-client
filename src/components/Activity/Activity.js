@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import {
-  ActivityIndicator,
   Dimensions,
-  ListView,
   Platform,
-  RefreshControl,
   StyleSheet,
-  View,
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { dimensions } from '../Shared/Dimensions';
 import Connected from './Connected';
 import NewRequests from './NewRequests';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import Text from '../Shared/UniText';
+import DefaultTabBar from './DefaultTabBar';
 
 class Activity extends Component {
   constructor(props) {
@@ -47,9 +43,18 @@ class Activity extends Component {
         tabBarTextStyle={styles.tabBarText}
         tabBarInactiveTextColor={'#a6aeae'}
         tabBarActiveTextColor={'#2e3031'}
-        tabBarUnderlineStyle={styles.tabBarUnderline}>
-        <NewRequests tabLabel='NEW REQUESTS'/>
-        <Connected tabLabel='CONNECTED' me={this.props.me}/>
+        tabBarUnderlineStyle={styles.tabBarUnderline}
+        renderTabBar={() => <DefaultTabBar
+        style={{
+          marginLeft: dimensions.widthWeight * 50,
+          marginRight: dimensions.widthWeight * 50,
+        }}
+        containerWidth={WIDTH - (dimensions.widthWeight * 100)}
+        leftOffset={dimensions.widthWeight * 5}
+        rightOffset={dimensions.widthWeight * 45}
+        />}>
+        <NewRequests tabLabel="NEW REQUESTS" />
+        <Connected tabLabel='CONNECTED' me={this.props.me} />
       </ScrollableTabView>
     );
   }
@@ -92,14 +97,12 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 20,
     color: 'black',
   },
-  tabBarUnderline: {
+  tabBarUnderline: { 
     backgroundColor: '#44acff',
     borderBottomColor: '#44acff',
-    height: 2,
-    width: dimensions.widthWeight * 30,
-    marginLeft: dimensions.widthWeight * 78.75,
-    marginTop: 0,
-  },
+    height: 2, 
+    width: WIDTH / 12.5, 
+    marginLeft: WIDTH / 8, },
 });
 
 Activity.defaultProps = {

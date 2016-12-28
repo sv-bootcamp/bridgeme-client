@@ -17,6 +17,7 @@ import { Actions } from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import DefaultTabBar from '../Activity/DefaultTabBar';
 import Text from '../Shared/UniText';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
@@ -305,10 +306,23 @@ class UserProfile extends Component {
             tabBarTextStyle={styles.tabBarText}
             tabBarInactiveTextColor={'#a6aeae'}
             tabBarActiveTextColor={'#2e3031'}
-            tabBarUnderlineStyle={styles.tabBarUnderline}>
-            <UserOverview tabLabel='OVERVIEW' id={this.state.id}
+            tabBarUnderlineStyle={styles.tabBarUnderline}
+            renderTabBar={() => (
+              <DefaultTabBar
+                style={
+                  {
+                    marginLeft: dimensions.widthWeight * 50,
+                    marginRight: dimensions.widthWeight * 50,
+                  }
+                }
+                containerWidth={WIDTH - (dimensions.widthWeight * 100)}
+                leftOffset={dimensions.widthWeight * 22}
+                rightOffset={dimensions.widthWeight * 28}
+                />)}>
+            <UserOverview
+              tabLabel="OVERVIEW" id={this.state.id}
               toggleAbout={this.toggleAbout.bind(this)}/>
-            <UserCareer tabLabel='CAREER' id={this.state.id}/>
+            <UserCareer tabLabel="CAREER" id={this.state.id}/>
           </ScrollableTabView>
         </ScrollView>
         <View style={styles.btn}>
@@ -438,9 +452,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#44acff',
     borderBottomColor: '#44acff',
     height: 2,
-    width: dimensions.widthWeight * 30,
-    marginLeft: dimensions.widthWeight * 78.75,
-    marginTop: 0,
+    width: WIDTH / 12.5,
+    marginLeft: WIDTH / 12,
   },
   aboutDetail: {
     position: 'absolute',
