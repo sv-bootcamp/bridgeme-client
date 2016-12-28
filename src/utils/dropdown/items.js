@@ -35,7 +35,11 @@ class Items extends Component {
     let textColor = (item.props.children === this.props.selected) ? '#2e3031' : '#a6aeae';
 
     return (
-        <View style={{ padding: 10, backgroundColor: backColor }}>
+        <View style={{
+          paddingVertical: dimensions.heightWeight * 10,
+          paddingHorizontal: dimensions.widthWeight * 10,
+          backgroundColor: backColor,
+        }}>
           <Text
             style={{
               marginLeft: dimensions.widthWeight * 10,

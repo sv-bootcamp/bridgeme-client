@@ -338,7 +338,10 @@ class Filter extends Component {
                     onSelect={this.onSelect.bind(this)}>
                     {this.getOptionSet(idx)}
                   </Select>
-                    <OptionList ref={'OPTION' + idx} index={idx}/>
+                  <OptionList
+                    ref={'OPTION' + idx}
+                    overlayEnable={false}
+                    index={idx}/>
                 </View>
               </View>
             );
@@ -476,7 +479,8 @@ const styles = StyleSheet.create({
   },
   subTitleText: {
     fontSize: dimensions.fontWeight * 12,
-    color: '#2e3031',
+    fontWeight: 'bold',
+    color: '#a6aeae',
     marginTop: dimensions.heightWeight * 10,
   },
   questionText: {
