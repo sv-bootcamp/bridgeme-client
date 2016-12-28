@@ -36,11 +36,10 @@ class OptionList extends Component {
   }
 
   show(items, selected, positionX, positionY, width, height, onSelect) {
-    let h = (items.length > 3) ? height * 3 + height / 4 : height * (items.length + 1);
+    let heightOptionList = (items.length > 3) ? height * 3 + height / 4 : height * (items.length);
 
     positionX = positionX - this.state.pageX;
-    positionY = (positionY + h < window.height)
-    ? positionY - this.state.pageY : positionY - this.state.pageY - h;
+    positionY = (positionY + heightOptionList < window.height) ? 0 : -heightOptionList - height;
 
     this.setState({
       ...this.state,
@@ -95,7 +94,7 @@ class OptionList extends Component {
         <Overlay
           pageX={pageX}
           pageY={pageY}
-          show={show}
+          show={show && this.props.overlayEnable}
           onPress={ this.onOverlayPress.bind(this) }/>
         <Items
           items={items}

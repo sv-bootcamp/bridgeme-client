@@ -222,7 +222,6 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     height: dimensions.heightWeight * 50,
-    justifyContent: 'center',
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
     borderStyle: 'solid',

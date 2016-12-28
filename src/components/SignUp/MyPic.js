@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     borderRadius: dimensions.fontWeight * 55,
     position: 'absolute',
     top: 0,
-    left: (deviceWidth / 2) - dimensions.widthWeight * 95,
+    left: dimensions.widthWeight * 93
+    + (dimensions.widthWeight - dimensions.fontWeight) * 55,
     backgroundColor: 'rgba(46, 48, 48, 0.5)',
     alignItems: 'center',
     justifyContent: 'center',
