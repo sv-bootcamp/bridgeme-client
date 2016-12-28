@@ -4,14 +4,15 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 
 const styles = StyleSheet.create({
   text: {
     color: '#2e3031',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   input: {
-    height: 48,
+    height: dimensions.heightWeight * 48,
     margin: 0,
     padding: 0,
   },
@@ -50,7 +51,8 @@ class EditForm extends Component {
   renderEdit() {
     return (
       <View
-        ref={(component) => { this.editView = component; }}
+        ref={(component) => { this.editView = component; }
+        }
         style={styles.view}
       >
         <TextInput
@@ -60,7 +62,8 @@ class EditForm extends Component {
           editable={!this.props.disabled}
           onFocus={() => {
             this.editView.setNativeProps({ style: styles.editView });
-          }}
+          }
+          }
           onEndEditing={() => this.reflectInput()}
           onChangeText={
             (text) => {

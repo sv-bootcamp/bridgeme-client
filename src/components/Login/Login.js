@@ -133,7 +133,7 @@ class Login extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator animating={!this.state.loaded} size="large" />
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
         <Text>Loading...</Text>
       </View>
     );

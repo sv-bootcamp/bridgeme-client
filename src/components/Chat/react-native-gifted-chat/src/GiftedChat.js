@@ -7,6 +7,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { dimensions } from '../../../Shared/Dimensions';
+
 import Text from '../../../Shared/UniText';
 
 import ActionSheet from '@exponent/react-native-action-sheet';
@@ -431,12 +433,9 @@ class GiftedChat extends React.Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.header}>
-        <ActivityIndicator
-          animating={!this.state.loaded}
-          size='large'
-          color='gray'
-        />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -503,12 +502,18 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   activityIndicator: {
     alignItems: 'center',

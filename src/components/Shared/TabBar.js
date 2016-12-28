@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 
 class TabBar extends Component {
@@ -24,6 +25,7 @@ class TabBar extends Component {
     this.tabIconsBlue.push(require('../../resources/icon-activity_blue.png'));
     this.tabIconsBlue.push(require('../../resources/icon-chat_blue.png'));
     this.tabIconsBlue.push(require('../../resources/icon-profile_blue.png'));
+
   }
 
   render() {
@@ -32,6 +34,7 @@ class TabBar extends Component {
         {this.props.tabs.map((tab, i) =>
           <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
             <Image
+              style={styles.iconStyle}
               source={this.props.activeTab === i ? this.tabIconsBlue[i] : this.tabIconsGray[i]}/>
           </TouchableOpacity>
         )}
@@ -49,14 +52,15 @@ TabBar.propTypes = {
 const styles = StyleSheet.create({
   tab: {
     flex: 1,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
+    paddingBottom: dimensions.heightWeight * 10,
   },
   tabs: {
-    height: 45,
+    height: dimensions.heigthWeight * 45,
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: dimensions.heightWeight * 10,
     backgroundColor: '#fbfbfb',
     borderWidth: 1,
     borderTopWidth: 1,
@@ -64,6 +68,10 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderTopColor: '#d6dada',
     borderBottomColor: 'rgba(0,0,0,0.05)',
+  },
+  iconStyle: {
+    width: dimensions.widthWeight * 26,
+    resizeMode: 'contain',
   },
 });
 

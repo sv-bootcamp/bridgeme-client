@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Row from './Row';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import CardScroll from './CardScroll';
 import Text from '../Shared/UniText';
 import MatchUtil from '../../utils/MatchUtil';
@@ -132,16 +133,17 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
   header: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    marginTop: 250,
+    marginTop: dimensions.heightWeight * 250,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: dimensions.fontWeight * 20,
     color: '#0e417a',
   },
 });

@@ -1,6 +1,5 @@
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,87 +15,87 @@ const styles = StyleSheet.create({
   mainLogoText: {
     fontFamily: 'ProductSans-Bold',
     color: '#003d6e',
-    fontSize: 18,
-    marginTop: 16,
+    fontSize: dimensions.fontWeight * 18,
+    marginTop: dimensions.heightWeight * 16,
   },
   facebookLoginContainer: {
     flexDirection: 'row',
-    marginTop: 65,
+    marginTop: dimensions.heightWeight * 65,
     justifyContent: 'center',
     alignItems: 'center',
   },
   facebookLoginButton: {
-    width: 15,
-    height: 15,
+    width: dimensions.widthWeight * 15,
+    height: dimensions.heightWeight * 15,
   },
   facebookLoginText: {
-    marginLeft: 20,
-    fontSize: 15,
+    marginLeft: dimensions.widthWeight * 20,
+    fontSize: dimensions.fontWeight * 15,
     color: '#4460a0',
   },
   hrContainer: {
     flexDirection: 'row',
-    width: 175,
-    marginTop: 13,
+    width: dimensions.widthWeight * 175,
+    marginTop: dimensions.heightWeight * 13,
     justifyContent: 'center',
     alignItems: 'center',
   },
   hr: {
     flex: 1,
-    width: 106,
+    width: dimensions.widthWeight * 106,
     height: 1,
     backgroundColor: '#efeff2',
   },
   hrText: {
-    marginLeft: 14,
-    marginRight: 14,
+    marginLeft: dimensions.widthWeight * 14,
+    marginRight: dimensions.widthWeight * 14,
     color: '#d8d8d8',
-    fontSize: 15,
+    fontSize: dimensions.fontWeight * 15,
   },
   inputContainer: {
     flexDirection: 'column',
-    marginTop: 20,
+    marginTop: dimensions.heightWeight * 20,
   },
   input: {
-    width: 251,
-    height: 45,
-    paddingLeft: 14,
-    paddingRight: 14,
-    fontSize: 14,
+    width: dimensions.widthWeight * 251,
+    height: dimensions.heightWeight * 45,
+    paddingLeft: dimensions.widthWeight * 14,
+    paddingRight: dimensions.widthWeight * 14,
+    fontSize: dimensions.fontWeight * 14,
   },
   loginBtn: {
-    width: 240,
-    height: 45,
+    width: dimensions.widthWeight * 240,
+    height: dimensions.heightWeight * 45,
     borderRadius: 100,
-    marginTop: 20,
+    marginTop: dimensions.heightWeight * 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   loginBtnText: {
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     fontWeight: 'bold',
   },
   subTextContainer: {
-    marginTop: 5,
+    marginTop: dimensions.heightWeight * 5,
   },
   subText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#44acff',
   },
   bottomContainer: {
     flexDirection: 'row',
-    marginTop: 56,
+    marginTop: dimensions.heightWeight * 56,
     justifyContent: 'center',
     alignItems: 'center',
   },
   bottomTextLeft: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#a6aeae',
   },
   bottomTextRight: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#44acff',
   },
 });

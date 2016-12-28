@@ -13,6 +13,7 @@ import {
   Vibration,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import FCM from 'react-native-fcm';
 import Row from './Row';
 import SendBird from 'sendbird';
@@ -111,7 +112,7 @@ class ChannelList extends Component {
   renderRow(rowData) {
     return (
       <Row
-        myId={this.state.me._id}
+        me={this.state.me}
         dataSource={rowData}
       />
     );
@@ -139,15 +140,9 @@ class ChannelList extends Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.ViewContainer}>
-        <View style={styles.loadingViewheader}>
-          <Text style={styles.loadingViewheaderText}>Loading...</Text>
-          <ActivityIndicator
-            animating={true}
-            style={[styles.loadingViewActivityIndicator]}
-            size='large'
-          />
-        </View>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={!this.state.loaded} size="small" />
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -195,27 +190,20 @@ class ChannelList extends Component {
 }
 
 const styles = StyleSheet.create({
-  loadingViewheader: {
+  loadingContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
-    marginTop: 250,
-  },
-  loadingViewheaderText: {
-    fontSize: 20,
-    color: '#0e417a',
-  },
-  loadingViewActivityIndicator: {
-    marginTop: 30,
+    backgroundColor: 'white',
   },
   ViewContainer: {
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },

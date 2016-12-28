@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 
 class CareerRow extends Component {
@@ -147,22 +148,22 @@ class CareerRow extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: dimensions.heightWeight * 10,
+    marginBottom: dimensions.heightWeight * 10,
   },
   name: {
-    fontSize: 14,
-    marginBottom: 5,
+    fontSize: dimensions.fontWeight * 14,
+    marginBottom: dimensions.heightWeight * 5,
     color: '#2e3031',
   },
   position: {
-    fontSize: 14,
+    fontSize: dimensions.fontWeight * 14,
     color: '#2e3031',
   },
   period: {
-    fontSize: 12,
-    marginTop: 5,
-    marginBottom: 15,
+    fontSize: dimensions.fontWeight * 12,
+    marginTop: dimensions.heightWeight * 5,
+    marginBottom: dimensions.heightWeight * 15,
     color: '#a6aeae',
   },
   seperator: {
@@ -173,7 +174,8 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
 });
 
