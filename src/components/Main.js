@@ -75,7 +75,6 @@ class Main extends Component {
         });
       });
     });
-
   }
 
   componentWillReceiveProps(nextProps) {

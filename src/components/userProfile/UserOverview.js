@@ -56,9 +56,9 @@ class UserOverview extends Component {
     UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
   }
 
-  // Receive props befofe completely changed
+  // Receive props before completely changed
   componentWillReceiveProps(props) {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), props.id);
   }
 
   // Render loading page while fetching user profiles

@@ -10,7 +10,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
 import CareerRow from './CareerRow';
 import Text from '../Shared/UniText';
@@ -63,7 +62,7 @@ class UserCareer extends Component {
 
   // Receive props befofe completly changed
   componentWillReceiveProps(props) {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
+    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), props.id);
   }
 
   // Render loading page while fetching user profiles

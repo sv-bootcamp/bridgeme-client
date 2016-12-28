@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   ListView,
+  PanResponder,
   Platform,
   ScrollView,
   StatusBar,
@@ -43,7 +44,25 @@ class UserProfile extends Component {
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
+      pan: new Animated.ValueXY(),
+      scale: new Animated.Value(1),
     };
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, {
+        dy: this.state.pan.y,
+      },
+      ]),
+
+      onPanResponderRelease: (e, gesture) => {
+          Animated.spring(
+              this.state.pan.y = 0,
+              // { toValue: { x: 0, y: 0 } },
+              this.state.scale = 1,
+          ).start();
+        },
+    });
   }
 
   onReqestCallback(result, error) {
@@ -84,7 +103,8 @@ class UserProfile extends Component {
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture };
+      image = { uri: status.profile_picture_large ?
+          status.profile_picture_large : status.profile_picture, };
       return image;
     } else {
       image = require('../../resources/pattern.png');
@@ -201,6 +221,14 @@ class UserProfile extends Component {
     );
   }
 
+  handleScroll(event) {
+    if (event.nativeEvent.contentOffset.y < 0) {
+      this.setState({
+        scale: event.nativeEvent.contentOffset.y / -200 + 1,
+      });
+    }
+  }
+
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -276,31 +304,42 @@ class UserProfile extends Component {
       );
     }
 
+    let { scale } = this.state;
+    let imageStyle = { transform: [{ scale }] };
+
     return (
       <View style={{
         justifyContent: 'space-between',
         flexDirection: 'column',
         flex: 1,
       }}>
-        <ScrollView>
+        <ScrollView
+            scrollEventThrottle={16}
+            onScroll={this.handleScroll.bind(this)}>
           <StatusBar
             backgroundColor = "transparent"
             barStyle = "light-content"
             networkActivityIndicatorVisible={false}
           />
-          <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
-            colors={['#546979', '#08233a']}>
-            <Image style={styles.profileImage}
-              source={this.state.profileImage} />
-          </LinearGradient>
-          <Image style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}/>
+          <Animated.View
+              {...this.panResponder.panHandlers}
+              style={[this.state.pan.getLayout(), imageStyle]}>
+            <LinearGradient
+                style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
+                colors={['#546979', '#08233a']}>
+              <Image
+                  style={styles.profileImage}
+                  source={this.state.profileImage} />
+            </LinearGradient>
+          </Animated.View>
+          <Image
+              style={styles.bookmarkIcon}
+              source={require('../../resources/icon-bookmark.png')}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
-
           <ScrollableTabView
             initialPage={0}
             tabBarTextStyle={styles.tabBarText}
