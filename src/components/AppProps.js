@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
-    borderBottomWidth: dimensions.heightWeight * 1,
   },
   titleWrapperStyle: {
     flex: 1,

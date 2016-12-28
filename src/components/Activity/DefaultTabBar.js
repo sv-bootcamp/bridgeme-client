@@ -1,29 +1,37 @@
-const React = require('react');
-const ReactNative = require('react-native');
-const {
+import React, { Component } from 'react';
+import {
+  Animated,
   Dimensions,
   StyleSheet,
-  Text,
   View,
-} = ReactNative;
-const Button = require('./Button');
+} from 'react-native';
+import Button from './Button';
+import Text from '../Shared/UniText';
 
 class DefaultTabBar extends Component {
+  static get defaultProps() {
+    return {
+      activeTextColor: '#2e3031',
+      inactiveTextColor: '#adadad',
+      backgroundColor: null,
+    };
+  }
+
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
+    const { activeTextColor, inactiveTextColor, textStyle } = DefaultTabBar.defaultProps;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-    const fontWeight = isTabActive ? 'bold' : 'normal';
+    const fontWeight = isTabActive ? 'bold' : 'bold';
 
     return (<Button
-      style={{ flex: 1, }}
+      style={{ flex: 1 }}
       key={name}
       accessible={true}
       accessibilityLabel={name}
-      accessibilityTraits='button'
+      accessibilityTraits="button"
       onPress={() => onPressHandler(page)}
     >
-      <View style={[styles.tab, this.props.tabStyle,]}>
-        <Text style={[{ color: textColor, fontWeight, }, textStyle,]}>
+      <View style={[styles.tab]}>
+        <Text style={[{ color: textColor, fontWeight }, textStyle]}>
           {name}
         </Text>
       </View>
@@ -47,29 +55,29 @@ class DefaultTabBar extends Component {
       height: 0.5,
       borderColor: '#f0f0f2',
       borderBottomWidth: 1,
-      bottom: 0,
+      bottom: 0.5,
       zIndex: -1,
     };
 
     const left = this.props.scrollValue.interpolate({
-      inputRange: [0, 1, ],
-      outputRange: [this.props.leftOffset,  (containerWidth / 2) - this.props.rightOffset, ],
+      inputRange: [0, 1],
+      outputRange: [this.props.leftOffset, (containerWidth / 2) - this.props.rightOffset],
     });
 
     return (
       <View>
         <View
           style={[
-            styles.tabs,
-            { backgroundColor: this.props.backgroundColor, },
-            this.props.style,
-            ]}>
+          styles.tabs,
+          { backgroundColor: this.props.backgroundColor },
+          this.props.style,
+          ]}>
           {this.props.tabs.map((name, page) => {
             const isTabActive = this.props.activeTab === page;
             const renderTab = this.props.renderTab || this.renderTab;
             return renderTab(name, page, isTabActive, this.props.goToPage);
           })}
-          <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle, ]} />
+          <Animated.View style={[tabUnderlineStyle, { left, }, this.props.underlineStyle]} />
         </View>
         <View style={tabUnderlineFullWidthStyle} />
       </View>
@@ -94,19 +102,12 @@ DefaultTabBar.propTypes = {
   underlineStyle: View.propTypes.style,
 };
 
-DefaultTabBar.defaultProps = {
-  activeTextColor: 'navy',
-  inactiveTextColor: 'black',
-  backgroundColor: null,
-};
-
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
   },
   tabs: {
     height: 50,
