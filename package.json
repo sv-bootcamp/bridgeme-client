@@ -18,7 +18,7 @@
     "react-native-communications": "^2.1.0",
     "react-native-dropdown-android": "0.0.12",
     "react-native-fbsdk": "^0.3.0",
-    "react-native-fcm": "2.5.3",
+    "react-native-fcm": "^2.5.5",
     "react-native-gifted-chat": "0.0.10",
     "react-native-image-picker": "^0.22.10",
     "react-native-keyboard-aware-scroll-view": "^0.2.4",
