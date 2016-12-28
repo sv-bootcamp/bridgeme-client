@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   content: {
     ...Platform.select({
       ios: {
-        marginTop: dimensions.heightWeight * 44 + 20,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
         marginTop: dimensions.heightWeight * 54,
