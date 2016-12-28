@@ -7,6 +7,7 @@ import {
   Actions,
 } from 'react-native-router-flux';
 import Activity from './Activity/Activity';
+import Bookmark from './Bookmark/Bookmark';
 import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
@@ -167,6 +168,10 @@ const AppProps = {
     {
       key: 'myPage',
       component: MyPage,
+    },
+    {
+      key: 'bookmark',
+      component: Bookmark,
     },
     {
       key: 'userProfile',

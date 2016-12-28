@@ -37,6 +37,7 @@ class Row extends Component {
         .map((value) => value.select)
         .sort((a, b) => a.length - b.length),
       pending: this.props.dataSource.pending,
+      bookmarked: this.props.dataSource.bookmarked,
     });
   }
 
@@ -151,6 +152,16 @@ class Row extends Component {
   sendRequest() {
     Actions.requestPage({ id: this.props.dataSource._id, me: this.props.dataSource.me });
   }
+  
+  setBookmark() {
+    if (this.state.bookmarked) {
+      UserUtil.bookmarkOff(this.onRequestCallback.bind(this), this.props.dataSource._id);
+      this.state.bookmarked = false;
+    } else {
+      UserUtil.bookmarkOn(this.onRequestCallback.bind(this), this.props.dataSource._id);
+      this.state.bookmarked = true;
+    }
+  }
 
   render() {
     let profileId = { _id: this.props.dataSource._id, me: this.props.dataSource.me };
@@ -192,14 +203,24 @@ class Row extends Component {
         </LinearGradient>
       );
     }
+    
+    let bookmarkSource = null;
+    
+    if (this.state.bookmarked) {
+      bookmarkSource = require('../../resources/icon-bookmark.png');
+    } else {
+      bookmarkSource = require('../../resources/icon-cancel.png');
+    }
 
     return (
         <TouchableWithoutFeedback onPress={goToUserProfile}>
           <View style={viewStyle}>
             <Image style={styles.photo}
               source={this.state.profileImage}/>
-            <Image style={styles.bookmarkIcon}
-              source={require('../../resources/icon-bookmark.png')}/>
+            <TouchableOpacity style={styles.menu} onPress={this.setBookmark.bind(this)}>
+              <Image style={styles.bookmarkIcon}
+                source={bookmarkSource}/>
+            </TouchableOpacity>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
               <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>

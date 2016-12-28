@@ -9,14 +9,18 @@ export const ServerMeta = {
 };
 
 export const UrlMeta = {
-  HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
+  //HOST: 'http://192.168.0.22:5000/',
+  HOST: 'http://localhost:5001/',
   API_ACTIVITY: 'match/activity/',
   API_ALL: 'users/all/',
+  API_BOOKMARK_OFF: 'users/bookmarkOff/',
+  API_BOOKMARK_ON: 'users/bookmarkOn/',
   API_CHATTING_PUSH: 'match/push/',
   API_EDIT_CAREER: 'users/editCareer/',
   API_EDIT_EXPERTISE: 'users/editExpertise/',
   API_EDIT_GENERAL: 'users/editGeneral/',
   API_EDIT_PERSONALITY: 'users/editPersonality/',
+  API_GET_BOOKMARK: 'users/bookmark/',
   API_GET_CAREER: 'users/career/',
   API_GET_EXPERTISE: 'users/expertise/',
   API_GET_PERSONALITY: 'users/personality/',
