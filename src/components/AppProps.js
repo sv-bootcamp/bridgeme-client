@@ -262,6 +262,9 @@ const AppProps = {
     {
       key: 'bookmark',
       component: Bookmark,
+      title: 'Bookmark',
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
     },
     {
       key: 'userProfile',
