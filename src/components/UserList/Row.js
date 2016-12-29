@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
-  Alert,
-  Dimensions,
   Image,
+  ListView,
   Platform,
   StyleSheet,
   TouchableOpacity,
@@ -35,7 +34,7 @@ class Row extends Component {
       currentStatus: this.getCurrentStatus(),
       currentLocation: this.getCurrentLocation(),
       expertise: this.props.dataSource.expertise.slice()
-        .map((value) => value.select)
+        .map(value => value.select)
         .sort((a, b) => a.length - b.length),
       pending: this.props.dataSource.pending,
     });
@@ -77,25 +76,25 @@ class Row extends Component {
     if (this.props.dataSource.profile_picture) {
       return { uri: this.props.dataSource.profile_picture_large ?
         this.props.dataSource.profile_picture_large : this.props.dataSource.profile_picture };
-    } else {
-      return require('../../resources/pattern.png');
     }
+
+    return require('../../resources/pattern.png');
   }
 
   getName() {
     if (this.props.dataSource.name) {
       return this.props.dataSource.name;
-    } else {
-      return this.state.name;
     }
+
+    return this.state.name;
   }
 
   getCurrentLocation() {
     if (this.props.dataSource.location) {
       return this.props.dataSource.location;
-    } else {
-      return this.state.currentLocation;
     }
+
+    return this.state.currentLocation;
   }
 
   renderMyExpertise() {
@@ -130,16 +129,16 @@ class Row extends Component {
       <View style={styles.sectionContainer}>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.sectionName}>MY EXPERTISE{'\t'}</Text>
-          <View style={styles.expertiseSeparator}/>
+          <View style={styles.expertiseSeparator} />
         </View>
         {
             newArray.map((value, index) =>
               (<View key={index} style={{ flexDirection: 'row' }}>
                 {
-                  value.map((value, index) =>
-                    (<View key={index} style={styles.tagRectangle}>
+                  value.map((innerValue, innerIndex) =>
+                    (<View key={innerValue} style={styles.tagRectangle}>
                       <Text style={styles.tagText}>
-                        {value}
+                        {innerValue}
                       </Text>
                     </View>))
                 }
@@ -154,14 +153,13 @@ class Row extends Component {
   }
 
   render() {
-    let profileId = { _id: this.props.dataSource._id, me: this.props.dataSource.me };
+    const profileId = { _id: this.props.dataSource._id, me: this.props.dataSource.me };
     const goToUserProfile = () => Actions.userProfile(profileId);
     const connect = () => this.sendRequest();
-    let viewStyle = [
+    const viewStyle = [
       styles.rowView,
       {
-        marginRight: this.props.dataSource.last ?
-        dimensions.widthWeight * 36 : dimensions.widthWeight * 15,
+        marginRight: this.props.dataSource.last ? 0 : dimensions.widthWeight * 15,
         elevation: 10,
       },
     ];
@@ -172,7 +170,7 @@ class Row extends Component {
       connectButton = (
         <View style={[styles.connectBtnStyle, { backgroundColor: '#a6aeae' }]}>
           <View style={styles.buttonContainer}>
-            <View style={{ marginRight: 5, alignItems: 'center', }}>
+            <View style={{ marginRight: 5, alignItems: 'center' }}>
               <Icon name="clock-o" size={15} color="white" />
             </View>
             <Text style={styles.buttonText}>WAITING</Text>
@@ -181,48 +179,51 @@ class Row extends Component {
       );
     } else {
       connectButton = (
-      <TouchableOpacity onPress={connect}>
-        <LinearGradient style={styles.connectBtnStyle}
-          start={[0.9, 0.5]}
-          end={[0.0, 0.5]}
-          locations={[0, 0.75]}
-          colors={['#07e4dd', '#44acff']}>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>CONNECT</Text>
-          </View>
-        </LinearGradient>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={connect}>
+          <LinearGradient
+            style={styles.connectBtnStyle}
+            start={[0.9, 0.5]}
+            end={[0.0, 0.5]}
+            locations={[0, 0.75]}
+            colors={['#07e4dd', '#44acff']}
+          >
+            <View style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>CONNECT</Text>
+            </View>
+          </LinearGradient>
+        </TouchableOpacity>
       );
     }
 
     return (
-        <TouchableWithoutFeedback onPress={goToUserProfile}>
-          <View style={viewStyle}>
-            <Image style={styles.photo}
-              source={this.state.profileImage}/>
-            <Image style={styles.bookmarkIcon}
-              source={require('../../resources/icon-bookmark.png')}/>
-            <View style={styles.userInformation}>
-              <Text style={styles.name}>{this.state.name}</Text>
-              <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
-              <Text style={styles.location}> {this.state.currentLocation}</Text>
-              {this.renderMyExpertise()}
-            </View>
-            <View style={styles.connectBtnContainer}>
-              {connectButton}
-            </View>
+      <TouchableWithoutFeedback onPress={goToUserProfile}>
+        <View style={viewStyle}>
+          <Image
+            style={styles.photo}
+            source={this.state.profileImage}
+          />
+          <Image
+            style={styles.bookmarkIcon}
+            source={require('../../resources/icon-bookmark.png')}
+          />
+          <View style={styles.userInformation}>
+            <Text style={styles.name}>{this.state.name}</Text>
+            <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
+            <Text style={styles.location}> {this.state.currentLocation}</Text>
+            {this.renderMyExpertise()}
           </View>
-        </TouchableWithoutFeedback>
-      );
+          <View style={styles.connectBtnContainer}>
+            {connectButton}
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
   }
 }
 
-const CARD_PREVIEW_WIDTH = dimensions.widthWeight * 10;
 const CARD_MARGIN = dimensions.widthWeight * 15;
 const CARD_WIDTH = dimensions.widthWeight * 303;
 const CARD_HEIGHT = dimensions.heightWeight * 498;
-const HEIGHT = dimensions.heightWeight * Dimensions.get('window').height;
-const WIDTH = dimensions.widthWeight * Dimensions.get('window').width;
 const styles = StyleSheet.create({
   rowView: {
     flex: 1,

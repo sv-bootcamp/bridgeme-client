@@ -9,40 +9,8 @@ import {
   View,
 } from 'react-native';
 import { dimensions } from '../Shared/Dimensions';
-import Text from '../Shared/UniText';
 
 export default class CardScroll extends Component {
-  static propTypes = {
-    dataSource: PropTypes.instanceOf(ListView.DataSource).isRequired,
-    initialIdx: PropTypes.number,
-    showPreview: PropTypes.bool,
-    previewImageSize: PropTypes.number,
-    renderScrollComponent: PropTypes.func,
-    style: View.propTypes.style,
-    previewContainerStyle: View.propTypes.style,
-    imageStyle: View.propTypes.style,
-    previewImageStyle: View.propTypes.style,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    getImageSourceFromDataSource: PropTypes.func,
-    sizeOfPrevNext: PropTypes.number,
-    pageWidth: PropTypes.number,
-    inactiveCardScale: PropTypes.number,
-    inactiveCardOpacity: PropTypes.number,
-  };
-
-  static defaultProps = {
-    initialIdx: 0,
-    showPreview: true,
-    previewImageSize: 80,
-    renderScrollComponent: (props) => <ScrollView {...props}/>,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    getImageSourceFromDataSource: (row) => row,
-    inactiveCardScale: 0.9,
-    inactiveCardOpacity: 1,
-  };
-
   constructor(props) {
     super(props);
     this.resetListView = null;
@@ -80,10 +48,11 @@ export default class CardScroll extends Component {
   // Control preview page and next page
   controlScroll(e) {
     const event = e.nativeEvent;
-    const interval = Dimensions.get('window').width - dimensions.widthWeight * 57;
-    let index =  Math.round(event.contentOffset.x / interval);
-    if (index > this.props.dataSource._cachedRowCount - 1 ) index -= 1;
-    this.resetListView.scrollTo({x: (Math.round(event.contentOffset.x / interval)) * interval,
+    const interval = Dimensions.get('window').width - (dimensions.widthWeight * 57);
+    let index = Math.round(event.contentOffset.x / interval);
+    if (index > this.props.dataSource._cachedRowCount - 1) index -= 1;
+    this.resetListView.scrollTo({
+      x: (Math.round(event.contentOffset.x / interval)) * interval,
       y: 0,
       animated: true,
     });
@@ -115,8 +84,8 @@ export default class CardScroll extends Component {
 
   renderScrollComponent(props) {
     return React.cloneElement(
-     this.props.renderScrollComponent(props),
-     {
+      this.props.renderScrollComponent(props),
+      {
         horizontal: true,
         pagingEnabled: false,
         directionalLockEnabled: true,
@@ -125,7 +94,8 @@ export default class CardScroll extends Component {
         automaticallyAdjustContentInsets: true,
         enableEmptySections: true,
         ...props,
-      });
+      },
+    );
   }
 
   render() {
@@ -136,17 +106,39 @@ export default class CardScroll extends Component {
         initialListSize={5}
         dataSource={this.props.dataSource}
         style={styles.listView}
-        enableEmptySections={true}
+        enableEmptySections
         renderRow={this.props.renderRow.bind(this)}
-        ref={comp => {
-          this.resetListView = comp;
-          return;
-        }
-        }
+        ref={(comp) => { this.resetListView = comp; }}
       />
     );
   }
 }
+
+CardScroll.propTypes = {
+  dataSource: PropTypes.instanceOf(ListView.DataSource).isRequired,
+  initialIdx: PropTypes.number,
+  showPreview: PropTypes.bool,
+  previewImageSize: PropTypes.number,
+  renderScrollComponent: PropTypes.func,
+  style: View.propTypes.style,
+  imageStyle: View.propTypes.style,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  getImageSourceFromDataSource: PropTypes.func,
+};
+
+CardScroll.defaultProps = {
+  initialIdx: 0,
+  showPreview: true,
+  previewImageSize: 80,
+  renderScrollComponent: (props) => {
+    const style = styles.contentContainerStyle;
+    return <ScrollView contentContainerStyle={style} {...props} />;
+  },
+  width: Dimensions.get('window').width,
+  height: Dimensions.get('window').height,
+  getImageSourceFromDataSource: row => row,
+};
 
 const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
@@ -158,14 +150,17 @@ const styles = StyleSheet.create({
   listView: {
     backgroundColor: 'transparent',
     flex: 1,
-    paddingLeft: dimensions.widthWeight * 36,
     ...Platform.select({
       ios: {
-        marginTop: dimensions.heightWeight * 74 + 20 - 45 * (1 - dimensions.heightWeight),
+        marginTop: ((dimensions.heightWeight * 74) + 20) - (45 * (1 - dimensions.heightWeight)),
       },
       android: {
-        marginTop: dimensions.heightWeight * 74 ,
+        marginTop: dimensions.heightWeight * 74,
       },
     }),
+  },
+  contentContainerStyle: {
+    paddingLeft: dimensions.widthWeight * 36,
+    paddingRight: dimensions.widthWeight * 36,
   },
 });
