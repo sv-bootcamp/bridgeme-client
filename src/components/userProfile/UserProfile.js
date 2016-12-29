@@ -40,10 +40,12 @@ class UserProfile extends Component {
       evalLoaded: false,
       connectPressed: false,
       isAboutDisplayed: false,
+      isRefreshing: true,
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
     };
+
   }
 
   onReqestCallback(result, error) {
@@ -81,10 +83,16 @@ class UserProfile extends Component {
     }
   }
 
+  setBookmark() {
+    console.log('a');
+  }
+
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture };
+      image = { uri: status.profile_picture_large ?
+        status.profile_picture_large : status.profile_picture,
+      };
       return image;
     } else {
       image = require('../../resources/pattern.png');
@@ -141,6 +149,15 @@ class UserProfile extends Component {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
 
+    let bookmarkImg = (this.props.bookmarked) ?
+    require('../../resources/icon-bookmark-fill.png')
+    : require('../../resources/icon-bookmark.png');
+    Actions.refresh({
+      rightTitle: 'right',
+      rightButtonStyle: styles.rightButtonStyle,
+      rightButtonImage: bookmarkImg,
+      onRight: this.setBookmark.bind(this),
+    });
   }
 
   // Receive props befofe completly changed
@@ -150,6 +167,7 @@ class UserProfile extends Component {
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
+
   }
 
   sendRequest() {
@@ -293,8 +311,6 @@ class UserProfile extends Component {
             <Image style={styles.profileImage}
               source={this.state.profileImage} />
           </LinearGradient>
-          <Image style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
@@ -318,7 +334,7 @@ class UserProfile extends Component {
                 containerWidth={WIDTH - (dimensions.widthWeight * 100)}
                 leftOffset={dimensions.widthWeight * 22}
                 rightOffset={dimensions.widthWeight * 28}
-                />)}>
+              />)}>
             <UserOverview
               tabLabel="OVERVIEW" id={this.state.id}
               toggleAbout={this.toggleAbout.bind(this)}/>
@@ -482,6 +498,30 @@ const styles = StyleSheet.create({
   cancelButton: {
     alignSelf: 'center',
     marginBottom: dimensions.heightWeight * 70,
+  },
+  rightBtn: {
+    backgroundColor: 'red',
+    marginRight: dimensions.widthWeight * 25,
+    width: dimensions.widthWeight * 23,
+    height: dimensions.heightWeight * 21,
+    resizeMode: 'contain',
+  },
+  rightButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginTop: 0,
+    paddingRight: dimensions.widthWeight * 25,
+    justifyContent: 'center',
   },
 });
 
