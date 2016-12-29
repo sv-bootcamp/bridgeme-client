@@ -133,11 +133,15 @@ class UserUtil {
   }
   
   bookmarkOn(callback, id) {
-    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_ON', id);
+    let body = {};
+    body.id = id;
+    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_ON', body);
   }
   
   bookmarkOff(callback, id) {
-    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_OFF', id);
+    let body = {};
+    body.id = id;
+    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_OFF', body);
   }
   
   editGeneral(callback, general) {

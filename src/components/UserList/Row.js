@@ -14,6 +14,7 @@ import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import UserUtil from '../../utils/UserUtil';
 
 class Row extends Component {
   constructor(props) {
@@ -149,6 +150,14 @@ class Row extends Component {
       </View>
     );
   }
+  
+  onRequestCallback(result, error) {
+    if (error) {
+      Alert.alert('Error on Bookmark', error);
+    } else if (result) {
+      this.forceUpdate();
+    }
+  }
 
   sendRequest() {
     Actions.requestPage({ id: this.props.dataSource._id, me: this.props.dataSource.me });
@@ -209,9 +218,13 @@ class Row extends Component {
     let bookmarkSource = null;
     
     if (this.state.bookmarked) {
-      bookmarkSource = require('../../resources/icon-bookmark.png');
+      bookmarkSource = (
+        <Image source={require('../../resources/icon-bookmark-fill.png')}/>
+      );
     } else {
-      bookmarkSource = require('../../resources/icon-cancel.png');
+      bookmarkSource = (
+        <Image source={require('../../resources/icon-bookmark.png')}/>
+      );
     }
 
     return (
@@ -219,9 +232,8 @@ class Row extends Component {
           <View style={viewStyle}>
             <Image style={styles.photo}
               source={this.state.profileImage}/>
-            <TouchableOpacity style={styles.menu} onPress={this.setBookmark.bind(this)}>
-              <Image style={styles.bookmarkIcon}
-                source={bookmarkSource}/>
+            <TouchableOpacity style={styles.bookmarkIcon} onPress={this.setBookmark.bind(this)}>
+              {bookmarkSource}
             </TouchableOpacity>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
