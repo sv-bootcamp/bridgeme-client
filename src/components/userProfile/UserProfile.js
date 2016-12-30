@@ -43,7 +43,9 @@ class UserProfile extends Component {
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
+      activeNaviBar: false,
     };
+
   }
 
   onReqestCallback(result, error) {
@@ -84,7 +86,9 @@ class UserProfile extends Component {
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture };
+      image = {
+        uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture,
+      };
       return image;
     } else {
       image = require('../../resources/pattern.png');
@@ -137,10 +141,10 @@ class UserProfile extends Component {
   componentDidMount() {
     if (this.props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+      this.renderNaviBar();
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
-
   }
 
   // Receive props befofe completly changed
@@ -201,6 +205,47 @@ class UserProfile extends Component {
     );
   }
 
+  controlScroll(e) {
+    const event = e.nativeEvent;
+
+    if (this.state.activeNaviBar
+      != (event.contentOffset.y > (HEIGHT * 0.4) - 40)) {
+      this.state.activeNaviBar = event.contentOffset.y > (HEIGHT * 0.4) - 40;
+      this.renderNaviBar();
+    }
+  }
+
+  renderNaviBar() {
+    if (this.props.myProfile) {
+      Actions.refresh({
+        title: (this.state.activeNaviBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNaviBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNaviBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNaviBar) ? '#d6dada' : 'transparent',
+        },
+        rightButtonImage: null,
+        onRight: () => {},
+      });
+    } else {
+      Actions.refresh({
+        title: (this.state.activeNaviBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNaviBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        rightButtonImage: (this.state.activeNaviBar) ?
+        require('../../resources/icon-bookmark-grey.png') :
+        require('../../resources/icon-bookmark.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNaviBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNaviBar) ? '#d6dada' : 'transparent',
+        },
+      });
+    }
+  }
+
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -255,11 +300,11 @@ class UserProfile extends Component {
     if (this.state.isAboutDisplayed) {
       about = (
         <Animated.View style={[styles.aboutDetail, {
-              width: this.state.width,
-              height: this.state.height,
-              opacity: this.state.opacity,
-            },
-            ]}>
+          width: this.state.width,
+          height: this.state.height,
+          opacity: this.state.opacity,
+        },
+        ]}>
           <TouchableOpacity
             onPress={this.toggleAbout.bind(this)}
             style={{ flex: 1 }}>
@@ -282,10 +327,12 @@ class UserProfile extends Component {
         flexDirection: 'column',
         flex: 1,
       }}>
-        <ScrollView>
+        <ScrollView
+          onScroll={this.controlScroll.bind(this)}
+          scrollEventThrottle={50}>
           <StatusBar
-            backgroundColor = "transparent"
-            barStyle = "light-content"
+            backgroundColor = {(this.state.activeNaviBar) ? 'black' : 'transparent'}
+            barStyle = {(this.state.activeNaviBar) ? 'dark-content' : 'light-content'}
             networkActivityIndicatorVisible={false}
           />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
@@ -294,7 +341,7 @@ class UserProfile extends Component {
               source={this.state.profileImage} />
           </LinearGradient>
           <Image style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}/>
+            source={null}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>

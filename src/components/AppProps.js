@@ -122,6 +122,13 @@ const styles = StyleSheet.create({
     height: dimensions.heightWeight * 18,
     resizeMode: 'contain',
   },
+  rightBtnBookmark: {
+    backgroundColor: 'transparent',
+    marginRight: dimensions.widthWeight * 25,
+    width: dimensions.widthWeight * 23,
+    height: dimensions.heightWeight * 21,
+    resizeMode: 'contain',
+  },
   leftBtn: {
     backgroundColor: 'transparent',
     width: dimensions.widthWeight * 25,
@@ -132,12 +139,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     width: dimensions.widthWeight * 13,
     height: dimensions.heightWeight * 13,
-  },
-  leftBtnCancel: {
-    marginTop: 5,
-    marginLeft: 5,
-    width: 13,
-    height: 13,
   },
 });
 
@@ -265,6 +266,10 @@ const AppProps = {
       direction: 'fade',
       duration: 500,
       backButtonImage: require('../resources/icon-arrow-left-white.png'),
+      rightTitle: 'right',
+      rightButtonImage: require('../resources/icon-bookmark.png'),
+      rightButtonIconStyle: styles.rightBtnBookmark,
+      onRight: () => Alert.alert('bookmark'),
       navigationBarStyle: {
         backgroundColor: 'transparent',
         borderBottomColor: 'transparent',
