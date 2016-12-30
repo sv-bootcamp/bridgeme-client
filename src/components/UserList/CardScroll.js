@@ -22,6 +22,7 @@ export default class CardScroll extends Component {
     this.bias = 0;
     this.state = {
       showPreview: props.showPreview,
+      scrollBegin: 0,
     };
   }
 
@@ -49,13 +50,34 @@ export default class CardScroll extends Component {
   controlScroll(e) {
     const event = e.nativeEvent;
     const interval = Dimensions.get('window').width - (dimensions.widthWeight * 57);
-    let index = Math.round(event.contentOffset.x / interval);
-    if (index > this.props.dataSource._cachedRowCount - 1) index -= 1;
+
+    let rate = event.contentOffset.x / interval
+    - Math.floor(event.contentOffset.x / interval);
+    let moveTo;
+    if (rate <= 0.25 || rate >= 0.75) {
+      moveTo = (Math.round(event.contentOffset.x / interval));
+    } else {
+      moveTo = (event.contentOffset.x - this.state.scrollBegin >= 0) ?
+      (Math.ceil(event.contentOffset.x / interval)) :
+      (Math.floor(event.contentOffset.x / interval));
+    }
+
+    if (moveTo > this.props.dataSource._cachedRowCount - 1) {
+      moveTo -= 1;
+    }
+
     this.resetListView.scrollTo({
-      x: (Math.round(event.contentOffset.x / interval)) * interval,
+      x: moveTo * interval,
       y: 0,
       animated: true,
     });
+
+  }
+
+  // Control preview page and next page
+  controlScrollBegin(e) {
+    const event = e.nativeEvent;
+    this.state.scrollBegin = event.contentOffset.x;
   }
 
   renderView(row) {
@@ -75,7 +97,7 @@ export default class CardScroll extends Component {
       <Image
         style={
           [imageStyle, { width, height: imageHeight },
-          ]}
+        ]}
         source={getImageSourceFromDataSource(row.image)}
         resizeMode="contain"
       />
@@ -102,6 +124,7 @@ export default class CardScroll extends Component {
     return (
       <ListView
         renderScrollComponent={this.renderScrollComponent}
+        onScrollBeginDrag={this.controlScrollBegin.bind(this)}
         onScrollEndDrag={this.controlScroll.bind(this)}
         initialListSize={5}
         dataSource={this.props.dataSource}
@@ -135,6 +158,7 @@ CardScroll.defaultProps = {
     const style = styles.contentContainerStyle;
     return <ScrollView contentContainerStyle={style} {...props} />;
   },
+
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height,
   getImageSourceFromDataSource: row => row,
