@@ -292,7 +292,7 @@ class CareerInfo extends Component {
     return (
       <View style ={styles.container}>
         {this.props.fromEdit ? null : (<Progress level={4} step={2} />)}
-        <ScrollView contentContainerStyle ={styles.scrollViewcontainer}>
+        <ScrollView>
           <View style={styles.header}>
             <Text style={styles.titleText}>What do you do?</Text>
             <Text style={styles.subTitleText}>Let us know your career background.</Text>
@@ -321,17 +321,16 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  scrollViewcontainer: {
-    flex: 1,
-  },
   header: {
-    flex: 1.2,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#d6dada',
+    paddingTop: dimensions.heightWeight * 54,
+    paddingBottom: dimensions.heightWeight * 50,
   },
   body: {
-    flex: 4,
+    flex: 1,
     marginLeft: dimensions.widthWeight * 30,
     marginRight: dimensions.widthWeight * 30,
     zIndex: 100,
@@ -354,6 +353,8 @@ const styles = StyleSheet.create({
     zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: dimensions.heightWeight * 15,
+    paddingBottom: dimensions.heightWeight * 30,
   },
   btnStyle: {
     height: dimensions.heightWeight * 45,
