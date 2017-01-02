@@ -220,13 +220,13 @@ class CareerInfo extends Component {
   onGetCareerCallback(result, error) {
     if (error) {
       alert(error);
-    } else if (result.length !== 0) {
-      this.state.option[1] = CareerData.role[CareerData.area.indexOf(result[0].area)].list;
+    } else if (result.area !== undefined) {
+      this.state.option[1] = CareerData.role[CareerData.area.indexOf(result.area)].list;
 
-      this.state.selected[0] = result[0].area;
-      this.state.selected[1] = result[0].role;
-      this.state.selected[2] = result[0].years;
-      this.state.selected[3] = result[0].education_background;
+      this.state.selected[0] = result.area;
+      this.state.selected[1] = result.role;
+      this.state.selected[2] = result.years;
+      this.state.selected[3] = result.education_background;
 
       for (i = 0; i < 4; i++) {
         this.state.checked[i] = true;
@@ -244,14 +244,12 @@ class CareerInfo extends Component {
       }
     }
 
-    let career = [
-    {
+    let career = {
       area: this.state.selected[0],
       role: this.state.selected[1],
       years: this.state.selected[2],
       education_background: this.state.selected[3],
-    },
-    ];
+    };
 
     let body = { career };
     UserUtil.editCareer(this.onUploadCallback.bind(this), body);
