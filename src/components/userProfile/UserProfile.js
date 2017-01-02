@@ -205,12 +205,10 @@ class UserProfile extends Component {
     );
   }
 
-  controlScroll(e) {
-    const event = e.nativeEvent;
-
+  handleScroll(event) {
     if (this.state.activeNavigationBar
-      != (event.contentOffset.y > (HEIGHT * 0.4) - 40)) {
-      this.state.activeNavigationBar = event.contentOffset.y > (HEIGHT * 0.4) - 40;
+      != (event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40)) {
+      this.state.activeNavigationBar = event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40;
       this.renderNavigationBar();
     }
   }
@@ -328,8 +326,8 @@ class UserProfile extends Component {
         flex: 1,
       }}>
         <ScrollView
-          onScroll={this.controlScroll.bind(this)}
-          scrollEventThrottle={50}>
+          scrollEventThrottle={16}
+          onScroll={this.handleScroll.bind(this)}>
           <StatusBar
             backgroundColor = {(this.state.activeNavigationBar) ? 'black' : 'transparent'}
             barStyle = {(this.state.activeNavigationBar) ? 'dark-content' : 'light-content'}
