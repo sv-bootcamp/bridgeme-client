@@ -220,7 +220,7 @@ class CareerInfo extends Component {
   onGetCareerCallback(result, error) {
     if (error) {
       alert(error);
-    } else if (result.length !== 0) {
+    } else if (result.area !== undefined) {
       this.state.option[1] = CareerData.role[CareerData.area.indexOf(result.area)].list;
 
       this.state.selected[0] = result.area;
