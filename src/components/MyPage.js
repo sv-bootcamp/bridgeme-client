@@ -141,7 +141,10 @@ class MyPage extends Component {
             source={this.state.profileImage}
           />
           <View style={styles.infoTextContainer}>
-            <Text style={styles.infoText}>
+            <Text
+              style={styles.infoText}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
               {this.state.name}
             </Text>
             <Text style={styles.currentStatusText} ellipsizeMode="tail" numberOfLines={1}>
