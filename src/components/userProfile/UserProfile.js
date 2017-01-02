@@ -44,6 +44,7 @@ class UserProfile extends Component {
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
+      activeNavigationBar: false,
     };
 
   }
@@ -104,8 +105,8 @@ class UserProfile extends Component {
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture_large ?
-        status.profile_picture_large : status.profile_picture,
+      image = {
+        uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture,
       };
       return image;
     } else {
@@ -165,6 +166,7 @@ class UserProfile extends Component {
   componentDidMount() {
     if (this.props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+      this.renderNavigationBar();
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
@@ -228,6 +230,45 @@ class UserProfile extends Component {
     );
   }
 
+  handleScroll(event) {
+    if (this.state.activeNavigationBar
+      != (event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40)) {
+      this.state.activeNavigationBar = event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40;
+      this.renderNavigationBar();
+    }
+  }
+
+  renderNavigationBar() {
+    if (this.props.myProfile) {
+      Actions.refresh({
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
+        },
+        rightButtonImage: null,
+        onRight: () => {},
+      });
+    } else {
+      Actions.refresh({
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        rightButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-bookmark-grey.png') :
+        require('../../resources/icon-bookmark.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
+        },
+      });
+    }
+  }
+
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -282,11 +323,11 @@ class UserProfile extends Component {
     if (this.state.isAboutDisplayed) {
       about = (
         <Animated.View style={[styles.aboutDetail, {
-              width: this.state.width,
-              height: this.state.height,
-              opacity: this.state.opacity,
-            },
-            ]}>
+          width: this.state.width,
+          height: this.state.height,
+          opacity: this.state.opacity,
+        },
+        ]}>
           <TouchableOpacity
             onPress={this.toggleAbout.bind(this)}
             style={{ flex: 1 }}>
@@ -309,10 +350,12 @@ class UserProfile extends Component {
         flexDirection: 'column',
         flex: 1,
       }}>
-        <ScrollView>
+        <ScrollView
+          scrollEventThrottle={16}
+          onScroll={this.handleScroll.bind(this)}>
           <StatusBar
-            backgroundColor = "transparent"
-            barStyle = "light-content"
+            backgroundColor = {(this.state.activeNavigationBar) ? 'black' : 'transparent'}
+            barStyle = {(this.state.activeNavigationBar) ? 'dark-content' : 'light-content'}
             networkActivityIndicatorVisible={false}
           />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
@@ -320,6 +363,8 @@ class UserProfile extends Component {
             <Image style={styles.profileImage}
               source={this.state.profileImage} />
           </LinearGradient>
+          <Image style={styles.bookmarkIcon}
+            source={null}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>

@@ -138,20 +138,20 @@ class ExpertInfo extends Component {
     return (
       <View style={styles.container}>
         {this.props.fromEdit ? null : (<Progress level={4} step={3} />)}
-        <View style={styles.header}>
-          <Text allowFontScaling={false} style={styles.titleText}>
-            {'Add all Keywords that\nyou can help others with.'}
-          </Text>
-          <Text allowFontScaling={false} style={styles.subTitleText}>
-            {'We use this information to\nrecommend the most fit advisor.'}
-          </Text>
-        </View>
-        <View style ={styles.body}>
-          <ScrollView>
+        <ScrollView>
+          <View style={styles.header}>
+            <Text allowFontScaling={false} style={styles.titleText}>
+              {'Add all Keywords that\nyou can help others with.'}
+            </Text>
+            <Text allowFontScaling={false} style={styles.subTitleText}>
+              {'We use this information to\nrecommend the most fit advisor.'}
+            </Text>
+          </View>
+          <View style ={styles.body}>
             {this.getOptionSet()}
-          </ScrollView>
-        </View>
-        {submitButton}
+          </View>
+          {submitButton}
+        </ScrollView>
       </View>
     );
   }
@@ -171,26 +171,24 @@ const styles = StyleSheet.create({
     }),
   },
   header: {
-    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#d6dada',
+    paddingTop: dimensions.heightWeight * 54,
+    paddingBottom: dimensions.heightWeight * 50,
   },
   body: {
-    flex: 3,
+    height: dimensions.heightWeight * 370,
     borderTopColor: '#efeff2',
     borderTopWidth: 1,
     borderStyle: 'solid',
-    flexDirection: 'row',
-  },
-  scrollViewContainer: {
-    flex: 1,
   },
   btnContainer: {
-    flex: 1,
     zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: dimensions.heightWeight * 40,
+    paddingBottom: dimensions.heightWeight * 30,
   },
   btnStyle: {
     height: dimensions.heightWeight * 45,
