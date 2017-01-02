@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Button from './Button';
 import Text from '../Shared/UniText';
 
@@ -31,7 +32,7 @@ class DefaultTabBar extends Component {
       onPress={() => onPressHandler(page)}
     >
       <View style={[styles.tab]}>
-        <Text style={[{ color: textColor, fontWeight }, textStyle]}>
+        <Text style={[{ color: textColor, fontWeight }, { fontSize: dimensions.fontWeight * 12 }]}>
           {name}
         </Text>
       </View>
