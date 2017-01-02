@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import {
   AppState,
-  AsyncStorage,
-  Dimensions,
   Image,
   InteractionManager,
   NetInfo,
-  ScrollView,
   StyleSheet,
-  Vibration,
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -54,12 +50,11 @@ class Main extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this.onAppStateChange.bind(this));
-    this.initSendBird((user, error)=> {
-
+    this.initSendBird((user, error) => {
       if (user.nickname !== this.props.me.name ||
-        user.profileUrl !== this.props.me.profile_picture) {
+          user.profileUrl !== this.props.me.profile_picture) {
 
-        //Sendbird has an issue in updateCurrentUserInfo() API right after connect() API.
+        // Sendbird has an issue in updateCurrentUserInfo() API right after connect() API.
         setTimeout(() => {
           this.sb.updateCurrentUserInfo(this.props.me.name, this.props.me.profile_picture);
         }, 1000);
@@ -75,7 +70,6 @@ class Main extends Component {
         });
       });
     });
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -149,28 +143,28 @@ class Main extends Component {
     Actions.popTo('main');
 
     InteractionManager.runAfterInteractions(() => {
-        if (notif.notificationType === 'MESSAGE') {
-          this.changeMainPage(mainPageTitle.CHAT, () => {
-            if (from === 'onNotificationReceived') {
-              InteractionManager.runAfterInteractions(() => {
-                const opponent = JSON.parse(notif.extraData).opponent;
-                Actions.chatPage({
-                  title: opponent.name,
-                  me: { userId: this.props.me._id },
-                  opponent,
-                });
+      if (notif.notificationType === 'MESSAGE') {
+        this.changeMainPage(mainPageTitle.CHAT, () => {
+          if (from === 'onNotificationReceived') {
+            InteractionManager.runAfterInteractions(() => {
+              const opponent = JSON.parse(notif.extraData).opponent;
+              Actions.chatPage({
+                title: opponent.name,
+                me: { userId: this.props.me._id },
+                opponent,
               });
-            }
-          });
-        } else if (notif.notificationType === 'CONNECTION') {
-          this.changeMainPage(
-            mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.CONNECTED));
-        } else if (notif.notificationType === 'REQUEST') {
-          this.changeMainPage(
-            mainPageTitle.MYCONNECTION,
-            () => this.changeActivityPage(activityPageTitle.NEWREQUESTS));
-        }
-      });
+            });
+          }
+        });
+      } else if (notif.notificationType === 'CONNECTION') {
+        this.changeMainPage(
+          mainPageTitle.MYCONNECTION, () => this.changeActivityPage(activityPageTitle.CONNECTED));
+      } else if (notif.notificationType === 'REQUEST') {
+        this.changeMainPage(
+          mainPageTitle.MYCONNECTION,
+          () => this.changeActivityPage(activityPageTitle.NEWREQUESTS));
+      }
+    });
   }
 
   changeMainPage(pageTitle, callback) {
@@ -197,7 +191,9 @@ class Main extends Component {
         onChangeTab={(obj) => {
           this.currentTab = obj.i;
           if (this.currentTab === mainPageTitle.HOME) {
-            Actions.refresh({ title: 'Bridge Me', titleStyle: styles.mainTitle,
+            Actions.refresh({
+              title: 'Bridge Me',
+              titleStyle: styles.mainTitle,
               rightButtonImage: require('../resources/filter.png'),
               onRight: () => Actions.filter(),
             });
@@ -232,15 +228,18 @@ class Main extends Component {
           }
         }
         }
-        tabBarPosition='bottom'
+        tabBarPosition="bottom"
         locked
         scrollWithoutAnimation
-        renderTabBar={() => <TabBar />}>
-        <UserList tabLabel="ios-home"
+        renderTabBar={() => <TabBar />}
+      >
+        <UserList
+          tabLabel="ios-home"
           style={styles.tabView}
-          me={this.props.me}/>
+          me={this.props.me}
+        />
         <View tabLabel="md-shuffle" style={styles.comingSoonView}>
-          <Image source={require('../resources/tournament.png')}/>
+          <Image source={require('../resources/tournament.png')} />
           <Text style={styles.comingSoonText}>Coming Soon!</Text>
         </View>
         <Activity
@@ -249,8 +248,8 @@ class Main extends Component {
           currentActivityPage={this.state.currentActivityPage}
           me={this.props.me}
         />
-        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me}/>
-        <MyPage tabLabel="md-contact" me={this.props.me}/>
+        <ChannelList tabLabel="ios-chatbubbles" style={styles.tabView} me={this.props.me} />
+        <MyPage tabLabel="md-contact" me={this.props.me} />
       </ScrollableTabView>
     );
   }
@@ -287,7 +286,7 @@ const styles = StyleSheet.create({
   comingSoonText: {
     marginTop: dimensions.heightWeight * 12,
     fontFamily: 'SFUIText-Regular',
-    fontSize:  dimensions.fontWeight * 14,
+    fontSize: dimensions.fontWeight * 14,
     color: '#a6aeae',
   },
   mainTitle: {
