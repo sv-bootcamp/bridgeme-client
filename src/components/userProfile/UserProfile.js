@@ -79,12 +79,26 @@ class UserProfile extends Component {
         statusAsMentee: statusAsMentee,
         statusAsMentor: statusAsMentor,
         about: result.about,
+        bookmarked: result.bookmarked,
+      });
+      
+      Actions.refresh({
+        rightTitle: 'right',
+        rightButtonStyle: styles.rightButtonStyle,
+        rightButtonImage: this.getBookmarkImg(),
+        onRightButtonPress: this.setBookmark.bind(this),
       });
     }
   }
 
   setBookmark() {
-    console.log('a');
+    if (this.state.bookmarked) {
+      UserUtil.bookmarkOff(this.onRequestCallback.bind(this), this.state.id);
+      this.state.bookmarked = false;
+    } else {
+      UserUtil.bookmarkOn(this.onRequestCallback.bind(this), this.state.id);
+      this.state.bookmarked = true;
+    }
   }
 
   getProfileImage(status) {
@@ -131,6 +145,12 @@ class UserProfile extends Component {
 
     return 'No current status';
   }
+  
+  getBookmarkImg() {
+    return (this.state.bookmarked) ?
+      require('../../resources/icon-bookmark-fill.png')
+      : require('../../resources/icon-bookmark.png');
+  }
 
   getCurrentLocation(status) {
     let location;
@@ -148,16 +168,6 @@ class UserProfile extends Component {
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
-
-    let bookmarkImg = (this.props.bookmarked) ?
-    require('../../resources/icon-bookmark-fill.png')
-    : require('../../resources/icon-bookmark.png');
-    Actions.refresh({
-      rightTitle: 'right',
-      rightButtonStyle: styles.rightButtonStyle,
-      rightButtonImage: bookmarkImg,
-      onRight: this.setBookmark.bind(this),
-    });
   }
 
   // Receive props befofe completly changed
@@ -167,7 +177,6 @@ class UserProfile extends Component {
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
-
   }
 
   sendRequest() {

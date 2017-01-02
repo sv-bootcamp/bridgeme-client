@@ -150,14 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        marginTop: (dimensions.heightWeight * 44) + 20,
-      },
-      android: {
-        marginTop: dimensions.heightWeight * 54,
-      },
-    }),
+    justifyContent: 'center',
   },
   titleContainer: {
     alignItems: 'center',

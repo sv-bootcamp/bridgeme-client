@@ -219,11 +219,11 @@ class Row extends Component {
     
     if (this.state.bookmarked) {
       bookmarkSource = (
-        <Image source={require('../../resources/icon-bookmark-fill.png')}/>
+        <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark-fill.png')}/>
       );
     } else {
       bookmarkSource = (
-        <Image source={require('../../resources/icon-bookmark.png')}/>
+        <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark.png')}/>
       );
     }
 
@@ -232,9 +232,9 @@ class Row extends Component {
           <View style={viewStyle}>
             <Image style={styles.photo}
               source={this.state.profileImage}/>
-            <TouchableOpacity style={styles.bookmarkIcon} onPress={this.setBookmark.bind(this)}>
+            <TouchableWithoutFeedback onPress={this.setBookmark.bind(this)}>
               {bookmarkSource}
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
             <View style={styles.userInformation}>
               <Text style={styles.name}>{this.state.name}</Text>
               <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
