@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     width: dimensions.widthWeight * 0,
     height: dimensions.heightWeight * 0,
-    fontSize: dimensions.fontWeight * 16,
+    fontSize: dimensions.fontWeight * 17,
     color: '#557bfc',
   },
   rightBtn: {

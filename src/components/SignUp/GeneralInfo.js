@@ -46,16 +46,43 @@ class GeneralInfo extends Component {
     };
   }
 
+  setProfileData(profileData) {
+    profileData.education.reverse();
+
+    let dataLength = profileData.education.length;
+    for (let i = 0; i < 2 - dataLength; i++) {
+      profileData.education.unshift({
+        school: { name: '' },
+        type: '',
+        year: { name: '' },
+        start_date: '',
+        end_date: '',
+        concentration: [{ name: '' }],
+      });
+    }
+
+    dataLength = profileData.experience.length;
+    for (let i = 0; i < 2 - dataLength; i++) {
+      profileData.experience.unshift({
+        start_date: '',
+        end_date: '',
+        employer: { name: '' },
+        location: { name: '' },
+        position: [{ name: '' }],
+      });
+    }
+
+    this.setState({
+      profile: profileData,
+      eduDataSource: this.state.eduDataSource.cloneWithRows(profileData.education),
+      workDataSource: this.state.workDataSource.cloneWithRows(profileData.experience),
+    });
+  }
+
   // After rendering, request user profile to server
   componentDidMount() {
     if (this.props.me) {
-      const result = this.props.me;
-      result.education.reverse();
-      this.setState({
-        profile: result,
-        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
-      });
+      this.setProfileData(this.props.me);
     } else {
       UserUtil.getMyProfile(this.onGetMyProfileCallback.bind(this));
     }
@@ -86,12 +113,7 @@ class GeneralInfo extends Component {
 
   onGetMyProfileCallback(result, error) {
     if (result) {
-      result.education.reverse();
-      this.setState({
-        profile: result,
-        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
-      });
+      this.setProfileData(result);
     }
 
     if (error) {
