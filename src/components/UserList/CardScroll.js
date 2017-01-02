@@ -64,6 +64,8 @@ export default class CardScroll extends Component {
 
     if (moveTo > this.props.dataSource._cachedRowCount - 1) {
       moveTo -= 1;
+    } else if (moveTo < 0) {
+      moveTo = 0;
     }
 
     this.resetListView.scrollTo({
