@@ -96,7 +96,7 @@ class UserList extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    rowData['rowID'] = rowID;
+    rowData.rowID = rowID;
     return <Row dataSource={rowData}/>;
   }
 
