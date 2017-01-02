@@ -43,7 +43,7 @@ class UserProfile extends Component {
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
-      activeNaviBar: false,
+      activeNavigationBar: false,
     };
 
   }
@@ -141,7 +141,7 @@ class UserProfile extends Component {
   componentDidMount() {
     if (this.props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
-      this.renderNaviBar();
+      this.renderNavigationBar();
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
@@ -208,39 +208,39 @@ class UserProfile extends Component {
   controlScroll(e) {
     const event = e.nativeEvent;
 
-    if (this.state.activeNaviBar
+    if (this.state.activeNavigationBar
       != (event.contentOffset.y > (HEIGHT * 0.4) - 40)) {
-      this.state.activeNaviBar = event.contentOffset.y > (HEIGHT * 0.4) - 40;
-      this.renderNaviBar();
+      this.state.activeNavigationBar = event.contentOffset.y > (HEIGHT * 0.4) - 40;
+      this.renderNavigationBar();
     }
   }
 
-  renderNaviBar() {
+  renderNavigationBar() {
     if (this.props.myProfile) {
       Actions.refresh({
-        title: (this.state.activeNaviBar && this.state.name) ? this.state.name : '',
-        backButtonImage: (this.state.activeNaviBar) ?
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
         require('../../resources/icon-arrow-left-grey.png') :
         require('../../resources/icon-arrow-left-white.png'),
         navigationBarStyle: {
-          backgroundColor: (this.state.activeNaviBar) ? '#fbfbfb' : 'transparent',
-          borderBottomColor: (this.state.activeNaviBar) ? '#d6dada' : 'transparent',
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
         },
         rightButtonImage: null,
         onRight: () => {},
       });
     } else {
       Actions.refresh({
-        title: (this.state.activeNaviBar && this.state.name) ? this.state.name : '',
-        backButtonImage: (this.state.activeNaviBar) ?
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
         require('../../resources/icon-arrow-left-grey.png') :
         require('../../resources/icon-arrow-left-white.png'),
-        rightButtonImage: (this.state.activeNaviBar) ?
+        rightButtonImage: (this.state.activeNavigationBar) ?
         require('../../resources/icon-bookmark-grey.png') :
         require('../../resources/icon-bookmark.png'),
         navigationBarStyle: {
-          backgroundColor: (this.state.activeNaviBar) ? '#fbfbfb' : 'transparent',
-          borderBottomColor: (this.state.activeNaviBar) ? '#d6dada' : 'transparent',
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
         },
       });
     }
@@ -331,8 +331,8 @@ class UserProfile extends Component {
           onScroll={this.controlScroll.bind(this)}
           scrollEventThrottle={50}>
           <StatusBar
-            backgroundColor = {(this.state.activeNaviBar) ? 'black' : 'transparent'}
-            barStyle = {(this.state.activeNaviBar) ? 'dark-content' : 'light-content'}
+            backgroundColor = {(this.state.activeNavigationBar) ? 'black' : 'transparent'}
+            barStyle = {(this.state.activeNavigationBar) ? 'dark-content' : 'light-content'}
             networkActivityIndicatorVisible={false}
           />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
