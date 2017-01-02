@@ -14,8 +14,7 @@ import Text from '../Shared/UniText';
 export default class Row extends Component {
   constructor(props) {
     super(props);
-
-    if (props.dataSource.members[0].userId == props.myId) {
+    if (props.dataSource.members[0].userId == props.me._id) {
       this.me = props.dataSource.members[0];
       this.opponent = props.dataSource.members[1];
     } else {
@@ -34,7 +33,8 @@ export default class Row extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.dataSource.members[0].userId == props.myId) {
+
+    if (props.dataSource.members[0].userId == props.me._id) {
       this.me = props.dataSource.members[0];
       this.opponent = props.dataSource.members[1];
     } else {
@@ -87,11 +87,16 @@ export default class Row extends Component {
       return null;
     }
 
+    const profileId = { _id: this.state.opponent.userId, me: this.props.me };
+    const goToUserProfile = () => Actions.userProfile(profileId);
+
     return (
-      <TouchableHighlight underlayColor='lightgray' onPress={this.goToChat}>
+      <TouchableWithoutFeedback underlayColor='white' onPress={this.goToChat}>
         <View style={styles.row}>
-          <Image style={styles.photo}
-                 source={{ uri: this.state.opponent.profileUrl }}/>
+          <TouchableWithoutFeedback underlayColor='white' onPress={goToUserProfile}>
+            <Image style={styles.photo}
+                   source={{ uri: this.state.opponent.profileUrl }}/>
+          </TouchableWithoutFeedback>
           <View style={styles.userInformation}>
             <View style={styles.leftSection}>
               <Text style={styles.name}>
@@ -115,7 +120,7 @@ export default class Row extends Component {
             </View>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     );
   }
 }

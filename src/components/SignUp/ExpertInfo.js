@@ -13,6 +13,7 @@ import Progress from '../Shared/Progress';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import { Options } from './SignUpMETA';
 
 const window = Dimensions.get('window');
@@ -35,7 +36,11 @@ class ExpertInfo extends Component {
 
   componentDidMount() {
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'Save', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.onNextBtnPressed.bind(this),
+      });
   }
 
   // Update checkbox state
@@ -47,6 +52,7 @@ class ExpertInfo extends Component {
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
@@ -132,20 +138,20 @@ class ExpertInfo extends Component {
     return (
       <View style={styles.container}>
         {this.props.fromEdit ? null : (<Progress level={4} step={3} />)}
-        <View style={styles.header}>
-          <Text allowFontScaling={false} style={styles.titleText}>
-            {'Add all Keywords that\nyou can help others with.'}
-          </Text>
-          <Text allowFontScaling={false} style={styles.subTitleText}>
-            {'We use this information to\nrecommend the most fit advisor.'}
-          </Text>
-        </View>
-        <View style ={styles.body}>
-          <ScrollView>
+        <ScrollView>
+          <View style={styles.header}>
+            <Text allowFontScaling={false} style={styles.titleText}>
+              {'Add all Keywords that\nyou can help others with.'}
+            </Text>
+            <Text allowFontScaling={false} style={styles.subTitleText}>
+              {'We use this information to\nrecommend the most fit advisor.'}
+            </Text>
+          </View>
+          <View style ={styles.body}>
             {this.getOptionSet()}
-          </ScrollView>
-        </View>
-        {submitButton}
+          </View>
+          {submitButton}
+        </ScrollView>
       </View>
     );
   }
@@ -157,68 +163,72 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
   header: {
-    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#d6dada',
+    paddingTop: dimensions.heightWeight * 54,
+    paddingBottom: dimensions.heightWeight * 50,
   },
   body: {
-    flex: 3,
+    height: dimensions.heightWeight * 370,
     borderTopColor: '#efeff2',
     borderTopWidth: 1,
     borderStyle: 'solid',
-    flexDirection: 'row',
-  },
-  scrollViewContainer: {
-    flex: 1,
   },
   btnContainer: {
-    flex: 1,
     zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: dimensions.heightWeight * 40,
+    paddingBottom: dimensions.heightWeight * 30,
   },
   btnStyle: {
-    height: 45,
-    width: 230,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 230,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     textAlign: 'center',
     color: '#2e3031',
   },
   subTitleText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     textAlign: 'center',
     color: '#2e3031',
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   buttonText: {
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   iconStyle: {
-    width: 50,
-    height: 50,
+    width: dimensions.widthWeight * 50,
+    height: dimensions.heightWeight * 50,
   },
   labelStyle: {
-    height: 50,
+    height: dimensions.heightWeight * 50,
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
     borderStyle: 'solid',
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

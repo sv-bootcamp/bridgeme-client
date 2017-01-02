@@ -24,6 +24,7 @@ import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';
 import { CareerData } from './SignUpMETA';
+import { dimensions } from '../Shared/Dimensions';
 
 class CareerInfo extends Component {
   constructor(props) {
@@ -76,12 +77,17 @@ class CareerInfo extends Component {
     }
 
     if (this.props.fromEdit)
-      Actions.refresh({ rightTitle: 'Save', onRight: this.onNextBtnPressed.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.onNextBtnPressed.bind(this),
+      });
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.onNextBtnPressed.bind(this),
         onBack: () => {
@@ -125,8 +131,10 @@ class CareerInfo extends Component {
   }
 
   onPress() {
-    for (let i = 0; i < this.state.pressed.length; i++) {
-      this.state.pressed[i] = true;
+    if (this.props.fromEdit) {
+      for (let i = 0; i < this.state.pressed.length; i++) {
+        this.state.pressed[i] = true;
+      }
     }
   }
 
@@ -153,7 +161,10 @@ class CareerInfo extends Component {
                 <Text style={styles.questionText}>{this.state.questions[idx]}</Text>
                 <View key={idx} style={[styles.dropdownContainerAndroid]}>
                   <Dropdown
-                    style={{ height: 40, width: Dimensions.get('window').width - 60 }}
+                    style={{
+                      height: dimensions.heightWeight * 40,
+                      width: Dimensions.get('window').width - dimensions.widthWeight * 60,
+                    }}
                     values={this.state.option[idx]}
                     selected={this.state.option[idx].indexOf(this.state.selected[idx])}
                     onChange={(CareerData) => {
@@ -176,13 +187,16 @@ class CareerInfo extends Component {
                     pressed={this.state.pressed[idx]}
                     onPress={this.onPress.bind(this)}
                     index={idx}
-                    width={Dimensions.get('window').width - 60}
+                    width={Dimensions.get('window').width - dimensions.widthWeight * 60}
                     defaultValue={' '}
                     optionListRef={this.getOptionList.bind(this)}
                     onSelect={this.onSelect.bind(this)}>
                     {this.getOptionSet(idx)}
                   </Select>
-                  <OptionList ref={'OPTION' + idx} index={idx}/>
+                  <OptionList
+                    ref={'OPTION' + idx}
+                    overlayEnable={!this.props.fromEdit}
+                    index={idx}/>
                 </View>
               </View>
             );
@@ -278,7 +292,7 @@ class CareerInfo extends Component {
     return (
       <View style ={styles.container}>
         {this.props.fromEdit ? null : (<Progress level={4} step={2} />)}
-        <ScrollView contentContainerStyle ={styles.scrollViewcontainer}>
+        <ScrollView>
           <View style={styles.header}>
             <Text style={styles.titleText}>What do you do?</Text>
             <Text style={styles.subTitleText}>Let us know your career background.</Text>
@@ -300,36 +314,35 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
   },
-  scrollViewcontainer: {
-    flex: 1,
-  },
   header: {
-    flex: 1.2,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#d6dada',
+    paddingTop: dimensions.heightWeight * 54,
+    paddingBottom: dimensions.heightWeight * 50,
   },
   body: {
-    flex: 4,
-    marginLeft: 30,
-    marginRight: 30,
+    flex: 1,
+    marginLeft: dimensions.widthWeight * 30,
+    marginRight: dimensions.widthWeight * 30,
     zIndex: 100,
   },
   questionContainer: {
-    marginBottom: 20,
+    marginBottom: dimensions.heightWeight * 20,
   },
   dropdownContainer: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   dropdownContainerAndroid: {
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
     borderColor: '#efeff2',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -340,25 +353,27 @@ const styles = StyleSheet.create({
     zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: dimensions.heightWeight * 15,
+    paddingBottom: dimensions.heightWeight * 30,
   },
   btnStyle: {
-    height: 45,
-    width: 230,
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 230,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   titleText: {
-    fontSize: 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   subTitleText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     color: '#2e3031',
-    marginTop: 10,
+    marginTop: dimensions.heightWeight * 10,
   },
   questionText: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
   },
@@ -366,7 +381,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

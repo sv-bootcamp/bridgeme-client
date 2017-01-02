@@ -52,6 +52,7 @@
 		D260393C1DF7D9D0004DC6C9 /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D26039371DF7D8E0004DC6C9 /* SF-UI-Text-Light.otf */; };
 		D260393D1DF7D9D0004DC6C9 /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D26039381DF7D8E0004DC6C9 /* SF-UI-Text-Ultrathin.otf */; };
 		D260393E1DF7D9D5004DC6C9 /* opensans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA20BCD31DA4B63F00BFA62C /* opensans.ttf */; };
+		D2838D541E11023E009D9A61 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26195E54F9CB4F2593F25889 /* Ionicons.ttf */; };
 		DAB407959AAC40BC9D08F885 /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
@@ -1043,6 +1044,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2838D541E11023E009D9A61 /* Ionicons.ttf in Resources */,
 				D260393E1DF7D9D5004DC6C9 /* opensans.ttf in Resources */,
 				D26039391DF7D9D0004DC6C9 /* SF-UI-Text-Bold.otf in Resources */,
 				D260393A1DF7D9D0004DC6C9 /* SF-UI-Text-Regular.otf in Resources */,

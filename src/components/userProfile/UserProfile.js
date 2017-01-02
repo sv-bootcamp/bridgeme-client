@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   ListView,
+  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -13,9 +14,10 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import ScrollableTabBar from '../Activity/ScrollableTabBar';
+import DefaultTabBar from '../Activity/DefaultTabBar';
 import Text from '../Shared/UniText';
 import UserCareer from './UserCareer';
 import UserOverview from './UserOverview';
@@ -41,7 +43,9 @@ class UserProfile extends Component {
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
+      activeNavigationBar: false,
     };
+
   }
 
   onReqestCallback(result, error) {
@@ -82,7 +86,9 @@ class UserProfile extends Component {
   getProfileImage(status) {
     let image;
     if (status.profile_picture) {
-      image = { uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture };
+      image = {
+        uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture,
+      };
       return image;
     } else {
       image = require('../../resources/pattern.png');
@@ -135,10 +141,10 @@ class UserProfile extends Component {
   componentDidMount() {
     if (this.props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+      this.renderNavigationBar();
     } else {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
-
   }
 
   // Receive props befofe completly changed
@@ -199,6 +205,45 @@ class UserProfile extends Component {
     );
   }
 
+  handleScroll(event) {
+    if (this.state.activeNavigationBar
+      != (event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40)) {
+      this.state.activeNavigationBar = event.nativeEvent.contentOffset.y > (HEIGHT * 0.4) - 40;
+      this.renderNavigationBar();
+    }
+  }
+
+  renderNavigationBar() {
+    if (this.props.myProfile) {
+      Actions.refresh({
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
+        },
+        rightButtonImage: null,
+        onRight: () => {},
+      });
+    } else {
+      Actions.refresh({
+        title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
+        backButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-arrow-left-grey.png') :
+        require('../../resources/icon-arrow-left-white.png'),
+        rightButtonImage: (this.state.activeNavigationBar) ?
+        require('../../resources/icon-bookmark-grey.png') :
+        require('../../resources/icon-bookmark.png'),
+        navigationBarStyle: {
+          backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
+          borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
+        },
+      });
+    }
+  }
+
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -253,11 +298,11 @@ class UserProfile extends Component {
     if (this.state.isAboutDisplayed) {
       about = (
         <Animated.View style={[styles.aboutDetail, {
-              width: this.state.width,
-              height: this.state.height,
-              opacity: this.state.opacity,
-            },
-            ]}>
+          width: this.state.width,
+          height: this.state.height,
+          opacity: this.state.opacity,
+        },
+        ]}>
           <TouchableOpacity
             onPress={this.toggleAbout.bind(this)}
             style={{ flex: 1 }}>
@@ -280,10 +325,12 @@ class UserProfile extends Component {
         flexDirection: 'column',
         flex: 1,
       }}>
-        <ScrollView>
+        <ScrollView
+          scrollEventThrottle={16}
+          onScroll={this.handleScroll.bind(this)}>
           <StatusBar
-            backgroundColor = "transparent"
-            barStyle = "light-content"
+            backgroundColor = {(this.state.activeNavigationBar) ? 'black' : 'transparent'}
+            barStyle = {(this.state.activeNavigationBar) ? 'dark-content' : 'light-content'}
             networkActivityIndicatorVisible={false}
           />
           <LinearGradient style={styles.profileImgGradient} start={[0.0, 0.25]} end={[0.5, 1.0]}
@@ -292,7 +339,7 @@ class UserProfile extends Component {
               source={this.state.profileImage} />
           </LinearGradient>
           <Image style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}/>
+            source={null}/>
           <View style={styles.profileUserInfo}>
             <Text style={styles.name}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
@@ -305,14 +352,22 @@ class UserProfile extends Component {
             tabBarInactiveTextColor={'#a6aeae'}
             tabBarActiveTextColor={'#2e3031'}
             tabBarUnderlineStyle={styles.tabBarUnderline}
-            renderTabBar={() => <ScrollableTabBar
-            leftOffset={38}
-            rightOffset={31}
-            />}
-          >
-            <UserOverview tabLabel='OVERVIEW' id={this.state.id}
-                          toggleAbout={this.toggleAbout.bind(this)}/>
-            <UserCareer tabLabel='CAREER' id={this.state.id}/>
+            renderTabBar={() => (
+              <DefaultTabBar
+                style={
+                  {
+                    marginLeft: dimensions.widthWeight * 50,
+                    marginRight: dimensions.widthWeight * 50,
+                  }
+                }
+                containerWidth={WIDTH - (dimensions.widthWeight * 100)}
+                leftOffset={dimensions.widthWeight * 22}
+                rightOffset={dimensions.widthWeight * 28}
+                />)}>
+            <UserOverview
+              tabLabel="OVERVIEW" id={this.state.id}
+              toggleAbout={this.toggleAbout.bind(this)}/>
+            <UserCareer tabLabel="CAREER" id={this.state.id}/>
           </ScrollableTabView>
         </ScrollView>
         <View style={styles.btn}>
@@ -337,25 +392,32 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   name: {
-    fontSize: 22,
+    fontSize: dimensions.fontWeight * 22,
     fontWeight: 'bold',
     color: '#ffffff',
   },
   positionText: {
-    fontSize: 14,
-    marginTop: 10,
+    fontSize: dimensions.fontWeight * 14,
+    marginTop: dimensions.heightWeight * 10,
     color: '#ffffff',
   },
   currentLocationText: {
-    fontSize: 14,
-    marginTop: 5,
+    fontSize: dimensions.fontWeight * 14,
+    marginTop: dimensions.heightWeight * 5,
     color: '#ffffff',
   },
   bookmarkIcon: {
     position: 'absolute',
     zIndex: 1,
-    right: 25,
-    top: 32,
+    right: dimensions.widthWeight * 25,
+    ...Platform.select({
+      ios: {
+        top: dimensions.heightWeight * 32,
+      },
+      android: {
+        top: dimensions.heightWeight * 17,
+      },
+    }),
   },
   profileImage: {
     alignItems: 'stretch',
@@ -374,8 +436,8 @@ const styles = StyleSheet.create({
   },
   profileUserInfo: {
     position: 'absolute',
-    top: 155,
-    marginLeft: 45,
+    top: dimensions.heightWeight * 155,
+    marginLeft: dimensions.widthWeight * 45,
     zIndex: 100,
     backgroundColor: 'transparent',
   },
@@ -385,7 +447,7 @@ const styles = StyleSheet.create({
   },
   connectBtnStyle: {
     alignItems: 'stretch',
-    height: 45,
+    height: dimensions.heightWeight * 45,
     left: 0,
     right: 0,
   },
@@ -396,32 +458,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     fontWeight: 'bold',
     color: '#ffffff',
     alignSelf: 'center',
-    paddingTop: 10,
+    paddingTop: dimensions.heightWeight * 10,
   },
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
   card: {
     borderWidth: 1,
     backgroundColor: '#fff',
     borderColor: 'rgba(0,0,0,0.1)',
-    margin: 5,
-    height: 150,
-    padding: 15,
+    marginTop: dimensions.heightWeight * 5,
+    marginBottom: dimensions.heightWeight * 5,
+    marginLeft: dimensions.widthWeight * 5,
+    marginRight: dimensions.widthWeight * 5,
+    height: dimensions.heightWeight * 150,
+    paddingVertical: dimensions.heightWeight * 15,
+    paddingHorizontal: dimensions.widthWeight * 15,
     shadowColor: '#ccc',
     shadowOffset: { width: 2, height: 2, },
     shadowOpacity: 0.5,
     shadowRadius: 3,
   },
   tabBarText: {
+    marginTop: 10,
+    backgroundColor: 'transparent',
     fontFamily: 'SFUIText-Bold',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
+    fontWeight: 'bold',
   },
   tabBarUnderline: {
     backgroundColor: '#44acff',
@@ -440,23 +510,23 @@ const styles = StyleSheet.create({
   aboutDetailContainer: {
     backgroundColor: 'transparent',
     flex: 1,
-    marginTop: 150,
-    marginLeft: 50,
-    marginRight: 50,
+    marginTop: dimensions.heightWeight * 150,
+    marginLeft: dimensions.widthWeight * 50,
+    marginRight: dimensions.widthWeight * 50,
   },
   aboutDetailTitle: {
-    fontSize: 22,
+    fontSize: dimensions.fontWeight * 22,
     fontWeight: '700',
     color: 'white',
   },
   aboutDetailContent: {
     color: 'white',
-    paddingTop: 10,
-    fontSize: 14,
+    paddingTop: dimensions.heightWeight * 10,
+    fontSize: dimensions.fontWeight * 14,
   },
   cancelButton: {
     alignSelf: 'center',
-    marginBottom: 70,
+    marginBottom: dimensions.heightWeight * 70,
   },
 });
 

@@ -1,11 +1,13 @@
 import {
   Alert,
+  Platform,
   StyleSheet,
 } from 'react-native';
 import {
   ActionConst,
   Actions,
 } from 'react-native-router-flux';
+import { dimensions } from './Shared/Dimensions';
 import Activity from './Activity/Activity';
 import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
@@ -31,27 +33,112 @@ import EditProfile from './EditProfile';
 
 const styles = StyleSheet.create({
   bar: {
+    ...Platform.select({
+      ios: {
+        height: (dimensions.heightWeight * 44) + 20,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+      },
+    }),
+    padding: 0,
     backgroundColor: '#fbfbfb',
     borderBottomColor: '#d6dada',
   },
+  titleWrapperStyle: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    marginTop: 0,
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    left: 0,
+    right: 0,
+  },
+  rightButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginTop: 0,
+    justifyContent: 'center',
+  },
+  leftButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    marginLeft: dimensions.widthWeight * 10,
+    alignItems: 'center',
+    padding: 0,
+  },
   mainTitle: {
+    backgroundColor: 'transparent',
     fontFamily: 'ProductSans-Bold',
-    fontSize: 17,
+    fontSize: dimensions.fontWeight * 17,
     color: '#2e3031',
   },
+  title: {
+    backgroundColor: 'transparent',
+    fontFamily: 'SFUIText-Regular',
+    fontSize: dimensions.fontWeight * 17,
+    color: '#2e3031',
+  },
+  rightTxt: {
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 0,
+    height: dimensions.heightWeight * 0,
+    fontSize: dimensions.fontWeight * 17,
+    color: '#557bfc',
+  },
   rightBtn: {
-    fontSize: 16,
-    color: '#44acff',
+    backgroundColor: 'transparent',
+    marginRight: dimensions.widthWeight * 16,
+    width: dimensions.widthWeight * 20,
+    height: dimensions.heightWeight * 18,
+    resizeMode: 'contain',
+  },
+  rightBtnBookmark: {
+    backgroundColor: 'transparent',
+    marginRight: dimensions.widthWeight * 25,
+    width: dimensions.widthWeight * 23,
+    height: dimensions.heightWeight * 21,
+    resizeMode: 'contain',
   },
   leftBtn: {
-    width: 25,
-    height: 20,
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 25,
+    height: dimensions.heightWeight * 20,
+    resizeMode: 'contain',
   },
   leftBtnCancel: {
-    marginTop: 5,
-    marginLeft: 5,
-    width: 13,
-    height: 13,
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 13,
+    height: dimensions.heightWeight * 13,
   },
 });
 
@@ -62,7 +149,12 @@ const cancelButton = require('../resources/icon-cancel.png');
 const AppProps = {
   rootProp: {
     key: 'root',
-    rightButtonTextStyle: styles.rightBtn,
+    titleStyle: styles.title,
+    titleWrapperStyle: styles.titleWrapperStyle,
+    rightButtonStyle: styles.rightButtonStyle,
+    leftButtonStyle: styles.leftButtonStyle,
+    rightButtonTextStyle: styles.rightTxt,
+    rigntButtonIconStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
     leftButtonIconStyle: styles.leftBtn,
   },
@@ -155,8 +247,7 @@ const AppProps = {
       titleStyle: styles.mainTitle,
       type: ActionConst.RESET,
       rightTitle: 'right',
-      rightButtonTextStyle: { color: 'transparent' },
-      rightButtonIconStyle: { marginBottom: 13, marginRight: 6 },
+      rightButtonIconStyle: styles.rightBtn,
       rightButtonImage: require('../resources/filter.png'),
       onRight: () => Actions.filter(),
     },
@@ -175,6 +266,10 @@ const AppProps = {
       direction: 'fade',
       duration: 500,
       backButtonImage: require('../resources/icon-arrow-left-white.png'),
+      rightTitle: 'right',
+      rightButtonImage: require('../resources/icon-bookmark.png'),
+      rightButtonIconStyle: styles.rightBtnBookmark,
+      onRight: () => Alert.alert('bookmark'),
       navigationBarStyle: {
         backgroundColor: 'transparent',
         borderBottomColor: 'transparent',
@@ -186,6 +281,7 @@ const AppProps = {
       title: 'Filter',
       backButtonImage: cancelButton,
       leftButtonIconStyle: styles.leftBtnCancel,
+      direction: 'diagonal',
     },
     {
       key: 'requestPage',
@@ -213,7 +309,7 @@ const AppProps = {
       onBack: () => {
         Actions.pop();
 
-        //Delay 10ms to refresh previous scene when current scene is completely popped.
+        //Delay 20ms to refresh previous scene when current scene is completely popped.
         setTimeout(() => Actions.refresh(), 20);
       },
     },
@@ -226,6 +322,12 @@ const AppProps = {
       component: EditProfile,
       title: 'Edit profile',
       backButtonImage: leftButtonGrey,
+      onBack: () => {
+        Actions.pop();
+
+        //Delay 20ms to refresh previous scene when current scene is completely popped.
+        setTimeout(() => Actions.refresh(), 20);
+      },
     },
   ],
 };

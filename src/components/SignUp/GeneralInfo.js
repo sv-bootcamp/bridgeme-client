@@ -9,10 +9,10 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import EditForm from './EditForm';
 import EduForm from './EduForm';
-import EduFormIOS from './EduFormIOS';
 import MyPic from './MyPic';
 import Progress from '../Shared/Progress';
 import Text from '../Shared/UniText';
@@ -46,28 +46,60 @@ class GeneralInfo extends Component {
     };
   }
 
+  setProfileData(profileData) {
+    profileData.education.reverse();
+
+    let dataLength = profileData.education.length;
+    for (let i = 0; i < 2 - dataLength; i++) {
+      profileData.education.unshift({
+        school: { name: '' },
+        type: '',
+        year: { name: '' },
+        start_date: '',
+        end_date: '',
+        concentration: [{ name: '' }],
+      });
+    }
+
+    dataLength = profileData.experience.length;
+    for (let i = 0; i < 2 - dataLength; i++) {
+      profileData.experience.unshift({
+        start_date: '',
+        end_date: '',
+        employer: { name: '' },
+        location: { name: '' },
+        position: [{ name: '' }],
+      });
+    }
+
+    this.setState({
+      profile: profileData,
+      eduDataSource: this.state.eduDataSource.cloneWithRows(profileData.education),
+      workDataSource: this.state.workDataSource.cloneWithRows(profileData.experience),
+    });
+  }
+
   // After rendering, request user profile to server
   componentDidMount() {
     if (this.props.me) {
-      const result = this.props.me;
-      result.education.reverse();
-      this.setState({
-        profile: result,
-        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
-      });
+      this.setProfileData(this.props.me);
     } else {
       UserUtil.getMyProfile(this.onGetMyProfileCallback.bind(this));
     }
 
     if (this.props.fromEdit) {
-      Actions.refresh({ rightTitle: 'Save', onRight: this.regist.bind(this) });
+      Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Save',
+        onRight: this.regist.bind(this),
+      });
     }
   }
 
   componentWillReceiveProps(props) {
     if (props.fromEdit && this.state.needRefresh) {
       Actions.refresh({
+        rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Save',
         onRight: this.regist.bind(this),
         onBack: () => {
@@ -81,12 +113,7 @@ class GeneralInfo extends Component {
 
   onGetMyProfileCallback(result, error) {
     if (result) {
-      result.education.reverse();
-      this.setState({
-        profile: result,
-        eduDataSource: this.state.eduDataSource.cloneWithRows(result.education),
-        workDataSource: this.state.workDataSource.cloneWithRows(result.experience),
-      });
+      this.setProfileData(result);
     }
 
     if (error) {
@@ -98,7 +125,7 @@ class GeneralInfo extends Component {
 
   onUploadCallback(result, error) {
     if (error) {
-      Alert.alert('Sign In', error);
+      Alert.alert('Profile', error);
     } else if (result) {
       if (this.props.fromEdit) {
         Actions.pop();
@@ -117,11 +144,15 @@ class GeneralInfo extends Component {
       return;
     }
 
-    if (profile.education[idx][parentProp] === undefined) {
+    if (!profile.education[idx][parentProp]) {
       profile.education[idx][parentProp] = {};
     }
 
-    profile.education[idx][parentProp][childProp] = text;
+    if (childProp) {
+      profile.education[idx][parentProp][childProp] = text;
+    } else {
+      profile.education[idx][parentProp] = text;
+    }
   }
 
   onDeleteEdu(rowID) {
@@ -132,11 +163,17 @@ class GeneralInfo extends Component {
     });
   }
 
-  onChangeExpInfo(propName1, propName2, idx, text) {
-    if (propName2 == null) {
-      this.state.profile.experience[idx][propName1] = text;
+  onChangeExpInfo(parentProp, childProp, idx, text) {
+    const profile = this.state.profile;
+
+    if (!profile.experience[idx][parentProp]) {
+      profile.experience[idx][parentProp] = {};
+    }
+
+    if (childProp) {
+      profile.experience[idx][parentProp][childProp] = text;
     } else {
-      this.state.profile.experience[idx][propName1][propName2] = text;
+      profile.experience[idx][parentProp] = text;
     }
   }
 
@@ -157,6 +194,8 @@ class GeneralInfo extends Component {
         school: { name: '' },
         type: '',
         year: { name: '' },
+        start_date: '',
+        end_date: '',
         concentration: [{ name: '' }],
       });
 
@@ -196,13 +235,13 @@ class GeneralInfo extends Component {
   regist() {
     const profile = this.state.profile;
     if (profile.name.replace(/\s/g, '') === '') {
-      Alert.alert('Sign In', 'Please input your name.');
+      Alert.alert('Profile', 'Please input your name.');
       return;
     }
 
     const emailFilter = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFilter.test(profile.email) === false) {
-      Alert.alert('Sign In', 'Please input your correct email.');
+      Alert.alert('Profile', 'Please input your correct email.');
       return;
     }
 
@@ -269,28 +308,22 @@ class GeneralInfo extends Component {
   }
 
   getDefaultWork(experience, sectionID, rowID) {
-    const employer = experience.employer === undefined ? '' : experience.employer.name;
-    const position = experience.position === undefined ? '' : experience.position.name;
-    const start = experience.start_date === undefined ? '' : experience.start_date;
-    let end = '';
-    if (experience.end_date !== undefined) {
-      end = experience.end_date === '0000-00' ? 'present' : experience.end_date;
-    }
-
     const onDelete = deletedRowID => this.onDeleteWork(deletedRowID);
     const onChangeText = (propName1, propName2, idx, text) =>
                           this.onChangeExpInfo(propName1, propName2, idx, text);
 
+    const props = {
+      employer: experience.employer ? experience.employer.name : '',
+      position: experience.position ? experience.position.name : '',
+      start: experience.start_date,
+      end: experience.end_date,
+      id: rowID,
+      onDelete,
+      onChangeText
+    };
+
     return (
-      <WorkForm
-        employer={employer}
-        position={position}
-        start={start}
-        end={end}
-        id={rowID}
-        onDelete={onDelete}
-        onChangeText={onChangeText}
-      />
+      <WorkForm {...props} />
     );
   }
 
@@ -306,19 +339,13 @@ class GeneralInfo extends Component {
 
     const props = {
       name: edu.school ? edu.school.name : '',
-      startYear: edu.startYear ? edu.startYear.name : '1980',
-      endYear: edu.year ? edu.year.name : '1980',
+      start: edu.start_date,
+      end: edu.end_date || (edu.year ? edu.year.name : ''),
       subject: eduSubject,
       id: rowID,
       onDelete,
       onChangeText,
     };
-
-    if (Platform.OS === 'ios') {
-      return (
-        <EduFormIOS {...props} />
-      );
-    }
 
     return (
       <EduForm {...props} />
@@ -397,42 +424,42 @@ const styles = StyleSheet.create({
   container: {
     ...Platform.select({
       ios: {
-        marginTop: 64,
+        marginTop: (dimensions.heightWeight * 44) + 20,
       },
       android: {
-        marginTop: 54,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
-    marginBottom: 30,
+    marginBottom: dimensions.heightWeight * 30,
     flex: 1,
     flexDirection: 'column',
   },
   scrollView: {
-    paddingLeft: 40,
+    paddingLeft: dimensions.widthWeight * 40,
   },
   form: {
-    marginTop: 20,
+    marginTop: dimensions.heightWeight * 20,
   },
   title: {
     color: '#a6aeae',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
   },
   add: {
     color: '#2e3031',
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginRight: 30,
+    marginRight: dimensions.heightWeight * 30,
   },
   nextView: {
     alignItems: 'center',
-    marginTop: 64,
-    marginBottom: 30,
-    marginRight: 40,
+    marginTop: dimensions.heightWeight * 64,
+    marginBottom: dimensions.heightWeight * 30,
+    marginRight: dimensions.widthWeight * 40,
   },
   nextImage: {
-    width: 230,
-    height: 45,
+    width: dimensions.widthWeight * 230,
+    height: dimensions.heightWeight * 45,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
@@ -441,7 +468,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   flexR: {
     flexDirection: 'row',
@@ -452,6 +479,12 @@ const styles = StyleSheet.create({
   },
   horiR: {
     justifyContent: 'flex-end',
+  },
+  rightTextStyle: {
+    backgroundColor: 'transparent',
+    color: '#44acff',
+    fontSize: dimensions.fontWeight * 16,
+    marginRight: dimensions.widthWeight * 15,
   },
 });
 

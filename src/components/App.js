@@ -53,6 +53,7 @@ class App extends Component {
 
   backAndroidHandler() {
     let scene = App.scene.sceneKey;
+
     if (scene === 'onBoarding' ||
         scene === 'evalPageMain' ||
         scene === 'main' ||

@@ -12,6 +12,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 
@@ -77,14 +78,17 @@ class UserOverview extends Component {
           <Text style={styles.sectionName}>About</Text>
           <View onLayout={ (event) => {
             const { height } = event.nativeEvent.layout;
-            const HEIGHT_OF_TWO_LINES = 33;
+            const HEIGHT_OF_TWO_LINES = dimensions.heightWeight * 33;
 
             if (height > HEIGHT_OF_TWO_LINES) {
               this.setState({ needEllipsize: true });
             }
           }}
           >
-            <Text style={{ marginRight: 45 }} ellipsizeMode={'tail'} numberOfLines={2}>
+            <Text
+              style={{ marginRight: dimensions.widthWeight * 45 }}
+              ellipsizeMode={'tail'}
+              numberOfLines={2}>
               {this.state.about}
             </Text>
           </View>
@@ -100,7 +104,7 @@ class UserOverview extends Component {
 
   renderMyExpertise() {
     const CHARACTER_WIDTH = 9;
-    const LINE_PADDING = 30;
+    const LINE_PADDING = dimensions.widthWeight * 30;
     const TAG_RECTANGLE_SIZE = 50;
     const originArray = this.state.expertise;
     const newArray = [[]];
@@ -152,15 +156,15 @@ class UserOverview extends Component {
     const fontStyle = [
       {
         color: '#cdd2d2',
-        fontSize: 12,
+        fontSize: dimensions.fontWeight * 12,
       },
       {
         color: '#757b7c',
-        fontSize: 16,
+        fontSize: dimensions.fontWeight * 16,
       },
       {
         color: '#2e3031',
-        fontSize: 20,
+        fontSize: dimensions.fontWeight * 20,
       },
     ];
     return (
@@ -209,40 +213,41 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
   },
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
   },
   sectionContainer: {
-    marginTop: 20,
-    marginLeft: 30,
+    marginTop: dimensions.heightWeight * 20,
+    marginLeft: dimensions.widthWeight * 30,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f2',
-    paddingBottom: 20,
+    paddingBottom: dimensions.heightWeight * 20,
   },
   sectionName: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
-    marginBottom: 23,
+    marginBottom: dimensions.heightWeight * 23,
   },
   about: {
     fontFamily: 'SFUIText-Regular',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     color: '#2e3031',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
     borderRadius: 25,
-    height: 38,
-    paddingBottom: 10,
-    paddingTop: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginRight: 10,
-    marginBottom: 10,
+    height: dimensions.heightWeight * 38,
+    paddingBottom: dimensions.heightWeight * 10,
+    paddingTop: dimensions.heightWeight * 10,
+    paddingLeft: dimensions.widthWeight * 20,
+    paddingRight: dimensions.widthWeight * 20,
+    marginRight: dimensions.widthWeight * 10,
+    marginBottom: dimensions.heightWeight * 10,
     justifyContent: 'center',
   },
   tagText: {
@@ -252,14 +257,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   personality: {
-    marginBottom: 5,
-    marginRight: 5,
-    height: 30,
+    marginBottom: dimensions.heightWeight * 5,
+    marginRight: dimensions.widthWeight * 5,
+    height: dimensions.heightWeight * 30,
   },
   expandText: {
     color: '#a6aeae',
-    fontSize: 10,
-    marginTop: 15,
+    fontSize: dimensions.fontWeight * 10,
+    marginTop: dimensions.heightWeight * 15,
   },
 });
 

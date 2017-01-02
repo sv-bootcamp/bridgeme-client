@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { dimensions } from '../Shared/Dimensions';
 import CareerRow from './CareerRow';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
@@ -131,23 +132,25 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingVertical: dimensions.heightWeight * 20,
+    paddingHorizontal: dimensions.widthWeight * 20,
+
   },
   educationSection: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: dimensions.heightWeight * 20,
   },
   experienceSection: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: dimensions.heightWeight * 20,
+    marginBottom: dimensions.heightWeight * 20,
   },
   sectionName: {
-    fontSize: 12,
+    fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: dimensions.heightWeight * 20,
     color: '#a6aeae',
   },
 });

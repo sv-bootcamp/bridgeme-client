@@ -51,7 +51,7 @@ export default class GiftedAvatar extends React.Component {
     } else if (typeof this.props.user.avatar === 'string') {
       return (
         <Image
-          source={{ uri: this.props.user.avatar }}
+          source={{ uri: this.props.opponentImage }}
           style={[defaultStyles.avatarStyle, this.props.avatarStyle]}
         />
       );

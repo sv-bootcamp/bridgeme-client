@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 import ImagePicker from 'react-native-image-picker';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -91,29 +92,30 @@ class MyPic extends Component {
 const styles = StyleSheet.create({
   profileImageView: {
     alignItems: 'center',
-    marginTop: 40,
-    marginRight: 40,
+    marginTop: dimensions.heightWeight * 40,
+    marginRight: dimensions.widthWeight * 40,
   },
   profileImage: {
-    height: 110,
-    width: 110,
-    borderRadius: 55,
+    height: dimensions.fontWeight * 110,
+    width: dimensions.fontWeight * 110,
+    borderRadius: dimensions.fontWeight * 55,
   },
   overlay: {
-    height: 110,
-    width: 110,
-    borderRadius: 55,
+    height: dimensions.fontWeight * 110,
+    width: dimensions.fontWeight * 110,
+    borderRadius: dimensions.fontWeight * 55,
     position: 'absolute',
     top: 0,
-    left: (deviceWidth / 2) - 95,
+    left: dimensions.widthWeight * 93
+    + (dimensions.widthWeight - dimensions.fontWeight) * 55,
     backgroundColor: 'rgba(46, 48, 48, 0.5)',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   editImage: {
-    height: 23,
-    width: 25,
+    height: dimensions.heightWeight * 23,
+    width: dimensions.widthWeight * 25,
   },
 });
 

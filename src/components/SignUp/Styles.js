@@ -2,26 +2,37 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
+import { dimensions } from '../Shared/Dimensions';
 
 const deviceWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   formEditView: {
+    width: deviceWidth - dimensions.widthWeight * 30,
     borderBottomWidth: 1,
     borderBottomColor: '#a6aeae',
-    paddingBottom: 15,
+    paddingTop: dimensions.heightWeight * 50,
+    paddingBottom: dimensions.heightWeight * 35,
+    paddingLeft: dimensions.widthWeight * 15,
+    paddingRight: dimensions.widthWeight * 15,
+    marginRight: dimensions.widthWeight * 15,
+    marginLeft: dimensions.widthWeight * 15,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: '#ffffff',
   },
   formEditBottomLine: {
-    borderBottomColor: '#a6aeae',
+    borderBottomColor: '#dddddd',
     borderBottomWidth: 1,
+    marginBottom: dimensions.heigthWeight * 15,
   },
   formView: {
-    width: deviceWidth - 40,
+    width: deviceWidth - dimensions.widthWeight * 40,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',
-    paddingBottom: 15,
+    paddingBottom: dimensions.heightWeight * 15,
   },
   deleteView: {
-    width: 77,
+    width: dimensions.widthWeight * 77,
     backgroundColor: '#fd5b52',
     alignItems: 'center',
     justifyContent: 'center',
@@ -30,69 +41,87 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   formNameContainer: {
-    width: deviceWidth - 40,
-    height: 16,
+    width: deviceWidth - dimensions.widthWeight * 40,
+    height: dimensions.heightWeight * 16,
   },
   formName: {
     color: '#2e3031',
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
   },
   formEditName: {
     textAlign: 'left',
     textAlignVertical: 'center',
-    height: 40,
+    height: dimensions.heightWeight * 40,
   },
   formDate: {
     color: '#2e3031',
-    marginTop: 10,
-    fontSize: 12,
+    marginTop: dimensions.heightWeight * 10,
+    fontSize: dimensions.fontWeight * 12,
+  },
+  formEditDegree: {
+    width: deviceWidth - 70,
   },
   formEditYear: {
-    width: 100,
+    flex: 1,
+  },
+  formEditMid: {
+    width: dimensions.widthWeight * 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  formEditPlaceholder: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    paddingTop: dimensions.heightWeight * 10,
+    paddingBottom: dimensions.heightWeight * 10,
+    paddingLeft: dimensions.widthWeight * 10,
+    paddingRight: dimensions.widthWeight * 10,
+    height: dimensions.widthWeight * 30,
   },
   doneWrapper: {
     alignItems: 'flex-end',
     backgroundColor: '#fbfbfb',
-    padding: 10,
+    paddingVertical: dimensions.heightWeight * 10,
+    paddingHorizontal: dimensions.widthWeight * 10,
   },
   doneText: {
-    fontSize: 16,
+    fontSize: dimensions.fontWeight * 16,
     color: '#44acff',
   },
   modalContainer: {
-    flexDirection: 'row',
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, .5)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
   },
   formEditDate: {
-    height: 30,
+    height: dimensions.heightWeight * 30,
     borderWidth: 0,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   firstMargin: {
-    marginTop: 20,
+    marginTop: dimensions.heightWeight * 20,
   },
   sectionMargin: {
-    marginTop: 10.5,
+    marginTop: dimensions.heightWeight * 10.5,
   },
   flexR: {
     flexDirection: 'row',
   },
   editL: {
     flex: 1,
-    marginTop: 15,
+    marginTop: dimensions.heightWeight * 15,
     justifyContent: 'flex-start',
   },
   editR: {
-    width: 26,
-    marginTop: 15,
-    marginRight: 20,
+    width: dimensions.widthWeight * 26,
+    marginTop: dimensions.heightWeight * 15,
+    marginRight: dimensions.widthWeight * 20,
     justifyContent: 'flex-end',
   },
   editBtn: {
-    width: 16,
-    height: 16,
+    width: dimensions.widthWeight * 16,
+    height: dimensions.heightWeight * 16,
   },
 });
 
