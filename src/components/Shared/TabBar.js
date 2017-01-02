@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Image,
   StyleSheet,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { dimensions } from '../Shared/Dimensions';
@@ -32,11 +32,13 @@ class TabBar extends Component {
     return (
       <View style={[styles.tabs, this.props.style]}>
         {this.props.tabs.map((tab, i) =>
-          <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-            <Image
-              style={styles.iconStyle}
-              source={this.props.activeTab === i ? this.tabIconsBlue[i] : this.tabIconsGray[i]}/>
-          </TouchableOpacity>
+          <TouchableWithoutFeedback key={tab} onPress={() => this.props.goToPage(i)}>
+            <View style={styles.tab}>
+              <Image
+                style={styles.iconStyle}
+                source={this.props.activeTab === i ? this.tabIconsBlue[i] : this.tabIconsGray[i]}/>
+            </View>
+          </TouchableWithoutFeedback>
         )}
       </View>
     );
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     width: dimensions.widthWeight * 26,
+    height: dimensions.heightWeight * 26,
     resizeMode: 'contain',
   },
 });
