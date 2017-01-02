@@ -20,7 +20,7 @@ class DefaultTabBar extends Component {
   renderTab(name, page, isTabActive, onPressHandler) {
     const { activeTextColor, inactiveTextColor, textStyle } = DefaultTabBar.defaultProps;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-    const fontWeight = isTabActive ? 'bold' : 'bold';
+    const fontWeight = 'bold';
 
     return (<Button
       style={{ flex: 1 }}
