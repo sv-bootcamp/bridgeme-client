@@ -196,6 +196,7 @@ class Main extends Component {
               title: 'Bridge Me',
               titleStyle: styles.mainTitle,
               rightButtonImage: require('../resources/filter.png'),
+              rightTitle: null,
               onRight: () => Actions.filter(),
             });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
@@ -210,6 +211,7 @@ class Main extends Component {
               title: 'My Connection',
               titleStyle: styles.title,
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
             });
           } else if (this.currentTab === mainPageTitle.CHAT) {
@@ -217,6 +219,7 @@ class Main extends Component {
               title: 'Chat',
               titleStyle: styles.title,
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
             });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
@@ -224,6 +227,7 @@ class Main extends Component {
               title: 'My Profile',
               titleStyle: styles.title,
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
             });
           }
@@ -239,7 +243,10 @@ class Main extends Component {
           style={styles.tabView}
           me={this.props.me}
         />
-        <Tournament/>
+        <Tournament
+          tabLabel="md-shuffle"
+          me={this.props.me}
+        />
         <Activity
           tabLabel="ios-people"
           style={styles.tabView}
