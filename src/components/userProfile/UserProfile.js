@@ -341,7 +341,10 @@ class UserProfile extends Component {
           <Image style={styles.bookmarkIcon}
             source={null}/>
           <View style={styles.profileUserInfo}>
-            <Text style={styles.name}>{this.state.name}</Text>
+            <Text
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>

@@ -207,7 +207,12 @@ class Row extends Component {
             source={require('../../resources/icon-bookmark.png')}
           />
           <View style={styles.userInformation}>
-            <Text style={styles.name}>{this.state.name}</Text>
+            <Text
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {this.state.name}
+            </Text>
             <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
             <Text style={styles.location}> {this.state.currentLocation}</Text>
             {this.renderMyExpertise()}

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   userNameWithTime: {
-    width: WIDTH - 180,
+    width: WIDTH - (180 * dimensions.widthWeight),
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
