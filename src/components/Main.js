@@ -18,6 +18,7 @@ import SendBird from 'sendbird';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import Text from './Shared/UniText';
+import Tournament from './Tournament/Tournament';
 import UserList from './UserList/UserList';
 import UserUtil from '../utils/UserUtil';
 
@@ -238,10 +239,7 @@ class Main extends Component {
           style={styles.tabView}
           me={this.props.me}
         />
-        <View tabLabel="md-shuffle" style={styles.comingSoonView}>
-          <Image source={require('../resources/tournament.png')} />
-          <Text style={styles.comingSoonText}>Coming Soon!</Text>
-        </View>
+        <Tournament/>
         <Activity
           tabLabel="ios-people"
           style={styles.tabView}

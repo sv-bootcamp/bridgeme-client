@@ -30,6 +30,7 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
+import Tournament from './Tournament/Tournament';
 
 const styles = StyleSheet.create({
   bar: {
@@ -257,6 +258,12 @@ const AppProps = {
     {
       key: 'userList',
       component: UserList,
+    },
+    {
+      key: 'tournament',
+      component: Tournament,
+      hideNavBar: true,
+      type: ActionConst.RESET,
     },
     {
       key: 'myPage',
