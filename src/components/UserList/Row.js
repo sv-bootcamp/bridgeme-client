@@ -99,7 +99,7 @@ class Row extends Component {
 
   renderMyExpertise() {
     const CHARACTER_WIDTH = dimensions.widthWeight * 10;
-    const LINE_PADDING = dimensions.widthWeight * 10;
+    const LINE_PADDING = dimensions.widthWeight * 15;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
