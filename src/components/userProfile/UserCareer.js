@@ -139,18 +139,18 @@ const styles = StyleSheet.create({
   educationSection: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginBottom: dimensions.heightWeight * 20,
+    marginBottom: dimensions.heightWeight * 10,
   },
   experienceSection: {
     flexDirection: 'column',
     justifyContent: 'center',
     marginTop: dimensions.heightWeight * 20,
-    marginBottom: dimensions.heightWeight * 20,
+    marginBottom: dimensions.heightWeight * 10,
   },
   sectionName: {
     fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginBottom: dimensions.heightWeight * 20,
+    marginBottom: dimensions.heightWeight * 10,
     color: '#a6aeae',
   },
 });

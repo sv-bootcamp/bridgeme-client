@@ -53,7 +53,7 @@ class UserList extends Component {
   onServerCallback(result, error) {
     if (error) {
       alert(error);
-    } else if (result) {
+    } else if (result.length !== 0) {
 
       // Refresh dataSource
       this.setState({
@@ -96,7 +96,7 @@ class UserList extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    rowData['rowID'] = rowID;
+    rowData.rowID = rowID;
     return <Row dataSource={rowData}/>;
   }
 

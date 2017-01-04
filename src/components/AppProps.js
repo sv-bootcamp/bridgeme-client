@@ -14,6 +14,7 @@ import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
 import Completed from './SignUp/Completed';
+import EditProfile from './EditProfile';
 import ExpertInfo from './SignUp/ExpertInfo';
 import Filter from './Filter/Filter';
 import OnBoarding from './OnBoarding/OnBoardingPage';
@@ -30,7 +31,6 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
-import EditProfile from './EditProfile';
 
 const styles = StyleSheet.create({
   bar: {
@@ -144,8 +144,11 @@ const styles = StyleSheet.create({
 });
 
 const leftButtonGrey = require('../resources/icon-arrow-left-grey.png');
+const leftButtonWhite = require('../resources/icon-arrow-left-white.png');
 const backButton = require('../resources/icon-arrow-left-white.png');
 const cancelButton = require('../resources/icon-cancel.png');
+const filterButton = require('../resources/filter.png');
+const bookmarkButton = require('../resources/icon-bookmark.png');
 
 const AppProps = {
   rootProp: {
@@ -249,7 +252,7 @@ const AppProps = {
       type: ActionConst.RESET,
       rightTitle: 'right',
       rightButtonIconStyle: styles.rightBtn,
-      rightButtonImage: require('../resources/filter.png'),
+      rightButtonImage: filterButton,
       onRight: () => Actions.filter(),
     },
     {
@@ -273,9 +276,9 @@ const AppProps = {
       hideBackImage: false,
       direction: 'fade',
       duration: 500,
-      backButtonImage: require('../resources/icon-arrow-left-white.png'),
+      backButtonImage: leftButtonWhite,
       rightTitle: 'right',
-      rightButtonImage: require('../resources/icon-bookmark.png'),
+      rightButtonImage: bookmarkButton,
       rightButtonIconStyle: styles.rightBtnBookmark,
       onRight: () => Alert.alert('bookmark'),
       navigationBarStyle: {
@@ -317,7 +320,7 @@ const AppProps = {
       onBack: () => {
         Actions.pop();
 
-        //Delay 20ms to refresh previous scene when current scene is completely popped.
+        // Delay 20ms to refresh previous scene when current scene is completely popped.
         setTimeout(() => Actions.refresh(), 20);
       },
     },
@@ -330,10 +333,11 @@ const AppProps = {
       component: EditProfile,
       title: 'Edit profile',
       backButtonImage: leftButtonGrey,
+      type: ActionConst.PUSH,
       onBack: () => {
         Actions.pop();
 
-        //Delay 20ms to refresh previous scene when current scene is completely popped.
+        // Delay 20ms to refresh previous scene when current scene is completely popped.
         setTimeout(() => Actions.refresh(), 20);
       },
     },

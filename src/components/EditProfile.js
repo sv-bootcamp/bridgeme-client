@@ -10,11 +10,10 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import { dimensions } from './Shared/Dimensions';
 import Text from './Shared/UniText';
 
-class EditProfile extends Component {
-  constructor(props) {
-    super(props);
-  }
+const leftButtonGrey = require('../resources/icon-arrow-left-grey.png');
+const indicatorIcon = require('../resources/indicator_right.png');
 
+class EditProfile extends Component {
   render() {
     const fromEditProps = {
       me: this.props.me,
@@ -27,49 +26,59 @@ class EditProfile extends Component {
     };
 
     return (
-      <View style={[styles.container]}>
-        <TouchableOpacity style={styles.menu}
-          onPress={() => Actions.generalInfo(fromEditProps)}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.menu}
+          onPress={() => Actions.generalInfo(fromEditProps)}
+        >
           <View style={styles.innerContainer}>
             <Text style={styles.menuText}>General information</Text>
             <Image
               style={styles.image}
-              source={require('../resources/indicator_right.png')}/>
+              source={indicatorIcon}
+            />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}
-          onPress={() => Actions.careerInfo(fromEditProps)}>
+        <TouchableOpacity
+          style={styles.menu}
+          onPress={() => Actions.careerInfo(fromEditProps)}
+        >
           <View style={styles.innerContainer}>
             <Text style={styles.menuText}>Career background</Text>
             <Image
               style={styles.image}
-              source={require('../resources/indicator_right.png')}/>
+              source={indicatorIcon}
+            />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}
-          onPress={() => Actions.expertInfo(fromEditProps)}>
+        <TouchableOpacity
+          style={styles.menu}
+          onPress={() => Actions.expertInfo(fromEditProps)}
+        >
           <View style={styles.innerContainer}>
             <Text style={styles.menuText}>My expertise</Text>
             <Image
               style={styles.image}
-              source={require('../resources/indicator_right.png')}/>
+              source={indicatorIcon}
+            />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}
-          onPress={() => Actions.personality(fromEditProps)}>
+        <TouchableOpacity
+          style={styles.menu}
+          onPress={() => Actions.personality(fromEditProps)}
+        >
           <View style={styles.innerContainer}>
             <Text style={styles.menuText}>My personality</Text>
             <Image
               style={styles.image}
-              source={require('../resources/indicator_right.png')}/>
+              source={indicatorIcon}
+            />
           </View>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
-const leftButtonGrey = require('../resources/icon-arrow-left-grey.png');
 
 const styles = StyleSheet.create({
   container: {

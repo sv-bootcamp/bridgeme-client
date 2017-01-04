@@ -40,7 +40,6 @@ class Activity extends Component {
         initialPage={0}
         page={this.state.currentActivityPage}
         locked={true}
-        tabBarTextStyle={styles.tabBarText}
         tabBarInactiveTextColor={'#a6aeae'}
         tabBarActiveTextColor={'#2e3031'}
         tabBarUnderlineStyle={styles.tabBarUnderline}
@@ -71,13 +70,6 @@ const styles = StyleSheet.create({
         marginTop: dimensions.heightWeight * 54,
       },
     }),
-  },
-  tabBarText: {
-    marginTop: 10,
-    backgroundColor: 'transparent',
-    fontFamily: 'SFUIText-Bold',
-    fontSize: dimensions.fontWeight * 12,
-    fontWeight: 'bold',
   },
   section: {
     backgroundColor: 'green',

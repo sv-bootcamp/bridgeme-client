@@ -101,7 +101,7 @@ class Row extends Component {
 
   renderMyExpertise() {
     const CHARACTER_WIDTH = dimensions.widthWeight * 10;
-    const LINE_PADDING = dimensions.widthWeight * 10;
+    const LINE_PADDING = dimensions.widthWeight * 15;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
@@ -238,7 +238,12 @@ class Row extends Component {
             {bookmarkSource}
           </TouchableWithoutFeedback>
           <View style={styles.userInformation}>
-            <Text style={styles.name}>{this.state.name}</Text>
+            <Text
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {this.state.name}
+            </Text>
             <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
             <Text style={styles.location}> {this.state.currentLocation}</Text>
             {this.renderMyExpertise()}
