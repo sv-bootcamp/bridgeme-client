@@ -404,7 +404,7 @@ class UserProfile extends Component {
                 containerWidth={WIDTH - (dimensions.widthWeight * 100)}
                 leftOffset={dimensions.widthWeight * 22}
                 rightOffset={dimensions.widthWeight * 28}
-              />)}>
+                />)}>
             <UserOverview
               tabLabel="OVERVIEW" id={this.state.id}
               toggleAbout={this.toggleAbout.bind(this)}/>
@@ -423,7 +423,6 @@ class UserProfile extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-    
     return this.renderUserProfile();
   }
 }

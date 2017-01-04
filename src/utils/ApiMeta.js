@@ -9,8 +9,7 @@ export const ServerMeta = {
 };
 
 export const UrlMeta = {
-  //HOST: 'http://192.168.0.22:5000/',
-  HOST: 'http://localhost:5001/',
+  HOST: 'http://ec2-52-78-121-221.ap-northeast-2.compute.amazonaws.com:80/',
   API_ACTIVITY: 'match/activity/',
   API_ALL: 'users/all/',
   API_BOOKMARK_OFF: 'users/bookmarkOff/',
