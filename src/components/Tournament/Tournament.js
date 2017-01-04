@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Image,
   ListView,
+  Modal,
   Platform,
   StyleSheet,
   TouchableOpacity,
@@ -80,7 +81,9 @@ class Tournament extends Component {
         listData: [],
         upSeleted: false,
         downSeleted: false,
+        restart: 0,
       };
+
   }
 
   componentDidMount() {
@@ -224,9 +227,15 @@ class Tournament extends Component {
         titleStyle: styles.title,
         rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Restart',
-        onRight: this.onPressBtnRestart.bind(this),
+        onRight: this.onPressRestart.bind(this),
       });
     }, 300);
+  }
+
+  onPressRestart() {
+    this.setState({
+      restart: 10,
+    });
   }
 
   onPressBtnRestart() {
@@ -253,6 +262,7 @@ class Tournament extends Component {
       fliped: false,
       selected: [],
       listData: [],
+      restart: 0,
     });
   }
 
@@ -271,24 +281,28 @@ class Tournament extends Component {
       this.state.selected.push(i);
     }
 
-    setTimeout(() => {
-      Actions.refresh({
-        title: 'Round ' + (this.state.index + 1),
-        titleStyle: styles.title,
-        rightButtonTextStyle: styles.rightTextStyle,
-        rightTitle: 'Restart',
-        onRight: this.onPressBtnRestart.bind(this),
+    this.setState({
+      step: 5,
+    });
 
-        leftButtonImage: null,
-        leftTitle: 'left',
-        onLeft: () => {},
-      });
-      this.setState({
-        step: 3,
-        num: num,
-        roundNum: num / 2,
-      });
-    }, 300);
+    setTimeout(() => {
+        Actions.refresh({
+          title: 'Round ' + (this.state.index + 1),
+          titleStyle: styles.title,
+          rightButtonTextStyle: styles.rightTextStyle,
+          rightTitle: 'Restart',
+          onRight: this.onPressRestart.bind(this),
+
+          leftButtonImage: null,
+          leftTitle: 'left',
+          onLeft: () => {},
+        });
+        this.setState({
+          step: 3,
+          num: num,
+          roundNum: num / 2,
+        });
+      }, 7000);
   }
 
   onPressBtnSelect(data) {
@@ -446,11 +460,12 @@ class Tournament extends Component {
               {this.getCurrentStatus(data)}
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.checkContainer}
+          <TouchableWithoutFeedback
             onPress={this.onPressBtnSelect.bind(this, data)}>
-            <Icon name={'md-checkmark'} color={color} size={40} />
-          </TouchableOpacity>
+            <View style={styles.checkContainer} >
+              <Icon name={'md-checkmark'} color={color} size={40} />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
@@ -589,23 +604,86 @@ class Tournament extends Component {
     );
   }
 
+  renderLoading() {
+    return (
+      <View style={styles.container}>
+        <Image
+          style={styles.loadingImg}
+          source={require('../../resources/tournament_loading.gif')}/>
+      </View>
+    );
+  }
+
+  renderPopup() {
+    return (
+      <Modal
+        transparent
+        visible>
+        <View style={styles.modalContainer}>
+          <View style={styles.popupContainer}>
+            <TouchableOpacity
+              onPress={() => {this.setState({ restart: 0 });}
+              }>
+              <Image style={styles.popupImgCancel}
+                source={require('../../resources/icon-x.png')} />
+            </TouchableOpacity>
+            <Text style={styles.popupTextTitle}>{'Restart tournament'}</Text>
+            <Image style={styles.popupImg}
+              source={require('../../resources/bg-broken-pencil.png')} />
+            <Text style={styles.popupTextMain}>{'Are you sure to restart?'}</Text>
+            <Text style={styles.popupTextSub}>{'The result will not be saved.'}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={this.onPressBtnRestart.bind(this)}>
+            <View style={styles.popupBtnContainer}>
+              <Text style={styles.popupBtnText}>{'YES'}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    );
+  }
+
   render() {
 
-    switch (this.state.step) {
+    switch (this.state.step + this.state.restart) {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
       case 3: return this.renderCard();
       case 4: return this.renderList();
+      case 5: return this.renderLoading();
+      case 10: return (
+        <View>
+          {this.renderRestart()}
+          {this.renderPopup()}
+        </View>
+      );
+      case 11: return (
+        <View>
+          {this.renderArea()}
+          {this.renderPopup()}
+        </View>
+      );
+      case 12: return (
+        <View>
+          {this.renderNumOfPeople()}
+          {this.renderPopup()}
+        </View>
+      );
+      case 13: return (
+        <View>
+          {this.renderCard()}
+          {this.renderPopup()}
+        </View>
+      );
+      case 14: return (
+        <View>
+          {this.renderList()}
+          {this.renderPopup()}
+        </View>
+      );
     }
-
-    return (
-      <View style={styles.comingSoonView}>
-        <Image source={require('../../resources/tournament.png')} />
-        <Text style={styles.comingSoonText}>Coming Soon!</Text>
-      </View>
-    );
-
   }
 }
 
@@ -700,6 +778,23 @@ const styles = StyleSheet.create({
   indexContainer: {
     backgroundColor: 'transparent',
   },
+  popupContainer: {
+    backgroundColor: '#ffffff',
+    height: dimensions.heightWeight * 195,
+    width: dimensions.widthWeight * 258,
+    alignItems: 'center',
+  },
+  popupBtnContainer: {
+    backgroundColor: '#44acff',
+    height: dimensions.heightWeight * 45,
+    width: dimensions.widthWeight * 258,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  popupBtnText: {
+    color: '#ffffff',
+    fontSize: dimensions.fontWeight * 16,
+  },
   indexText: {
     backgroundColor: 'transparent',
     marginTop: dimensions.heightWeight * 532,
@@ -743,6 +838,20 @@ const styles = StyleSheet.create({
     marginBottom: dimensions.heightWeight * 130,
     fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
+  },
+  popupTextTitle: {
+    marginTop: dimensions.heightWeight * 19,
+    fontSize: dimensions.fontWeight * 14,
+    color: '#a6aeae',
+  },
+  popupTextMain: {
+    marginTop: dimensions.heightWeight * 20,
+    fontSize: dimensions.fontWeight * 14,
+    color: '#2e3031',
+  },
+  popupTextSub: {
+    fontSize: dimensions.fontWeight * 10,
+    color: '#a6aeae',
   },
   restartImg: {
     marginTop: dimensions.heightWeight * 33,
@@ -840,6 +949,25 @@ const styles = StyleSheet.create({
     height: dimensions.heightWeight * 162,
     width: dimensions.widthWeight * 325,
   },
+  popupImg: {
+    marginTop: dimensions.heightWeight * 16,
+    height: dimensions.heightWeight * 56,
+    width: dimensions.widthWeight * 139,
+    resizeMode: 'contain',
+  },
+  loadingImg: {
+    height: dimensions.heightWeight * 557,
+    width: dimensions.widthWeight * 375,
+    resizeMode: 'contain',
+  },
+  popupImgCancel: {
+    position: 'absolute',
+    left: dimensions.widthWeight * (-115),
+    top: dimensions.heightWeight * 14,
+    height: dimensions.heightWeight * 12,
+    width: dimensions.widthWeight * 12,
+    resizeMode: 'contain',
+  },
   leftBtn: {
     width: dimensions.widthWeight * 25,
     height: dimensions.heightWeight * 20,
@@ -864,6 +992,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     width: 0,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, .5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
