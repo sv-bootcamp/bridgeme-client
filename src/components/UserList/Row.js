@@ -154,6 +154,7 @@ class Row extends Component {
     if (error) {
       Alert.alert('Error on Bookmark', error);
     } else if (result) {
+      this.state.bookmarked = !this.state.bookmarked;
       this.forceUpdate();
     }
   }
@@ -165,10 +166,8 @@ class Row extends Component {
   setBookmark() {
     if (this.state.bookmarked) {
       UserUtil.bookmarkOff(this.onRequestCallback.bind(this), this.props.dataSource._id);
-      this.state.bookmarked = false;
     } else {
       UserUtil.bookmarkOn(this.onRequestCallback.bind(this), this.props.dataSource._id);
-      this.state.bookmarked = true;
     }
   }
 
@@ -215,14 +214,14 @@ class Row extends Component {
       );
     }
     
-    let bookmarkSource = null;
+    let bookmarkImage = null;
     
     if (this.state.bookmarked) {
-      bookmarkSource = (
+      bookmarkImage = (
         <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark-fill.png')}/>
       );
     } else {
-      bookmarkSource = (
+      bookmarkImage = (
         <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark.png')}/>
       );
     }
@@ -235,7 +234,7 @@ class Row extends Component {
             source={this.state.profileImage}
           />
           <TouchableWithoutFeedback onPress={this.setBookmark.bind(this)}>
-            {bookmarkSource}
+            {bookmarkImage}
           </TouchableWithoutFeedback>
           <View style={styles.userInformation}>
             <Text

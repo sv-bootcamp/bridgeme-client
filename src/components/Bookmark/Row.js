@@ -69,6 +69,8 @@ class Row extends Component {
       }
       
       return position + ' at ' + company;
+    } else {
+      return null;
     }
   }
   

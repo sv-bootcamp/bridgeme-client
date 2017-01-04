@@ -26,9 +26,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const backBtnImg = require('../../resources/icon-arrow-left-white.png')
 const backBtnScrolledImg = require('../../resources/icon-arrow-left-grey.png');
-const bookmarkImg = require('../../resources/icon-bookmark.png');
+const bookmarkEmptyImage = require('../../resources/icon-bookmark.png');
 const bookmarkFillImg = require('../../resources/icon-bookmark-fill.png');
-const bookmarkScrolledImg = require('../../resources/icon-bookmark-grey.png');
+const bookmarkEmptyScrolledImg = require('../../resources/icon-bookmark-grey.png');
 
 class UserProfile extends Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class UserProfile extends Component {
       getBookmark: true,
     };
     Actions.refresh({
-      rightButtonImage: status ? bookmarkFillImg : bookmarkImg,
+      rightButtonImage: status ? bookmarkFillImg : bookmarkEmptyImage,
     });
   }
 
@@ -258,7 +258,7 @@ class UserProfile extends Component {
           borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
         },
         rightButtonImage: this.state.bookmarked ? bookmarkFillImg :
-          (this.state.activeNavigationBar) ? bookmarkScrolledImg : bookmarkImg,
+          (this.state.activeNavigationBar) ? bookmarkEmptyScrolledImg : bookmarkEmptyImage,
         onRight: () => this.setBookmark(),
       });
     }

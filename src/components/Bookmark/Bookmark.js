@@ -38,8 +38,7 @@ class Bookmark extends Component {
   }
   
   onRequestSuccess(result) {
-    let bookmarked = result;
-    bookmarked = bookmarked.map((value) => value);
+    const bookmarked = result.slice();
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(bookmarked),
       loaded: true,
@@ -57,7 +56,7 @@ class Bookmark extends Component {
     UserUtil.getBookmarkList(this.onRequestCallback.bind(this));
   }
   
-  // Render loading page while fetching user profiles
+  // Render loading page while fetching bookmark lists.
   renderLoadingView() {
     return (
       <ActivityIndicator
@@ -72,7 +71,7 @@ class Bookmark extends Component {
     return <Row dataSource={rowData} me={this.props.me}/>;
   }
   
-  renderConnected() {
+  renderBookmarked() {
     if (this.state.isEmpty)
       return (
         <View style={styles.container}>
@@ -103,7 +102,7 @@ class Bookmark extends Component {
       return this.renderLoadingView();
     }
     
-    return this.renderConnected();
+    return this.renderBookmarked();
   }
 }
 
