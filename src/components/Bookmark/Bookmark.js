@@ -10,7 +10,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
 import UserUtil from '../../utils/UserUtil';
 import Row from './Row';
@@ -39,17 +38,13 @@ class Bookmark extends Component {
   }
   
   onRequestSuccess(result) {
+    let bookmarked = result;
+    bookmarked = bookmarked.map((value) => value);
     this.setState({
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-    });
-    
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(result),
+      dataSource: this.state.dataSource.cloneWithRows(bookmarked),
       loaded: true,
       isRefreshing: false,
-      isEmpty: result.length === 0,
+      isEmpty: bookmarked.length === 0,
     });
   }
   
@@ -85,7 +80,7 @@ class Bookmark extends Component {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Bookmark someone!</Text>
             <Text style={{ color: '#a6aeae', fontSize: dimensions.fontWeight * 14, }}>
-              You did not marked anyone yet.
+              You did not marked anyone.
             </Text>
           </View>
         </View>
@@ -95,6 +90,7 @@ class Bookmark extends Component {
         <ListView
           style={styles.listView}
           showsVerticalScrollIndicator={false}
+          dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           enableEmptySections={true}
         />
@@ -111,9 +107,6 @@ class Bookmark extends Component {
   }
 }
 
-// Get device size
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   listView: {
     flex: 1,

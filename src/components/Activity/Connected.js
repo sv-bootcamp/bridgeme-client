@@ -127,7 +127,7 @@ class Connected extends Component {
 // Get device size
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   listView: {
     flex: 1,
   },

@@ -82,14 +82,6 @@ class Row extends Component {
     );
   }
   
-  onChatButtonPress() {
-    Actions.chatPage({
-      title: this.props.dataSource.name,
-      me: { userId: this.props.me._id },
-      opponent: { userId: this.props.dataSource._id },
-    });
-  }
-  
   renderRow() {
     let profileId = { _id: this.props.dataSource._id };
     const goToUserProfile = () => Actions.userProfile(profileId);
@@ -107,14 +99,6 @@ class Row extends Component {
               {this.state.currentStatus}
             </Text>
           </View>
-          <View style={styles.chatButtonArea}>
-            <TouchableHighlight
-              style={styles.chatButtonBackground}
-              onPress={this.onChatButtonPress.bind(this)}
-            >
-              <Image source={require('../../resources/chatButton.png')}/>
-            </TouchableHighlight>
-          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -129,8 +113,6 @@ class Row extends Component {
   }
 }
 
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
@@ -162,23 +144,6 @@ const styles = StyleSheet.create({
   currentStatus: {
     fontSize: dimensions.fontWeight * 12,
     color: '#a6aeae',
-  },
-  chatButtonArea: {
-    width: dimensions.widthWeight * 85,
-    borderBottomWidth: 1,
-    borderColor: '#f0f0f2',
-  },
-  chatButtonBackground: {
-    position: 'absolute',
-    alignSelf: 'center',
-    paddingVertical: dimensions.heightWeight * 7,
-    paddingHorizontal: dimensions.widthWeight * 7,
-    paddingTop: dimensions.heightWeight * 8,
-    paddingLeft: dimensions.widthWeight * 8,
-    marginTop: dimensions.heightWeight * 22,
-    borderRadius: 2,
-    right: WIDTH / 20,
-    backgroundColor: '#44acff',
   },
 });
 
