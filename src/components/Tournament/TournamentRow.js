@@ -28,12 +28,7 @@ class TournamentRow extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.dataSource);
-  }
-
   getProfileImage(data) {
-    console.log(data);
     let image;
     if (data.profile_picture) {
       image = { uri: data.profile_picture_small ?

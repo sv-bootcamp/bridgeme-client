@@ -116,6 +116,13 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 17,
     color: '#557bfc',
   },
+  leftTxt: {
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 0,
+    height: dimensions.heightWeight * 0,
+    fontSize: dimensions.fontWeight * 17,
+    color: '#557bfc',
+  },
   rightBtn: {
     backgroundColor: 'transparent',
     marginRight: dimensions.widthWeight * 16,
@@ -157,6 +164,7 @@ const AppProps = {
     titleWrapperStyle: styles.titleWrapperStyle,
     rightButtonStyle: styles.rightButtonStyle,
     leftButtonStyle: styles.leftButtonStyle,
+    leftButtonTextStyle: styles.leftTxt,
     rightButtonTextStyle: styles.rightTxt,
     rigntButtonIconStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,

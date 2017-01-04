@@ -198,6 +198,10 @@ class Main extends Component {
               rightButtonImage: require('../resources/filter.png'),
               rightTitle: null,
               onRight: () => Actions.filter(),
+
+              leftButtonImage: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
             Actions.refresh({
@@ -213,6 +217,10 @@ class Main extends Component {
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.CHAT) {
             Actions.refresh({
@@ -221,6 +229,10 @@ class Main extends Component {
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
             Actions.refresh({
@@ -229,6 +241,10 @@ class Main extends Component {
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           }
         }

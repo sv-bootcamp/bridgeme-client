@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Actions }  from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
+import FlipCard from 'react-native-flip-card';
 import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import TournamentRow from './TournamentRow';
@@ -55,6 +56,7 @@ let tmpBody = {
   },
 ],
 };
+const leftButtonGrey = require('../../resources/icon-arrow-left-grey.png');
 
 class Tournament extends Component {
   constructor(props) {
@@ -68,6 +70,7 @@ class Tournament extends Component {
         step: 0,
         area: '',
         num: 0,
+        round: 1,
         roundNum: 0,
         totalNum: 0,
         user: [],
@@ -75,11 +78,15 @@ class Tournament extends Component {
         fliped: false,
         selected: [],
         listData: [],
+        upSeleted: false,
+        downSeleted: false,
       };
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
+    if (false) {
+      console.log('componentDidMount');
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -93,7 +100,7 @@ class Tournament extends Component {
       alert(error);
     } else if (result) {
       if (result.length < 8) {
-        alert('Not enough Mentor');
+        alert('Not enough Mentors');
       } else {
         this.setState({
           step: 2,
@@ -182,14 +189,43 @@ class Tournament extends Component {
   }
 
   onPressBtnStarted() {
+    Actions.refresh({
+      title: 'Tournament',
+      titleStyle: styles.title,
+      rightButtonTextStyle: styles.rightTextStyle,
+      rightTitle: null,
+      onRight: null,
+      leftTitle: null,
+      leftButtonImage: leftButtonGrey,
+      leftButtonIconStyle: styles.leftBtn,
+      leftButtonStyle: styles.leftButtonStyle,
+      onRight: () => {},
+
+      onLeft: () => {
+        if (this.state.step === 1) {
+          this.onPressBtnRestart();
+        }
+
+        this.setState({ step: this.state.step - 1 });
+      },
+    });
     setTimeout(() => {
       this.setState({ step: 1 });
     }, 300);
   }
 
   onPressBtnNext() {
+    this.state.listData = [];
+    this.state.round += 1;
     setTimeout(() => {
       this.setState({ step: 3 });
+      Actions.refresh({
+        title: 'Round ' + (this.state.round),
+        titleStyle: styles.title,
+        rightButtonTextStyle: styles.rightTextStyle,
+        rightTitle: 'Restart',
+        onRight: this.onPressBtnRestart.bind(this),
+      });
     }, 300);
   }
 
@@ -200,8 +236,24 @@ class Tournament extends Component {
       rightButtonImage: null,
       rightTitle: null,
       onRight: () => {},
+
+      leftButtonImage: null,
+      leftTitle: 'left',
+      onLeft: () => {},
     });
-    this.setState({ step: 0 });
+
+    this.setState({
+      step: 0,
+      area: this.props.me.career.area,
+      num: 0,
+      roundNum: 0,
+      totalNum: 0,
+      user: [],
+      index: 0,
+      fliped: false,
+      selected: [],
+      listData: [],
+    });
   }
 
   onPressBtnArea(flag) {
@@ -226,6 +278,10 @@ class Tournament extends Component {
         rightButtonTextStyle: styles.rightTextStyle,
         rightTitle: 'Restart',
         onRight: this.onPressBtnRestart.bind(this),
+
+        leftButtonImage: null,
+        leftTitle: 'left',
+        onLeft: () => {},
       });
       this.setState({
         step: 3,
@@ -241,40 +297,48 @@ class Tournament extends Component {
     if (this.state.selected[0] === this.state.user.indexOf(data)) {
       rowFirst.selected = true;
       rowSecond.selected = false;
+      this.state.upSeleted = true;
     } else {
       rowFirst.selected = false;
       rowSecond.selected = true;
+      this.state.downSeleted = true;
     }
 
-    this.state.listData.push({ rowFirst, rowSecond });
-    this.state.selected.shift();
-    this.state.selected.shift();
+    this.forceUpdate();
+    setTimeout(() => {
+      this.state.listData.push({ rowFirst, rowSecond });
+      this.state.selected.shift();
+      this.state.selected.shift();
 
-    if (this.state.selected.length === 0) {
-      this.state.step = 0;
-      Actions.refresh({
-        title: 'Tournament',
-        titleStyle: styles.title,
-        rightButtonImage: null,
-        rightTitle: null,
-        onRight: () => {},
-      });
-      setTimeout(() => {
-        Actions.userProfile({ _id: data._id, me: this.props.me });
-      }, 300);
-    } else {
-      this.state.selected.push(this.state.user.indexOf(data));
-
-      if (this.state.roundNum === this.state.index + 1) {
-        this.state.roundNum = this.state.roundNum / 2;
-        this.state.index = 0;
-        this.state.step = 4;
+      if (this.state.selected.length === 0) {
+        this.state.step = 0;
+        Actions.refresh({
+          title: 'Tournament',
+          titleStyle: styles.title,
+          rightButtonImage: null,
+          rightTitle: null,
+          onRight: () => {},
+        });
+        setTimeout(() => {
+          Actions.userProfile({ _id: data._id, me: this.props.me });
+        }, 300);
       } else {
-        this.state.index = this.state.index + 1;
-      }
+        this.state.selected.push(this.state.user.indexOf(data));
 
-      this.forceUpdate();
-    }
+        if (this.state.roundNum === this.state.index + 1) {
+          this.state.roundNum = this.state.roundNum / 2;
+          this.state.index = 0;
+          this.state.step = 4;
+        } else {
+          this.state.index = this.state.index + 1;
+        }
+
+        this.state.upSeleted = false;
+        this.state.downSeleted = false;
+        this.forceUpdate();
+      }
+    }, 500);
+
   }
 
   renderRestart() {
@@ -356,7 +420,14 @@ class Tournament extends Component {
     );
   }
 
-  renderUser(data) {
+  renderUser(data, up) {
+    let color;
+    if (up) {
+      color = this.state.upSeleted ?  '#44acff' : '#d6dada';
+    } else {
+      color = this.state.downSeleted ?  '#44acff' : '#d6dada';
+    }
+
     return (
       <View style={{ flex: 1 }}>
         <Image
@@ -375,12 +446,11 @@ class Tournament extends Component {
               {this.getCurrentStatus(data)}
             </Text>
           </View>
-          <View style={styles.checkContainer}>
-            <TouchableOpacity
-              onPress={this.onPressBtnSelect.bind(this, data)}>
-              <Icon name={'md-checkmark'} color={'#d6dada'} size={40} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.checkContainer}
+            onPress={this.onPressBtnSelect.bind(this, data)}>
+            <Icon name={'md-checkmark'} color={color} size={40} />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -409,44 +479,73 @@ class Tournament extends Component {
     );
   }
 
-  renderTournamet() {
+  renderCard() {
+
     let renderUser;
-    if (this.state.fliped === false) {
-      renderUser = this.renderUser.bind(this);
-    } else {
-      renderUser = this.renderUserData.bind(this);
-    }
+    renderUser = this.renderUser.bind(this);
+    renderUserData = this.renderUserData.bind(this);
 
     return (
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={()=> {this.setState({ fliped: !this.state.fliped });}
-        }>
-          <View style={styles.cardContainer}>
-            <View style={{ flex: 1 }}>
-              {renderUser(this.state.user[this.state.selected[0]])}
-              {renderUser(this.state.user[this.state.selected[1]])}
+        <FlipCard
+          style={styles.flipContainer}
+          friction={10}
+          perspective={1000}
+          flipHorizontal={true}
+          flipVertical={false}
+          flip={false}
+          clickable={true}>
+          <View>
+            <View style={styles.cardContainer}>
+              <View style={{ flex: 1 }}>
+                {renderUser(this.state.user[this.state.selected[0]], true)}
+                {renderUser(this.state.user[this.state.selected[1]], false)}
+              </View>
+              <View style={styles.halfline}/>
+              <View style={styles.vsContainer}>
+                <Text style={styles.vsTest}>{'VS'}</Text>
+              </View>
             </View>
-            {(this.state.fliped) ? <View style={styles.halfline}/> : null}
-            <View style={styles.vsContainer}>
-              <Text style={styles.vsTest}>{'VS'}</Text>
+            <View style={styles.indexContainer}>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+          <View>
+            <View style={styles.cardContainer}>
+              <View style={{ flex: 1 }}>
+                {renderUserData(this.state.user[this.state.selected[0]])}
+                {renderUserData(this.state.user[this.state.selected[1]])}
+              </View>
+              <View style={styles.halfline}/>
+              <View style={styles.vsContainer}>
+                <Text style={styles.vsTest}>{'VS'}</Text>
+              </View>
+            </View>
+            <View style={styles.indexContainer}>
+            </View>
+          </View>
+        </FlipCard>
+        <Text style={styles.indexText}>
+          {(this.state.index + 1) + ' / ' + (this.state.roundNum)}
+        </Text>
       </View>
     );
   }
 
   renderSeparator(sectionID, rowID) {
-    return (
-      <View
-        key={`${sectionID}-${rowID}`}
-        style={{
-          height: dimensions.heightWeight * 2,
-          backgroundColor: '#eaefef',
-          marginLeft: dimensions.widthWeight * 70,
-        }}
-      />
-    );
+    if (this.state.roundNum * 2 === Number(rowID) + 1) {
+      return null;
+    } else {
+      return (
+        <View
+          key={`${sectionID}-${rowID}`}
+          style={{
+            height: dimensions.heightWeight * 2,
+            backgroundColor: '#eaefef',
+            marginLeft: dimensions.widthWeight * 70,
+          }}
+        />
+      );
+    }
   }
 
   renderRow(rowData) {
@@ -454,14 +553,11 @@ class Tournament extends Component {
   }
 
   renderList() {
-
-    // Refresh dataSource
     this.state.dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
     this.state.dataSource = this.state.dataSource.cloneWithRows(this.state.listData.slice());
-    this.state.listData = [];
     return (
       <View style={styles.container}>
         <Text style={styles.listText}>
@@ -471,14 +567,15 @@ class Tournament extends Component {
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderRow.bind(this)}
-            renderSeparator={this.renderSeparator}
+            renderSeparator={this.renderSeparator.bind(this)}
             enableEmptySections={true}
           />
         </View>
         <TouchableOpacity
           activated={false}
           onPress={this.onPressBtnNext.bind(this)}>
-          <LinearGradient style={styles.nextBtnStyle}
+          <LinearGradient
+            style={styles.nextBtnStyle}
             start={[0.9, 0.5]}
             end={[0.0, 0.5]}
             locations={[0, 0.75]}
@@ -498,7 +595,7 @@ class Tournament extends Component {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
-      case 3: return this.renderTournamet();
+      case 3: return this.renderCard();
       case 4: return this.renderList();
     }
 
@@ -546,7 +643,7 @@ const styles = StyleSheet.create({
     marginTop: dimensions.heightWeight * 33,
     marginLeft: dimensions.widthWeight * 25,
     marginRight: dimensions.widthWeight * 25,
-    borderRadius: 4,
+    borderRadius: 4.4,
   },
   userContainer: {
     flexDirection: 'row',
@@ -600,6 +697,15 @@ const styles = StyleSheet.create({
     marginTop: dimensions.heightWeight * 10,
     marginBottom: dimensions.heightWeight * 20,
   },
+  indexContainer: {
+    backgroundColor: 'transparent',
+  },
+  indexText: {
+    backgroundColor: 'transparent',
+    marginTop: dimensions.heightWeight * 532,
+    fontSize: dimensions.fontWeight * 10,
+    color: '#2e3031',
+  },
   titleText: {
     fontSize: dimensions.fontWeight * 10,
     fontWeight: 'bold',
@@ -613,34 +719,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#efeff2',
   },
   vsTest: {
-    fontSize: dimensions.fonttWeight * 20,
+    fontSize: dimensions.fontWeight * 20,
     color: '#ffffff',
   },
   restartText: {
     marginTop: dimensions.heightWeight * 80,
-    fontSize: dimensions.fonttWeight * 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   listText: {
     marginTop: dimensions.heightWeight * 30,
-    fontSize: dimensions.fonttWeight * 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   areaText: {
     marginTop: dimensions.heightWeight * 53,
     marginBottom: dimensions.heightWeight * 146,
-    fontSize: dimensions.fonttWeight * 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   numOfPeopleText: {
     marginTop: dimensions.heightWeight * 53,
     marginBottom: dimensions.heightWeight * 130,
-    fontSize: dimensions.fonttWeight * 18,
+    fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
   restartImg: {
-    marginTop: dimensions.heightWeight * 5,
+    marginTop: dimensions.heightWeight * 33,
+    marginBottom: dimensions.heightWeight * 76,
     width:  dimensions.widthWeight * 220,
+    height:  dimensions.widthWeight * 240,
     resizeMode: 'contain',
   },
   startedBtnStyle: {
@@ -648,7 +756,6 @@ const styles = StyleSheet.create({
     width: dimensions.widthWeight * 230,
     height: dimensions.heightWeight * 45,
     borderRadius: 100,
-    marginTop: dimensions.heightWeight * 76,
   },
   nextBtnStyle: {
     justifyContent: 'center',
@@ -667,6 +774,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'transparent',
+  },
+  flipContainer: {
+    borderColor: 'transparent',
   },
   buttonText: {
     fontSize: dimensions.fontWeight * 16,
@@ -729,7 +839,31 @@ const styles = StyleSheet.create({
   photo: {
     height: dimensions.heightWeight * 162,
     width: dimensions.widthWeight * 325,
-    borderRadius: 2,
+  },
+  leftBtn: {
+    width: dimensions.widthWeight * 25,
+    height: dimensions.heightWeight * 20,
+    resizeMode: 'contain',
+    marginLeft: 0,
+  },
+  leftButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    justifyContent: 'flex-start',
+    backgroundColor: 'green',
+    position: 'absolute',
+    marginLeft: dimensions.widthWeight * 10,
+    alignItems: 'center',
+    padding: 0,
+    width: 0,
   },
 });
 
