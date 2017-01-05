@@ -72,7 +72,6 @@ var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
   , getDefaultProps: function() {
     return {
-      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
       rowID: -1,
       sectionID: -1,
     }
@@ -179,6 +178,8 @@ var Swipeout = React.createClass({
         this.setState({ contentPos: 0, openedLeft: false, openedRight: false })
       }
     }
+
+    this.props.onSwipeFinish(openRight);
 
     //  Allow scroll
     if (this.props.scroll) this.props.scroll(true)
