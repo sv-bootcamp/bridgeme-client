@@ -6,6 +6,7 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
+  TouchableHighlight,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -263,6 +264,8 @@ class Tournament extends Component {
       selected: [],
       listData: [],
       restart: 0,
+      upSeleted: false,
+      downSeleted: false,
     });
   }
 
@@ -281,13 +284,25 @@ class Tournament extends Component {
       this.state.selected.push(i);
     }
 
+    Actions.refresh({
+      title: 'Tournament',
+      titleStyle: styles.title,
+      rightButtonImage: null,
+      rightTitle: null,
+      onRight: () => {},
+
+      leftButtonImage: null,
+      leftTitle: 'left',
+      onLeft: () => {},
+    });
+
     this.setState({
       step: 5,
     });
 
     setTimeout(() => {
         Actions.refresh({
-          title: 'Round ' + (this.state.index + 1),
+          title: 'Round ' + (this.state.round),
           titleStyle: styles.title,
           rightButtonTextStyle: styles.rightTextStyle,
           rightTitle: 'Restart',
@@ -320,6 +335,8 @@ class Tournament extends Component {
 
     this.forceUpdate();
     setTimeout(() => {
+      this.state.upSeleted = false;
+      this.state.downSeleted = false;
       this.state.listData.push({ rowFirst, rowSecond });
       this.state.selected.shift();
       this.state.selected.shift();
@@ -333,6 +350,7 @@ class Tournament extends Component {
           rightTitle: null,
           onRight: () => {},
         });
+
         setTimeout(() => {
           Actions.userProfile({ _id: data._id, me: this.props.me });
         }, 300);
@@ -347,8 +365,6 @@ class Tournament extends Component {
           this.state.index = this.state.index + 1;
         }
 
-        this.state.upSeleted = false;
-        this.state.downSeleted = false;
         this.forceUpdate();
       }
     }, 500);
@@ -633,12 +649,12 @@ class Tournament extends Component {
             <Text style={styles.popupTextMain}>{'Are you sure to restart?'}</Text>
             <Text style={styles.popupTextSub}>{'The result will not be saved.'}</Text>
           </View>
-          <TouchableOpacity
+          <TouchableHighlight
             onPress={this.onPressBtnRestart.bind(this)}>
             <View style={styles.popupBtnContainer}>
               <Text style={styles.popupBtnText}>{'YES'}</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
       </Modal>
     );
