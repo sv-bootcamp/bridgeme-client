@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   Image,
   ListView,
   Modal,
@@ -14,6 +15,7 @@ import { Actions }  from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
 import FlipCard from 'react-native-flip-card';
 import LinearGradient from 'react-native-linear-gradient';
+import Swiper from 'react-native-swiper';
 import Text from '../Shared/UniText';
 import TournamentRow from './TournamentRow';
 import MatchUtil from '../../utils/MatchUtil';
@@ -27,36 +29,6 @@ let tmpBody = {
     years: 'All',
     education_background: 'All',
   },
-  expertise: [
-  {
-    select: 'Study abroad',
-    index: 0,
-  },
-  {
-    select: 'Career advice (e.g., interview, job search..)',
-    index: 1,
-  },
-  {
-    select: 'Portfolio & Resume',
-    index: 2,
-  },
-  {
-    select: 'Startup',
-    index: 3,
-  },
-  {
-    select: 'Career change',
-    index: 4,
-  },
-  {
-    select: 'Networking',
-    index: 5,
-  },
-  {
-    select: 'Soft skills (e.g., communication..)',
-    index: 6,
-  },
-],
 };
 const leftButtonGrey = require('../../resources/icon-arrow-left-grey.png');
 
@@ -83,20 +55,96 @@ class Tournament extends Component {
         upSeleted: false,
         downSeleted: false,
         restart: 0,
+        isRefresh: true,
+        onBoardingText: [],
+        onBoardingImg: [],
+        onBoardingIdx: 0,
       };
 
   }
 
   componentDidMount() {
-    if (false) {
-      console.log('componentDidMount');
-    }
+    AsyncStorage.getItem('firstTournament', (error, result) => {
+      if (result === 'on') {
+        return;
+      }
+
+      this.state.onBoardingText.push('Pick the type of work area\nyou’d like to choose.');
+      this.state.onBoardingText.push('Swipe the card that\nyou want to see the details.');
+      this.state.onBoardingText.push('Then you can find out\nmore detail information.');
+      this.state.onBoardingText.push('Select the card\nyou would rather choose.');
+
+      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-1.png'));
+      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-2.png'));
+      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-2-1.png'));
+      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-3.png'));
+
+      AsyncStorage.setItem('firstTournament', 'on');
+      this.setState({ step: -1 });
+    });
   }
 
   componentWillReceiveProps(props) {
     if (props.me.career !== undefined) {
       this.state.area = props.me.career.area;
     }
+
+    if (this.state.isRefresh) {
+      this.onRenderNavigationBar();
+    } else {
+      this.state.isRefresh = true;
+    }
+  }
+
+  onRenderNavigationBar() {
+    switch (this.state.step) {
+      case 0:
+      case 5:
+        Actions.refresh({
+          title: 'Tournament',
+          titleStyle: styles.title,
+          rightButtonImage: null,
+          rightTitle: null,
+          onRight: () => {},
+
+          leftButtonImage: null,
+          leftTitle: 'left',
+          onLeft: () => {},
+        });
+        break;
+      case 1:
+      case 2:
+        Actions.refresh({
+          title: 'Tournament',
+          titleStyle: styles.title,
+          rightButtonTextStyle: styles.rightTextStyle,
+          rightTitle: null,
+          onRight: null,
+          leftTitle: null,
+          leftButtonImage: leftButtonGrey,
+          leftButtonIconStyle: styles.leftBtn,
+          leftButtonStyle: styles.leftButtonStyle,
+          onRight: () => {},
+
+          onLeft: () => {
+            if (this.state.step === 1) {
+              this.onPressBtnRestart();
+            }
+          },
+        });
+        break;
+      case 3 :
+      case 4 :
+        Actions.refresh({
+          title: 'Round ' + (this.state.round),
+          titleStyle: styles.title,
+          rightButtonTextStyle: styles.rightTextStyle,
+          rightTitle: 'Restart',
+          onRight: this.onPressRestart.bind(this),
+        });
+        break;
+    }
+    this.state.isRefresh = false;
   }
 
   onGetMentorListCallback(result, error) {
@@ -192,29 +240,18 @@ class Tournament extends Component {
     });
   }
 
-  onPressBtnStarted() {
-    Actions.refresh({
-      title: 'Tournament',
-      titleStyle: styles.title,
-      rightButtonTextStyle: styles.rightTextStyle,
-      rightTitle: null,
-      onRight: null,
-      leftTitle: null,
-      leftButtonImage: leftButtonGrey,
-      leftButtonIconStyle: styles.leftBtn,
-      leftButtonStyle: styles.leftButtonStyle,
-      onRight: () => {},
-
-      onLeft: () => {
-        if (this.state.step === 1) {
-          this.onPressBtnRestart();
-        }
-
-        this.setState({ step: this.state.step - 1 });
-      },
+  controlScroll(event, state) {
+    const idx = state.index;
+    this.setState({
+      onBoardingIdx: idx,
     });
+  }
+
+  onPressBtnStarted() {
+    this.resetData();
     setTimeout(() => {
-      this.setState({ step: 1 });
+      this.state.step = 1;
+      this.onRenderNavigationBar();
     }, 300);
   }
 
@@ -222,14 +259,8 @@ class Tournament extends Component {
     this.state.listData = [];
     this.state.round += 1;
     setTimeout(() => {
-      this.setState({ step: 3 });
-      Actions.refresh({
-        title: 'Round ' + (this.state.round),
-        titleStyle: styles.title,
-        rightButtonTextStyle: styles.rightTextStyle,
-        rightTitle: 'Restart',
-        onRight: this.onPressRestart.bind(this),
-      });
+      this.state.step = 3;
+      this.onRenderNavigationBar();
     }, 300);
   }
 
@@ -239,34 +270,25 @@ class Tournament extends Component {
     });
   }
 
+  resetData() {
+    this.state.step = 0;
+    this.state.area = this.props.me.career.area;
+    this.state.num = 0;
+    this.state.roundNum = 0;
+    this.state.totalNum = 0;
+    this.state.user = [];
+    this.state.index = 0;
+    this.state.fliped = false;
+    this.state.selecte = [];
+    this.state.listData = [];
+    this.state.restart = 0;
+    this.state.upSeleted = false;
+    this.state.downSeleted = false;
+  }
+
   onPressBtnRestart() {
-    Actions.refresh({
-      title: 'Tournament',
-      titleStyle: styles.title,
-      rightButtonImage: null,
-      rightTitle: null,
-      onRight: () => {},
-
-      leftButtonImage: null,
-      leftTitle: 'left',
-      onLeft: () => {},
-    });
-
-    this.setState({
-      step: 0,
-      area: this.props.me.career.area,
-      num: 0,
-      roundNum: 0,
-      totalNum: 0,
-      user: [],
-      index: 0,
-      fliped: false,
-      selected: [],
-      listData: [],
-      restart: 0,
-      upSeleted: false,
-      downSeleted: false,
-    });
+    this.resetData();
+    this.onRenderNavigationBar();
   }
 
   onPressBtnArea(flag) {
@@ -276,7 +298,7 @@ class Tournament extends Component {
       tmpBody.career.area = 'All';
     }
 
-    MatchUtil.getMentorList(this.onGetMentorListCallback.bind(this), tmpBody);
+    MatchUtil.getMentorList(this.onGetMentorListCallback.bind(this));
   }
 
   onPressBtnNumOfPeple(num) {
@@ -284,39 +306,18 @@ class Tournament extends Component {
       this.state.selected.push(i);
     }
 
-    Actions.refresh({
-      title: 'Tournament',
-      titleStyle: styles.title,
-      rightButtonImage: null,
-      rightTitle: null,
-      onRight: () => {},
-
-      leftButtonImage: null,
-      leftTitle: 'left',
-      onLeft: () => {},
-    });
-
-    this.setState({
-      step: 5,
-    });
+    this.state.step = 5;
+    this.onRenderNavigationBar();
 
     setTimeout(() => {
-        Actions.refresh({
-          title: 'Round ' + (this.state.round),
-          titleStyle: styles.title,
-          rightButtonTextStyle: styles.rightTextStyle,
-          rightTitle: 'Restart',
-          onRight: this.onPressRestart.bind(this),
-
-          leftButtonImage: null,
-          leftTitle: 'left',
-          onLeft: () => {},
-        });
         this.setState({
           step: 3,
           num: num,
           roundNum: num / 2,
         });
+
+        this.onRenderNavigationBar();
+
       }, 7000);
   }
 
@@ -343,13 +344,7 @@ class Tournament extends Component {
 
       if (this.state.selected.length === 0) {
         this.state.step = 0;
-        Actions.refresh({
-          title: 'Tournament',
-          titleStyle: styles.title,
-          rightButtonImage: null,
-          rightTitle: null,
-          onRight: () => {},
-        });
+        this.onRenderNavigationBar();
 
         setTimeout(() => {
           Actions.userProfile({ _id: data._id, me: this.props.me });
@@ -369,6 +364,108 @@ class Tournament extends Component {
       }
     }, 500);
 
+  }
+
+  renderOnboardingPage() {
+    return this.state.onBoardingText.map((text, index) =>
+       <View>
+         <Text style={styles.onboardingText}>
+           {text}
+         </Text>
+         <Image style={styles.onboardingImg}
+           source={this.state.onBoardingImg[index]}/>
+       </View>
+    );
+  }
+
+  renderOnboarding() {
+    return (
+        <View style={styles.container}>
+          <Swiper loop={false}
+            height={dimensions.heightWeight * 456}
+            onMomentumScrollEnd={this.controlScroll.bind(this)}
+            dot={this.renderDot()}
+            activeDot={this.renderActiveDot()}>
+            <View style={styles.swipePageContainer}>
+              <Text style={styles.onboardingText}>
+                {this.state.onBoardingText[0]}
+              </Text>
+              <Image style={styles.onboardingImg}
+                source={this.state.onBoardingImg[0]}/>
+            </View>
+            <View style={styles.swipePageContainer}>
+              <Text style={styles.onboardingText}>
+                {this.state.onBoardingText[1]}
+              </Text>
+              <Image style={styles.onboardingImg}
+                source={this.state.onBoardingImg[1]}/>
+            </View>
+            <View style={styles.swipePageContainer}>
+              <Text style={styles.onboardingText}>
+                {this.state.onBoardingText[2]}
+              </Text>
+              <Image style={styles.onboardingImg}
+                source={this.state.onBoardingImg[2]}/>
+            </View>
+            <View style={styles.swipePageContainer}>
+              <Text style={styles.onboardingText}>
+                {this.state.onBoardingText[3]}
+              </Text>
+              <Image style={styles.onboardingImg}
+                source={this.state.onBoardingImg[3]}/>
+            </View>
+          </Swiper>
+          {this.renderFooter()}
+        </View>
+      );
+  }
+
+  renderFooter() {
+    if (this.state.onBoardingIdx === 3) {
+      return (
+        <TouchableOpacity
+          activated={false}
+          onPress={this.onPressBtnStarted.bind(this)}>
+          <LinearGradient style={styles.getStartedBtnStyle}
+            start={[0.9, 0.5]}
+            end={[0.0, 0.5]}
+            locations={[0, 0.75]}
+            colors={['#07e4dd', '#44acff']}>
+            <View style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>{'START'}</Text>
+            </View>
+          </LinearGradient>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  renderDot() {
+    return (
+      <View style={{
+        backgroundColor: '#dce0e2',
+        width: dimensions.fontWeight * 7,
+        height: dimensions.fontWeight * 7,
+        borderRadius: dimensions.fontWeight * 4,
+        marginLeft: dimensions.widthWeight * 17,
+        marginRight: dimensions.widthWeight * 17,
+        marginTop: dimensions.heightWeight * 3,
+      }} />
+    );
+  }
+
+  renderActiveDot() {
+    return (
+      <View style={{
+        backgroundColor: '#c6cbcc',
+        width: dimensions.fontWeight * 8,
+        height: dimensions.fontWeight * 8,
+        borderRadius: dimensions.fontWeight * 4,
+        marginLeft: dimensions.widthWeight * 17,
+        marginRight: dimensions.widthWeight * 17,
+        marginTop: dimensions.heightWeight * 3,
+      }} />
+    );
   }
 
   renderRestart() {
@@ -462,8 +559,7 @@ class Tournament extends Component {
       <View style={{ flex: 1 }}>
         <Image
           style={styles.photo}
-          source={this.getProfileImage(data)}
-        />
+          source={this.getProfileImage(data)}/>
         <View style={styles.userContainer}>
           <View style={styles.textContainer}>
             <Text
@@ -477,6 +573,7 @@ class Tournament extends Component {
             </Text>
           </View>
           <TouchableWithoutFeedback
+            disabled={this.state.upSeleted || this.state.downSeleted}
             onPress={this.onPressBtnSelect.bind(this, data)}>
             <View style={styles.checkContainer} >
               <Icon name={'md-checkmark'} color={color} size={40} />
@@ -525,7 +622,7 @@ class Tournament extends Component {
           flipHorizontal={true}
           flipVertical={false}
           flip={false}
-          clickable={true}>
+          clickable={!(this.state.upSeleted || this.state.downSeleted)}>
           <View>
             <View style={styles.cardContainer}>
               <View style={{ flex: 1 }}>
@@ -663,6 +760,7 @@ class Tournament extends Component {
   render() {
 
     switch (this.state.step + this.state.restart) {
+      case -1: return this.renderOnboarding();
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
@@ -807,6 +905,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  swipePageContainer: {
+    alignItems: 'center',
+  },
   popupBtnText: {
     color: '#ffffff',
     fontSize: dimensions.fontWeight * 16,
@@ -903,6 +1004,13 @@ const styles = StyleSheet.create({
   flipContainer: {
     borderColor: 'transparent',
   },
+  getStartedBtnStyle: {
+    justifyContent: 'center',
+    marginTop: dimensions.heightWeight * 20,
+    width: dimensions.widthWeight * 230,
+    height: dimensions.heightWeight * 45,
+    borderRadius: 100,
+  },
   buttonText: {
     fontSize: dimensions.fontWeight * 16,
     fontWeight: 'bold',
@@ -948,7 +1056,13 @@ const styles = StyleSheet.create({
   },
   expertText: {
     fontSize: dimensions.fontWeight * 12,
-    marginRight: dimensions.heightWeight * 16,
+    marginRight: dimensions.widthWeight * 16,
+    color: '#2e3031',
+  },
+  onboardingText: {
+    marginTop: dimensions.heightWeight * 53,
+    fontSize: dimensions.fontWeight * 18,
+    textAlign: 'center',
     color: '#2e3031',
   },
   job: {
@@ -982,6 +1096,12 @@ const styles = StyleSheet.create({
     top: dimensions.heightWeight * 14,
     height: dimensions.heightWeight * 12,
     width: dimensions.widthWeight * 12,
+    resizeMode: 'contain',
+  },
+  onboardingImg: {
+    marginTop: dimensions.heightWeight * 51,
+    height: dimensions.heightWeight * 233,
+    width: dimensions.widthWeight * 220,
     resizeMode: 'contain',
   },
   leftBtn: {
