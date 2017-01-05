@@ -9,6 +9,7 @@ import {
 } from 'react-native-router-flux';
 import { dimensions } from './Shared/Dimensions';
 import Activity from './Activity/Activity';
+import Bookmark from './Bookmark/Bookmark';
 import CareerInfo from './SignUp/CareerInfo';
 import ChannelList from './Chat/ChannelList';
 import ChatPage from './Chat/ChatPage';
@@ -261,6 +262,13 @@ const AppProps = {
     {
       key: 'myPage',
       component: MyPage,
+    },
+    {
+      key: 'bookmark',
+      component: Bookmark,
+      title: 'Bookmark',
+      hideBackImage: false,
+      backButtonImage: leftButtonGrey,
     },
     {
       key: 'userProfile',
