@@ -211,7 +211,7 @@ class Tournament extends Component {
           <View key={index}>
             <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
               {(edu.concentration.length !== 0 && edu.school.name !== '') ?
-              edu.school.name + ' of ' + edu.concentration[0].name : edu.school.name}
+              edu.school.name + ', ' + edu.concentration[0].name : edu.school.name}
             </Text>
             <Text style={styles.eduTextSub}>
               {(edu.start_date !== undefined && edu.start_date !== '') ?
@@ -274,6 +274,7 @@ class Tournament extends Component {
     this.state.step = 0;
     this.state.area = this.props.me.career.area;
     this.state.num = 0;
+    this.state.round = 1;
     this.state.roundNum = 0;
     this.state.totalNum = 0;
     this.state.user = [];
