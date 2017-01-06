@@ -71,6 +71,11 @@ class UserUtil {
       LoginManager.logOut();
     });
   }
+  
+  // Get user bookmark list
+  getBookmarkList(callback) {
+    apiUtil.requestGetWithToken(callback, 'API_GET_BOOKMARK');
+  }
 
   // Get user lists except me
   tokenCheck(callback) {
@@ -126,7 +131,19 @@ class UserUtil {
     body.secretCode = secretCode;
     apiUtil.requestPost(callback, 'API_RESET_PASS', body);
   }
-
+  
+  bookmarkOn(callback, id) {
+    let body = {};
+    body.id = id;
+    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_ON', body);
+  }
+  
+  bookmarkOff(callback, id) {
+    let body = {};
+    body.id = id;
+    apiUtil.requestPostWithToken(callback, 'API_BOOKMARK_OFF', body);
+  }
+  
   editGeneral(callback, general) {
     apiUtil.requestPostWithToken(callback, 'API_EDIT_GENERAL', general);
   }

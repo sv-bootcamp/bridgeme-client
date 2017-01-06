@@ -13,6 +13,7 @@ import { dimensions } from '../Shared/Dimensions';
 import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import UserUtil from '../../utils/UserUtil';
 
 class Row extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Row extends Component {
         .map(value => value.select)
         .sort((a, b) => a.length - b.length),
       pending: this.props.dataSource.pending,
+      bookmarked: this.props.dataSource.bookmarked,
     });
   }
 
@@ -99,7 +101,7 @@ class Row extends Component {
 
   renderMyExpertise() {
     const CHARACTER_WIDTH = dimensions.widthWeight * 10;
-    const LINE_PADDING = dimensions.widthWeight * 10;
+    const LINE_PADDING = dimensions.widthWeight * 15;
     const originArray = this.state.expertise;
     const newArray = [[]];
     let lineSize = 0;
@@ -147,9 +149,26 @@ class Row extends Component {
       </View>
     );
   }
+  
+  onRequestCallback(result, error) {
+    if (error) {
+      Alert.alert('Error on Bookmark', error);
+    } else if (result) {
+      this.state.bookmarked = !this.state.bookmarked;
+      this.forceUpdate();
+    }
+  }
 
   sendRequest() {
     Actions.requestPage({ id: this.props.dataSource._id, me: this.props.dataSource.me });
+  }
+  
+  setBookmark() {
+    if (this.state.bookmarked) {
+      UserUtil.bookmarkOff(this.onRequestCallback.bind(this), this.props.dataSource._id);
+    } else {
+      UserUtil.bookmarkOn(this.onRequestCallback.bind(this), this.props.dataSource._id);
+    }
   }
 
   render() {
@@ -194,6 +213,18 @@ class Row extends Component {
         </TouchableOpacity>
       );
     }
+    
+    let bookmarkImage = null;
+    
+    if (this.state.bookmarked) {
+      bookmarkImage = (
+        <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark-fill.png')}/>
+      );
+    } else {
+      bookmarkImage = (
+        <Image style={styles.bookmarkIcon} source={require('../../resources/icon-bookmark.png')}/>
+      );
+    }
 
     return (
       <TouchableWithoutFeedback onPress={goToUserProfile}>
@@ -202,12 +233,16 @@ class Row extends Component {
             style={styles.photo}
             source={this.state.profileImage}
           />
-          <Image
-            style={styles.bookmarkIcon}
-            source={require('../../resources/icon-bookmark.png')}
-          />
+          <TouchableWithoutFeedback onPress={this.setBookmark.bind(this)}>
+            {bookmarkImage}
+          </TouchableWithoutFeedback>
           <View style={styles.userInformation}>
-            <Text style={styles.name}>{this.state.name}</Text>
+            <Text
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {this.state.name}
+            </Text>
             <Text numberOfLines={1} style={styles.job}> {this.state.currentStatus}</Text>
             <Text style={styles.location}> {this.state.currentLocation}</Text>
             {this.renderMyExpertise()}

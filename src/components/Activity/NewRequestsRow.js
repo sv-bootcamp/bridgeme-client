@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  PanResponder,
+  ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
@@ -19,6 +21,8 @@ class NewRequestsRow extends Component {
     this.state = {
       goToUserProfile: () => Actions.userProfile({ _id: this.props.dataSource._id }),
       expanded: false,
+      isSwipeOpened: false,
+      requestPending: false,
     };
   }
 
@@ -36,20 +40,26 @@ class NewRequestsRow extends Component {
     } else if (result) {
       MatchUtil.getActivityList(this.onGetActivityCallback.bind(this));
     }
+
+    this.setState({ requestPending: false });
   }
 
   acceptRequest() {
-    if (this.props.dataSource.close) {
-      MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
-    } else {
-
+    if (this.state.isSwipeOpened) {
       // Call this method with no parameter will close all swipe button
       this.props.closeAllExceptCurrent();
+    } else {
+      MatchUtil.acceptRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
+      this.setState({ requestPending: true });
     }
   }
 
   rejectRequest() {
     MatchUtil.rejectRequest(this.onRequestCallback.bind(this), this.props.dataSource._id);
+  }
+
+  onSwipeFinish(isOpen) {
+    this.setState({ isSwipeOpened: isOpen });
   }
 
   render() {
@@ -97,6 +107,7 @@ class NewRequestsRow extends Component {
           scroll={event => this.props.allowScroll(event)}
           onPress={this.state.goToUserProfile}
           onOpen={() => this.props.closeAllExceptCurrent(this.props.dataSource._id)}
+          onSwipeFinish={this.onSwipeFinish.bind(this)}
         >
           <View style={styles.row}>
             <View style={styles.userInformation}>
@@ -113,11 +124,19 @@ class NewRequestsRow extends Component {
                     {moment(this.props.dataSource.request_date).fromNow()}
                   </Text>
                 </View>
-                <TouchableOpacity
-                  style={styles.acceptButton}
+                <TouchableOpacityStopPropagation
+                  style={[styles.acceptButton,
+                   { borderWidth: this.state.requestPending ? 0 : 1 },
+                   ]}
                   onPress={this.acceptRequest.bind(this)}>
-                  <Text style={styles.acceptButtonText}>ACCEPT</Text>
-                </TouchableOpacity>
+                  {this.state.requestPending
+                    ? (<ActivityIndicator
+                      animating={true}
+                      style={[styles.activityIndicator]}
+                      size='small'
+                    />)
+                    : (<Text style={styles.acceptButtonText}>ACCEPT</Text>)}
+                </TouchableOpacityStopPropagation>
               </View>
             </View>
             <View>
@@ -131,6 +150,15 @@ class NewRequestsRow extends Component {
         </Swipeout>
       </View>
     );
+  }
+}
+
+class TouchableOpacityStopPropagation extends TouchableOpacity {
+  componentWillMount () {
+    this._panResponder = PanResponder.create({
+      onPanResponderTerminationRequest: () => false,
+      onStartShouldSetPanResponderCapture: () => true,
+    });
   }
 }
 
@@ -154,7 +182,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   userNameWithTime: {
-    width: WIDTH - 180,
+    width: WIDTH - (180 * dimensions.widthWeight),
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',

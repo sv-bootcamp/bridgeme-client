@@ -24,63 +24,94 @@ import UserOverview from './UserOverview';
 import UserUtil from '../../utils/UserUtil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+const backBtnImg = require('../../resources/icon-arrow-left-white.png')
+const backBtnScrolledImg = require('../../resources/icon-arrow-left-grey.png');
+const bookmarkEmptyImage = require('../../resources/icon-bookmark.png');
+const bookmarkFillImg = require('../../resources/icon-bookmark-fill.png');
+const bookmarkEmptyScrolledImg = require('../../resources/icon-bookmark-grey.png');
+
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: '',
-      profileImage: '../../resources/pattern.png',
-      name: '',
-      currentStatus: '',
-      currentLocation: '',
-      statusAsMentee: '',
-      statusAsMentor: '',
-      loaded: false,
-      evalLoaded: false,
-      connectPressed: false,
-      isAboutDisplayed: false,
-      width: 0,
-      height: 0,
-      opacity: new Animated.Value(0),
-      activeNavigationBar: false,
-    };
-
+     this.state = {
+       id: '',
+       profileImage: '../../resources/pattern.png',
+       name: '',
+       currentStatus: '',
+       currentLocation: '',
+       statusAsMentee: '',
+       statusAsMentor: '',
+       loaded: false,
+       evalLoaded: false,
+       connectPressed: false,
+       isAboutDisplayed: false,
+       isRefreshing: true,
+       width: 0,
+       height: 0,
+       opacity: new Animated.Value(0),
+       activeNavigationBar: false,
+       getBookmark: false,
+     };
+     
+     this.renderNavigationBar();
   }
-
+  
   onReqestCallback(result, error) {
     if (error) {
       alert(error);
     } else if (result) {
-      this.onRequestSuccess(result);
+      this.onRequestSuccess(result)
+        .then((status) => {
+          if (!this.state.getBookmark) {
+            return this.setInitialBookmark(status);
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
     }
+  }
+  
+  setInitialBookmark(status) {
+    this.state = {
+      getBookmark: true,
+    };
+    Actions.refresh({
+      rightButtonImage: status ? bookmarkFillImg : bookmarkEmptyImage,
+    });
   }
 
   onRequestSuccess(result) {
+    return new Promise((resolve) => {
 
-    // Check result code: profile Request/mentor request
-    if (result._id) {
-      let statusAsMentee = this.state.statusAsMentee;
-      let statusAsMentor = this.state.statusAsMentor;
-
-      if (result.relation !== undefined) {
-        statusAsMentee = result.relation.asMentee;
-        statusAsMentor = result.relation.asMentor;
+      // Check result code: profile Request/mentor request
+      if (result._id) {
+        let statusAsMentee = this.state.statusAsMentee;
+        let statusAsMentor = this.state.statusAsMentor;
+  
+        if (result.relation !== undefined) {
+          statusAsMentee = result.relation.asMentee;
+          statusAsMentor = result.relation.asMentor;
+        }
+  
+        this.setState({
+          id: result._id,
+          profileImage: this.getProfileImage(result),
+          name: result.name,
+          currentStatus: this.getCurrentStatus(result),
+          currentLocation: this.getCurrentLocation(result),
+          loaded: true,
+          isRefreshing: false,
+          statusAsMentee: statusAsMentee,
+          statusAsMentor: statusAsMentor,
+          about: result.about,
+          bookmarked: result.bookmarked,
+        });
+    
+        resolve(result.bookmarked);
       }
-
-      this.setState({
-        id: result._id,
-        profileImage: this.getProfileImage(result),
-        name: result.name,
-        currentStatus: this.getCurrentStatus(result),
-        currentLocation: this.getCurrentLocation(result),
-        loaded: true,
-        isRefreshing: false,
-        statusAsMentee: statusAsMentee,
-        statusAsMentor: statusAsMentor,
-        about: result.about,
-      });
-    }
+    });
   }
 
   getProfileImage(status) {
@@ -137,17 +168,8 @@ class UserProfile extends Component {
 
     return location;
   }
-
-  componentDidMount() {
-    if (this.props.myProfile) {
-      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
-      this.renderNavigationBar();
-    } else {
-      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
-    }
-  }
-
-  // Receive props befofe completly changed
+  
+  // Receive props before completely changed
   componentWillReceiveProps(props) {
     if (props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
@@ -218,8 +240,7 @@ class UserProfile extends Component {
       Actions.refresh({
         title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
         backButtonImage: (this.state.activeNavigationBar) ?
-        require('../../resources/icon-arrow-left-grey.png') :
-        require('../../resources/icon-arrow-left-white.png'),
+          backBtnScrolledImg : backBtnImg,
         navigationBarStyle: {
           backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
           borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
@@ -231,19 +252,36 @@ class UserProfile extends Component {
       Actions.refresh({
         title: (this.state.activeNavigationBar && this.state.name) ? this.state.name : '',
         backButtonImage: (this.state.activeNavigationBar) ?
-        require('../../resources/icon-arrow-left-grey.png') :
-        require('../../resources/icon-arrow-left-white.png'),
-        rightButtonImage: (this.state.activeNavigationBar) ?
-        require('../../resources/icon-bookmark-grey.png') :
-        require('../../resources/icon-bookmark.png'),
+          backBtnScrolledImg : backBtnImg,
         navigationBarStyle: {
           backgroundColor: (this.state.activeNavigationBar) ? '#fbfbfb' : 'transparent',
           borderBottomColor: (this.state.activeNavigationBar) ? '#d6dada' : 'transparent',
         },
+        rightButtonImage: this.state.bookmarked ? bookmarkFillImg :
+          (this.state.activeNavigationBar) ? bookmarkEmptyScrolledImg : bookmarkEmptyImage,
+        onRight: () => this.setBookmark(),
       });
     }
   }
-
+  
+  setBookmark() {
+    if (this.state.bookmarked) {
+      UserUtil.bookmarkOff(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
+      this.state.bookmarked = false;
+    } else {
+      UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id)
+      this.state.bookmarked = true;
+    }
+  }
+  
+  onRequestCallbackWithUpdate(result, error) {
+    if (error) {
+      Alert.alert('Error on Bookmark', error);
+    } else if (result) {
+      this.renderNavigationBar();
+    }
+  }
+  
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -341,7 +379,10 @@ class UserProfile extends Component {
           <Image style={styles.bookmarkIcon}
             source={null}/>
           <View style={styles.profileUserInfo}>
-            <Text style={styles.name}>{this.state.name}</Text>
+            <Text
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>{this.state.name}</Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
@@ -382,7 +423,6 @@ class UserProfile extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-
     return this.renderUserProfile();
   }
 }
@@ -527,6 +567,30 @@ const styles = StyleSheet.create({
   cancelButton: {
     alignSelf: 'center',
     marginBottom: dimensions.heightWeight * 70,
+  },
+  rightBtn: {
+    backgroundColor: 'red',
+    marginRight: dimensions.widthWeight * 25,
+    width: dimensions.widthWeight * 23,
+    height: dimensions.heightWeight * 21,
+    resizeMode: 'contain',
+  },
+  rightButtonStyle: {
+    ...Platform.select({
+      ios: {
+        top: 20,
+        height: dimensions.heightWeight * 44,
+      },
+      android: {
+        height: dimensions.heightWeight * 54,
+        top: 0,
+      },
+    }),
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginTop: 0,
+    paddingRight: dimensions.widthWeight * 25,
+    justifyContent: 'center',
   },
 });
 

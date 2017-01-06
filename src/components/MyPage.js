@@ -127,6 +127,10 @@ class MyPage extends Component {
   onEditButtonPress() {
     Actions.editProfile({ me: this.props.me });
   }
+  
+  onBookmarkButtonPress() {
+    Actions.bookmark({ me: this.props.me });
+  }
 
   render() {
     if (!this.state.profileImage) {
@@ -141,7 +145,10 @@ class MyPage extends Component {
             source={this.state.profileImage}
           />
           <View style={styles.infoTextContainer}>
-            <Text style={styles.infoText}>
+            <Text
+              style={styles.infoText}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
               {this.state.name}
             </Text>
             <Text style={styles.currentStatusText} ellipsizeMode="tail" numberOfLines={1}>
@@ -164,7 +171,10 @@ class MyPage extends Component {
           <Image source={this.state.icons[0]} />
           <Text style={styles.menuText}>Edit my profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}>
+        <TouchableOpacity
+          style={[styles.menu, { borderTopWidth: 1 }]}
+          onPress={this.onBookmarkButtonPress.bind(this)}
+        >
           <Image source={this.state.icons[1]} />
           <Text style={styles.menuText}>Bookmarks</Text>
         </TouchableOpacity>

@@ -94,8 +94,8 @@ class RequestPage extends Component {
                 <MenuOption value="Study abroad">
                   <Text>Study abroad</Text>
                 </MenuOption>
-                <MenuOption value="Get a new job">
-                  <Text>Get a new job</Text>
+                <MenuOption value="Career advice">
+                  <Text>Career advice</Text>
                 </MenuOption>
                 <MenuOption value="Portfolio & resume">
                   <Text>Portfolio & resume</Text>
