@@ -38,6 +38,12 @@ class Bookmark extends Component {
   }
   
   onRequestSuccess(result) {
+    this.setState({
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+    });
+    
     const bookmarked = result.slice();
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(bookmarked),
@@ -75,12 +81,9 @@ class Bookmark extends Component {
     if (this.state.isEmpty)
       return (
         <View style={styles.container}>
-          <Image source={require('../../resources/chat_onboarding.png')}/>
+          <Image source={require('../../resources/bookmark_onboarding.png')}/>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Bookmark someone!</Text>
-            <Text style={{ color: '#a6aeae', fontSize: dimensions.fontWeight * 14, }}>
-              You did not marked anyone.
-            </Text>
           </View>
         </View>
       );
