@@ -63,7 +63,7 @@ class Filter extends Component {
 
     const all = {
       area: 'All',
-      list: [],
+      list: ['All'],
     };
 
     this.state.careerData.unshift(all);
