@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import {
   Alert,
   ActivityIndicator,
-  Dimensions,
   Image,
   ListView,
   Platform,
-  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -18,7 +16,7 @@ import Text from '../Shared/UniText';
 class Bookmark extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -28,7 +26,7 @@ class Bookmark extends Component {
       isEmpty: false,
     };
   }
-  
+
   onRequestCallback(result, error) {
     if (error) {
       alert(error);
@@ -36,14 +34,14 @@ class Bookmark extends Component {
       this.onRequestSuccess(result);
     }
   }
-  
+
   onRequestSuccess(result) {
     this.setState({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     });
-    
+
     const bookmarked = result.slice();
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(bookmarked),
@@ -52,16 +50,16 @@ class Bookmark extends Component {
       isEmpty: bookmarked.length === 0,
     });
   }
-  
+
   componentDidMount() {
     UserUtil.getBookmarkList(this.onRequestCallback.bind(this));
   }
-  
+
   // Receive props befofe completely changed
   componentWillReceiveProps(props) {
     UserUtil.getBookmarkList(this.onRequestCallback.bind(this));
   }
-  
+
   // Render loading page while fetching bookmark lists.
   renderLoadingView() {
     return (
@@ -72,11 +70,11 @@ class Bookmark extends Component {
       />
     );
   }
-  
+
   renderRow(rowData) {
     return <Row dataSource={rowData} me={this.props.me}/>;
   }
-  
+
   renderBookmarked() {
     if (this.state.isEmpty)
       return (
@@ -99,12 +97,12 @@ class Bookmark extends Component {
       );
     }
   }
-  
+
   render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-    
+
     return this.renderBookmarked();
   }
 }
