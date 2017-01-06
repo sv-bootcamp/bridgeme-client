@@ -295,10 +295,16 @@ const AppProps = {
       rightTitle: 'right',
       rightButtonImage: bookmarkButton,
       rightButtonIconStyle: styles.rightBtnBookmark,
-      onRight: () => Alert.alert('bookmark'),
+      onRight: () => {},
       navigationBarStyle: {
         backgroundColor: 'transparent',
         borderBottomColor: 'transparent',
+      },
+      onBack: () => {
+        Actions.pop();
+    
+        // Delay 20ms to refresh previous scene when current scene is completely popped.
+        setTimeout(() => Actions.refresh(), 20);
       },
     },
     {

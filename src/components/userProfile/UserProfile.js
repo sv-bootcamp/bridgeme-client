@@ -24,7 +24,7 @@ import UserOverview from './UserOverview';
 import UserUtil from '../../utils/UserUtil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const backBtnImg = require('../../resources/icon-arrow-left-white.png')
+const backBtnImg = require('../../resources/icon-arrow-left-white.png');
 const backBtnScrolledImg = require('../../resources/icon-arrow-left-grey.png');
 const bookmarkEmptyImage = require('../../resources/icon-bookmark.png');
 const bookmarkFillImg = require('../../resources/icon-bookmark-fill.png');
@@ -34,27 +34,25 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-     this.state = {
-       id: '',
-       profileImage: '../../resources/pattern.png',
-       name: '',
-       currentStatus: '',
-       currentLocation: '',
-       statusAsMentee: '',
-       statusAsMentor: '',
-       loaded: false,
-       evalLoaded: false,
-       connectPressed: false,
-       isAboutDisplayed: false,
-       isRefreshing: true,
-       width: 0,
-       height: 0,
-       opacity: new Animated.Value(0),
-       activeNavigationBar: false,
-       getBookmark: false,
-     };
-     
-     this.renderNavigationBar();
+    this.state = {
+      id: '',
+      profileImage: '../../resources/pattern.png',
+      name: '',
+      currentStatus: '',
+      currentLocation: '',
+      statusAsMentee: '',
+      statusAsMentor: '',
+      loaded: false,
+      evalLoaded: false,
+      connectPressed: false,
+      isAboutDisplayed: false,
+      isRefreshing: true,
+      width: 0,
+      height: 0,
+      opacity: new Animated.Value(0),
+      activeNavigationBar: false,
+      getBookmark: false,
+    };
   }
   
   onReqestCallback(result, error) {
@@ -74,12 +72,17 @@ class UserProfile extends Component {
   }
   
   setInitialBookmark(status) {
-    this.state = {
-      getBookmark: true,
-    };
-    Actions.refresh({
-      rightButtonImage: status ? bookmarkFillImg : bookmarkEmptyImage,
-    });
+    this.state.getBookmark = true;
+    if (this.props.myProfile) {
+      Actions.refresh({
+        rightButtonImage: null,
+      });
+    } else {
+      Actions.refresh({
+        rightButtonImage: status ? bookmarkFillImg : bookmarkEmptyImage,
+        onRight: () => this.setBookmark(),
+      });
+    }
   }
 
   onRequestSuccess(result) {
@@ -167,6 +170,14 @@ class UserProfile extends Component {
     }
 
     return location;
+  }
+  
+  componentDidMount() {
+    if (this.props.myProfile) {
+      UserUtil.getMyProfile(this.onReqestCallback.bind(this));
+    } else {
+      UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
+    }
   }
   
   // Receive props before completely changed
@@ -267,10 +278,8 @@ class UserProfile extends Component {
   setBookmark() {
     if (this.state.bookmarked) {
       UserUtil.bookmarkOff(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
-      this.state.bookmarked = false;
     } else {
-      UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id)
-      this.state.bookmarked = true;
+      UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
     }
   }
   
@@ -278,6 +287,7 @@ class UserProfile extends Component {
     if (error) {
       Alert.alert('Error on Bookmark', error);
     } else if (result) {
+      this.state.bookmarked = !this.state.bookmarked;
       this.renderNavigationBar();
     }
   }
