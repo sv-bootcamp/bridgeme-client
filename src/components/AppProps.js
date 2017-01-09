@@ -148,7 +148,6 @@ const leftButtonWhite = require('../resources/icon-arrow-left-white.png');
 const backButton = require('../resources/icon-arrow-left-white.png');
 const cancelButton = require('../resources/icon-cancel.png');
 const filterButton = require('../resources/filter.png');
-const bookmarkButton = require('../resources/icon-bookmark.png');
 
 const AppProps = {
   rootProp: {
@@ -273,24 +272,9 @@ const AppProps = {
     {
       key: 'userProfile',
       component: UserProfile,
-      hideBackImage: false,
       direction: 'fade',
       duration: 500,
-      backButtonImage: leftButtonWhite,
-      rightTitle: 'right',
-      rightButtonImage: bookmarkButton,
-      rightButtonIconStyle: styles.rightBtnBookmark,
-      onRight: () => {},
-      navigationBarStyle: {
-        backgroundColor: 'transparent',
-        borderBottomColor: 'transparent',
-      },
-      onBack: () => {
-        Actions.pop();
-    
-        // Delay 20ms to refresh previous scene when current scene is completely popped.
-        setTimeout(() => Actions.refresh(), 20);
-      },
+      hideNavBar: true,
     },
     {
       key: 'filter',
@@ -299,6 +283,7 @@ const AppProps = {
       backButtonImage: cancelButton,
       leftButtonIconStyle: styles.leftBtnCancel,
       direction: 'diagonal',
+      hideNavBar: false,
     },
     {
       key: 'requestPage',
