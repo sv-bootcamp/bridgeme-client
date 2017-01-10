@@ -159,7 +159,7 @@ class UserOverview extends Component {
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>Personality</Text>
-        <CloudTag tagList={tagList} width={250} />
+        <CloudTag tagList={tagList} width={275} />
       </View>
     );
   }

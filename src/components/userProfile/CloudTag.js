@@ -80,7 +80,6 @@ export default class CloudTag extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -89,5 +88,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
