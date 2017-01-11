@@ -59,8 +59,13 @@ class Tournament extends Component {
         onBoardingText: [],
         onBoardingImg: [],
         onBoardingIdx: 0,
+        education_background: [
+          "Associate's",
+          "Bachelor's",
+          "Master's",
+          'PhD',
+        ],
       };
-
   }
 
   componentDidMount() {
@@ -76,8 +81,8 @@ class Tournament extends Component {
 
       this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-1.png'));
       this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-2.png'));
-      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-2-1.png'));
       this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-3.png'));
+      this.state.onBoardingImg.push(require('../../resources/bg-tournament-onboarding-4.png'));
 
       AsyncStorage.setItem('firstTournament', 'on');
       this.setState({ step: -1 });
@@ -137,9 +142,13 @@ class Tournament extends Component {
       case 4 :
         Actions.refresh({
           title: 'Round ' + (this.state.round),
-          titleStyle: styles.title,
+          titleStyle: [styles.title, { fontWeight: 'bold', fontSize: 18, }],
           rightButtonTextStyle: styles.rightTextStyle,
           rightTitle: 'Restart',
+          navigationBarStyle: {
+            borderBottomColor: 'transparent',
+            backgroundColor: '#ededed',
+          },
           onRight: this.onPressRestart.bind(this),
         });
         break;
@@ -210,8 +219,10 @@ class Tournament extends Component {
         return (
           <View key={index}>
             <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
-              {(edu.concentration.length !== 0 && edu.school.name !== '') ?
-              edu.school.name + ', ' + edu.concentration[0].name : edu.school.name}
+              {edu.school.name}
+            </Text>
+            <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
+              {(edu.concentration.length !== 0) ? edu.concentration[0].name : ' '}
             </Text>
             <Text style={styles.eduTextSub}>
               {(edu.start_date !== undefined && edu.start_date !== '') ?
@@ -319,7 +330,7 @@ class Tournament extends Component {
 
         this.onRenderNavigationBar();
 
-      }, 7000);
+      }, 1000);
   }
 
   onPressBtnSelect(data) {
@@ -549,37 +560,50 @@ class Tournament extends Component {
   }
 
   renderUser(data, up) {
-    let color;
-    if (up) {
-      color = this.state.upSeleted ?  '#44acff' : '#d6dada';
-    } else {
-      color = this.state.downSeleted ?  '#44acff' : '#d6dada';
-    }
+    let edu = this.state.education_background.indexOf(data.career.education_background);
+    let job = this.getCurrentStatus(data);
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.userContainer}>
         <Image
           style={styles.photo}
           source={this.getProfileImage(data)}/>
-        <View style={styles.userContainer}>
+        <View>
           <View style={styles.textContainer}>
+            <Text
+              style={styles.userTitleText}>
+              {(up) ? 'Name' : ' '}
+            </Text>
             <Text
               style={styles.name}
               numberOfLines={1}
               ellipsizeMode={'tail'}>
               {data.name}
             </Text>
-            <Text numberOfLines={1} style={styles.job}>
-              {this.getCurrentStatus(data)}
+          </View>
+          <View style={styles.textContainer}>
+            <Text
+              style={styles.userTitleText}>
+              {(up) ? 'Job' : ' '}
+            </Text>
+            <Text numberOfLines={1} style={styles.name}>
+              {(job) ? job : ' '}
             </Text>
           </View>
-          <TouchableWithoutFeedback
-            disabled={this.state.upSeleted || this.state.downSeleted}
-            onPress={this.onPressBtnSelect.bind(this, data)}>
-            <View style={styles.checkContainer} >
-              <Icon name={'md-checkmark'} color={color} size={40} />
+          <View style={styles.frontEduContainer}>
+            <Text
+              style={styles.userTitleText}>
+              {(up) ? 'Education' : ' '}
+            </Text>
+            <View style={styles.eduIconContainer}>
+              {(edu > 0) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-b-a.png')}/> : null}
+              {(edu > 1) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-m-a.png')}/> : null}
+              {(edu > 2) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-ph-d.png')}/> : null}
             </View>
-          </TouchableWithoutFeedback>
+          </View>
         </View>
       </View>
     );
@@ -597,15 +621,69 @@ class Tournament extends Component {
           </View>
           <View style={styles.expertContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{'Expertise'}</Text>
+              <Text style={styles.titleText}>{'My Expertise'}</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
+            <View>
               {this.getExpertise(data)}
             </View>
           </View>
         </View>
       </View>
     );
+  }
+
+  renderFront() {
+
+    let renderUser;
+    renderUser = this.renderUser.bind(this);
+    renderUserData = this.renderUserData.bind(this);
+
+    return (
+      <View style={styles.background}>
+        <View style={styles.matchContainer}>
+          <View style={styles.frontBackground}/>
+          <View style={styles.frontContainer}>
+            {renderUser(this.state.user[this.state.selected[0]], true)}
+            {renderUser(this.state.user[this.state.selected[1]], false)}
+            <View style={styles.vsContainer}>
+              <Image style={styles.vsImg}
+                source={require('../../resources/bg-vs.png')}/>
+            </View>
+          </View>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+          <Text style={styles.indexBoldText}>
+            {(this.state.index + 1)}
+          </Text>
+          <Text style={styles.indexText}>
+            {'  /  ' + (this.state.roundNum)}
+          </Text>
+        </View>
+      </View>
+      );
+  }
+
+  renderBack() {
+
+    let renderUser;
+    renderUser = this.renderUser.bind(this);
+    renderUserData = this.renderUserData.bind(this);
+
+    return (
+      <View style={styles.background}>
+        <View style={styles.matchContainer}>
+          <View style={styles.backBackground}/>
+          <View style={styles.frontContainer}>
+            {renderUserData(this.state.user[this.state.selected[0]], true)}
+
+          </View>
+        </View>
+
+      </View>
+      );
   }
 
   renderCard() {
@@ -653,9 +731,14 @@ class Tournament extends Component {
             </View>
           </View>
         </FlipCard>
-        <Text style={styles.indexText}>
-          {(this.state.index + 1) + ' / ' + (this.state.roundNum)}
-        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.indexBoldText}>
+            {(this.state.index + 1)}
+          </Text>
+          <Text style={styles.indexText}>
+            {' / ' + (this.state.roundNum)}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -765,7 +848,7 @@ class Tournament extends Component {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
-      case 3: return this.renderCard();
+      case 3: return this.renderFront();
       case 4: return this.renderList();
       case 5: return this.renderLoading();
       case 10: return (
@@ -773,31 +856,31 @@ class Tournament extends Component {
           {this.renderRestart()}
           {this.renderPopup()}
         </View>
-      );
+        );
       case 11: return (
         <View>
           {this.renderArea()}
           {this.renderPopup()}
         </View>
-      );
+        );
       case 12: return (
         <View>
           {this.renderNumOfPeople()}
           {this.renderPopup()}
         </View>
-      );
+        );
       case 13: return (
         <View>
           {this.renderCard()}
           {this.renderPopup()}
         </View>
-      );
+        );
       case 14: return (
         <View>
           {this.renderList()}
           {this.renderPopup()}
         </View>
-      );
+        );
     }
   }
 }
@@ -814,6 +897,82 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  background: {
+    flex: 1,
+    backgroundColor: '#ededed',
+  },
+  matchContainer: {
+    flex: 1,
+    ...Platform.select({
+      ios: {
+        marginTop: (dimensions.heightWeight * 64) + 20,
+      },
+      android: {
+        marginTop: dimensions.heightWeight * 64,
+      },
+    }),
+    paddingLeft: dimensions.widthWeight * 4,
+    paddingRight: dimensions.widthWeight * 4,
+    marginBottom: dimensions.heightWeight * 65,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  frontContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft: dimensions.widthWeight * 4,
+    marginRight: dimensions.widthWeight * 4,
+    backgroundColor: 'transparent',
+  },
+  frontBackground: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
+      },
+      android: {
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
+      },
+    }),
+    position: 'absolute',
+    top: dimensions.heightWeight * 120,
+    left: dimensions.widthWeight * 4,
+    width: dimensions.widthWeight * 367,
+    height: dimensions.heightWeight * 346,
+    borderRadius: 5,
+    backgroundColor: '#ffffff',
+  },
+  backBackground: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
+      },
+      android: {
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
+      },
+    }),
+    position: 'absolute',
+    top: dimensions.heightWeight * 0,
+    left: dimensions.widthWeight * 4,
+    width: dimensions.widthWeight * 371,
+    height: dimensions.heightWeight * 556,
+    borderRadius: 5,
+    backgroundColor: '#ffffff',
   },
   cardContainer: {
     ...Platform.select({
@@ -839,15 +998,30 @@ const styles = StyleSheet.create({
     borderRadius: 4.4,
   },
   userContainer: {
-    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   userDataContainer: {
     paddingLeft: dimensions.widthWeight * 25,
   },
   textContainer: {
+    paddingTop: dimensions.heightWeight * 15,
+    paddingBottom: dimensions.heightWeight * 14,
+    paddingLeft: dimensions.heightWeight * 6,
+    marginLeft: dimensions.widthWeight * 10,
+    marginRight: dimensions.widthWeight * 10,
+    width: dimensions.widthWeight * 162,
+    borderBottomWidth: 1,
+    borderBottomColor: '#efeff2',
+  },
+  frontEduContainer: {
     paddingTop: dimensions.heightWeight * 20,
-    paddingLeft: dimensions.widthWeight * 20,
-    width: dimensions.widthWeight * 245,
+    paddingBottom: dimensions.heightWeight * 14,
+    paddingLeft: dimensions.heightWeight * 6,
+    marginLeft: dimensions.widthWeight * 10,
+    marginRight: dimensions.widthWeight * 10,
+    width: dimensions.widthWeight * 162,
   },
   checkContainer: {
     position: 'absolute',
@@ -860,18 +1034,21 @@ const styles = StyleSheet.create({
   },
   vsContainer: {
     position: 'absolute',
-    top: dimensions.heightWeight * 231,
-    left: dimensions.widthWeight * 137.5,
-    height: dimensions.heightWeight * 26,
-    width: dimensions.widthWeight * 50,
-    borderRadius: dimensions.fontWeight * 30,
-    backgroundColor: '#44acff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    top: dimensions.heightWeight * 104 - 20,
+    left: (dimensions.width / 2) - (dimensions.widthWeight * 34),
+    height: dimensions.heightWeight * 52,
+    width: dimensions.widthWeight * 52,
   },
   eduContainer: {
     height: dimensions.heightWeight * 152,
     width: dimensions.widthWeight * 300,
+  },
+  eduIconContainer: {
+    marginTop: dimensions.heightWeight * 15,
+    height: dimensions.heightWeight * 18,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   expertContainer: {
     height: dimensions.heightWeight * 70.5,
@@ -915,8 +1092,15 @@ const styles = StyleSheet.create({
   },
   indexText: {
     backgroundColor: 'transparent',
-    marginTop: dimensions.heightWeight * 532,
-    fontSize: dimensions.fontWeight * 10,
+    fontSize: dimensions.fontWeight * 12,
+    marginBottom: dimensions.heightWeight * 20,
+    color: '#2e3031',
+  },
+  indexBoldText: {
+    backgroundColor: 'transparent',
+    fontSize: dimensions.fontWeight * 12,
+    fontWeight: 'bold',
+    marginBottom: dimensions.heightWeight * 20,
     color: '#2e3031',
   },
   titleText: {
@@ -945,6 +1129,11 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
+  userTitleText: {
+    fontSize: dimensions.fontWeight * 12,
+    fontWeight: 'bold',
+    color: '#a6aeae',
+  },
   areaText: {
     marginTop: dimensions.heightWeight * 53,
     marginBottom: dimensions.heightWeight * 146,
@@ -970,6 +1159,11 @@ const styles = StyleSheet.create({
   popupTextSub: {
     fontSize: dimensions.fontWeight * 10,
     color: '#a6aeae',
+  },
+  vsImg: {
+    height: dimensions.heightWeight * 52,
+    width: dimensions.widthWeight * 52,
+    resizeMode: 'contain',
   },
   restartImg: {
     marginTop: dimensions.heightWeight * 33,
@@ -1040,9 +1234,8 @@ const styles = StyleSheet.create({
     color: '#2e3031',
   },
   name: {
-    fontSize: dimensions.fontWeight * 16,
-    marginBottom: dimensions.heightWeight * 8,
-    fontWeight: 'bold',
+    fontSize: dimensions.fontWeight * 14,
+    marginTop: dimensions.heightWeight * 10,
     color: '#2e3031',
   },
   eduTextMain: {
@@ -1053,7 +1246,7 @@ const styles = StyleSheet.create({
   eduTextSub: {
     fontSize: dimensions.fontWeight * 10,
     marginBottom: dimensions.heightWeight * 6,
-    color: '#a6acad',
+    color: '#2e3031',
   },
   expertText: {
     fontSize: dimensions.fontWeight * 12,
@@ -1077,8 +1270,30 @@ const styles = StyleSheet.create({
     marginRight: dimensions.widthWeight * 15,
   },
   photo: {
-    height: dimensions.heightWeight * 162,
-    width: dimensions.widthWeight * 325,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
+      },
+      android: {
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
+      },
+    }),
+    height: dimensions.heightWeight * 220,
+    width: dimensions.widthWeight * 172,
+    marginBottom: dimensions.heightWeight * 18,
+    borderRadius: 8,
+  },
+  eduIconImg: {
+    width: dimensions.widthWeight * 18,
+    resizeMode: 'contain',
+    marginRight: dimensions.widthWeight * 16,
   },
   popupImg: {
     marginTop: dimensions.heightWeight * 16,
@@ -1123,7 +1338,7 @@ const styles = StyleSheet.create({
       },
     }),
     justifyContent: 'flex-start',
-    backgroundColor: 'green',
+    backgroundColor: 'transparent',
     position: 'absolute',
     marginLeft: dimensions.widthWeight * 10,
     alignItems: 'center',

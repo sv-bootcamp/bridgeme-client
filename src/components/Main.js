@@ -195,6 +195,10 @@ class Main extends Component {
             Actions.refresh({
               title: 'Bridge Me',
               titleStyle: styles.mainTitle,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: require('../resources/filter.png'),
               rightTitle: null,
               onRight: () => Actions.filter(),
@@ -214,6 +218,10 @@ class Main extends Component {
             Actions.refresh({
               title: 'My Connection',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
@@ -226,6 +234,10 @@ class Main extends Component {
             Actions.refresh({
               title: 'Chat',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
@@ -238,6 +250,10 @@ class Main extends Component {
             Actions.refresh({
               title: 'My Profile',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
               rightTitle: null,
               onRight: () => {},
