@@ -9,17 +9,19 @@ export default class CloudTag extends Component {
 
   constructor(props) {
     super(props);
+    const colorList = ['#cdd2d2', '#757b7c', '#2e3031'];
 
     this.TagCloud = this.orderData().map((item, key) => {
       const tagContainerStyle = {
-        paddingLeft: this.getRandomPadding(item.point),
-        paddingTop: this.getRandomPadding(item.point) / 2,
-        paddingRight: this.getRandomPadding(item.point),
-        paddingBottom: this.getRandomPadding(item.point) / 2,
+        paddingLeft: this.getRandomHorizontalPadding(),
+        paddingTop: this.getRandomVerticalPadding(),
+        paddingRight: this.getRandomHorizontalPadding(),
+        paddingBottom: this.getRandomVerticalPadding(),
       };
 
       const tagStyle = {
-        fontSize: 12 + (item.point * 3),
+        fontSize: 12 + (item.point * 4),
+        color: colorList[item.point],
       };
 
       return (
@@ -58,8 +60,12 @@ export default class CloudTag extends Component {
     return result;
   }
 
-  getRandomPadding(point) {
-    return Math.floor(Math.random() * 10) * (point + 1);
+  getRandomVerticalPadding() {
+    return Math.floor(Math.random() * 30);
+  }
+
+  getRandomHorizontalPadding() {
+    return Math.floor(Math.random() * 20) + 5;
   }
 
   render() {
