@@ -50,10 +50,9 @@ class Tournament extends Component {
         user: [],
         index: 0,
         fliped: false,
+        left: true,
         selected: [],
         listData: [],
-        upSeleted: false,
-        downSeleted: false,
         restart: 0,
         isRefresh: true,
         onBoardingText: [],
@@ -108,6 +107,10 @@ class Tournament extends Component {
         Actions.refresh({
           title: 'Tournament',
           titleStyle: styles.title,
+          navigationBarStyle: {
+            backgroundColor: '#fbfbfb',
+            borderBottomColor: '#d6dada',
+          },
           rightButtonImage: null,
           rightTitle: null,
           onRight: () => {},
@@ -123,6 +126,10 @@ class Tournament extends Component {
           title: 'Tournament',
           titleStyle: styles.title,
           rightButtonTextStyle: styles.rightTextStyle,
+          navigationBarStyle: {
+            backgroundColor: '#fbfbfb',
+            borderBottomColor: '#d6dada',
+          },
           rightTitle: null,
           onRight: null,
           leftTitle: null,
@@ -139,6 +146,49 @@ class Tournament extends Component {
         });
         break;
       case 3 :
+        if (!this.state.fliped) {
+          Actions.refresh({
+            title: 'Round ' + (this.state.round),
+            titleStyle: [styles.title, { fontWeight: 'bold', fontSize: 18, }],
+            rightButtonTextStyle: styles.rightTextStyle,
+            rightTitle: 'Restart',
+            navigationBarStyle: {
+              borderBottomColor: 'transparent',
+              backgroundColor: '#ededed',
+            },
+            onRight: this.onPressRestart.bind(this),
+
+            leftButtonImage: null,
+            leftTitle: 'left',
+            onLeft: () => {},
+          });
+        } else {
+          Actions.refresh({
+            title: (this.state.left) ?
+            this.state.user[this.state.selected[0]].name
+            : this.state.user[this.state.selected[1]].name,
+            titleStyle: [styles.title, { fontWeight: 'bold', fontSize: 18, }],
+            rightButtonTextStyle: styles.rightTextStyle,
+            rightTitle: null,
+            navigationBarStyle: {
+              borderBottomColor: 'transparent',
+              backgroundColor: '#ededed',
+            },
+            onRight: null,
+            leftTitle: null,
+            leftButtonImage: leftButtonGrey,
+            leftButtonIconStyle: styles.leftBtn,
+            leftButtonStyle: styles.leftButtonStyle,
+            onRight: () => {},
+
+            onLeft: () => {
+              this.state.fliped = false;
+              this.onRenderNavigationBar();
+            },
+          });
+        }
+
+        break;
       case 4 :
         Actions.refresh({
           title: 'Round ' + (this.state.round),
@@ -147,9 +197,15 @@ class Tournament extends Component {
           rightTitle: 'Restart',
           navigationBarStyle: {
             borderBottomColor: 'transparent',
-            backgroundColor: '#ededed',
+            backgroundColor: '#ffffff',
           },
-          onRight: this.onPressRestart.bind(this),
+          rightTitle: null,
+          onRight: null,
+          onRight: () => {},
+
+          leftButtonImage: null,
+          leftTitle: 'left',
+          onLeft: () => {},
         });
         break;
     }
@@ -219,7 +275,7 @@ class Tournament extends Component {
         return (
           <View key={index}>
             <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
-              {edu.school.name}
+              {(edu.school.name) ? edu.school.name : ' '}
             </Text>
             <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
               {(edu.concentration.length !== 0) ? edu.concentration[0].name : ' '}
@@ -227,7 +283,7 @@ class Tournament extends Component {
             <Text style={styles.eduTextSub}>
               {(edu.start_date !== undefined && edu.start_date !== '') ?
                 (edu.start_date + ' ~ ' + edu.end_date)
-              : (edu.year !== undefined) ? edu.year.name : ''}
+              : (edu.year !== undefined) ? edu.year.name : ' '}
             </Text>
           </View>
         );
@@ -291,11 +347,10 @@ class Tournament extends Component {
     this.state.user = [];
     this.state.index = 0;
     this.state.fliped = false;
+    this.state.left = true;
     this.state.selecte = [];
     this.state.listData = [];
     this.state.restart = 0;
-    this.state.upSeleted = false;
-    this.state.downSeleted = false;
   }
 
   onPressBtnRestart() {
@@ -310,7 +365,7 @@ class Tournament extends Component {
       tmpBody.career.area = 'All';
     }
 
-    MatchUtil.getMentorList(this.onGetMentorListCallback.bind(this));
+    MatchUtil.getMentorList(this.onGetMentorListCallback.bind(this), tmpBody);
   }
 
   onPressBtnNumOfPeple(num) {
@@ -334,48 +389,49 @@ class Tournament extends Component {
   }
 
   onPressBtnSelect(data) {
+    this.state.fliped = false;
     let rowFirst = this.state.user[this.state.selected[0]];
     let rowSecond = this.state.user[this.state.selected[1]];
     if (this.state.selected[0] === this.state.user.indexOf(data)) {
       rowFirst.selected = true;
       rowSecond.selected = false;
-      this.state.upSeleted = true;
     } else {
       rowFirst.selected = false;
       rowSecond.selected = true;
-      this.state.downSeleted = true;
     }
 
-    this.forceUpdate();
-    setTimeout(() => {
-      this.state.upSeleted = false;
-      this.state.downSeleted = false;
-      this.state.listData.push({ rowFirst, rowSecond });
-      this.state.selected.shift();
-      this.state.selected.shift();
+    this.state.listData.push({ rowFirst, rowSecond });
+    this.state.selected.shift();
+    this.state.selected.shift();
 
-      if (this.state.selected.length === 0) {
-        this.state.step = 0;
+    if (this.state.selected.length === 0) {
+      this.state.step = 0;
+      this.onRenderNavigationBar();
+      setTimeout(() => {
+        Actions.userProfile({ _id: data._id, me: this.props.me });
+      }, 100);
+    } else {
+      this.state.selected.push(this.state.user.indexOf(data));
+
+      if (this.state.roundNum === this.state.index + 1) {
+        this.state.roundNum = this.state.roundNum / 2;
+        this.state.index = 0;
+        this.state.step = 4;
         this.onRenderNavigationBar();
-
-        setTimeout(() => {
-          Actions.userProfile({ _id: data._id, me: this.props.me });
-        }, 300);
       } else {
-        this.state.selected.push(this.state.user.indexOf(data));
-
-        if (this.state.roundNum === this.state.index + 1) {
-          this.state.roundNum = this.state.roundNum / 2;
-          this.state.index = 0;
-          this.state.step = 4;
-        } else {
-          this.state.index = this.state.index + 1;
-        }
-
-        this.forceUpdate();
+        this.state.index = this.state.index + 1;
       }
-    }, 500);
 
+      this.forceUpdate();
+    }
+
+  }
+
+  onPressFlipCard(left) {
+    this.state.fliped = true;
+    this.state.left = left;
+    this.onRenderNavigationBar();
+    this.forceUpdate();
   }
 
   renderOnboardingPage() {
@@ -559,42 +615,36 @@ class Tournament extends Component {
     );
   }
 
-  renderUser(data, up) {
-    let edu = this.state.education_background.indexOf(data.career.education_background);
+  renderUser(data, left) {
+    let edu;
+    if (data.career.education_background)
+      edu = this.state.education_background.indexOf(data.career.education_background);
+    else
+      edu = this.state.education_background.indexOf(data.career.educational_background);
+
     let job = this.getCurrentStatus(data);
 
     return (
       <View style={styles.userContainer}>
-        <Image
-          style={styles.photo}
-          source={this.getProfileImage(data)}/>
+        <TouchableWithoutFeedback
+          onPress={this.onPressFlipCard.bind(this, left)}>
+          <Image
+            style={styles.photo}
+            source={this.getProfileImage(data)}/>
+        </TouchableWithoutFeedback>
         <View>
           <View style={styles.textContainer}>
-            <Text
-              style={styles.userTitleText}>
-              {(up) ? 'Name' : ' '}
-            </Text>
-            <Text
-              style={styles.name}
-              numberOfLines={1}
-              ellipsizeMode={'tail'}>
+            <Text style={styles.userTitleText}>{(left) ? 'Name' : ' '}</Text>
+            <Text style={styles.name} numberOfLines={1} ellipsizeMode={'tail'}>
               {data.name}
             </Text>
           </View>
           <View style={styles.textContainer}>
-            <Text
-              style={styles.userTitleText}>
-              {(up) ? 'Job' : ' '}
-            </Text>
-            <Text numberOfLines={1} style={styles.name}>
-              {(job) ? job : ' '}
-            </Text>
+            <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
+            <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
           </View>
           <View style={styles.frontEduContainer}>
-            <Text
-              style={styles.userTitleText}>
-              {(up) ? 'Education' : ' '}
-            </Text>
+            <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
             <View style={styles.eduIconContainer}>
               {(edu > 0) ? <Image style={styles.eduIconImg}
                 source={require('../../resources/icon-b-a.png')}/> : null}
@@ -610,19 +660,23 @@ class Tournament extends Component {
   }
 
   renderUserData(data) {
+    let job = this.getCurrentStatus(data);
+
     return (
-      <View style={{ flex: 1, paddingTop: dimensions.heightWeight * 21 }}>
+      <View>
         <View style={styles.userDataContainer}>
-          <View style={styles.eduContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{'Education'}</Text>
-            </View>
+          <View style={styles.textBackContainer}>
+            <Text style={styles.userBackTitleText}>{'Job'}</Text>
+            <Text numberOfLines={1} style={styles.eduTextMain}>
+              {(job) ? job : ' '}
+            </Text>
+          </View>
+          <View style={styles.textBackContainer}>
+            <Text style={styles.userBackTitleText}>{'Education'}</Text>
             {this.getEducation(data)}
           </View>
-          <View style={styles.expertContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{'My Expertise'}</Text>
-            </View>
+          <View style={[styles.textBackContainer, { borderBottomWidth: 0 }]}>
+            <Text style={styles.userBackTitleText}>{'My Expertise'}</Text>
             <View>
               {this.getExpertise(data)}
             </View>
@@ -633,10 +687,7 @@ class Tournament extends Component {
   }
 
   renderFront() {
-
-    let renderUser;
-    renderUser = this.renderUser.bind(this);
-    renderUserData = this.renderUserData.bind(this);
+    let renderUser = this.renderUser.bind(this);
 
     return (
       <View style={styles.background}>
@@ -667,80 +718,46 @@ class Tournament extends Component {
   }
 
   renderBack() {
-
-    let renderUser;
-    renderUser = this.renderUser.bind(this);
-    renderUserData = this.renderUserData.bind(this);
-
+    let renderUserData = this.renderUserData.bind(this);
+    let data = (this.state.left) ?
+    this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
     return (
       <View style={styles.background}>
-        <View style={styles.matchContainer}>
-          <View style={styles.backBackground}/>
-          <View style={styles.frontContainer}>
-            {renderUserData(this.state.user[this.state.selected[0]], true)}
-
+        <View style={styles.matchBackContainer}>
+          <View style={styles.backBackground}>
+            {(this.state.left) ?
+              renderUserData(this.state.user[this.state.selected[0]])
+            : renderUserData(this.state.user[this.state.selected[1]])}
           </View>
         </View>
-
-      </View>
-      );
-  }
-
-  renderCard() {
-
-    let renderUser;
-    renderUser = this.renderUser.bind(this);
-    renderUserData = this.renderUserData.bind(this);
-
-    return (
-      <View style={styles.container}>
-        <FlipCard
-          style={styles.flipContainer}
-          friction={10}
-          perspective={1000}
-          flipHorizontal={true}
-          flipVertical={false}
-          flip={false}
-          clickable={!(this.state.upSeleted || this.state.downSeleted)}>
-          <View>
-            <View style={styles.cardContainer}>
-              <View style={{ flex: 1 }}>
-                {renderUser(this.state.user[this.state.selected[0]], true)}
-                {renderUser(this.state.user[this.state.selected[1]], false)}
+        <View>
+          <TouchableOpacity
+            activated={false}
+            onPress={this.onPressBtnSelect.bind(this, data)}>
+            <LinearGradient style={styles.selectBtnStyle}
+              start={[0.9, 0.5]}
+              end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
+              <View style={styles.buttonSelContainer}>
+                <Icon
+                  style={{ marginRight: dimensions.widthWeight * 5 }}
+                  name={'md-checkmark'} color={'#ffffff'} size={20} />
+                <Text style={styles.buttonText}>{'SELECTED'}</Text>
               </View>
-              <View style={styles.halfline}/>
-              <View style={styles.vsContainer}>
-                <Text style={styles.vsTest}>{'VS'}</Text>
-              </View>
-            </View>
-            <View style={styles.indexContainer}>
-            </View>
-          </View>
-          <View>
-            <View style={styles.cardContainer}>
-              <View style={{ flex: 1 }}>
-                {renderUserData(this.state.user[this.state.selected[0]])}
-                {renderUserData(this.state.user[this.state.selected[1]])}
-              </View>
-              <View style={styles.halfline}/>
-              <View style={styles.vsContainer}>
-                <Text style={styles.vsTest}>{'VS'}</Text>
-              </View>
-            </View>
-            <View style={styles.indexContainer}>
-            </View>
-          </View>
-        </FlipCard>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.indexBoldText}>
-            {(this.state.index + 1)}
-          </Text>
-          <Text style={styles.indexText}>
-            {' / ' + (this.state.roundNum)}
-          </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </View>
     );
+  }
+
+  renderCard() {
+    if (!this.state.fliped) {
+      return this.renderFront();
+    } else {
+      return this.renderBack();
+    }
   }
 
   renderSeparator(sectionID, rowID) {
@@ -751,7 +768,7 @@ class Tournament extends Component {
         <View
           key={`${sectionID}-${rowID}`}
           style={{
-            height: dimensions.heightWeight * 2,
+            height: dimensions.heightWeight * 1,
             backgroundColor: '#eaefef',
             marginLeft: dimensions.widthWeight * 70,
           }}
@@ -786,16 +803,9 @@ class Tournament extends Component {
         <TouchableOpacity
           activated={false}
           onPress={this.onPressBtnNext.bind(this)}>
-          <LinearGradient
-            style={styles.nextBtnStyle}
-            start={[0.9, 0.5]}
-            end={[0.0, 0.5]}
-            locations={[0, 0.75]}
-            colors={['#07e4dd', '#44acff']}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>{'NEXT'}</Text>
-            </View>
-          </LinearGradient>
+          <View style={[styles.nextBtnStyle, { backgroundColor: '#44acff' }]}>
+            <Text style={styles.buttonText}>{'NEXT'}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -848,7 +858,7 @@ class Tournament extends Component {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
-      case 3: return this.renderFront();
+      case 3: return this.renderCard();
       case 4: return this.renderList();
       case 5: return this.renderLoading();
       case 10: return (
@@ -899,11 +909,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   background: {
-    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#ededed',
   },
   matchContainer: {
-    flex: 1,
     ...Platform.select({
       ios: {
         marginTop: (dimensions.heightWeight * 64) + 20,
@@ -915,6 +924,21 @@ const styles = StyleSheet.create({
     paddingLeft: dimensions.widthWeight * 4,
     paddingRight: dimensions.widthWeight * 4,
     marginBottom: dimensions.heightWeight * 65,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  matchBackContainer: {
+    ...Platform.select({
+      ios: {
+        marginTop: (dimensions.heightWeight * 64) + 20,
+      },
+      android: {
+        marginTop: dimensions.heightWeight * 64,
+      },
+    }),
+    paddingLeft: dimensions.widthWeight * 4,
+    paddingRight: dimensions.widthWeight * 4,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
@@ -963,15 +987,12 @@ const styles = StyleSheet.create({
       },
       android: {
         borderWidth: 1,
-        borderColor: 'rgba(0, 0, 0, .1)',
+        borderColor: 'rgba(0, 0, 0, .15)',
       },
     }),
-    position: 'absolute',
-    top: dimensions.heightWeight * 0,
-    left: dimensions.widthWeight * 4,
-    width: dimensions.widthWeight * 371,
-    height: dimensions.heightWeight * 556,
-    borderRadius: 5,
+    width: dimensions.widthWeight * 351,
+    height: dimensions.heightWeight * 502,
+    borderRadius: 10,
     backgroundColor: '#ffffff',
   },
   cardContainer: {
@@ -1003,7 +1024,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   userDataContainer: {
-    paddingLeft: dimensions.widthWeight * 25,
+    paddingLeft: dimensions.widthWeight * 22,
   },
   textContainer: {
     paddingTop: dimensions.heightWeight * 15,
@@ -1012,6 +1033,13 @@ const styles = StyleSheet.create({
     marginLeft: dimensions.widthWeight * 10,
     marginRight: dimensions.widthWeight * 10,
     width: dimensions.widthWeight * 162,
+    borderBottomWidth: 1,
+    borderBottomColor: '#efeff2',
+  },
+  textBackContainer: {
+    paddingTop: dimensions.heightWeight * 20,
+    paddingBottom: dimensions.heightWeight * 14,
+    paddingLeft: dimensions.heightWeight * 6,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',
   },
@@ -1064,7 +1092,7 @@ const styles = StyleSheet.create({
   listContainer: {
     height: dimensions.heightWeight * 406,
     width: dimensions.widthWeight * 375,
-    marginTop: dimensions.heightWeight * 10,
+    marginTop: dimensions.heightWeight * 30,
     marginBottom: dimensions.heightWeight * 20,
   },
   indexContainer: {
@@ -1125,7 +1153,7 @@ const styles = StyleSheet.create({
     color: '#2e3031',
   },
   listText: {
-    marginTop: dimensions.heightWeight * 30,
+    marginTop: dimensions.heightWeight * 20,
     fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
@@ -1133,6 +1161,12 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
     color: '#a6aeae',
+  },
+  userBackTitleText: {
+    fontSize: dimensions.fontWeight * 12,
+    fontWeight: 'bold',
+    color: '#a6aeae',
+    marginBottom: dimensions.heightWeight * 12,
   },
   areaText: {
     marginTop: dimensions.heightWeight * 53,
@@ -1196,12 +1230,25 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: 'transparent',
   },
+  buttonSelContainer: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
   flipContainer: {
     borderColor: 'transparent',
   },
   getStartedBtnStyle: {
     justifyContent: 'center',
     marginTop: dimensions.heightWeight * 20,
+    width: dimensions.widthWeight * 230,
+    height: dimensions.heightWeight * 45,
+    borderRadius: 100,
+  },
+  selectBtnStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -(dimensions.heightWeight * 45 / 2),
+    marginBottom: dimensions.heightWeight * 10,
     width: dimensions.widthWeight * 230,
     height: dimensions.heightWeight * 45,
     borderRadius: 100,
@@ -1239,18 +1286,18 @@ const styles = StyleSheet.create({
     color: '#2e3031',
   },
   eduTextMain: {
-    fontSize: dimensions.fontWeight * 12,
-    marginBottom: dimensions.heightWeight * 3,
+    fontSize: dimensions.fontWeight * 14,
     color: '#2e3031',
   },
   eduTextSub: {
-    fontSize: dimensions.fontWeight * 10,
-    marginBottom: dimensions.heightWeight * 6,
+    fontSize: dimensions.fontWeight * 12,
+    marginTop: dimensions.heightWeight * 6,
+    marginBottom: dimensions.heightWeight * 14,
     color: '#2e3031',
   },
   expertText: {
-    fontSize: dimensions.fontWeight * 12,
-    marginRight: dimensions.widthWeight * 16,
+    fontSize: dimensions.fontWeight * 14,
+    marginBottom: dimensions.heightWeight * 10,
     color: '#2e3031',
   },
   onboardingText: {
