@@ -278,7 +278,7 @@ class GeneralInfo extends Component {
       experience,
       image,
     };
-  
+
     UserUtil.editGeneral(this.onUploadCallback.bind(this), fieldSet);
   }
 
