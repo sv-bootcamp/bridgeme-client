@@ -231,6 +231,22 @@ class GeneralInfo extends Component {
     );
   }
 
+  cleanHistory(historyList, type) {
+    let length = historyList.length;
+    for (let i = 0; i < length; i++) {
+      if (type === 'edu' && !historyList[i].school.name) {
+        historyList.splice(i, 1);
+        length -= 1;
+        i -= 1;
+      } else if (type === 'work' && !historyList[i].employer.name) {
+        historyList.splice(i, 1);
+        length -= 1;
+        i -= 1;
+      }
+    }
+    return historyList;
+  }
+
   // Regist general user info.
   regist() {
     const profile = this.state.profile;
@@ -250,13 +266,16 @@ class GeneralInfo extends Component {
       image = profile.imageResource.data;
     }
 
+    const education = this.cleanHistory(profile.education, 'edu');
+    const experience = this.cleanHistory(profile.experience, 'work');
+
     const fieldSet = {
       name: profile.name,
       email: profile.email,
       location: profile.location,
       about: profile.about || '',
-      education: profile.education,
-      experience: profile.experience,
+      education,
+      experience,
       image,
     };
 

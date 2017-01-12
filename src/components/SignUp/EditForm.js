@@ -51,8 +51,7 @@ class EditForm extends Component {
   renderEdit() {
     return (
       <View
-        ref={(component) => { this.editView = component; }
-        }
+        ref={(component) => { this.editView = component; }}
         style={styles.view}
       >
         <TextInput
