@@ -442,10 +442,14 @@ class UserProfile extends Component {
             )}
           >
             <UserOverview
-              tabLabel="OVERVIEW" id={this.state.id}
+              tabLabel="OVERVIEW"
+              id={this.state.id}
               toggleAbout={this.toggleAbout.bind(this)}
             />
-            <UserCareer tabLabel="CAREER" id={this.state.id} />
+            <UserCareer
+              tabLabel="CAREER"
+              id={this.state.id}
+            />
           </ScrollableTabView>
         </ScrollView>
         <View style={styles.btn}>

@@ -108,7 +108,7 @@ class UserCareer extends Component {
         enableEmptySections={true}
         renderSectionHeader = {this.renderSectionHeader}
         scrollEnabled={false}
-        />
+      />
     );
   }
 
