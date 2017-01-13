@@ -250,7 +250,7 @@ class GeneralInfo extends Component {
   // Regist general user info.
   regist() {
     const profile = this.state.profile;
-    if (profile.name === undefined || profile.name.replace(/\s/g, '') === '') {
+    if (!profile.name || profile.name.replace(/\s/g, '') === '') {
       Alert.alert('Profile', 'Please input your name.');
       return;
     }
