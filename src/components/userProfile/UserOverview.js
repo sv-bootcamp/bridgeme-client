@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import {
   Alert,
   ActivityIndicator,
-  Animated,
   Dimensions,
-  Image,
-  ListView,
-  Platform,
-  ScrollView,
   StyleSheet,
   View,
   TouchableOpacity,
 } from 'react-native';
 import { dimensions } from '../Shared/Dimensions';
+import CloudTag from './CloudTag';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
+
+// Get device size
+const WIDTH = Dimensions.get('window').width;
 
 class UserOverview extends Component {
   constructor(props) {
@@ -25,7 +24,6 @@ class UserOverview extends Component {
       about: '',
       expertise: [],
       personality: [],
-      score: [],
       loaded: false,
       needEllipsize: false,
     };
@@ -33,21 +31,16 @@ class UserOverview extends Component {
 
   onRequestCallback(result, error) {
     if (error) {
-      alert(error);
+      Alert.alert('UserProfile', error);
     } else if (result) {
       this.setState({
         id: result._id,
         about: result.about,
         loaded: true,
-        about: result.about,
         expertise: result.expertise.slice()
           .map((value) => value.select)
           .sort((a, b) => a.length - b.length),
-        personality: result.personality.slice()
-          .map((value) => value.option),
-        score: result.personality.slice()
-          .map((value) => value.score),
-        about: result.about,
+        personality: result.personality,
       });
     }
   }
@@ -67,16 +60,28 @@ class UserOverview extends Component {
       <ActivityIndicator
         animating={!this.state.loaded}
         style={[styles.activityIndicator]}
-        size='small'
+        size="small"
       />
     );
   }
 
   renderAbout() {
+    let ReadMore = null;
+    if (this.state.needEllipsize) {
+      ReadMore = (
+        <TouchableOpacity onPress={this.props.toggleAbout}>
+          <Text style={styles.expandText}>
+            Read more
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+
     return (
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionName}>About</Text>
-          <View onLayout={ (event) => {
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionName}>About</Text>
+        <View
+          onLayout={(event) => {
             const { height } = event.nativeEvent.layout;
             const HEIGHT_OF_TWO_LINES = dimensions.heightWeight * 33;
 
@@ -84,21 +89,17 @@ class UserOverview extends Component {
               this.setState({ needEllipsize: true });
             }
           }}
+        >
+          <Text
+            style={{ marginRight: dimensions.widthWeight * 45 }}
+            ellipsizeMode={'tail'}
+            numberOfLines={2}
           >
-            <Text
-              style={{ marginRight: dimensions.widthWeight * 45 }}
-              ellipsizeMode={'tail'}
-              numberOfLines={2}>
-              {this.state.about}
-            </Text>
-          </View>
-          {this.state.needEllipsize ?
-            (<TouchableOpacity onPress={this.props.toggleAbout}>
-              <Text style={styles.expandText}>
-                Read more
-              </Text>
-            </TouchableOpacity>) : null}
+            {this.state.about}
+          </Text>
         </View>
+        { ReadMore }
+      </View>
     );
   }
 
@@ -111,7 +112,7 @@ class UserOverview extends Component {
     let lineSize = 0;
     let lineCount = 0;
 
-    for (let i = 0; i < originArray.length; i++) {
+    for (let i = 0; i < originArray.length; i += 1) {
       if (originArray[i].includes('(')) {
         originArray[i] = originArray[i].substring(0, originArray[i].indexOf('('));
       }
@@ -121,7 +122,7 @@ class UserOverview extends Component {
       // Check to see if current line has exceed device width
       if (lineSize + itemSize > WIDTH - LINE_PADDING) {
         lineSize = 0;
-        lineCount++;
+        lineCount += 1;
         newArray[lineCount] = [];
       }
 
@@ -133,13 +134,13 @@ class UserOverview extends Component {
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>My expertise</Text>
           {
-            newArray.map((value, index) =>
-              (<View key={index} style={{ flexDirection: 'row' }}>
+            newArray.map((value, index) => (
+              <View key={index} style={{ flexDirection: 'row' }}>
                 {
-                  value.map((value, index) =>
-                    (<View key={index} style={styles.tagRectangle}>
+                  value.map((innerValue, innerIndex) => (
+                    <View key={innerIndex} style={styles.tagRectangle}>
                       <Text style={styles.tagText}>
-                        {value}
+                        {innerValue}
                       </Text>
                     </View>))
                 }
@@ -150,38 +151,15 @@ class UserOverview extends Component {
   }
 
   renderPersonality() {
-    const personalityArray = this.state.personality;
-    const scoreArray = this.state.score;
+    const tagList = [];
+    this.state.personality.map((item) => {
+      tagList.push({ title: item.option, point: item.score });
+    });
 
-    const fontStyle = [
-      {
-        color: '#cdd2d2',
-        fontSize: dimensions.fontWeight * 12,
-      },
-      {
-        color: '#757b7c',
-        fontSize: dimensions.fontWeight * 16,
-      },
-      {
-        color: '#2e3031',
-        fontSize: dimensions.fontWeight * 20,
-      },
-    ];
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>Personality</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          {
-            personalityArray.map((value, index) =>
-              (
-                <Text
-                  key={index}
-                  style={[fontStyle[scoreArray[index]], styles.personality]}>
-                  {value}
-                </Text>
-              ))
-          }
-        </View>
+        <CloudTag tagList={tagList} />
       </View>
     );
   }
@@ -206,9 +184,6 @@ class UserOverview extends Component {
   }
 }
 
-// Get device size
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
