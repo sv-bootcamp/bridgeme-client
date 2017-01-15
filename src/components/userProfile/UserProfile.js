@@ -54,7 +54,7 @@ class UserProfile extends Component {
       getBookmark: false,
     };
   }
-  
+
   onReqestCallback(result, error) {
     if (error) {
       alert(error);
@@ -70,7 +70,7 @@ class UserProfile extends Component {
         });
     }
   }
-  
+
   setInitialBookmark(status) {
     this.state.getBookmark = true;
     if (this.props.myProfile) {
@@ -92,12 +92,12 @@ class UserProfile extends Component {
       if (result._id) {
         let statusAsMentee = this.state.statusAsMentee;
         let statusAsMentor = this.state.statusAsMentor;
-  
+
         if (result.relation !== undefined) {
           statusAsMentee = result.relation.asMentee;
           statusAsMentor = result.relation.asMentor;
         }
-  
+
         this.setState({
           id: result._id,
           profileImage: this.getProfileImage(result),
@@ -111,7 +111,7 @@ class UserProfile extends Component {
           about: result.about,
           bookmarked: result.bookmarked,
         });
-    
+
         resolve(result.bookmarked);
       }
     });
@@ -171,7 +171,7 @@ class UserProfile extends Component {
 
     return location;
   }
-  
+
   componentDidMount() {
     if (this.props.myProfile) {
       UserUtil.getMyProfile(this.onReqestCallback.bind(this));
@@ -179,7 +179,7 @@ class UserProfile extends Component {
       UserUtil.getOthersProfile(this.onReqestCallback.bind(this), this.props._id);
     }
   }
-  
+
   // Receive props before completely changed
   componentWillReceiveProps(props) {
     if (props.myProfile) {
@@ -274,7 +274,7 @@ class UserProfile extends Component {
       });
     }
   }
-  
+
   setBookmark() {
     if (this.state.bookmarked) {
       UserUtil.bookmarkOff(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
@@ -282,7 +282,7 @@ class UserProfile extends Component {
       UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
     }
   }
-  
+
   onRequestCallbackWithUpdate(result, error) {
     if (error) {
       Alert.alert('Error on Bookmark', error);
@@ -291,7 +291,7 @@ class UserProfile extends Component {
       this.renderNavigationBar();
     }
   }
-  
+
   // Render User profile
   renderUserProfile() {
     const connect = () => this.sendRequest();
@@ -360,7 +360,7 @@ class UserProfile extends Component {
             </View>
             <TouchableOpacity onPress={this.toggleAbout.bind(this)}>
               <Image style={styles.cancelButton}
-                     source={require('../../resources/cancel-icon.png')}/>
+                source={require('../../resources/cancel-icon.png')}/>
             </TouchableOpacity>
           </TouchableOpacity>
         </Animated.View>
@@ -386,9 +386,11 @@ class UserProfile extends Component {
             <Image style={styles.profileImage}
               source={this.state.profileImage} />
           </LinearGradient>
-          <Image style={styles.bookmarkIcon}
-            source={null}/>
           <View style={styles.profileUserInfo}>
+            <Image style={styles.tournament}
+              source={(this.props.tournament) ?
+                require('../../resources/bg-ribbon-2.png')
+              : null}/>
             <Text
               style={styles.name}
               numberOfLines={1}
@@ -433,6 +435,7 @@ class UserProfile extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return this.renderUserProfile();
   }
 }
@@ -456,18 +459,9 @@ const styles = StyleSheet.create({
     marginTop: dimensions.heightWeight * 5,
     color: '#ffffff',
   },
-  bookmarkIcon: {
-    position: 'absolute',
-    zIndex: 1,
-    right: dimensions.widthWeight * 25,
-    ...Platform.select({
-      ios: {
-        top: dimensions.heightWeight * 32,
-      },
-      android: {
-        top: dimensions.heightWeight * 17,
-      },
-    }),
+  tournament: {
+    height: dimensions.heightWeight * 27,
+    width: dimensions.widthWeight * 142,
   },
   profileImage: {
     alignItems: 'stretch',
@@ -486,7 +480,7 @@ const styles = StyleSheet.create({
   },
   profileUserInfo: {
     position: 'absolute',
-    top: dimensions.heightWeight * 155,
+    top: dimensions.heightWeight * 132,
     marginLeft: dimensions.widthWeight * 45,
     zIndex: 100,
     backgroundColor: 'transparent',

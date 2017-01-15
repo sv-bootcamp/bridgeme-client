@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   AsyncStorage,
   Image,
+  LayoutAnimation,
   ListView,
   Modal,
   Platform,
@@ -41,6 +42,10 @@ class Tournament extends Component {
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
+        w: dimensions.widthWeight * 45,
+        icon:  dimensions.widthWeight * 50,
+        clicked: false,
+        btnText: '',
         step: 0,
         area: '',
         num: 0,
@@ -141,6 +146,8 @@ class Tournament extends Component {
           onLeft: () => {
             if (this.state.step === 1) {
               this.onPressBtnRestart();
+            } else {
+              this.setState({ step: this.state.step - 1 });
             }
           },
         });
@@ -266,7 +273,7 @@ class Tournament extends Component {
       }
     }
 
-    return 'No current status';
+    return ' ';
   }
 
   getEducation(data) {
@@ -408,7 +415,7 @@ class Tournament extends Component {
       this.state.step = 0;
       this.onRenderNavigationBar();
       setTimeout(() => {
-        Actions.userProfile({ _id: data._id, me: this.props.me });
+        Actions.userProfile({ _id: data._id, me: this.props.me, tournament: true });
       }, 100);
     } else {
       this.state.selected.push(this.state.user.indexOf(data));
@@ -417,11 +424,11 @@ class Tournament extends Component {
         this.state.roundNum = this.state.roundNum / 2;
         this.state.index = 0;
         this.state.step = 4;
-        this.onRenderNavigationBar();
       } else {
         this.state.index = this.state.index + 1;
       }
 
+      this.onRenderNavigationBar();
       this.forceUpdate();
     }
 
@@ -430,6 +437,8 @@ class Tournament extends Component {
   onPressFlipCard(left) {
     this.state.fliped = true;
     this.state.left = left;
+    this.state.w = dimensions.widthWeight * 45;
+    this.state.icon = dimensions.widthWeight * 51;
     this.onRenderNavigationBar();
     this.forceUpdate();
   }
@@ -692,6 +701,18 @@ class Tournament extends Component {
     return (
       <View style={styles.background}>
         <View style={styles.matchContainer}>
+          <View style={[styles.frontBackground, {
+            top: dimensions.heightWeight * 140,
+            left: dimensions.widthWeight * 20,
+            width: dimensions.widthWeight * 335,
+          },
+          ]}/>
+          <View style={[styles.frontBackground, {
+            top: dimensions.heightWeight * 130,
+            left: dimensions.widthWeight * 12,
+            width: dimensions.widthWeight * 351,
+          },
+          ]}/>
           <View style={styles.frontBackground}/>
           <View style={styles.frontContainer}>
             {renderUser(this.state.user[this.state.selected[0]], true)}
@@ -703,6 +724,9 @@ class Tournament extends Component {
           </View>
         </View>
         <View style={{
+          position: 'absolute',
+          bottom: dimensions.heightWeight * 15,
+          width: dimensions.width,
           flexDirection: 'row',
           justifyContent: 'center',
         }}>
@@ -715,6 +739,18 @@ class Tournament extends Component {
         </View>
       </View>
       );
+  }
+
+  _onPress(data) {
+    this.setState({ clicked: true });
+    LayoutAnimation.spring();
+    this.setState({
+      w: dimensions.widthWeight * 230,
+      icon:  dimensions.widthWeight * 21,
+    });
+    setTimeout(() => {
+      this.onPressBtnSelect(data);
+    }, 1000);
   }
 
   renderBack() {
@@ -733,17 +769,29 @@ class Tournament extends Component {
         <View>
           <TouchableOpacity
             activated={false}
-            onPress={this.onPressBtnSelect.bind(this, data)}>
-            <LinearGradient style={styles.selectBtnStyle}
+            onPress={this._onPress.bind(this, data)}>
+            <LinearGradient style={[styles.selectBtnStyle, { width: this.state.w }]}
               start={[0.9, 0.5]}
               end={[0.0, 0.5]}
               locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}>
               <View style={styles.buttonSelContainer}>
-                <Icon
-                  style={{ marginRight: dimensions.widthWeight * 5 }}
-                  name={'md-checkmark'} color={'#ffffff'} size={20} />
-                <Text style={styles.buttonText}>{'SELECTED'}</Text>
+                {(this.state.w < dimensions.widthWeight * 45) ?
+                  <Icon
+                    name={'md-checkmark'} color={'#ffffff'} size={25}/>
+                  : <Image
+                    style={{
+                      width: this.state.icon,
+                      height: this.state.icon,
+                      resizeMode: 'contain',
+                    }}
+                    source={require('../../resources/icon-selected.png')}/>
+                  }
+                {(this.state.w < 100) ?
+                  null : <Text style={[styles.buttonText,
+                    { marginLeft: dimensions.widthWeight * 16 },
+                  ]}>{'SELECTED'}</Text>}
+
               </View>
             </LinearGradient>
           </TouchableOpacity>
@@ -1072,7 +1120,7 @@ const styles = StyleSheet.create({
     width: dimensions.widthWeight * 300,
   },
   eduIconContainer: {
-    marginTop: dimensions.heightWeight * 15,
+    marginTop: dimensions.heightWeight * 12,
     height: dimensions.heightWeight * 18,
     backgroundColor: 'transparent',
     flexDirection: 'row',
@@ -1121,14 +1169,12 @@ const styles = StyleSheet.create({
   indexText: {
     backgroundColor: 'transparent',
     fontSize: dimensions.fontWeight * 12,
-    marginBottom: dimensions.heightWeight * 20,
     color: '#2e3031',
   },
   indexBoldText: {
     backgroundColor: 'transparent',
     fontSize: dimensions.fontWeight * 12,
     fontWeight: 'bold',
-    marginBottom: dimensions.heightWeight * 20,
     color: '#2e3031',
   },
   titleText: {
@@ -1231,6 +1277,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonSelContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'transparent',
     flexDirection: 'row',
   },
@@ -1287,6 +1335,7 @@ const styles = StyleSheet.create({
   },
   eduTextMain: {
     fontSize: dimensions.fontWeight * 14,
+    marginRight: dimensions.widthWeight * 10,
     color: '#2e3031',
   },
   eduTextSub: {
