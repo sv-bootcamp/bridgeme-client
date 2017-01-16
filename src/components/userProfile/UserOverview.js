@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  ActivityIndicator,
   Dimensions,
   StyleSheet,
   View,
@@ -10,7 +9,6 @@ import {
 import { dimensions } from '../Shared/Dimensions';
 import CloudTag from './CloudTag';
 import Text from '../Shared/UniText';
-import UserUtil from '../../utils/UserUtil';
 
 // Get device size
 const WIDTH = Dimensions.get('window').width;
@@ -19,56 +17,23 @@ class UserOverview extends Component {
   constructor(props) {
     super(props);
 
+    this.changeState();
+  }
+
+  changeState() {
+    const expertise = this.props.expertise.slice()
+      .map(value => value.select)
+      .sort((a, b) => a.length - b.length);
+
     this.state = {
-      id: '',
-      about: '',
-      expertise: [],
-      personality: [],
-      loaded: false,
+      expertise,
       needEllipsize: false,
     };
   }
 
-  onRequestCallback(result, error) {
-    if (error) {
-      Alert.alert('UserProfile', error);
-    } else if (result) {
-      this.setState({
-        id: result._id,
-        about: result.about,
-        loaded: true,
-        expertise: result.expertise.slice()
-          .map((value) => value.select)
-          .sort((a, b) => a.length - b.length),
-        personality: result.personality,
-      });
-    }
-  }
-
-  componentDidMount() {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
-  }
-
-  // Receive props befofe completely changed
-  componentWillReceiveProps(props) {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
-  }
-
-  // Render loading page while fetching user profiles
-  renderLoadingView() {
-    return (
-      <ActivityIndicator
-        animating={!this.state.loaded}
-        style={[styles.activityIndicator]}
-        size="small"
-      />
-    );
-  }
-
-  renderAbout() {
-    let ReadMore = null;
+  getReadMore() {
     if (this.state.needEllipsize) {
-      ReadMore = (
+      return (
         <TouchableOpacity onPress={this.props.toggleAbout}>
           <Text style={styles.expandText}>
             Read more
@@ -76,6 +41,12 @@ class UserOverview extends Component {
         </TouchableOpacity>
       );
     }
+
+    return null;
+  }
+
+  renderAbout() {
+    const ReadMore = this.getReadMore();
 
     return (
       <View style={styles.sectionContainer}>
@@ -92,10 +63,10 @@ class UserOverview extends Component {
         >
           <Text
             style={{ marginRight: dimensions.widthWeight * 45 }}
-            ellipsizeMode={'tail'}
+            ellipsizeMode="tail"
             numberOfLines={2}
           >
-            {this.state.about}
+            {this.props.about}
           </Text>
         </View>
         { ReadMore }
@@ -133,26 +104,26 @@ class UserOverview extends Component {
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionName}>My expertise</Text>
-          {
-            newArray.map((value, index) => (
-              <View key={index} style={{ flexDirection: 'row' }}>
-                {
-                  value.map((innerValue, innerIndex) => (
-                    <View key={innerIndex} style={styles.tagRectangle}>
-                      <Text style={styles.tagText}>
-                        {innerValue}
-                      </Text>
-                    </View>))
-                }
-              </View>))
-          }
+        {
+          newArray.map((value, index) => (
+            <View key={index} style={{ flexDirection: 'row' }}>
+              {
+                value.map((innerValue, innerIndex) => (
+                  <View key={innerIndex} style={styles.tagRectangle}>
+                    <Text style={styles.tagText}>
+                      {innerValue}
+                    </Text>
+                  </View>))
+              }
+            </View>))
+        }
       </View>
     );
   }
 
   renderPersonality() {
     const tagList = [];
-    this.state.personality.map((item) => {
+    this.props.personality.map((item) => {
       tagList.push({ title: item.option, point: item.score });
     });
 
@@ -164,8 +135,7 @@ class UserOverview extends Component {
     );
   }
 
-  // Render User profile
-  renderOverview() {
+  render() {
     return (
       <View>
         {this.renderAbout()}
@@ -174,23 +144,9 @@ class UserOverview extends Component {
       </View>
     );
   }
-
-  render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
-
-    return this.renderOverview();
-  }
 }
 
 const styles = StyleSheet.create({
-  activityIndicator: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: dimensions.heightWeight * 20,
-    paddingHorizontal: dimensions.widthWeight * 20,
-  },
   section: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -207,11 +163,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a6aeae',
     marginBottom: dimensions.heightWeight * 23,
-  },
-  about: {
-    fontFamily: 'SFUIText-Regular',
-    fontSize: dimensions.fontWeight * 16,
-    color: '#2e3031',
   },
   tagRectangle: {
     backgroundColor: '#f0f0f2',
@@ -230,11 +181,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     backgroundColor: 'transparent',
     textAlign: 'center',
-  },
-  personality: {
-    marginBottom: dimensions.heightWeight * 5,
-    marginRight: dimensions.widthWeight * 5,
-    height: dimensions.heightWeight * 30,
   },
   expandText: {
     color: '#a6aeae',
