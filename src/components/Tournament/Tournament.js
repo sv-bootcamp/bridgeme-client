@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Animated,
   AsyncStorage,
   Image,
   LayoutAnimation,
@@ -39,11 +40,16 @@ class Tournament extends Component {
 
     // TODO: isRefreshing is for refresh control will be added shortly
     this.state = {
+        isFlipped: false,
+        isFlipping: false,
+        rotateLeft: new Animated.Value(0),
+        rotateRight: new Animated.Value(0),
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
         w: dimensions.widthWeight * 45,
         icon:  dimensions.widthWeight * 50,
+        checkIcon: require('../../resources/icon-check.png'),
         clicked: false,
         btnText: '',
         step: 0,
@@ -189,6 +195,7 @@ class Tournament extends Component {
             onRight: () => {},
 
             onLeft: () => {
+              this._toggleCard(this.state.left);
               this.state.fliped = false;
               this.onRenderNavigationBar();
             },
@@ -217,6 +224,37 @@ class Tournament extends Component {
         break;
     }
     this.state.isRefresh = false;
+  }
+
+  _toggleCard (left) {
+    this.setState({
+      isFlipping: true,
+      left: left,
+    });
+    this._animation(!this.state.isFlipped, left);
+  }
+
+  _animation (isFlipped, left) {
+    if (!this.timer) {
+      this.timer = setTimeout(() => {
+        this.setState({ isFlipped: !this.state.isFlipped });
+        this.timer = null;
+      }, 120);
+    }
+
+    if (!this.state.isFlipped) {
+      this.onPressFlipCard(left);
+    }
+
+    let rotate = (left) ? this.state.rotateLeft : this.state.rotateRight;
+    Animated.spring(rotate,
+      {
+        toValue: Number(isFlipped),
+        friction: 7,
+        tension: 1,
+      }).start((param) => {
+      this.setState({ isFlipping: false });
+    });
   }
 
   onGetMentorListCallback(result, error) {
@@ -397,6 +435,12 @@ class Tournament extends Component {
 
   onPressBtnSelect(data) {
     this.state.fliped = false;
+    this.state.isFlipped = false;
+    this.state.isFlipping = false;
+    this.state.rotateLeft = new Animated.Value(0);
+    this.state.rotateRight =  new Animated.Value(0);
+    this.state.checkIcon = require('../../resources/icon-check.png');
+
     let rowFirst = this.state.user[this.state.selected[0]];
     let rowSecond = this.state.user[this.state.selected[1]];
     if (this.state.selected[0] === this.state.user.indexOf(data)) {
@@ -432,6 +476,7 @@ class Tournament extends Component {
       this.forceUpdate();
     }
 
+    this.state.clicked = false;
   }
 
   onPressFlipCard(left) {
@@ -632,38 +677,73 @@ class Tournament extends Component {
       edu = this.state.education_background.indexOf(data.career.educational_background);
 
     let job = this.getCurrentStatus(data);
+    let transform = [];
+
+    let rotate = (left) ? this.state.rotateLeft : this.state.rotateRight;
+    if (left) {
+      transform.push({
+        rotateY: rotate.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '180deg'],
+        }),
+      });
+    } else {
+      transform.push({
+        rotateY: rotate.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '180deg'],
+        }),
+      });
+    }
+
+    let renderFilp;
+    if (!this.state.isFlipped) {
+      renderFilp =
+      (
+      <TouchableWithoutFeedback
+        onPress={this._toggleCard.bind(this, left)}>
+        <Image
+          style={styles.photo}
+          source={this.getProfileImage(data)}/>
+      </TouchableWithoutFeedback>);
+    } else {
+      renderFilp = this.renderBack(left);
+    }
 
     return (
       <View style={styles.userContainer}>
-        <TouchableWithoutFeedback
-          onPress={this.onPressFlipCard.bind(this, left)}>
-          <Image
-            style={styles.photo}
-            source={this.getProfileImage(data)}/>
-        </TouchableWithoutFeedback>
-        <View>
-          <View style={styles.textContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Name' : ' '}</Text>
-            <Text style={styles.name} numberOfLines={1} ellipsizeMode={'tail'}>
-              {data.name}
-            </Text>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
-            <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
-          </View>
-          <View style={styles.frontEduContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
-            <View style={styles.eduIconContainer}>
-              {(edu > 0) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-b-a.png')}/> : null}
-              {(edu > 1) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-m-a.png')}/> : null}
-              {(edu > 2) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-ph-d.png')}/> : null}
+        <Animated.View
+          style={[styles.aniContainer,
+            { transform: transform },
+          ]}
+          ref='animatedView'
+          {...this.props}>
+          {renderFilp}
+        </Animated.View>
+        {(this.state.isFlipped) ? null :
+          <View>
+            <View style={styles.textContainer}>
+              <Text style={styles.userTitleText}>{(left) ? 'Name' : ' '}</Text>
+              <Text style={styles.name} numberOfLines={1} ellipsizeMode={'tail'}>
+                {data.name}
+              </Text>
             </View>
-          </View>
-        </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
+              <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
+            </View>
+            <View style={styles.frontEduContainer}>
+              <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
+              <View style={styles.eduIconContainer}>
+                {(edu > 0) ? <Image style={styles.eduIconImg}
+                  source={require('../../resources/icon-b-a.png')}/> : null}
+                {(edu > 1) ? <Image style={styles.eduIconImg}
+                  source={require('../../resources/icon-m-a.png')}/> : null}
+                {(edu > 2) ? <Image style={styles.eduIconImg}
+                  source={require('../../resources/icon-ph-d.png')}/> : null}
+              </View>
+            </View>
+          </View>}
       </View>
     );
   }
@@ -701,49 +781,60 @@ class Tournament extends Component {
     return (
       <View style={styles.background}>
         <View style={styles.matchContainer}>
-          <View style={[styles.frontBackground, {
-            top: dimensions.heightWeight * 140,
-            left: dimensions.widthWeight * 20,
-            width: dimensions.widthWeight * 335,
-          },
-          ]}/>
-          <View style={[styles.frontBackground, {
-            top: dimensions.heightWeight * 130,
-            left: dimensions.widthWeight * 12,
-            width: dimensions.widthWeight * 351,
-          },
-          ]}/>
-          <View style={styles.frontBackground}/>
+          {(this.state.isFlipped) ? null :
+            <View style={[styles.frontBackground, {
+              top: dimensions.heightWeight * 140,
+              left: dimensions.widthWeight * 20,
+              width: dimensions.widthWeight * 335,
+            },
+            ]}/>}
+          {(this.state.isFlipped) ? null :
+            <View style={[styles.frontBackground, {
+              top: dimensions.heightWeight * 130,
+              left: dimensions.widthWeight * 12,
+              width: dimensions.widthWeight * 351,
+            },
+            ]}/>}
+          {(this.state.isFlipped) ? null :
+            <View style={styles.frontBackground}/>}
+
           <View style={styles.frontContainer}>
-            {renderUser(this.state.user[this.state.selected[0]], true)}
-            {renderUser(this.state.user[this.state.selected[1]], false)}
-            <View style={styles.vsContainer}>
-              <Image style={styles.vsImg}
-                source={require('../../resources/bg-vs.png')}/>
-            </View>
+            {(!this.state.isFlipped || (this.state.left)) ?
+            renderUser(this.state.user[this.state.selected[0]], true) : null}
+            {(!this.state.isFlipped || (!this.state.left)) ?
+            renderUser(this.state.user[this.state.selected[1]], false) : null}
+            {(this.state.isFlipped) ? null :
+              <View style={styles.vsContainer}>
+                <Image style={styles.vsImg}
+                  source={require('../../resources/bg-vs.png')}/>
+              </View>}
           </View>
         </View>
-        <View style={{
-          position: 'absolute',
-          bottom: dimensions.heightWeight * 15,
-          width: dimensions.width,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-          <Text style={styles.indexBoldText}>
-            {(this.state.index + 1)}
-          </Text>
-          <Text style={styles.indexText}>
-            {'  /  ' + (this.state.roundNum)}
-          </Text>
-        </View>
+        {(this.state.isFlipped) ? null :
+          <View style={{
+            position: 'absolute',
+            bottom: dimensions.heightWeight * 15,
+            width: dimensions.width,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+            <Text style={styles.indexBoldText}>
+              {(this.state.index + 1)}
+            </Text>
+            <Text style={styles.indexText}>
+              {'  /  ' + (this.state.roundNum)}
+            </Text>
+          </View>}
       </View>
       );
   }
 
   _onPress(data) {
-    this.setState({ clicked: true });
-    LayoutAnimation.spring();
+    this.setState({
+      clicked: true,
+      checkIcon: require('../../resources/icon-selected.png'),
+    });
+    LayoutAnimation.spring(); // spring, linear, easeInEaseOut
     this.setState({
       w: dimensions.widthWeight * 230,
       icon:  dimensions.widthWeight * 21,
@@ -758,7 +849,15 @@ class Tournament extends Component {
     let data = (this.state.left) ?
     this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
     return (
-      <View style={styles.background}>
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: -dimensions.width / 2,
+        backgroundColor: 'transparent',
+        width: dimensions.width,
+        alignItems: 'center',
+        transform: [{ skewY: '180deg' }],
+      }}>
         <View style={styles.matchBackContainer}>
           <View style={styles.backBackground}>
             {(this.state.left) ?
@@ -768,7 +867,7 @@ class Tournament extends Component {
         </View>
         <View>
           <TouchableOpacity
-            activated={false}
+            disabled={this.state.clicked}
             onPress={this._onPress.bind(this, data)}>
             <LinearGradient style={[styles.selectBtnStyle, { width: this.state.w }]}
               start={[0.9, 0.5]}
@@ -776,17 +875,15 @@ class Tournament extends Component {
               locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}>
               <View style={styles.buttonSelContainer}>
-                {(this.state.w < dimensions.widthWeight * 45) ?
-                  <Icon
-                    name={'md-checkmark'} color={'#ffffff'} size={25}/>
-                  : <Image
-                    style={{
-                      width: this.state.icon,
-                      height: this.state.icon,
-                      resizeMode: 'contain',
-                    }}
-                    source={require('../../resources/icon-selected.png')}/>
-                  }
+                <Image
+                  style={{
+                    width: (this.state.clicked) ?
+                    this.state.icon : dimensions.widthWeight * 16.4,
+                    height: (this.state.clicked) ?
+                    this.state.icon : dimensions.heightWeight * 12.3,
+                    resizeMode: 'contain',
+                  }}
+                  source={this.state.checkIcon}/>
                 {(this.state.w < 100) ?
                   null : <Text style={[styles.buttonText,
                     { marginLeft: dimensions.widthWeight * 16 },
@@ -906,7 +1003,7 @@ class Tournament extends Component {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
-      case 3: return this.renderCard();
+      case 3: return this.renderFront();
       case 4: return this.renderList();
       case 5: return this.renderLoading();
       case 10: return (
@@ -977,14 +1074,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   matchBackContainer: {
-    ...Platform.select({
-      ios: {
-        marginTop: (dimensions.heightWeight * 64) + 20,
-      },
-      android: {
-        marginTop: dimensions.heightWeight * 64,
-      },
-    }),
     paddingLeft: dimensions.widthWeight * 4,
     paddingRight: dimensions.widthWeight * 4,
     alignItems: 'center',
