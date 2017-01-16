@@ -131,7 +131,6 @@ class UserProfile extends Component {
         loaded: true,
         statusAsMentee,
         statusAsMentor,
-        about: result.about,
         bookmarked: result.bookmarked,
       });
     }
@@ -335,12 +334,12 @@ class UserProfile extends Component {
       >
         <UserOverview
           tabLabel="OVERVIEW"
-          { ...overviewProps }
+          {...overviewProps}
           toggleAbout={this.toggleAbout.bind(this)}
         />
         <UserCareer
           tabLabel="CAREER"
-          { ...careerProps }
+          {...careerProps}
         />
       </ScrollableTabView>
     );
@@ -396,14 +395,14 @@ class UserProfile extends Component {
         </View>
         <TouchableOpacity onPress={() => this.setBookmark()}>
           <View style={{ alignItems: 'flex-end' }}>
-          {
-            this.props.myProfile ? null : (
-              <Image
-                style={styles.customNavBarRight}
-                source={this.state.bookmarked ? BookmarkFill : BookmarkGrey}
-              />
-            )
-          }
+            {
+              this.props.myProfile ? null : (
+                <Image
+                  style={styles.customNavBarRight}
+                  source={this.state.bookmarked ? BookmarkFill : BookmarkGrey}
+                />
+              )
+            }
           </View>
         </TouchableOpacity>
       </View>
@@ -421,21 +420,21 @@ class UserProfile extends Component {
           },
         ]}
       >
-        <View style={{ flex: 1,  alignItems: 'flex-start' }}>
+        <View style={{ flex: 1, alignItems: 'flex-start' }}>
           <Image
             style={styles.customNavBarLeft}
             source={ArrowLeftWhite}
           />
         </View>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        {
-          this.props.myProfile ? null : (
-            <Image
-              style={styles.customNavBarRight}
-              source={this.state.bookmarked ? BookmarkFill : BookmarkWhite}
-            />
-          )
-        }
+          {
+            this.props.myProfile ? null : (
+              <Image
+                style={styles.customNavBarRight}
+                source={this.state.bookmarked ? BookmarkFill : BookmarkWhite}
+              />
+            )
+          }
         </View>
       </View>
     );
@@ -464,13 +463,11 @@ class UserProfile extends Component {
           scrollEventThrottle={16}
           onScroll={this.handleScroll.bind(this)}
         >
-          <View>
-            <StatusBar
-              backgroundColor={this.state.navBarFlag ? 'black' : 'transparent'}
-              barStyle={this.state.navBarFlag ? 'dark-content' : 'light-content'}
-              networkActivityIndicatorVisible={false}
-            />
-          </View>
+          <StatusBar
+            backgroundColor={this.state.navBarFlag ? 'black' : 'transparent'}
+            barStyle={this.state.navBarFlag ? 'dark-content' : 'light-content'}
+            networkActivityIndicatorVisible={false}
+          />
           <LinearGradient
             style={styles.profileImgGradient}
             start={[0.0, 0.25]}
@@ -486,7 +483,10 @@ class UserProfile extends Component {
             <Text
               style={styles.name}
               numberOfLines={1}
-              ellipsizeMode={'tail'}>{this.state.name}</Text>
+              ellipsizeMode={'tail'}
+            >
+              {this.state.name}
+            </Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
