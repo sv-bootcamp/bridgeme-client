@@ -14,10 +14,10 @@ class CareerRow extends Component {
     this.state = {
       schoolName: undefined,
       major: undefined,
-      graduationYear: undefined,
+      schoolPeriod: undefined,
       companyName: undefined,
       position: undefined,
-      period: undefined,
+      companyPeriod: undefined,
       loaded: false,
     };
   }
@@ -27,14 +27,14 @@ class CareerRow extends Component {
       this.setState({
         companyName: this.getCompanyName(),
         position: this.getPosition(),
-        period: this.getPeriod(),
+        companyPeriod: this.getPeriod(),
         loaded: true,
       });
     } else if (this.props.sectionID === 'Education') {
       this.setState({
         schoolName: this.getSchoolName(),
         major: this.getMajor(),
-        graduationYear: this.graduationYear(),
+        schoolPeriod: this.getPeriod(),
         loaded: true,
       });
     }
@@ -57,11 +57,18 @@ class CareerRow extends Component {
   }
 
   getPeriod() {
+    let period = '';
     if (this.props.dataSource.start_date) {
-      return this.props.dataSource.start_date + ' - ' + this.props.dataSource.end_date;
+      period = this.props.dataSource.start_date;
     }
 
-    return this.state.period;
+    if (this.props.dataSource.end_date) {
+      period += ' - ' + this.props.dataSource.end_date;
+    } else {
+      period += ' - present';
+    }
+
+    return period;
   }
 
   getSchoolName() {
@@ -80,14 +87,6 @@ class CareerRow extends Component {
     return this.state.major;
   }
 
-  graduationYear() {
-    if (this.props.dataSource.year && this.props.dataSource.year.name !== '') {
-      return 'Class of ' + this.props.dataSource.year.name;
-    }
-
-    return this.state.graduationYear;;
-  }
-
   renderExperience() {
     return (
       <View style={styles.container}>
@@ -97,8 +96,8 @@ class CareerRow extends Component {
         {this.state.companyName !== undefined &&
           <Text style ={styles.name}>{this.state.companyName}</Text>
         }
-        {this.state.period !== undefined &&
-          <Text style ={styles.period}>{this.state.period}</Text>
+        {this.state.companyPeriod !== undefined &&
+          <Text style ={styles.period}>{this.state.companyPeriod}</Text>
         }
         <View style={styles.seperator}></View>
       </View>
@@ -114,8 +113,8 @@ class CareerRow extends Component {
         {this.state.major !== undefined &&
           <Text style ={styles.name}>{this.state.major}</Text>
         }
-        {this.state.graduationYear !== undefined &&
-          <Text style ={styles.period}>{this.state.graduationYear}</Text>
+        {this.state.schoolPeriod !== undefined &&
+          <Text style ={styles.period}>{this.state.schoolPeriod}</Text>
         }
         <View style={styles.seperator}></View>
       </View>

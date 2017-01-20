@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
-  View
+  View,
 } from 'react-native';
+import Text from '../Shared/UniText';
+import { dimensions } from '../Shared/Dimensions';
 
 export default class CloudTag extends Component {
 
@@ -13,14 +14,14 @@ export default class CloudTag extends Component {
 
     this.TagCloud = this.orderData().map((item, key) => {
       const tagContainerStyle = {
-        paddingLeft: this.getRandomHorizontalPadding(),
-        paddingTop: this.getRandomVerticalPadding(),
-        paddingRight: this.getRandomHorizontalPadding(),
-        paddingBottom: this.getRandomVerticalPadding(),
+        paddingLeft: dimensions.widthWeight * this.getRandomHorizontalPadding(),
+        paddingTop: dimensions.heightWeight * this.getRandomVerticalPadding(),
+        paddingRight: dimensions.widthWeight * this.getRandomHorizontalPadding(),
+        paddingBottom: dimensions.heightWeight * this.getRandomVerticalPadding(),
       };
 
       const tagStyle = {
-        fontSize: 12 + (item.point * 4),
+        fontSize: dimensions.heightWeight * (12 + (item.point * 4)),
         color: colorList[item.point],
       };
 
@@ -86,6 +87,7 @@ export default class CloudTag extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    paddingRight: dimensions.widthWeight * 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
