@@ -178,10 +178,10 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: ((dimensions.heightWeight * 74) + 20) - (45 * (1 - dimensions.heightWeight)),
+        paddingTop: ((dimensions.heightWeight * 74) + 20) - (45 * (1 - dimensions.heightWeight)),
       },
       android: {
-        marginTop: dimensions.heightWeight * 74,
+        paddingTop: dimensions.heightWeight * 74,
       },
     }),
   },
