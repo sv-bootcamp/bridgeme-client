@@ -40,31 +40,34 @@ class UserProfile extends Component {
 
     this.state = {
       id: '',
-      profileImage: '../../resources/pattern.png',
+      profileImage: '',
       name: '',
       currentStatus: '',
       currentLocation: '',
       statusAsMentee: '',
       statusAsMentor: '',
       loaded: false,
+      navBarFlag: false,
       isAboutDisplayed: false,
       width: 0,
       height: 0,
       opacity: new Animated.Value(0),
       activeNavigationBar: false,
       bookmarked: false,
+      tabIndex: 0,
     };
   }
 
   getProfileImage(status) {
-    if (status.profile_picture) {
-      const Image = {
-        uri: status.profile_picture_large ? status.profile_picture_large : status.profile_picture,
-      };
-      return Image;
+    if (!status.profile_picture) {
+      return PatternBackground;
     }
 
-    return PatternBackground;
+    if (status.profile_picture_large) {
+      return { uri: status.profile_picture_large };
+    }
+
+    return { uri: status.profile_picture };
   }
 
   getCurrentStatus(status) {
@@ -100,13 +103,7 @@ class UserProfile extends Component {
   }
 
   getCurrentLocation(status) {
-    let location;
-    if (status.location) {
-      location = status.location;
-      return location;
-    }
-
-    return location;
+    return status.location || '';
   }
 
   onRequestSuccess(result) {
@@ -126,10 +123,14 @@ class UserProfile extends Component {
         name: result.name,
         currentStatus: this.getCurrentStatus(result),
         currentLocation: this.getCurrentLocation(result),
+        about: result.about,
+        expertise: result.expertise,
+        personality: result.personality,
+        education: result.education,
+        experience: result.experience,
         loaded: true,
         statusAsMentee,
         statusAsMentor,
-        about: result.about,
         bookmarked: result.bookmarked,
       });
     }
@@ -179,22 +180,6 @@ class UserProfile extends Component {
         { toValue: 0 },
       ).start(),
     ]);
-  }
-
-  onRequestCallbackWithUpdate(result, error) {
-    if (error) {
-      Alert.alert('Error on Bookmark', error);
-    } else if (result) {
-      this.setState({ bookmarked: !this.state.bookmarked });
-    }
-  }
-
-  setBookmark() {
-    if (this.state.bookmarked) {
-      UserUtil.bookmarkOff(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
-    } else {
-      UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
-    }
   }
 
   getConnectButtonText() {
@@ -299,6 +284,7 @@ class UserProfile extends Component {
     const scrollMaxY = event.nativeEvent.contentSize.height -
                        event.nativeEvent.layoutMeasurement.height;
     let opacity = event.nativeEvent.contentOffset.y / scrollMaxY;
+
     if (event.nativeEvent.contentOffset.y < 25) {
       opacity = 0;
     } else if (event.nativeEvent.contentOffset.y > scrollMaxY - 25) {
@@ -309,10 +295,156 @@ class UserProfile extends Component {
       { opacity },
     ];
     this.navBar.setNativeProps({ style: customNavVarStyle });
+
+    if (opacity === 0 || opacity === 1) {
+      this.setState({ navBarFlag: opacity });
+    }
+  }
+
+  getProfileView() {
+    const overviewProps = {
+      about: this.state.about,
+      expertise: this.state.expertise,
+      personality: this.state.personality,
+    };
+
+    const careerProps = {
+      education: this.state.education,
+      experience: this.state.experience,
+    };
+
+    return (
+      <ScrollableTabView
+        initialPage={0}
+        tabBarTextStyle={styles.tabBarText}
+        tabBarInactiveTextColor={'#a6aeae'}
+        tabBarActiveTextColor={'#2e3031'}
+        tabBarUnderlineStyle={styles.tabBarUnderline}
+        renderTabBar={() => (
+          <DefaultTabBar
+            style={{
+              marginLeft: dimensions.widthWeight * 50,
+              marginRight: dimensions.widthWeight * 50,
+            }}
+            containerWidth={WIDTH - (dimensions.widthWeight * 100)}
+            leftOffset={dimensions.widthWeight * 22}
+            rightOffset={dimensions.widthWeight * 28}
+          />
+        )}
+      >
+        <UserOverview
+          tabLabel="OVERVIEW"
+          {...overviewProps}
+          toggleAbout={this.toggleAbout.bind(this)}
+        />
+        <UserCareer
+          tabLabel="CAREER"
+          {...careerProps}
+        />
+      </ScrollableTabView>
+    );
+  }
+
+  onRequestCallbackWithUpdate(result, error) {
+    if (error) {
+      Alert.alert('Error on Bookmark', error);
+    } else if (result) {
+      this.setState({ bookmarked: !this.state.bookmarked });
+    }
+  }
+
+  setBookmark() {
+    if (this.state.bookmarked) {
+      UserUtil.bookmarkOff(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
+    } else {
+      UserUtil.bookmarkOn(this.onRequestCallbackWithUpdate.bind(this), this.state.id);
+    }
+  }
+
+  getWhiteNavBar() {
+    return (
+      <View
+        ref={(component) => { this.navBar = component; }}
+        style={[styles.customNavBar, { opacity: 0 }]}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            Actions.pop();
+            setTimeout(() => Actions.refresh(), 20);
+          }}
+        >
+          <View style={{ alignItems: 'flex-start' }}>
+            <Image
+              style={styles.customNavBarLeft}
+              source={ArrowLeftGrey}
+            />
+          </View>
+        </TouchableOpacity>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text
+            style={{
+              fontSize: 17,
+              fontFamily: 'SFUIText-Regular',
+              fontWeight: 'bold',
+              color: '#2e3031',
+              marginBottom: dimensions.widthWeight * 12.2,
+            }}
+          >
+            {this.state.name}
+          </Text>
+        </View>
+        <TouchableOpacity onPress={() => this.setBookmark()}>
+          <View style={{ alignItems: 'flex-end' }}>
+            {
+              this.props.myProfile ? null : (
+                <Image
+                  style={styles.customNavBarRight}
+                  source={this.state.bookmarked ? BookmarkFill : BookmarkGrey}
+                />
+              )
+            }
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  getTransparentNavBar() {
+    return (
+      <View
+        style={[
+          styles.customNavBar,
+          {
+            backgroundColor: 'transparent',
+            borderBottomColor: 'transparent',
+          },
+        ]}
+      >
+        <View style={{ flex: 1, alignItems: 'flex-start' }}>
+          <Image
+            style={styles.customNavBarLeft}
+            source={ArrowLeftWhite}
+          />
+        </View>
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          {
+            this.props.myProfile ? null : (
+              <Image
+                style={styles.customNavBarRight}
+                source={this.state.bookmarked ? BookmarkFill : BookmarkWhite}
+              />
+            )
+          }
+        </View>
+      </View>
+    );
   }
 
   // Render User profile
   renderUserProfile() {
+    const TransparentNavBar = this.getTransparentNavBar();
+    const WhiteNavBar = this.getWhiteNavBar();
+    const Profile = this.getProfileView();
     const ConnectButton = this.getConnectButton();
     const About = this.getAbout();
 
@@ -324,82 +456,16 @@ class UserProfile extends Component {
           flex: 1,
         }}
       >
-        <View
-          style={[
-            styles.customNavBar,
-            {
-              backgroundColor: 'transparent',
-              borderBottomColor: 'transparent',
-            },
-          ]}
-        >
-          <View style={{ flex: 1,  alignItems: 'flex-start' }}>
-            <Image
-              style={styles.customNavBarLeft}
-              source={ArrowLeftWhite}
-            />
-          </View>
-          <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          {
-            this.props.myProfile ? null : (
-              <Image
-                style={styles.customNavBarRight}
-                source={this.state.bookmarked ? BookmarkFill : BookmarkWhite}
-              />
-            )
-          }
-          </View>
-        </View>
-        <View
-          ref={(component) => { this.navBar = component; }}
-          style={[styles.customNavBar, { opacity: 0 }]}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              Actions.pop();
-              setTimeout(() => Actions.refresh(), 20);
-            }}
-          >
-            <View style={{ alignItems: 'flex-start' }}>
-              <Image
-                style={styles.customNavBarLeft}
-                source={ArrowLeftGrey}
-              />
-            </View>
-          </TouchableOpacity>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text
-              style={{
-                fontSize: 17,
-                fontWeight: 'bold',
-                color: '#a6aeae',
-                marginBottom: dimensions.widthWeight * 12.2,
-              }}
-            >
-              {this.state.name}
-            </Text>
-          </View>
-          <TouchableOpacity onPress={() => this.setBookmark()}>
-            <View style={{ alignItems: 'flex-end' }}>
-            {
-              this.props.myProfile ? null : (
-                <Image
-                  style={styles.customNavBarRight}
-                  source={this.state.bookmarked ? BookmarkFill : BookmarkGrey}
-                />
-              )
-            }
-            </View>
-          </TouchableOpacity>
-        </View>
+        { TransparentNavBar }
+        { WhiteNavBar }
         <ScrollView
           bounces={false}
           scrollEventThrottle={16}
           onScroll={this.handleScroll.bind(this)}
         >
           <StatusBar
-            backgroundColor={(this.state.activeNavigationBar) ? 'black' : 'transparent'}
-            barStyle={(this.state.activeNavigationBar) ? 'dark-content' : 'light-content'}
+            backgroundColor={this.state.navBarFlag ? 'black' : 'transparent'}
+            barStyle={this.state.navBarFlag ? 'dark-content' : 'light-content'}
             networkActivityIndicatorVisible={false}
           />
           <LinearGradient
@@ -413,44 +479,18 @@ class UserProfile extends Component {
               source={this.state.profileImage}
             />
           </LinearGradient>
-          <Image style={styles.bookmarkIcon} source={null} />
           <View style={styles.profileUserInfo}>
             <Text
               style={styles.name}
               numberOfLines={1}
-              ellipsizeMode={'tail'}>{this.state.name}</Text>
+              ellipsizeMode={'tail'}
+            >
+              {this.state.name}
+            </Text>
             <Text style={styles.positionText}>{this.state.currentStatus}</Text>
             <Text style={styles.currentLocationText}>{this.state.currentLocation}</Text>
           </View>
-
-          <ScrollableTabView
-            initialPage={0}
-            tabBarTextStyle={styles.tabBarText}
-            tabBarInactiveTextColor={'#a6aeae'}
-            tabBarActiveTextColor={'#2e3031'}
-            tabBarUnderlineStyle={styles.tabBarUnderline}
-            renderTabBar={() => (
-              <DefaultTabBar
-                style={{
-                  marginLeft: dimensions.widthWeight * 50,
-                  marginRight: dimensions.widthWeight * 50,
-                }}
-                containerWidth={WIDTH - (dimensions.widthWeight * 100)}
-                leftOffset={dimensions.widthWeight * 22}
-                rightOffset={dimensions.widthWeight * 28}
-              />
-            )}
-          >
-            <UserOverview
-              tabLabel="OVERVIEW"
-              id={this.state.id}
-              toggleAbout={this.toggleAbout.bind(this)}
-            />
-            <UserCareer
-              tabLabel="CAREER"
-              id={this.state.id}
-            />
-          </ScrollableTabView>
+          { Profile }
         </ScrollView>
         <View style={styles.btn}>
           {ConnectButton}
@@ -475,6 +515,7 @@ class UserProfile extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return this.renderUserProfile();
   }
 }
@@ -527,19 +568,6 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 14,
     marginTop: dimensions.heightWeight * 5,
     color: '#ffffff',
-  },
-  bookmarkIcon: {
-    position: 'absolute',
-    zIndex: 1,
-    right: dimensions.widthWeight * 25,
-    ...Platform.select({
-      ios: {
-        top: dimensions.heightWeight * 32,
-      },
-      android: {
-        top: dimensions.heightWeight * 17,
-      },
-    }),
   },
   profileImage: {
     alignItems: 'stretch',

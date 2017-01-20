@@ -1,80 +1,39 @@
 import React, { Component } from 'react';
 import {
-  ActivityIndicator,
   Alert,
   Dimensions,
-  Image,
   ListView,
-  Platform,
-  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { dimensions } from '../Shared/Dimensions';
 import CareerRow from './CareerRow';
 import Text from '../Shared/UniText';
-import UserUtil from '../../utils/UserUtil';
 
 class UserCareer extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: '',
-      loaded: false,
-      dataBlob: {},
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-      }),
+    this.changeState();
+  }
+
+  changeState() {
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    });
+
+    const dataBlob = {
+      Education: this.props.education.slice().reverse(),
+      Experience: this.props.experience.slice(),
     };
 
-  }
+    const sectionIDs = ['Education', 'Experience'];
 
-  onRequestCallback(result, error) {
-    if (error) {
-      alert(error);
-    } else if (result) {
-      const sectionIDs = ['Education', 'Experience'];
-
-      this.setState({
-        dataSource: new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2,
-          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-        }),
-        dataBlob: {},
-      });
-
-      this.state.dataBlob[sectionIDs[0]] = result.education.slice().reverse();
-      this.state.dataBlob[sectionIDs[1]] = result.experience.slice();
-
-      this.setState({
-        id: result._id,
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob, sectionIDs),
-        loaded: true,
-      });
-    }
-  }
-
-  componentDidMount() {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
-  }
-
-  // Receive props befofe completly changed
-  componentWillReceiveProps(props) {
-    UserUtil.getOthersProfile(this.onRequestCallback.bind(this), this.props.id);
-  }
-
-  // Render loading page while fetching user profiles
-  renderLoadingView() {
-    return (
-      <ActivityIndicator
-        animating={!this.state.loaded}
-        style={[styles.activityIndicator]}
-        size='small'
-      />
-    );
+    this.state = {
+      dataBlob,
+      dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs),
+    };
   }
 
   renderSectionHeader(sectionData, sectionID) {
@@ -84,40 +43,31 @@ class UserCareer extends Component {
           <Text style={styles.sectionName}>{sectionID}</Text>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.experienceSection}>
-          <Text style={styles.sectionName}>{sectionID}</Text>
-        </View>
-      );
     }
+
+    return (
+      <View style={styles.experienceSection}>
+        <Text style={styles.sectionName}>{sectionID}</Text>
+      </View>
+    );
   }
 
   renderRow(rowData, sectionID) {
-    return <CareerRow dataSource={rowData} sectionID={sectionID}/>;
+    return <CareerRow dataSource={rowData} sectionID={sectionID} />;
   }
 
-  // Render User profile
-  renderCareer() {
+  render() {
     return (
       <ListView
         style={styles.lisview}
         showsVerticalScrollIndicator={false}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
-        enableEmptySections={true}
-        renderSectionHeader = {this.renderSectionHeader}
+        enableEmptySections
+        renderSectionHeader={this.renderSectionHeader}
         scrollEnabled={false}
       />
     );
-  }
-
-  render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
-
-    return this.renderCareer();
   }
 }
 
@@ -128,13 +78,6 @@ const styles = StyleSheet.create({
   lisview: {
     marginLeft: WIDTH / 10,
     marginTop: HEIGHT / 30,
-  },
-  activityIndicator: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: dimensions.heightWeight * 20,
-    paddingHorizontal: dimensions.widthWeight * 20,
-
   },
   educationSection: {
     flexDirection: 'column',
