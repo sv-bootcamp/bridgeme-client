@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   TouchableWithoutFeedback,
+  UIManager,
   View,
 } from 'react-native';
 import { Actions }  from 'react-native-router-flux';
@@ -24,14 +25,6 @@ import MatchUtil from '../../utils/MatchUtil';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { OptionsFilter } from '../SignUp/SignUpMETA';
 
-let tmpBody = {
-  career: {
-    area: 'All',
-    role: 'All',
-    years: 'All',
-    education_background: 'All',
-  },
-};
 const leftButtonGrey = require('../../resources/icon-arrow-left-grey.png');
 
 class Tournament extends Component {
@@ -47,7 +40,7 @@ class Tournament extends Component {
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
-        w: dimensions.widthWeight * 45,
+        w: dimensions.fontWeight * 45,
         icon:  dimensions.widthWeight * 50,
         checkIcon: require('../../resources/icon-check.png'),
         clicked: false,
@@ -76,6 +69,11 @@ class Tournament extends Component {
           'PhD',
         ],
       };
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
   }
 
   componentDidMount() {
@@ -120,6 +118,7 @@ class Tournament extends Component {
           titleStyle: styles.title,
           navigationBarStyle: {
             backgroundColor: '#fbfbfb',
+            backgroundColor: 'transparent',
             borderBottomColor: '#d6dada',
           },
           rightButtonImage: null,
@@ -162,7 +161,11 @@ class Tournament extends Component {
         if (!this.state.fliped) {
           Actions.refresh({
             title: 'Round ' + (this.state.round),
-            titleStyle: [styles.title, { fontWeight: 'bold', fontSize: 18, }],
+            titleStyle: [styles.title, {
+              fontWeight: 'bold',
+              fontSize: dimensions.fontWeight * 18,
+            },
+          ],
             rightButtonTextStyle: styles.rightTextStyle,
             rightTitle: 'Restart',
             navigationBarStyle: {
@@ -180,7 +183,11 @@ class Tournament extends Component {
             title: (this.state.left) ?
             this.state.user[this.state.selected[0]].name
             : this.state.user[this.state.selected[1]].name,
-            titleStyle: [styles.title, { fontWeight: 'bold', fontSize: 18, }],
+            titleStyle: [styles.title, {
+              fontWeight: 'bold',
+              fontSize: dimensions.fontWeight * 18,
+            },
+          ],
             rightButtonTextStyle: styles.rightTextStyle,
             rightTitle: null,
             navigationBarStyle: {
@@ -393,9 +400,10 @@ class Tournament extends Component {
     this.state.index = 0;
     this.state.fliped = false;
     this.state.left = true;
-    this.state.selecte = [];
+    this.state.selected = [];
     this.state.listData = [];
     this.state.restart = 0;
+    console.log(this.state);
   }
 
   onPressBtnRestart() {
@@ -404,13 +412,14 @@ class Tournament extends Component {
   }
 
   onPressBtnArea(flag) {
+    let area;
     if (flag) {
-      tmpBody.career.area = this.state.area;
+      area = this.state.area;
     } else {
-      tmpBody.career.area = 'All';
+      area = 'All';
     }
 
-    MatchUtil.getMentorList(this.onGetMentorListCallback.bind(this), tmpBody);
+    MatchUtil.getTournamentList(this.onGetMentorListCallback.bind(this), area);
   }
 
   onPressBtnNumOfPeple(num) {
@@ -418,10 +427,9 @@ class Tournament extends Component {
       this.state.selected.push(i);
     }
 
-    this.state.step = 5;
-    this.onRenderNavigationBar();
+    if (Platform.OS === 'android') {
+      setTimeout(() => {
 
-    setTimeout(() => {
         this.setState({
           step: 3,
           num: num,
@@ -430,7 +438,23 @@ class Tournament extends Component {
 
         this.onRenderNavigationBar();
 
-      }, 1000);
+      }, 300);
+
+    } else {
+      // this.state.step = 5;
+      // this.onRenderNavigationBar();
+
+      setTimeout(() => {
+          this.setState({
+            step: 3,
+            num: num,
+            roundNum: num / 2,
+          });
+
+          this.onRenderNavigationBar();
+
+        }, 100);
+    }
   }
 
   onPressBtnSelect(data) {
@@ -482,7 +506,7 @@ class Tournament extends Component {
   onPressFlipCard(left) {
     this.state.fliped = true;
     this.state.left = left;
-    this.state.w = dimensions.widthWeight * 45;
+    this.state.w = dimensions.fontWeight * 45;
     this.state.icon = dimensions.widthWeight * 51;
     this.onRenderNavigationBar();
     this.forceUpdate();
@@ -671,10 +695,11 @@ class Tournament extends Component {
 
   renderUser(data, left) {
     let edu;
+
     if (data.career.education_background)
       edu = this.state.education_background.indexOf(data.career.education_background);
     else
-      edu = this.state.education_background.indexOf(data.career.educational_background);
+      edu = this.state.educational_background.indexOf(data.career.educational_background);
 
     let job = this.getCurrentStatus(data);
     let transform = [];
@@ -887,8 +912,184 @@ class Tournament extends Component {
                 {(this.state.w < 100) ?
                   null : <Text style={[styles.buttonText,
                     { marginLeft: dimensions.widthWeight * 16 },
-                  ]}>{'SELECTED'}</Text>}
+                  ]}>{'SELECTED'}</Text>
+                }
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
+  renderUserAndroid(data, left) {
+    let edu;
+    if (data.career.education_background)
+      edu = this.state.education_background.indexOf(data.career.education_background);
+    else
+      edu = this.state.education_background.indexOf(data.career.educational_background);
+
+    let job = this.getCurrentStatus(data);
+
+    return (
+      <View style={styles.userContainer}>
+        <TouchableWithoutFeedback
+          onPress={this.onPressFlipCard.bind(this, left)}>
+          <Image
+            style={styles.photo}
+            source={this.getProfileImage(data)}/>
+        </TouchableWithoutFeedback>
+        <View>
+          <View style={styles.textContainer}>
+            <Text style={styles.userTitleText}>{(left) ? 'Name' : ' '}</Text>
+            <Text style={styles.name} numberOfLines={1} ellipsizeMode={'tail'}>
+              {data.name}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
+            <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
+          </View>
+          <View style={styles.frontEduContainer}>
+            <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
+            <View style={styles.eduIconContainer}>
+              {(edu > 0) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-b-a.png')}/> : null}
+              {(edu > 1) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-m-a.png')}/> : null}
+              {(edu > 2) ? <Image style={styles.eduIconImg}
+                source={require('../../resources/icon-ph-d.png')}/> : null}
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderUserDataAndroid(data) {
+    let job = this.getCurrentStatus(data);
+
+    return (
+      <View>
+        <View style={styles.userDataContainer}>
+          <View style={styles.textBackContainer}>
+            <Text style={styles.userBackTitleText}>{'Job'}</Text>
+            <Text numberOfLines={1} style={styles.eduTextMain}>
+              {(job) ? job : ' '}
+            </Text>
+          </View>
+          <View style={styles.textBackContainer}>
+            <Text style={styles.userBackTitleText}>{'Education'}</Text>
+            {this.getEducation(data)}
+          </View>
+          <View style={[styles.textBackContainer, { borderBottomWidth: 0 }]}>
+            <Text style={styles.userBackTitleText}>{'My Expertise'}</Text>
+            <View>
+              {this.getExpertise(data)}
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderFrontAndroid() {
+    let renderUser = this.renderUserAndroid.bind(this);
+
+    return (
+      <View style={styles.background}>
+        <View style={styles.matchContainer}>
+          <View style={[styles.frontBackground, {
+            top: dimensions.heightWeight * 140,
+            left: dimensions.widthWeight * 20,
+            width: dimensions.widthWeight * 335,
+          },
+          ]}/>
+          <View style={[styles.frontBackground, {
+            top: dimensions.heightWeight * 130,
+            left: dimensions.widthWeight * 12,
+            width: dimensions.widthWeight * 351,
+          },
+          ]}/>
+          <View style={styles.frontBackground}/>
+          <View style={styles.frontContainer}>
+            {renderUser(this.state.user[this.state.selected[0]], true)}
+            {renderUser(this.state.user[this.state.selected[1]], false)}
+            <View style={styles.vsContainer}>
+              <Image style={styles.vsImg}
+                source={require('../../resources/bg-vs.png')}/>
+            </View>
+          </View>
+        </View>
+        <View style={{
+          position: 'absolute',
+          bottom: dimensions.heightWeight * 15,
+          width: dimensions.width,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+          <Text style={styles.indexBoldText}>
+            {(this.state.index + 1)}
+          </Text>
+          <Text style={styles.indexText}>
+            {'  /  ' + (this.state.roundNum)}
+          </Text>
+        </View>
+      </View>
+      );
+  }
+
+  renderBackAndroid() {
+    let renderUserData = this.renderUserDataAndroid.bind(this);
+    let data = (this.state.left) ?
+    this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
+    return (
+      <View style={[styles.background, { paddingTop: dimensions.heightWeight * 54 }]}>
+        <View style={styles.matchBackContainer}>
+          <View style={styles.backBackground}>
+            {(this.state.left) ?
+              renderUserData(this.state.user[this.state.selected[0]])
+            : renderUserData(this.state.user[this.state.selected[1]])}
+          </View>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            width: dimensions.width,
+            bottom: 0,
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+            paddingTop: 5,
+          }}>
+          <TouchableOpacity
+            disabled={this.state.clicked}
+            activated={false}
+            onPress={this._onPress.bind(this, data)}>
+            <LinearGradient
+              style={[styles.selectBtnStyle, {
+                width: this.state.w,
+                marginTop: 0,
+              },
+              ]}
+              start={[0.9, 0.5]}
+              end={[0.0, 0.5]}
+              locations={[0, 0.75]}
+              colors={['#07e4dd', '#44acff']}>
+              <View style={styles.buttonSelContainer}>
+                <Image
+                  style={{
+                    width: (this.state.clicked) ?
+                    this.state.icon : dimensions.widthWeight * 16.4,
+                    height: (this.state.clicked) ?
+                    this.state.icon : dimensions.heightWeight * 12.3,
+                    resizeMode: 'contain',
+                  }}
+                  source={this.state.checkIcon}/>
+                {(this.state.w < 100) ?
+                  null : <Text style={[styles.buttonText,
+                    { marginLeft: dimensions.widthWeight * 16 },
+                  ]}>{'SELECTED'}</Text>
+                }
               </View>
             </LinearGradient>
           </TouchableOpacity>
@@ -898,10 +1099,14 @@ class Tournament extends Component {
   }
 
   renderCard() {
-    if (!this.state.fliped) {
-      return this.renderFront();
+    if (Platform.OS === 'android') {
+      if (!this.state.fliped) {
+        return this.renderFrontAndroid();
+      } else {
+        return this.renderBackAndroid();
+      }
     } else {
-      return this.renderBack();
+      return this.renderFront();
     }
   }
 
@@ -1003,7 +1208,7 @@ class Tournament extends Component {
       case 0: return this.renderRestart();
       case 1: return this.renderArea();
       case 2: return this.renderNumOfPeople();
-      case 3: return this.renderFront();
+      case 3: return this.renderCard();
       case 4: return this.renderList();
       case 5: return this.renderLoading();
       case 10: return (
@@ -1056,6 +1261,11 @@ const styles = StyleSheet.create({
   background: {
     alignItems: 'center',
     backgroundColor: '#ededed',
+    ...Platform.select({
+      android: {
+        marginTop: dimensions.heightWeight * 5,
+      },
+    }),
   },
   matchContainer: {
     ...Platform.select({
@@ -1063,12 +1273,12 @@ const styles = StyleSheet.create({
         marginTop: (dimensions.heightWeight * 64) + 20,
       },
       android: {
-        marginTop: dimensions.heightWeight * 64,
+        marginTop: dimensions.heightWeight * 54,
       },
     }),
     paddingLeft: dimensions.widthWeight * 4,
     paddingRight: dimensions.widthWeight * 4,
-    marginBottom: dimensions.heightWeight * 65,
+    paddingBottom: dimensions.heightWeight * 65,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
@@ -1220,7 +1430,7 @@ const styles = StyleSheet.create({
     width: dimensions.widthWeight * 300,
   },
   titleContainer: {
-    height: dimensions.heightWeight * 22,
+    height: dimensions.heightWeight * 20,
     width: dimensions.widthWeight * 300,
     borderBottomColor: '#efeff2',
     borderBottomWidth: 1,
@@ -1387,7 +1597,7 @@ const styles = StyleSheet.create({
     marginTop: -(dimensions.heightWeight * 45 / 2),
     marginBottom: dimensions.heightWeight * 10,
     width: dimensions.widthWeight * 230,
-    height: dimensions.heightWeight * 45,
+    height: dimensions.fontWeight * 45,
     borderRadius: 100,
   },
   buttonText: {
@@ -1414,6 +1624,7 @@ const styles = StyleSheet.create({
     color: '#a6aeae',
   },
   title: {
+    fontFamily: 'SFUIText-Regular',
     fontSize: dimensions.fontWeight * 16,
     color: '#2e3031',
   },
@@ -1472,7 +1683,7 @@ const styles = StyleSheet.create({
     }),
     height: dimensions.heightWeight * 220,
     width: dimensions.widthWeight * 172,
-    marginBottom: dimensions.heightWeight * 18,
+    marginBottom: dimensions.heightWeight * 15,
     borderRadius: 8,
   },
   eduIconImg: {
