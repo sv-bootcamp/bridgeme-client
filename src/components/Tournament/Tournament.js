@@ -282,8 +282,7 @@ class Tournament extends Component {
 
   getProfileImage(data) {
     if (data.profile_picture) {
-      return { uri: data.profile_picture_large ?
-        data.profile_picture_large : data.profile_picture, };
+      return { uri: data.profile_picture };
     }
 
     return require('../../resources/pattern.png');
