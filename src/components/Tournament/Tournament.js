@@ -403,7 +403,7 @@ class Tournament extends Component {
     this.state.selected = [];
     this.state.listData = [];
     this.state.restart = 0;
-    console.log(this.state);
+
   }
 
   onPressBtnRestart() {
