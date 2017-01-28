@@ -14,6 +14,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
 import styles from './Styles';
+import { dimensions } from '../Shared/Dimensions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class Login extends Component {
   constructor(props) {
@@ -60,9 +62,10 @@ class Login extends Component {
     let focusNextField = (refNo) => this.refs[refNo].focus();
 
     return (
-
-      //  Render the screen on View.
-      <View style={styles.container}>
+      <View>
+        <KeyboardAwareScrollView
+          extraHeight={dimensions.height / 2.5}
+          contentContainerStyle={styles.container}>
         <View style={styles.mainLogo}>
           <Image source={require('../../resources/page-1-copy-2.png')} />
           <Text style={styles.mainLogoText}>Bridge Me</Text>
@@ -76,13 +79,11 @@ class Login extends Component {
             <Text style={styles.facebookLoginText}>Login with Facebook</Text>
           </View>
         </TouchableWithoutFeedback>
-
         <View style={styles.hrContainer}>
           <View style={styles.hr}></View>
           <View><Text style={styles.hrText}>OR</Text></View>
           <View style={styles.hr}></View>
         </View>
-
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -102,7 +103,6 @@ class Login extends Component {
             underlineColorAndroid="#efeff2"
             onChangeText={onChangePassword} />
         </View>
-
         <TouchableOpacity onPress={() => this.signInLocal()}>
           <LinearGradient
             colors={['#44acff', '#07e4dd']}
@@ -111,13 +111,11 @@ class Login extends Component {
             <Text style={styles.loginBtnText}>LOG IN</Text>
           </LinearGradient>
         </TouchableOpacity>
-
         <TouchableWithoutFeedback onPress={() => Actions.inputEmailAddr()}>
           <View style={styles.subTextContainer}>
             <Text style={styles.subText}>Forgot password?</Text>
           </View>
         </TouchableWithoutFeedback>
-
         <View style={styles.bottomContainer}>
           <Text style={styles.bottomTextLeft}>{'Don\'t you have an account? '}</Text>
           <TouchableWithoutFeedback onPress={() => Actions.signUp()}>
@@ -126,6 +124,7 @@ class Login extends Component {
             </View>
           </TouchableWithoutFeedback>
         </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

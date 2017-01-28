@@ -13,6 +13,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles from './Styles';
 import Text from '../Shared/UniText';
 import UserUtil from '../../utils/UserUtil';
+import { dimensions } from '../Shared/Dimensions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class SignUp extends Component {
   constructor(props) {
@@ -33,9 +35,10 @@ class SignUp extends Component {
     let createAccount = () => this.createAccount();
 
     return (
-
-      //  Render the screen on View.
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView
+          extraHeight={dimensions.height / 2.5}
+          contentContainerStyle={styles.container}>
         <View style={styles.mainLogo}>
           <Image source={require('../../resources/page-1-copy-2.png')} />
           <Text style={styles.mainLogoText}>Bridge Me</Text>
@@ -100,6 +103,7 @@ class SignUp extends Component {
             </View>
           </TouchableWithoutFeedback>
         </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
