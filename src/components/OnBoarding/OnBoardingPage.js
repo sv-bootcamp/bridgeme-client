@@ -39,8 +39,8 @@ class OnBoardingPage extends Component {
         activated={false}
         onPress={this.onPressGetStartedButton}>
         <LinearGradient style={styles.getStartedBtnStyle}
-          start={[0.9, 0.5]}
-          end={[0.0, 0.5]}
+          start={{ x: 0.9, y: 0.5 }}
+          end={{ x: 0.0, y: 0.5 }}
           locations={[0, 0.75]}
           colors={['#07e4dd', '#44acff']}>
           <View style={styles.buttonContainer}>

@@ -106,7 +106,7 @@ class Login extends Component {
         <TouchableOpacity onPress={() => this.signInLocal()}>
           <LinearGradient
             colors={['#44acff', '#07e4dd']}
-            start={[0.0, 0.0]} end={[1.0, 1.0]}
+            start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 1.0 }}
             style={styles.loginBtn}>
             <Text style={styles.loginBtnText}>LOG IN</Text>
           </LinearGradient>

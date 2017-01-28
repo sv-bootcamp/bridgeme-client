@@ -180,7 +180,7 @@ class Personality extends Component {
           }}>
           <TouchableOpacity onPress={this.sendRequest.bind(this)}>
             <LinearGradient
-              start={[0.9, 0.5]} end={[0.0, 0.5]}
+              start={{ x: 0.9, y: 0.5 }} end={{ x: 0.0, y: 0.5 }}
               locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}
               style={styles.linearGradient}>

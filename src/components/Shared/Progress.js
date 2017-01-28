@@ -19,7 +19,7 @@ class Progress extends Component {
       <View style={styles.progressContainer}>
         <LinearGradient
           colors={['#44acff', '#07e4dd']}
-          start={[0.0, 0.0]} end={[1.0, 1.0]}
+          start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 1.0 }}
           style={[styles.progress, { width: width }]}>
         </LinearGradient>
       </View>

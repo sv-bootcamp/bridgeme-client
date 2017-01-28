@@ -47,7 +47,7 @@ class Completed extends Component {
         <View style={styles.btnContainer}>
           <TouchableOpacity onPress = {this.onNextBtnPressed.bind(this)} >
             <LinearGradient style={styles.btnStyle}
-              start={[0.9, 0.5]} end={[0.0, 0.5]} locations={[0, 0.75]}
+              start={{ x: 0.9, y: 0.5 }} end={{ x: 0.0, y: 0.5 }} locations={[0, 0.75]}
               colors={['#07e4dd', '#44acff']}>
               <Text style={styles.buttonText}>READY TO START</Text>
             </LinearGradient>
