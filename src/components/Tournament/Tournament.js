@@ -36,7 +36,7 @@ class Tournament extends Component {
         isFlipped: false,
         isFlipping: false,
         rotateLeft: new Animated.Value(0),
-        rotateRight: new Animated.Value(0),
+        rotateRight: new Animated.Value(1),
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
@@ -266,15 +266,26 @@ class Tournament extends Component {
       this.onPressFlipCard(left);
     }
 
-    let rotate = (left) ? this.state.rotateLeft : this.state.rotateRight;
-    Animated.spring(rotate,
-      {
-        toValue: Number(isFlipped),
-        friction: 5,
-        tension: 1,
-      }).start((param) => {
-      this.setState({ isFlipping: false });
-    });
+    if (left) {
+      Animated.spring(this.state.rotateLeft,
+        {
+          toValue: Number(isFlipped),
+          friction: 5,
+          tension: 1,
+        }).start((param) => {
+        this.setState({ isFlipping: false });
+      });
+    } else {
+      Animated.spring(this.state.rotateRight,
+        {
+          toValue: Number(!isFlipped),
+          friction: 5,
+          tension: 1,
+        }).start((param) => {
+        this.setState({ isFlipping: false });
+      });
+    }
+
   }
 
   onGetMentorListCallback(result, error) {
@@ -490,7 +501,7 @@ class Tournament extends Component {
     this.state.isFlipped = false;
     this.state.isFlipping = false;
     this.state.rotateLeft = new Animated.Value(0);
-    this.state.rotateRight =  new Animated.Value(0);
+    this.state.rotateRight =  new Animated.Value(1);
     this.state.checkIcon = require('../../resources/icon-check.png');
 
     let rowFirst = this.state.user[this.state.selected[0]];
@@ -755,7 +766,8 @@ class Tournament extends Component {
       (
       <TouchableWithoutFeedback
         onPress={this._toggleCard.bind(this, left)}>
-        <View>
+        <View
+          style={{ transform: (!left) ? [{ skewY: '180deg' }] : [] }}>
           <Image
             style={styles.photo}
             source={this.getProfileImage(data)}/>
@@ -924,7 +936,7 @@ class Tournament extends Component {
     <View style={{
       height: dimensions.heightWeight * 524.5,
       alignItems: 'center',
-      transform: [{ skewY: '180deg' }],
+      transform: (!this.state.left) ? [] : [{ skewY: '180deg' }],
     }}>
       <View style={styles.matchBackContainer}>
         <View style={styles.backBackground}>
