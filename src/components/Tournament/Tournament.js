@@ -270,7 +270,7 @@ class Tournament extends Component {
     Animated.spring(rotate,
       {
         toValue: Number(isFlipped),
-        friction: 7,
+        friction: 5,
         tension: 1,
       }).start((param) => {
       this.setState({ isFlipping: false });
@@ -348,7 +348,7 @@ class Tournament extends Component {
             ]}
               numberOfLines={1}
               ellipsizeMode={'tail'}>
-              {(edu.school.name) ? edu.school.name : 'No School'}
+              {(edu.school.name) ? edu.school.name : 'School'}
             </Text>
             <Text style={[styles.eduTextMain,
               { opacity: (edu.concentration.length !== 0) ? 1 : 0.5 },
@@ -356,14 +356,14 @@ class Tournament extends Component {
               numberOfLines={1}
               ellipsizeMode={'tail'}>
               {(edu.concentration.length !== 0) ?
-              edu.concentration[0].name : 'No Concentration'}
+              edu.concentration[0].name : 'Discipline, degree'}
             </Text>
             <Text style={[styles.eduTextSub,
               { opacity: (edu.start_date || edu.year) ? 1 : 0.5 },
             ]}>
               {(edu.start_date !== undefined && edu.start_date !== '') ?
                 (edu.start_date + ' ~ ' + edu.end_date)
-              : (edu.year !== undefined) ? edu.year.name : 'No year'}
+              : (edu.year !== undefined) ? edu.year.name : 'Year'}
             </Text>
           </View>
         );
@@ -797,7 +797,7 @@ class Tournament extends Component {
               <Text
                 numberOfLines={1}
                 style={[styles.name, { opacity: (job) ? 1 : 0.5 }]}>
-                {(job) ? job : 'No job'}
+                {(job) ? job : 'Job'}
               </Text>
             </View>
             <View style={styles.frontEduContainer}>
@@ -832,7 +832,7 @@ class Tournament extends Component {
               style={[styles.eduTextMain,
                 { opacity: (job) ? 1 : 0.5 },
               ]}>
-              {(job) ? job : 'No job'}
+              {(job) ? job : 'Job'}
             </Text>
           </View>
           <View style={styles.textBackContainer}>
