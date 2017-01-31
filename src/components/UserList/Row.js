@@ -256,10 +256,19 @@ class Row extends Component {
           </View>
           <View
             style={{
-              width: CARD_WIDTH,
-              height: 10,
+              ...Platform.select({
+                ios: {
+                  top: dimensions.heightWeight * 182,
+                  width: CARD_WIDTH,
+                },
+                android: {
+                  top: dimensions.heightWeight * 181,
+                  width: dimensions.widthWeight * 302,
+                  elevation: 0,
+                },
+              }),
+              height: 7,
               position: 'absolute',
-              top: dimensions.widthWeight * 182,
               backgroundColor: 'white',
             }}
           />
