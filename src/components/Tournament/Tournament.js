@@ -126,6 +126,7 @@ class Tournament extends Component {
           onRight: () => {},
 
           leftButtonImage: null,
+          renderLeftButton: null,
           leftTitle: 'left',
           onLeft: () => {},
         });
@@ -146,6 +147,11 @@ class Tournament extends Component {
           leftButtonImage: leftButtonGrey,
           leftButtonIconStyle: styles.leftBtn,
           leftButtonStyle: styles.leftButtonStyle,
+          ...Platform.select({
+            android: {
+              renderLeftButton: this.renderBackBtn.bind(this),
+            },
+          }),
           onRight: () => {},
 
           onLeft: () => {
@@ -175,11 +181,28 @@ class Tournament extends Component {
             onRight: this.onPressRestart.bind(this),
 
             leftButtonImage: null,
+            renderLeftButton: null,
             leftTitle: 'left',
             onLeft: () => {},
           });
         } else {
           Actions.refresh({
+            leftButtonImage: leftButtonGrey,
+            leftButtonIconStyle: styles.leftBtn,
+            leftButtonStyle: styles.leftButtonStyle,
+            ...Platform.select({
+              android: {
+                renderLeftButton: this.renderBackBtn.bind(this),
+              },
+            }),
+            onRight: () => {},
+
+            onLeft: () => {
+              this._toggleCard(this.state.left);
+              this.state.fliped = false;
+              this.onRenderNavigationBar();
+            },
+
             title: (this.state.left) ?
             this.state.user[this.state.selected[0]].name
             : this.state.user[this.state.selected[1]].name,
@@ -192,20 +215,9 @@ class Tournament extends Component {
             rightTitle: null,
             navigationBarStyle: {
               borderBottomColor: 'transparent',
-              backgroundColor: '#ededed',
+              backgroundColor: 'transparent',
             },
-            onRight: null,
-            leftTitle: null,
-            leftButtonImage: leftButtonGrey,
-            leftButtonIconStyle: styles.leftBtn,
-            leftButtonStyle: styles.leftButtonStyle,
-            onRight: () => {},
 
-            onLeft: () => {
-              this._toggleCard(this.state.left);
-              this.state.fliped = false;
-              this.onRenderNavigationBar();
-            },
           });
         }
 
@@ -225,6 +237,7 @@ class Tournament extends Component {
           onRight: () => {},
 
           leftButtonImage: null,
+          renderLeftButton: null,
           leftTitle: 'left',
           onLeft: () => {},
         });
@@ -321,20 +334,36 @@ class Tournament extends Component {
   }
 
   getEducation(data) {
+    while (data.education.length < 3) {
+      data.education.push({ concentration: [], school: { name: null } });
+    }
+
     return data.education.map((edu, index) => {
+
       if (index < 3) {
         return (
           <View key={index}>
-            <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
-              {(edu.school.name) ? edu.school.name : ' '}
+            <Text style={[styles.eduTextMain,
+              { opacity: (edu.school.name) ? 1 : 0.5 },
+            ]}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {(edu.school.name) ? edu.school.name : 'No School'}
             </Text>
-            <Text style={styles.eduTextMain} numberOfLines={1} ellipsizeMode={'tail'}>
-              {(edu.concentration.length !== 0) ? edu.concentration[0].name : ' '}
+            <Text style={[styles.eduTextMain,
+              { opacity: (edu.concentration.length !== 0) ? 1 : 0.5 },
+            ]}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {(edu.concentration.length !== 0) ?
+              edu.concentration[0].name : 'No Concentration'}
             </Text>
-            <Text style={styles.eduTextSub}>
+            <Text style={[styles.eduTextSub,
+              { opacity: (edu.start_date || edu.year) ? 1 : 0.5 },
+            ]}>
               {(edu.start_date !== undefined && edu.start_date !== '') ?
                 (edu.start_date + ' ~ ' + edu.end_date)
-              : (edu.year !== undefined) ? edu.year.name : ' '}
+              : (edu.year !== undefined) ? edu.year.name : 'No year'}
             </Text>
           </View>
         );
@@ -572,8 +601,8 @@ class Tournament extends Component {
           activated={false}
           onPress={this.onPressBtnStarted.bind(this)}>
           <LinearGradient style={styles.getStartedBtnStyle}
-            start={[0.9, 0.5]}
-            end={[0.0, 0.5]}
+            start={{ x: 0.9, y: 0.5 }}
+            end={{ x: 0.0, y: 0.5 }}
             locations={[0, 0.75]}
             colors={['#07e4dd', '#44acff']}>
             <View style={styles.buttonContainer}>
@@ -626,8 +655,8 @@ class Tournament extends Component {
           activated={false}
           onPress={this.onPressBtnStarted.bind(this)}>
           <LinearGradient style={styles.startedBtnStyle}
-            start={[0.9, 0.5]}
-            end={[0.0, 0.5]}
+            start={{ x: 0.9, y: 0.5 }}
+            end={{ x: 0.0, y: 0.5 }}
             locations={[0, 0.75]}
             colors={['#07e4dd', '#44acff']}>
             <View style={styles.buttonContainer}>
@@ -726,9 +755,22 @@ class Tournament extends Component {
       (
       <TouchableWithoutFeedback
         onPress={this._toggleCard.bind(this, left)}>
-        <Image
-          style={styles.photo}
-          source={this.getProfileImage(data)}/>
+        <View>
+          <Image
+            style={styles.photo}
+            source={this.getProfileImage(data)}/>
+          <Image
+            style={{
+              position: 'absolute',
+              height: 25,
+              resizeMode: 'contain',
+              bottom: 25,
+              left: (left) ? 10 : null,
+              right: (left) ? null : 10,
+              transform: (left) ? [] : [{ skewY: '180deg' }],
+            }}
+            source={require('../../resources/indicator_left.png')}/>
+        </View>
       </TouchableWithoutFeedback>);
     } else {
       renderFilp = this.renderBack(left);
@@ -737,9 +779,7 @@ class Tournament extends Component {
     return (
       <View style={styles.userContainer}>
         <Animated.View
-          style={[styles.aniContainer,
-            { transform: transform },
-          ]}
+          style={{ transform: transform }}
           ref='animatedView'
           {...this.props}>
           {renderFilp}
@@ -754,17 +794,24 @@ class Tournament extends Component {
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
-              <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
+              <Text
+                numberOfLines={1}
+                style={[styles.name, { opacity: (job) ? 1 : 0.5 }]}>
+                {(job) ? job : 'No job'}
+              </Text>
             </View>
             <View style={styles.frontEduContainer}>
               <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
               <View style={styles.eduIconContainer}>
-                {(edu > 0) ? <Image style={styles.eduIconImg}
-                  source={require('../../resources/icon-b-a.png')}/> : null}
-                {(edu > 1) ? <Image style={styles.eduIconImg}
-                  source={require('../../resources/icon-m-a.png')}/> : null}
-                {(edu > 2) ? <Image style={styles.eduIconImg}
-                  source={require('../../resources/icon-ph-d.png')}/> : null}
+                <Image
+                  style={[styles.eduIconImg, { opacity: (edu > 0) ? 1 : 0.2 }]}
+                  source={require('../../resources/icon-b-a.png')}/>
+                <Image
+                  style={[styles.eduIconImg, { opacity: (edu > 1) ? 1 : 0.2 }]}
+                  source={require('../../resources/icon-m-a.png')}/>
+                <Image
+                  style={[styles.eduIconImg, { opacity: (edu > 2) ? 1 : 0.2 }]}
+                  source={require('../../resources/icon-ph-d.png')}/>
               </View>
             </View>
           </View>}
@@ -780,8 +827,12 @@ class Tournament extends Component {
         <View style={styles.userDataContainer}>
           <View style={styles.textBackContainer}>
             <Text style={styles.userBackTitleText}>{'Job'}</Text>
-            <Text numberOfLines={1} style={styles.eduTextMain}>
-              {(job) ? job : ' '}
+            <Text
+              numberOfLines={1}
+              style={[styles.eduTextMain,
+                { opacity: (job) ? 1 : 0.5 },
+              ]}>
+              {(job) ? job : 'No job'}
             </Text>
           </View>
           <View style={styles.textBackContainer}>
@@ -795,62 +846,59 @@ class Tournament extends Component {
             </View>
           </View>
         </View>
-      </View>
-    );
+      </View>);
   }
 
-  renderFront() {
+  renderCard() {
     let renderUser = this.renderUser.bind(this);
 
     return (
-      <View style={styles.background}>
-        <View style={styles.matchContainer}>
-          {(this.state.isFlipped) ? null :
-            <View style={[styles.frontBackground, {
-              top: dimensions.heightWeight * 140,
-              left: dimensions.widthWeight * 20,
-              width: dimensions.widthWeight * 335,
-            },
-            ]}/>}
-          {(this.state.isFlipped) ? null :
-            <View style={[styles.frontBackground, {
-              top: dimensions.heightWeight * 130,
-              left: dimensions.widthWeight * 12,
-              width: dimensions.widthWeight * 351,
-            },
-            ]}/>}
-          {(this.state.isFlipped) ? null :
-            <View style={styles.frontBackground}/>}
-
-          <View style={styles.frontContainer}>
-            {(!this.state.isFlipped || (this.state.left)) ?
-            renderUser(this.state.user[this.state.selected[0]], true) : null}
-            {(!this.state.isFlipped || (!this.state.left)) ?
-            renderUser(this.state.user[this.state.selected[1]], false) : null}
-            {(this.state.isFlipped) ? null :
-              <View style={styles.vsContainer}>
-                <Image style={styles.vsImg}
-                  source={require('../../resources/bg-vs.png')}/>
-              </View>}
-          </View>
-        </View>
+    <View style={styles.background}>
+      <View style={styles.matchContainer}>
         {(this.state.isFlipped) ? null :
-          <View style={{
-            position: 'absolute',
-            bottom: dimensions.heightWeight * 15,
-            width: dimensions.width,
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-            <Text style={styles.indexBoldText}>
-              {(this.state.index + 1)}
-            </Text>
-            <Text style={styles.indexText}>
-              {'  /  ' + (this.state.roundNum)}
-            </Text>
-          </View>}
+          <View style={[styles.frontBackground3, {
+            left: dimensions.widthWeight * 20,
+            width: dimensions.widthWeight * 335,
+          },
+          ]}/>}
+        {(this.state.isFlipped) ? null :
+          <View style={[styles.frontBackground2, {
+            left: dimensions.widthWeight * 12,
+            width: dimensions.widthWeight * 351,
+          },
+          ]}/>}
+        {(this.state.isFlipped) ? null :
+          <View style={styles.frontBackground1}/>}
+
+        <View style={styles.frontContainer}>
+          {(!this.state.isFlipped || (this.state.left)) ?
+          renderUser(this.state.user[this.state.selected[0]], true) : null}
+          {(!this.state.isFlipped || (!this.state.left)) ?
+          renderUser(this.state.user[this.state.selected[1]], false) : null}
+          {(this.state.isFlipped) ? null :
+            <View style={styles.vsContainer}>
+              <Image style={styles.vsImg}
+                source={require('../../resources/bg-vs.png')}/>
+            </View>}
+        </View>
       </View>
-      );
+      {(this.state.isFlipped) ? null :
+        <View style={{
+          position: 'absolute',
+          bottom: dimensions.heightWeight * 15,
+          width: dimensions.width,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+          <Text style={styles.indexBoldText}>
+            {(this.state.index + 1)}
+          </Text>
+          <Text style={styles.indexText}>
+            {'  /  ' + (this.state.roundNum)}
+          </Text>
+        </View>}
+    </View>
+    );
   }
 
   _onPress(data) {
@@ -873,240 +921,54 @@ class Tournament extends Component {
     let data = (this.state.left) ?
     this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
     return (
-      <View style={{
-        position: 'absolute',
-        top: 0,
-        left: -dimensions.width / 2,
-        backgroundColor: 'transparent',
-        width: dimensions.width,
-        alignItems: 'center',
-        transform: [{ skewY: '180deg' }],
-      }}>
-        <View style={styles.matchBackContainer}>
-          <View style={styles.backBackground}>
-            {(this.state.left) ?
-              renderUserData(this.state.user[this.state.selected[0]])
-            : renderUserData(this.state.user[this.state.selected[1]])}
-          </View>
-        </View>
-        <View>
-          <TouchableOpacity
-            disabled={this.state.clicked}
-            onPress={this._onPress.bind(this, data)}>
-            <LinearGradient style={[styles.selectBtnStyle, { width: this.state.w }]}
-              start={[0.9, 0.5]}
-              end={[0.0, 0.5]}
-              locations={[0, 0.75]}
-              colors={['#07e4dd', '#44acff']}>
-              <View style={styles.buttonSelContainer}>
-                <Image
-                  style={{
-                    width: (this.state.clicked) ?
-                    this.state.icon : dimensions.widthWeight * 16.4,
-                    height: (this.state.clicked) ?
-                    this.state.icon : dimensions.heightWeight * 12.3,
-                    resizeMode: 'contain',
-                  }}
-                  source={this.state.checkIcon}/>
-                {(this.state.w < 100) ?
-                  null : <Text style={[styles.buttonText,
-                    { marginLeft: dimensions.widthWeight * 16 },
-                  ]}>{'SELECTED'}</Text>
-                }
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
+    <View style={{
+      height: dimensions.heightWeight * 524.5,
+      alignItems: 'center',
+      transform: [{ skewY: '180deg' }],
+    }}>
+      <View style={styles.matchBackContainer}>
+        <View style={styles.backBackground}>
+          {(this.state.left) ?
+            renderUserData(this.state.user[this.state.selected[0]])
+          : renderUserData(this.state.user[this.state.selected[1]])}
         </View>
       </View>
-    );
-  }
-
-  renderUserAndroid(data, left) {
-    let edu;
-    if (data.career.education_background)
-      edu = this.state.education_background.indexOf(data.career.education_background);
-    else
-      edu = this.state.education_background.indexOf(data.career.educational_background);
-
-    let job = this.getCurrentStatus(data);
-
-    return (
-      <View style={styles.userContainer}>
-        <TouchableWithoutFeedback
-          onPress={this.onPressFlipCard.bind(this, left)}>
-          <Image
-            style={styles.photo}
-            source={this.getProfileImage(data)}/>
-        </TouchableWithoutFeedback>
-        <View>
-          <View style={styles.textContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Name' : ' '}</Text>
-            <Text style={styles.name} numberOfLines={1} ellipsizeMode={'tail'}>
-              {data.name}
-            </Text>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Job' : ' '}</Text>
-            <Text numberOfLines={1} style={styles.name}>{(job) ? job : ' '}</Text>
-          </View>
-          <View style={styles.frontEduContainer}>
-            <Text style={styles.userTitleText}>{(left) ? 'Education' : ' '}</Text>
-            <View style={styles.eduIconContainer}>
-              {(edu > 0) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-b-a.png')}/> : null}
-              {(edu > 1) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-m-a.png')}/> : null}
-              {(edu > 2) ? <Image style={styles.eduIconImg}
-                source={require('../../resources/icon-ph-d.png')}/> : null}
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  renderUserDataAndroid(data) {
-    let job = this.getCurrentStatus(data);
-
-    return (
-      <View>
-        <View style={styles.userDataContainer}>
-          <View style={styles.textBackContainer}>
-            <Text style={styles.userBackTitleText}>{'Job'}</Text>
-            <Text numberOfLines={1} style={styles.eduTextMain}>
-              {(job) ? job : ' '}
-            </Text>
-          </View>
-          <View style={styles.textBackContainer}>
-            <Text style={styles.userBackTitleText}>{'Education'}</Text>
-            {this.getEducation(data)}
-          </View>
-          <View style={[styles.textBackContainer, { borderBottomWidth: 0 }]}>
-            <Text style={styles.userBackTitleText}>{'My Expertise'}</Text>
-            <View>
-              {this.getExpertise(data)}
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  renderFrontAndroid() {
-    let renderUser = this.renderUserAndroid.bind(this);
-
-    return (
-      <View style={styles.background}>
-        <View style={styles.matchContainer}>
-          <View style={[styles.frontBackground, {
-            top: dimensions.heightWeight * 140,
-            left: dimensions.widthWeight * 20,
-            width: dimensions.widthWeight * 335,
-          },
-          ]}/>
-          <View style={[styles.frontBackground, {
-            top: dimensions.heightWeight * 130,
-            left: dimensions.widthWeight * 12,
-            width: dimensions.widthWeight * 351,
-          },
-          ]}/>
-          <View style={styles.frontBackground}/>
-          <View style={styles.frontContainer}>
-            {renderUser(this.state.user[this.state.selected[0]], true)}
-            {renderUser(this.state.user[this.state.selected[1]], false)}
-            <View style={styles.vsContainer}>
-              <Image style={styles.vsImg}
-                source={require('../../resources/bg-vs.png')}/>
-            </View>
-          </View>
-        </View>
-        <View style={{
+      <View
+        style={{
           position: 'absolute',
-          bottom: dimensions.heightWeight * 15,
           width: dimensions.width,
-          flexDirection: 'row',
-          justifyContent: 'center',
+          bottom: 0,
+          alignItems: 'center',
+          backgroundColor: 'transparent',
         }}>
-          <Text style={styles.indexBoldText}>
-            {(this.state.index + 1)}
-          </Text>
-          <Text style={styles.indexText}>
-            {'  /  ' + (this.state.roundNum)}
-          </Text>
-        </View>
+        <TouchableOpacity
+          disabled={this.state.clicked}
+          onPress={this._onPress.bind(this, data)}>
+          <LinearGradient style={[styles.selectBtnStyle, { width: this.state.w }]}
+            start={{ x: 0.9, y: 0.5 }}
+            end={{ x: 0.0, y: 0.5 }}
+            locations={[0, 0.75]}
+            colors={['#07e4dd', '#44acff']}>
+            <View style={styles.buttonSelContainer}>
+              <Image
+                style={{
+                  width: (this.state.clicked) ?
+                  this.state.icon : dimensions.widthWeight * 16.4,
+                  height: (this.state.clicked) ?
+                  this.state.icon : dimensions.heightWeight * 12.3,
+                  resizeMode: 'contain',
+                }}
+                source={this.state.checkIcon}/>
+              {(this.state.w < 100) ?
+                null : <Text style={[styles.buttonText,
+                  { marginLeft: dimensions.widthWeight * 16 },
+                ]}>{'SELECTED'}</Text>
+              }
+            </View>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
-      );
-  }
-
-  renderBackAndroid() {
-    let renderUserData = this.renderUserDataAndroid.bind(this);
-    let data = (this.state.left) ?
-    this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
-    return (
-      <View style={[styles.background, { paddingTop: dimensions.heightWeight * 54 }]}>
-        <View style={styles.matchBackContainer}>
-          <View style={styles.backBackground}>
-            {(this.state.left) ?
-              renderUserData(this.state.user[this.state.selected[0]])
-            : renderUserData(this.state.user[this.state.selected[1]])}
-          </View>
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            width: dimensions.width,
-            bottom: 0,
-            alignItems: 'center',
-            backgroundColor: 'transparent',
-            paddingTop: 5,
-          }}>
-          <TouchableOpacity
-            disabled={this.state.clicked}
-            activated={false}
-            onPress={this._onPress.bind(this, data)}>
-            <LinearGradient
-              style={[styles.selectBtnStyle, {
-                width: this.state.w,
-                marginTop: 0,
-              },
-              ]}
-              start={[0.9, 0.5]}
-              end={[0.0, 0.5]}
-              locations={[0, 0.75]}
-              colors={['#07e4dd', '#44acff']}>
-              <View style={styles.buttonSelContainer}>
-                <Image
-                  style={{
-                    width: (this.state.clicked) ?
-                    this.state.icon : dimensions.widthWeight * 16.4,
-                    height: (this.state.clicked) ?
-                    this.state.icon : dimensions.heightWeight * 12.3,
-                    resizeMode: 'contain',
-                  }}
-                  source={this.state.checkIcon}/>
-                {(this.state.w < 100) ?
-                  null : <Text style={[styles.buttonText,
-                    { marginLeft: dimensions.widthWeight * 16 },
-                  ]}>{'SELECTED'}</Text>
-                }
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
-  renderCard() {
-    if (Platform.OS === 'android') {
-      if (!this.state.fliped) {
-        return this.renderFrontAndroid();
-      } else {
-        return this.renderBackAndroid();
-      }
-    } else {
-      return this.renderFront();
-    }
+    </View>);
   }
 
   renderSeparator(sectionID, rowID) {
@@ -1137,18 +999,22 @@ class Tournament extends Component {
 
     this.state.dataSource = this.state.dataSource.cloneWithRows(this.state.listData.slice());
     return (
-      <View style={styles.container}>
-        <Text style={styles.listText}>
-          {'You did great job!'}
-        </Text>
-        <View style={styles.listContainer}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow.bind(this)}
-            renderSeparator={this.renderSeparator.bind(this)}
-            enableEmptySections={true}
-          />
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.listText}>
+        {'You did great job!'}
+      </Text>
+      <View style={styles.listContainer}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+          renderSeparator={this.renderSeparator.bind(this)}
+          enableEmptySections={true}
+        />
+      </View>
+      <View
+        style={{
+          marginTop: dimensions.heightWeight * 10,
+        }}>
         <TouchableOpacity
           activated={false}
           onPress={this.onPressBtnNext.bind(this)}>
@@ -1157,90 +1023,128 @@ class Tournament extends Component {
           </View>
         </TouchableOpacity>
       </View>
+    </View>
     );
   }
 
   renderLoading() {
     return (
-      <View style={styles.container}>
-        <Image
-          style={styles.loadingImg}
-          source={require('../../resources/tournament_loading.gif')}/>
-      </View>
+    <View style={styles.container}>
+      <Image
+        style={styles.loadingImg}
+        source={require('../../resources/tournament_loading.gif')}/>
+    </View>
     );
   }
 
   renderPopup() {
     return (
-      <Modal
-        transparent
-        visible>
-        <View style={styles.modalContainer}>
-          <View style={styles.popupContainer}>
-            <TouchableOpacity
-              onPress={() => {this.setState({ restart: 0 });}
-              }>
-              <Image style={styles.popupImgCancel}
-                source={require('../../resources/icon-x.png')} />
-            </TouchableOpacity>
-            <Text style={styles.popupTextTitle}>{'Restart tournament'}</Text>
-            <Image style={styles.popupImg}
-              source={require('../../resources/bg-broken-pencil.png')} />
-            <Text style={styles.popupTextMain}>{'Are you sure to restart?'}</Text>
-            <Text style={styles.popupTextSub}>{'The result will not be saved.'}</Text>
-          </View>
-          <TouchableHighlight
-            onPress={this.onPressBtnRestart.bind(this)}>
-            <View style={styles.popupBtnContainer}>
-              <Text style={styles.popupBtnText}>{'YES'}</Text>
-            </View>
-          </TouchableHighlight>
+    <Modal
+      transparent={true}
+      visible={true}
+      onRequestClose={() => {}}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.popupContainer}>
+          <TouchableWithoutFeedback
+            onPress={() => {this.setState({ restart: 0 });}
+            }>
+            <Image
+              style={styles.popupImgCancel}
+              source={require('../../resources/icon-x.png')} />
+          </TouchableWithoutFeedback>
+          <Text style={styles.popupTextTitle}>{'Restart tournament'}</Text>
+          <Image style={styles.popupImg}
+            source={require('../../resources/bg-broken-pencil.png')} />
+          <Text style={styles.popupTextMain}>{'Are you sure to restart?'}</Text>
+          <Text style={styles.popupTextSub}>{'The result will not be saved.'}</Text>
         </View>
-      </Modal>
+        <TouchableHighlight
+          onPress={this.onPressBtnRestart.bind(this)}>
+          <View style={styles.popupBtnContainer}>
+            <Text style={styles.popupBtnText}>{'YES'}</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+    </Modal>
+    );
+  }
+
+  onPressBackBtn() {
+    switch (this.state.step) {
+      case 1:
+      case 2:
+        if (this.state.step === 1) {
+          this.onPressBtnRestart();
+        } else {
+          this.setState({ step: this.state.step - 1 });
+        }
+
+        break;
+      case 3:
+        if (this.state.fliped) {
+          this._toggleCard(this.state.left);
+          this.state.fliped = false;
+          this.onRenderNavigationBar();
+        }
+
+        break;
+    }
+  }
+
+  renderBackBtn() {
+    let visible =
+    (this.state.step === 1 || this.state.step === 2 || this.state.step === 3);
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: 14,
+          width: 25,
+          height: 20,
+        }}>
+        <TouchableWithoutFeedback
+          onPress={this.onPressBackBtn.bind(this)}
+        >
+          <Image
+
+            style={{
+              width: 25,
+              height: 20,
+              resizeMode: 'contain',
+            }}
+            source={(visible) ? leftButtonGrey : null}/>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 
   render() {
+    let renderMain = null;
+    let renderPopup = (this.state.restart === 10) ? this.renderPopup.bind(this) : null;
 
-    switch (this.state.step + this.state.restart) {
-      case -1: return this.renderOnboarding();
-      case 0: return this.renderRestart();
-      case 1: return this.renderArea();
-      case 2: return this.renderNumOfPeople();
-      case 3: return this.renderCard();
-      case 4: return this.renderList();
-      case 5: return this.renderLoading();
-      case 10: return (
-        <View>
-          {this.renderRestart()}
-          {this.renderPopup()}
-        </View>
-        );
-      case 11: return (
-        <View>
-          {this.renderArea()}
-          {this.renderPopup()}
-        </View>
-        );
-      case 12: return (
-        <View>
-          {this.renderNumOfPeople()}
-          {this.renderPopup()}
-        </View>
-        );
-      case 13: return (
-        <View>
-          {this.renderCard()}
-          {this.renderPopup()}
-        </View>
-        );
-      case 14: return (
-        <View>
-          {this.renderList()}
-          {this.renderPopup()}
-        </View>
-        );
+    switch (this.state.step) {
+      case -1: renderMain = this.renderOnboarding.bind(this);
+        break;
+      case 0: renderMain = this.renderRestart.bind(this);
+        break;
+      case 1: renderMain = this.renderArea.bind(this);
+        break;
+      case 2: renderMain = this.renderNumOfPeople.bind(this);
+        break;
+      case 3: renderMain = this.renderCard.bind(this);
+        break;
+      case 4: renderMain = this.renderList.bind(this);
+        break;
+      case 5: renderMain = this.renderLoading.bind(this);
+        break;
     }
+    return (
+    <View>
+      {renderMain()}
+      {(this.state.restart === 10) ? this.renderPopup() : null}
+    </View>);
   }
 }
 
@@ -1260,24 +1164,11 @@ const styles = StyleSheet.create({
   background: {
     alignItems: 'center',
     backgroundColor: '#ededed',
-    ...Platform.select({
-      android: {
-        marginTop: dimensions.heightWeight * 5,
-      },
-    }),
   },
   matchContainer: {
-    ...Platform.select({
-      ios: {
-        marginTop: (dimensions.heightWeight * 64) + 20,
-      },
-      android: {
-        marginTop: dimensions.heightWeight * 54,
-      },
-    }),
     paddingLeft: dimensions.widthWeight * 4,
     paddingRight: dimensions.widthWeight * 4,
-    paddingBottom: dimensions.heightWeight * 65,
+    paddingBottom: dimensions.heightWeight * 0,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
@@ -1292,11 +1183,12 @@ const styles = StyleSheet.create({
   frontContainer: {
     flexDirection: 'row',
     flex: 1,
+    paddingTop: dimensions.heightWeight * 20,
     marginLeft: dimensions.widthWeight * 4,
     marginRight: dimensions.widthWeight * 4,
     backgroundColor: 'transparent',
   },
-  frontBackground: {
+  frontBackground1: {
     ...Platform.select({
       ios: {
         shadowColor: '#000000',
@@ -1306,14 +1198,65 @@ const styles = StyleSheet.create({
           height: 1,
           width: 0.3,
         },
+        top: dimensions.heightWeight * 204,
       },
       android: {
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, .1)',
+        top: dimensions.heightWeight * 184,
       },
     }),
     position: 'absolute',
-    top: dimensions.heightWeight * 120,
+    left: dimensions.widthWeight * 4,
+    width: dimensions.widthWeight * 367,
+    height: dimensions.heightWeight * 346,
+    borderRadius: 5,
+    backgroundColor: '#ffffff',
+  },
+  frontBackground2: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
+        top: dimensions.heightWeight * 214,
+      },
+      android: {
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
+        top: dimensions.heightWeight * 194,
+      },
+    }),
+    position: 'absolute',
+    left: dimensions.widthWeight * 4,
+    width: dimensions.widthWeight * 367,
+    height: dimensions.heightWeight * 346,
+    borderRadius: 5,
+    backgroundColor: '#ffffff',
+  },
+  frontBackground3: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: {
+          height: 1,
+          width: 0.3,
+        },
+        top: dimensions.heightWeight * 224,
+      },
+      android: {
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, .1)',
+        top: dimensions.heightWeight * 204,
+      },
+    }),
+    position: 'absolute',
     left: dimensions.widthWeight * 4,
     width: dimensions.widthWeight * 367,
     height: dimensions.heightWeight * 346,
@@ -1365,6 +1308,14 @@ const styles = StyleSheet.create({
     borderRadius: 4.4,
   },
   userContainer: {
+    ...Platform.select({
+      ios: {
+        paddingTop: (dimensions.heightWeight * 44) + 20,
+      },
+      android: {
+        paddingTop: dimensions.heightWeight * 44,
+      },
+    }),
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'transparent',
@@ -1383,8 +1334,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#efeff2',
   },
   textBackContainer: {
-    paddingTop: dimensions.heightWeight * 20,
-    paddingBottom: dimensions.heightWeight * 14,
+    ...Platform.select({
+      ios: {
+        paddingTop: dimensions.heightWeight * 20,
+        paddingBottom: dimensions.heightWeight * 14,
+      },
+      android: {
+        paddingTop: dimensions.heightWeight * 14,
+        paddingBottom: dimensions.heightWeight * 9,
+      },
+    }),
     paddingLeft: dimensions.heightWeight * 6,
     borderBottomWidth: 1,
     borderBottomColor: '#efeff2',
@@ -1408,7 +1367,14 @@ const styles = StyleSheet.create({
   },
   vsContainer: {
     position: 'absolute',
-    top: dimensions.heightWeight * 104 - 20,
+    ...Platform.select({
+      ios: {
+        top: dimensions.heightWeight * 168,
+      },
+      android: {
+        top: dimensions.heightWeight * 148,
+      },
+    }),
     left: (dimensions.width / 2) - (dimensions.widthWeight * 34),
     height: dimensions.heightWeight * 52,
     width: dimensions.widthWeight * 52,
@@ -1439,7 +1405,6 @@ const styles = StyleSheet.create({
     height: dimensions.heightWeight * 406,
     width: dimensions.widthWeight * 375,
     marginTop: dimensions.heightWeight * 30,
-    marginBottom: dimensions.heightWeight * 20,
   },
   indexContainer: {
     backgroundColor: 'transparent',
@@ -1497,7 +1462,14 @@ const styles = StyleSheet.create({
     color: '#2e3031',
   },
   listText: {
-    marginTop: dimensions.heightWeight * 20,
+    ...Platform.select({
+      ios: {
+        marginTop: dimensions.heightWeight * 20,
+      },
+      android: {
+        marginTop: dimensions.heightWeight * 10,
+      },
+    }),
     fontSize: dimensions.fontWeight * 18,
     color: '#2e3031',
   },
@@ -1593,8 +1565,6 @@ const styles = StyleSheet.create({
   selectBtnStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -(dimensions.heightWeight * 45 / 2),
-    marginBottom: dimensions.heightWeight * 10,
     width: dimensions.widthWeight * 230,
     height: dimensions.fontWeight * 45,
     borderRadius: 100,
@@ -1703,8 +1673,8 @@ const styles = StyleSheet.create({
   },
   popupImgCancel: {
     position: 'absolute',
-    left: dimensions.widthWeight * (-115),
     top: dimensions.heightWeight * 14,
+    left: dimensions.widthWeight * 14,
     height: dimensions.heightWeight * 12,
     width: dimensions.widthWeight * 12,
     resizeMode: 'contain',

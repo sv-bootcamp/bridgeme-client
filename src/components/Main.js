@@ -204,6 +204,7 @@ class Main extends Component {
               onRight: () => Actions.filter(),
 
               leftButtonImage: null,
+              renderLeftButton: null,
               leftTitle: 'left',
               onLeft: () => {},
             });
@@ -227,6 +228,7 @@ class Main extends Component {
               onRight: () => {},
 
               leftButtonImage: null,
+              renderLeftButton: null,
               leftTitle: 'left',
               onLeft: () => {},
             });
@@ -243,6 +245,7 @@ class Main extends Component {
               onRight: () => {},
 
               leftButtonImage: null,
+              renderLeftButton: null,
               leftTitle: 'left',
               onLeft: () => {},
             });
@@ -259,6 +262,7 @@ class Main extends Component {
               onRight: () => {},
 
               leftButtonImage: null,
+              renderLeftButton: null,
               leftTitle: 'left',
               onLeft: () => {},
             });
