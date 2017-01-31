@@ -26,6 +26,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { OptionsFilter } from '../SignUp/SignUpMETA';
 
 const leftButtonGrey = require('../../resources/icon-arrow-left-grey.png');
+const flipDir = true;
 
 class Tournament extends Component {
   constructor(props) {
@@ -35,8 +36,8 @@ class Tournament extends Component {
     this.state = {
         isFlipped: false,
         isFlipping: false,
-        rotateLeft: new Animated.Value(0),
-        rotateRight: new Animated.Value(1),
+        rotateLeft: new Animated.Value(Number(!flipDir)),
+        rotateRight: new Animated.Value(Number(flipDir)),
         dataSource: new ListView.DataSource({
           rowHasChanged: (row1, row2) => row1 !== row2,
         }),
@@ -269,7 +270,7 @@ class Tournament extends Component {
     if (left) {
       Animated.spring(this.state.rotateLeft,
         {
-          toValue: Number(isFlipped),
+          toValue: (flipDir) ? Number(isFlipped) :  Number(!isFlipped),
           friction: 5,
           tension: 1,
         }).start((param) => {
@@ -278,7 +279,7 @@ class Tournament extends Component {
     } else {
       Animated.spring(this.state.rotateRight,
         {
-          toValue: Number(!isFlipped),
+          toValue: (flipDir) ? Number(!isFlipped) :  Number(isFlipped),
           friction: 5,
           tension: 1,
         }).start((param) => {
@@ -500,8 +501,8 @@ class Tournament extends Component {
     this.state.fliped = false;
     this.state.isFlipped = false;
     this.state.isFlipping = false;
-    this.state.rotateLeft = new Animated.Value(0);
-    this.state.rotateRight =  new Animated.Value(1);
+    this.state.rotateLeft = new Animated.Value(Number(!FlipDir));
+    this.state.rotateRight =  new Animated.Value(Number(FlipDir));
     this.state.checkIcon = require('../../resources/icon-check.png');
 
     let rowFirst = this.state.user[this.state.selected[0]];
@@ -761,13 +762,14 @@ class Tournament extends Component {
     }
 
     let renderFilp;
+    let flipFlag = (flipDir) ? !left : left;
     if (!this.state.isFlipped) {
       renderFilp =
       (
       <TouchableWithoutFeedback
         onPress={this._toggleCard.bind(this, left)}>
         <View
-          style={{ transform: (!left) ? [{ skewY: '180deg' }] : [] }}>
+          style={{ transform: (flipFlag) ? [{ skewY: '180deg' }] : [] }}>
           <Image
             style={styles.photo}
             source={this.getProfileImage(data)}/>
@@ -932,11 +934,13 @@ class Tournament extends Component {
     let renderUserData = this.renderUserData.bind(this);
     let data = (this.state.left) ?
     this.state.user[this.state.selected[0]] : this.state.user[this.state.selected[1]];
+    let flipFlag = (flipDir) ? !this.state.left : this.state.left;
+
     return (
     <View style={{
       height: dimensions.heightWeight * 524.5,
       alignItems: 'center',
-      transform: (!this.state.left) ? [] : [{ skewY: '180deg' }],
+      transform: (flipFlag) ? [] : [{ skewY: '180deg' }],
     }}>
       <View style={styles.matchBackContainer}>
         <View style={styles.backBackground}>
