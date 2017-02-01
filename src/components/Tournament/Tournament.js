@@ -26,7 +26,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { OptionsFilter } from '../SignUp/SignUpMETA';
 
 const leftButtonGrey = require('../../resources/icon-arrow-left-grey.png');
-const flipDir = true;
+const flipDir = false;
 
 class Tournament extends Component {
   constructor(props) {
