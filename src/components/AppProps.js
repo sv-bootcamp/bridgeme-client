@@ -31,6 +31,7 @@ import UserProfile from './userProfile/UserProfile';
 import RequestPage from './userProfile/RequestPage';
 import RequestSent from './userProfile/RequestSent';
 import SignUp from './Login/SignUp';
+import Tournament from './Tournament/Tournament';
 
 const styles = StyleSheet.create({
   bar: {
@@ -116,6 +117,13 @@ const styles = StyleSheet.create({
     fontSize: dimensions.fontWeight * 17,
     color: '#557bfc',
   },
+  leftTxt: {
+    backgroundColor: 'transparent',
+    width: dimensions.widthWeight * 0,
+    height: dimensions.heightWeight * 0,
+    fontSize: dimensions.fontWeight * 17,
+    color: '#557bfc',
+  },
   rightBtn: {
     backgroundColor: 'transparent',
     marginRight: dimensions.widthWeight * 16,
@@ -156,6 +164,7 @@ const AppProps = {
     titleWrapperStyle: styles.titleWrapperStyle,
     rightButtonStyle: styles.rightButtonStyle,
     leftButtonStyle: styles.leftButtonStyle,
+    leftButtonTextStyle: styles.leftTxt,
     rightButtonTextStyle: styles.rightTxt,
     rigntButtonIconStyle: styles.rightBtn,
     navigationBarStyle: styles.bar,
@@ -257,6 +266,12 @@ const AppProps = {
     {
       key: 'userList',
       component: UserList,
+    },
+    {
+      key: 'tournament',
+      component: Tournament,
+      hideNavBar: true,
+      type: ActionConst.RESET,
     },
     {
       key: 'myPage',

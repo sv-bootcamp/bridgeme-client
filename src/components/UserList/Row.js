@@ -201,8 +201,8 @@ class Row extends Component {
         <TouchableOpacity onPress={connect}>
           <LinearGradient
             style={styles.connectBtnStyle}
-            start={[0.9, 0.5]}
-            end={[0.0, 0.5]}
+            start={{ x: 0.9, y: 0.5 }}
+            end={{ x: 0.0, y: 0.5 }}
             locations={[0, 0.75]}
             colors={['#07e4dd', '#44acff']}
           >
@@ -256,10 +256,19 @@ class Row extends Component {
           </View>
           <View
             style={{
-              width: CARD_WIDTH,
-              height: 10,
+              ...Platform.select({
+                ios: {
+                  top: dimensions.heightWeight * 182,
+                  width: CARD_WIDTH,
+                },
+                android: {
+                  top: dimensions.heightWeight * 181,
+                  width: dimensions.widthWeight * 302,
+                  elevation: 0,
+                },
+              }),
+              height: 7,
               position: 'absolute',
-              top: dimensions.widthWeight * 182,
               backgroundColor: 'white',
             }}
           />

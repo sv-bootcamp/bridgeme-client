@@ -63,6 +63,10 @@ class MatchUtil {
   getFilterCnt(callback, body) {
     apiUtil.requestPostWithToken(callback, 'API_MENTOR_FILTER_COUNT', body);
   }
+
+  getTournamentList(callback, url) {
+    apiUtil.requestGetWithTokenUrl(callback, 'API_TOURNAMENT', url);
+  }
 };
 
 const matchUtil = new MatchUtil();

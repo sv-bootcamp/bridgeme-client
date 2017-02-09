@@ -35,12 +35,13 @@ export const UrlMeta = {
   API_MENTOR_FILTER_COUNT: 'match/mentorlist/count',
   API_MENTOR_RESP: 'match/response/',
   API_MENTOR_REQ: 'match/request/',
-  API_TOKEN: 'users/accessToken/',
   API_RESET_PASS: 'users/resetPassword/',
   API_SECRET_CODE: 'users/secretCode/',
   API_SEND_RESULT: 'survey/answer/',
   API_SET_REQUEST_SETTING: 'users/editMentorMode/',
   API_SIGN_OUT: 'users/signOut/',
+  API_TOKEN: 'users/accessToken/',
+  API_TOURNAMENT: 'tournament/list/',
   API_USER: 'users/id/',
 };
 

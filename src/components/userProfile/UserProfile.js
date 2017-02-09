@@ -217,8 +217,8 @@ class UserProfile extends Component {
       ConnectButton = (
         <LinearGradient
           style={styles.connectBtnStyle}
-          start={[0.9, 0.5]}
-          end={[0.0, 0.5]}
+          start={{ x: 0.9, y: 0.5 }}
+          end={{ x: 0.0, y: 0.5 }}
           locations={[0, 0.75]}
           colors={['#07e4dd', '#44acff']}
         >
@@ -290,6 +290,7 @@ class UserProfile extends Component {
     } else if (event.nativeEvent.contentOffset.y > scrollMaxY - 25) {
       opacity = 1;
     }
+
     const customNavVarStyle = [
       styles.customNavBar,
       { opacity },
@@ -470,8 +471,8 @@ class UserProfile extends Component {
           />
           <LinearGradient
             style={styles.profileImgGradient}
-            start={[0.0, 0.25]}
-            end={[0.5, 1.0]}
+            start={{ x: 0.0, y: 0.25 }}
+            end={{ x: 0.5, y: 1.0 }}
             colors={['#546979', '#08233a']}
           >
             <Image
@@ -480,6 +481,10 @@ class UserProfile extends Component {
             />
           </LinearGradient>
           <View style={styles.profileUserInfo}>
+            <Image style={styles.tournament}
+              source={(this.props.tournament) ?
+                require('../../resources/bg-ribbon-2.png')
+              : null}/>
             <Text
               style={styles.name}
               numberOfLines={1}
@@ -569,6 +574,10 @@ const styles = StyleSheet.create({
     marginTop: dimensions.heightWeight * 5,
     color: '#ffffff',
   },
+  tournament: {
+    height: dimensions.heightWeight * 27,
+    width: dimensions.widthWeight * 142,
+  },
   profileImage: {
     alignItems: 'stretch',
     opacity: 0.4,
@@ -586,7 +595,7 @@ const styles = StyleSheet.create({
   },
   profileUserInfo: {
     position: 'absolute',
-    top: dimensions.heightWeight * 155,
+    top: dimensions.heightWeight * 132,
     marginLeft: dimensions.widthWeight * 45,
     zIndex: 100,
     backgroundColor: 'transparent',

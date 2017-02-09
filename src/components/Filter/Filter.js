@@ -21,7 +21,6 @@ import {
 import CheckBox from '../../utils/CheckBox';
 import Dropdown from 'react-native-dropdown-android';
 import Icon from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 import Text from '../Shared/UniText';
 import MatchUtil from '../../utils/MatchUtil';
 import { Actions, Scene, }  from 'react-native-router-flux';

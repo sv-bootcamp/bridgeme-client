@@ -18,6 +18,7 @@ import SendBird from 'sendbird';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import TabBar from './Shared/TabBar';
 import Text from './Shared/UniText';
+import Tournament from './Tournament/Tournament';
 import UserList from './UserList/UserList';
 import UserUtil from '../utils/UserUtil';
 
@@ -194,8 +195,18 @@ class Main extends Component {
             Actions.refresh({
               title: 'Bridge Me',
               titleStyle: styles.mainTitle,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: require('../resources/filter.png'),
+              rightTitle: null,
               onRight: () => Actions.filter(),
+
+              leftButtonImage: null,
+              renderLeftButton: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.TOURNAMENT) {
             Actions.refresh({
@@ -208,22 +219,52 @@ class Main extends Component {
             Actions.refresh({
               title: 'My Connection',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              renderLeftButton: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.CHAT) {
             Actions.refresh({
               title: 'Chat',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              renderLeftButton: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           } else if (this.currentTab === mainPageTitle.MYPROFILE) {
             Actions.refresh({
               title: 'My Profile',
               titleStyle: styles.title,
+              navigationBarStyle: {
+                backgroundColor: '#fbfbfb',
+                borderBottomColor: '#d6dada',
+              },
               rightButtonImage: null,
+              rightTitle: null,
               onRight: () => {},
+
+              leftButtonImage: null,
+              renderLeftButton: null,
+              leftTitle: 'left',
+              onLeft: () => {},
             });
           }
         }
@@ -238,10 +279,10 @@ class Main extends Component {
           style={styles.tabView}
           me={this.props.me}
         />
-        <View tabLabel="md-shuffle" style={styles.comingSoonView}>
-          <Image source={require('../resources/tournament.png')} />
-          <Text style={styles.comingSoonText}>Coming Soon!</Text>
-        </View>
+        <Tournament
+          tabLabel="md-shuffle"
+          me={this.props.me}
+        />
         <Activity
           tabLabel="ios-people"
           style={styles.tabView}
